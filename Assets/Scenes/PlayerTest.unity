@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &106091622
 Transform:
   m_ObjectHideFlags: 0
@@ -445,7 +445,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288325123}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 4
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -462,7 +462,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &1288325125
 CapsuleCollider:
@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82de5f264dd194a92ab1b6ebe5f2f0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 3
+  movementSpeed: 0
   maxSpeed: 8
   acceleration: 200
   accelerationFactorFromDot:
@@ -607,29 +607,29 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.006582349
-      outSlope: -0.006582349
+      inSlope: -0.0007585353
+      outSlope: -0.0007585353
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.35833332
-    - serializedVersion: 3
-      time: 0.25
-      value: 0
-      inSlope: -0.013477088
-      outSlope: -0.013477088
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.35000002
-      outWeight: 0
+      outWeight: 0.6092985
     - serializedVersion: 3
       time: 0.5
-      value: -0
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: -0.012658743
+      outSlope: -0.012658743
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.34442496
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -641,29 +641,29 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.006582349
-      outSlope: -0.006582349
+      inSlope: -0.0007585353
+      outSlope: -0.0007585353
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.35833332
-    - serializedVersion: 3
-      time: 0.25
-      value: 0
-      inSlope: -0.013477088
-      outSlope: -0.013477088
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.35000002
-      outWeight: 0
+      outWeight: 0.6092985
     - serializedVersion: 3
       time: 0.5
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.012658743
+      outSlope: -0.012658743
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.34442496
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -684,7 +684,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FloatHeight: 2.25
   FloatSpringHeight: 6
-  FloatSpringDamper: 0.5
+  FloatSpringDamper: 0.9
 --- !u!1 &1744777099
 GameObject:
   m_ObjectHideFlags: 0

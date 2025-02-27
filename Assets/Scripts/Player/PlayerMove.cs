@@ -22,8 +22,8 @@ public class PlayerMove : MonoBehaviour
     private Vector3 movementInput;
     private Vector3 movementVector;
 
-    private Vector3 unitGoal;
-    private Vector3 goalVel;
+    private Vector3 mUnitGoal;
+    private Vector3 mGoalVel;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,7 +35,9 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ApplyMovement();
+        //Debug.Log(mUnitGoal);
+        //ApplyMovement();
+        CalculateMovement();
     }
 
     private void ApplyMovement()
@@ -50,9 +52,24 @@ public class PlayerMove : MonoBehaviour
 
     private void CalculateMovement()
     {
-        Vector3 unitVel = goalVel.normalized;
+        Vector3 unitVel = mGoalVel.normalized;
 
-        //float velDot = Vector3.Dot()
+        float velDot = Vector3.Dot(mUnitGoal, unitVel);
+
+        float accel = acceleration * accelerationFactorFromDot.Evaluate(velDot);
+
+        Vector3 goalVel = mUnitGoal * maxSpeed * 1; //(speedfactor)
+
+        mGoalVel = Vector3.MoveTowards(mGoalVel, goalVel, accel * Time.fixedDeltaTime);
+
+
+        Vector3 neededAccel = (mGoalVel - characterRB.linearVelocity) / Time.fixedDeltaTime;
+
+        float maxAccel = maxAccelForce * maxAccelerationForceFactorFromDot.Evaluate(velDot) * 1; //(factor)
+
+        neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
+
+        characterRB.AddForce(Vector3.Scale(neededAccel * characterRB.mass, forceScale));
     }
 
     public void OnMove(InputValue inputValue)
@@ -62,8 +79,6 @@ public class PlayerMove : MonoBehaviour
         if (inputVector.magnitude > 1.0f)
             inputVector.Normalize();
 
-        unitGoal.x = inputVector.x;
-        unitGoal.z = inputVector.y;
-        unitGoal.y = 0;
+        mUnitGoal = new Vector3(inputVector.x, 0, inputVector.y);
     }
 }
