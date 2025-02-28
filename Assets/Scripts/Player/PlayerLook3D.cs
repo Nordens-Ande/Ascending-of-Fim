@@ -9,6 +9,7 @@ namespace BarthaSzabolcs.IsometricAiming
         [SerializeField] private LayerMask groundMask;
         [SerializeField] private Transform rotObject;
         [SerializeField] private Camera camera;
+        [SerializeField] private bool ignoreHeight;
 
         //private Camera mainCamera;
         private Vector2 mouseVector;
@@ -25,7 +26,7 @@ namespace BarthaSzabolcs.IsometricAiming
         {
             Aim();
         }
-
+        
 
 
         private void Aim()
@@ -37,8 +38,8 @@ namespace BarthaSzabolcs.IsometricAiming
                 var direction = position - transform.position;
 
                 // You might want to delete this line.
-                // Ignore the height difference.
-                direction.y = 0;
+                if (ignoreHeight)
+                    direction.y = 0;
 
                 // Make the transform look in the direction.
                 rotObject.forward = direction;
