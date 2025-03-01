@@ -5,22 +5,19 @@ namespace BarthaSzabolcs.IsometricAiming
 {
     public class IsometricAiming : MonoBehaviour
     {
-
+        [Header("Aim")]
         [SerializeField] private LayerMask groundMask;
+        [SerializeField] private bool ignoreHeight = true;
+
+        [Space]
+
+        [Header("Must have references")]
         [SerializeField] private Transform rotObject;
         [SerializeField] private Camera camera;
-        [SerializeField] private bool ignoreHeight;
 
-        //private Camera mainCamera;
+
         private Vector2 mouseVector;
 
-
-
-        private void Start()
-        {
-            // Cache the camera, Camera.main is an expensive operation.
-            //mainCamera = Camera.main;
-        }
 
         private void Update()
         {
