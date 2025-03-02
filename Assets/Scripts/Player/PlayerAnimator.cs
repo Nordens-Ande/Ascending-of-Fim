@@ -15,23 +15,30 @@ public class PlayerAnimator : MonoBehaviour
     [Header("Animation Values")]
     [SerializeField] float TransitionTime = 0.15f;
     string currentState;
+    Vector2 inputDirection;
+
+
 
     void Start()
     {
         characterRB = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Animator == null)
             return;
 
         Vector3 moveVector = characterRB.linearVelocity;
-        if (moveVector.magnitude < 0.1f)
+        if (moveVector.magnitude < 1f && inputDirection == Vector2.zero)
         {
-            ChangeAnimatonState("Rifle Idle");
+            ChangeAnimatonState(TransitionTime, false, "Rifle Idle", "Rifle Idle2");
+            Animator.SetFloat("Speed", 1);
             return;
+        }
+        else
+        {
+            Animator.SetFloat("Speed", moveVector.magnitude/characterRB.maxLinearVelocity);
         }
 
         Vector3 moveDirection = moveVector.normalized;
@@ -55,18 +62,44 @@ public class PlayerAnimator : MonoBehaviour
             _ => currentState
         };
 
-        ChangeAnimatonState(moveState);
+        ChangeAnimatonState(TransitionTime, true, moveState);
     }
 
-    private void ChangeAnimatonState(string newState)
+
+
+    private void ChangeAnimatonState(float transitionTime, bool getCurrentFrame, string newState)
     {
         //Hindrar att animationen kör om och 'avbryts'
         if (currentState == newState) return;
-        Debug.Log(newState);
+
+        //Hämtar nuvarande position i klippet
+        float normalizedTime = 0;
+        if (getCurrentFrame)
+            normalizedTime = Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1f;
 
         //Spelar och betsämmer animations state från newState
-        Animator.CrossFade(newState, TransitionTime);
-        //Animator.Play(newState);
+        Animator.CrossFadeInFixedTime(newState, transitionTime, 0, normalizedTime);
         currentState = newState;
+    }
+    private void ChangeAnimatonState(float transitionTime, bool getCurrentFrame, params string[] newStates)
+    {
+        //Hindrar att animationen kör om och 'avbryts'
+        if (currentState == newStates[0]) return;
+
+        //Hämtar nuvarande position i klippet
+        float normalizedTime = 0;
+        if (getCurrentFrame)
+            normalizedTime = Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1f;
+
+        //Spelar och betsämmer animations state från newState
+        Animator.CrossFadeInFixedTime(newStates[Random.Range(0, newStates.Length)], transitionTime, 0, normalizedTime);
+        currentState = newStates[0];
+    }
+
+
+
+    private void OnMove(InputValue input)
+    {
+        inputDirection = input.Get<Vector2>();
     }
 }

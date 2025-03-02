@@ -15,12 +15,16 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         characterRB = GetComponent<Rigidbody>();
+
+        //Ifall karaktären ska falla från höga avstånd, då får man använda SpeedLimiter() istället, just nu kommer y-hastigheten också begränsas
+        //Detta underlättar användet av animator
+        characterRB.maxLinearVelocity = MoveSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        SpeedLimiter();
+        //SpeedLimiter();
     }
 
     private void FixedUpdate()
