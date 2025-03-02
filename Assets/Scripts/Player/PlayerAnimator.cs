@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using static System.TimeZoneInfo;
 
 public class PlayerAnimator : MonoBehaviour
@@ -13,8 +14,8 @@ public class PlayerAnimator : MonoBehaviour
     [Space]
 
     [Header("Animation Values")]
-    [SerializeField] float TransitionTime = 0.15f;
-    string currentState;
+    [SerializeField] float TransitionTime = 0.3f;
+    string[] currentState;
     Vector2 inputDirection;
 
 
@@ -22,6 +23,7 @@ public class PlayerAnimator : MonoBehaviour
     void Start()
     {
         characterRB = GetComponent<Rigidbody>();
+        currentState = new string[2];
     }
 
     void Update()
@@ -32,7 +34,7 @@ public class PlayerAnimator : MonoBehaviour
         Vector3 moveVector = characterRB.linearVelocity;
         if (moveVector.magnitude < 1f && inputDirection == Vector2.zero)
         {
-            ChangeAnimatonState(TransitionTime, false, "Rifle Idle", "Rifle Idle2");
+            ChangeAnimatonState(TransitionTime, 0, false, "Rifle Idle", "Rifle Idle2");
             Animator.SetFloat("Speed", 1);
             return;
         }
@@ -58,19 +60,18 @@ public class PlayerAnimator : MonoBehaviour
             (<-0.7f, _) => "Run Backwards",
             (_, >0.7f) => "Run Right",
             (_, <-0.7f) => "Run Left",
-            (0, 0) => "Rifle Idle",
-            _ => currentState
+            _ => "Rifle Idle"
         };
 
-        ChangeAnimatonState(TransitionTime, true, moveState);
+        ChangeAnimatonState(TransitionTime, 0, true, moveState);
     }
 
 
 
-    private void ChangeAnimatonState(float transitionTime, bool getCurrentFrame, string newState)
+    private void ChangeAnimatonState(float transitionTime, int layer, bool getCurrentFrame, string newState)
     {
         //Hindrar att animationen kör om och 'avbryts'
-        if (currentState == newState) return;
+        if (currentState[layer] == newState) return;
 
         //Hämtar nuvarande position i klippet
         float normalizedTime = 0;
@@ -78,13 +79,13 @@ public class PlayerAnimator : MonoBehaviour
             normalizedTime = Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1f;
 
         //Spelar och betsämmer animations state från newState
-        Animator.CrossFadeInFixedTime(newState, transitionTime, 0, normalizedTime);
-        currentState = newState;
+        Animator.CrossFadeInFixedTime(newState, transitionTime, layer, normalizedTime);
+        currentState[layer] = newState;
     }
-    private void ChangeAnimatonState(float transitionTime, bool getCurrentFrame, params string[] newStates)
+    private void ChangeAnimatonState(float transitionTime, int layer, bool getCurrentFrame, params string[] newStates)
     {
         //Hindrar att animationen kör om och 'avbryts'
-        if (currentState == newStates[0]) return;
+        if (currentState[layer] == newStates[0]) return;
 
         //Hämtar nuvarande position i klippet
         float normalizedTime = 0;
@@ -92,8 +93,8 @@ public class PlayerAnimator : MonoBehaviour
             normalizedTime = Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1f;
 
         //Spelar och betsämmer animations state från newState
-        Animator.CrossFadeInFixedTime(newStates[Random.Range(0, newStates.Length)], transitionTime, 0, normalizedTime);
-        currentState = newStates[0];
+        Animator.CrossFadeInFixedTime(newStates[Random.Range(0, newStates.Length)], transitionTime, layer, normalizedTime);
+        currentState[layer] = newStates[0];
     }
 
 
@@ -101,5 +102,13 @@ public class PlayerAnimator : MonoBehaviour
     private void OnMove(InputValue input)
     {
         inputDirection = input.Get<Vector2>();
+    }
+    private void OnAttack(InputValue input)
+    {
+        ChangeAnimatonState(TransitionTime, 1, false, "Gunplay1");
+    }
+    private void OnAttackStop(InputValue input)
+    {
+        ChangeAnimatonState(TransitionTime, 1, false, "Empty");
     }
 }

@@ -689,8 +689,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8976847a40bfc0f49bffaec8b1117d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DragHeight: 0
   GroundDrag: 0
   AirDrag: 0
+  FloatEnabled: 0
   FloatHeight: 2.25
   FloatSpringHeight: 6
   FloatSpringDamper: 0.9
@@ -1112,6 +1114,10 @@ PrefabInstance:
     - target: {fileID: 7095624228978418415, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509150434296265864, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
+      propertyPath: DragHeight
+      value: 1.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

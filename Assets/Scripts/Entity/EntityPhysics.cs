@@ -4,25 +4,27 @@ using UnityEngine;
 public class PlayerPhysics : MonoBehaviour
 {
     [Header("Drag values")]
+    [SerializeField] float DragHeight;
     [SerializeField] float GroundDrag = 5;
     [SerializeField] float AirDrag = 0;
 
     [Space]
 
-    [Header("Floating Parameters")]
+    [Header("Floating Parameters (buggig)")]
+    [SerializeField] bool FloatEnabled = false;
     [SerializeField] float FloatHeight;
     [SerializeField] float FloatSpringHeight;
     [SerializeField] float FloatSpringDamper;
 
     Rigidbody characterRB;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+
     void Start()
     {
         characterRB = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         DragHandler();
@@ -30,8 +32,11 @@ public class PlayerPhysics : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //FloatHandler();
+        if (FloatEnabled)
+            FloatHandler();
     }
+
+
 
     private void FloatHandler()
     {
@@ -71,7 +76,7 @@ public class PlayerPhysics : MonoBehaviour
     {
         RaycastHit ray;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out ray, FloatHeight / 2))
+        if (Physics.Raycast(transform.position, Vector3.down, out ray, DragHeight))
             characterRB.linearDamping = GroundDrag;
         else 
             characterRB.linearDamping = AirDrag;
