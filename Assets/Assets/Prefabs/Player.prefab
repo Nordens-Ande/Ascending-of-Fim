@@ -1423,8 +1423,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8976847a40bfc0f49bffaec8b1117d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DragHeight: 1.1
   GroundDrag: 5
   AirDrag: 0
+  FloatEnabled: 0
   FloatHeight: 3
   FloatSpringHeight: 6
   FloatSpringDamper: 0.9
