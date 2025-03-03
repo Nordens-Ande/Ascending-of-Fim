@@ -3,14 +3,12 @@ using UnityEngine.InputSystem;
 
 public class Shoot : MonoBehaviour
 {
-    Rigidbody rb;
     int rayLength;
     [SerializeField] GameObject bulletOrigin; //placera child objectet som vapnet ska ha här, skottets/rayens origin.
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rayLength = 100;
+        rayLength = 10000;
     }
 
     Vector3 GetDirection()
