@@ -46,16 +46,25 @@ public class PlayerInventory : MonoBehaviour, IInventory
                 {
                     for (int i = 0; i < primary.Length; i++)
                     {
-                        if (primary[i] == equipped)
+                        if (primary[i] == null)
                         {
-
+                            primary[i] = item;
+                            interactable.PickUp(transform);
+                            equipped = item;
                         }
+                        else  if (primary[i] == equipped)
+                        {
+                            IInteractable primInteract = primary[i].GetComponent<IInteractable>();
+                            if (primInteract == null)
+                                continue;
 
-                        primary[i] = primary[i] == null ? item : primary[i];
+                            primInteract.Drop();
+
+                            primary[i] = item;
+                            interactable.PickUp(transform);
+                            equipped = item;
+                        }
                     }
-                        
-
-
                     break;
                 }
         }
