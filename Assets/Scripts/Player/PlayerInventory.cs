@@ -19,9 +19,13 @@ public class PlayerInventory : MonoBehaviour, IInventory
 
     void Start()
     {
+        primary = new GameObject[MaxPrimaries];
+        secondary = new GameObject[MaxSecondaries];
+
         if (StarterWeapon != null)
         {
-
+            equipped = StarterWeapon;
+            AddReplaceItem(StarterWeapon);
         }
     }
 
@@ -36,6 +40,25 @@ public class PlayerInventory : MonoBehaviour, IInventory
         if (interactable == null)
             return;
 
+        switch (interactable.GetType())
+        {
+            case IInteractable.Type.Primary:
+                {
+                    for (int i = 0; i < primary.Length; i++)
+                    {
+                        if (primary[i] == equipped)
+                        {
+
+                        }
+
+                        primary[i] = primary[i] == null ? item : primary[i];
+                    }
+                        
+
+
+                    break;
+                }
+        }
 
     }
 

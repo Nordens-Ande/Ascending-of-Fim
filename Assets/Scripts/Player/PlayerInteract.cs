@@ -9,7 +9,7 @@ public interface IInteractable
         Secondary,
         Throwable,
     }
-    void GetType();
+    Type GetType();
 
     void Interact();
     void PickUp(Transform inventoryTransform);
