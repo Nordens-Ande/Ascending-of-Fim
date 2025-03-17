@@ -27,10 +27,6 @@ public class EnemyAIController : MonoBehaviour
     void DecideEnemyState()
     {
         float distanceToPlayer = CalculateDistanceToPlayer();
-        //if(lineOfSight)
-        //{
-        //    movingTowardsPlayerLastKnownPos = false;
-        //}
 
         if(lineOfSight && distanceToPlayer <= 15)
         {
@@ -58,18 +54,17 @@ public class EnemyAIController : MonoBehaviour
     {
         if(enemyState == EnemyState.shooting)
         {
-            // stop moving?
-            //shoot
+            enemyMove.StopMoving();
         }
         else if(enemyState == EnemyState.chasing)
         {
             enemyMove.SetDestination(player.transform.position); //maybe not correct (y-axis)
-            //move
+            enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.movingToPLK)
         {
             enemyMove.SetDestination(playerLastKnownPosition);
-            //move
+            enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.searching)
         {
@@ -78,7 +73,7 @@ public class EnemyAIController : MonoBehaviour
         }
         else if(enemyState == EnemyState.idle)
         {
-            //enemyMove.stop
+            enemyMove.StopMoving();
         }
     }
 
@@ -103,14 +98,13 @@ public class EnemyAIController : MonoBehaviour
     {
         Vector3 directionToPlayer = CalculateDirectionToPlayer();
         Ray ray = new Ray(transform.position, directionToPlayer);
-        int rayLength = 100;
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, rayLength))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
 
         }
 
-        if (hit.transform.tag == "Player") //?
+        if (hit.transform.CompareTag("Player"))
         {
             movingTowardsPlayerLastKnownPos = false;
             return true;
@@ -123,7 +117,7 @@ public class EnemyAIController : MonoBehaviour
 
     Vector3 CalculateDirectionToPlayer() //maybe not correct (y-axis)
     {
-        return Vector3.Normalize(transform.position - player.transform.position);
+        return Vector3.Normalize(player.transform.position - transform.position);
     }
 
     float CalculateDistanceToPlayer()
