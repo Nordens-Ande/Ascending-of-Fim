@@ -87,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "UI Actionmap",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "e4f2569c-4036-4687-8f79-d2bf4dfa7cf4",
                     "expectedControlType": "",
@@ -489,7 +489,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "UI Actionmap",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -500,7 +500,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "UI Actionmap",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class Hover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -17,6 +18,9 @@ public class Hover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             originalColor = button.image.color;
         }
+
+        //en lyssnare, som väntar på när knappen blir tryckt på
+        button.onClick.AddListener(OnButtonClick);
     }
 
     //när musen går över knappen ändra till hover färgen
@@ -31,6 +35,17 @@ public class Hover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     //när musen lämnar gå tillbaka till den vanliga fägren
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (button != null)
+        {
+            button.image.color = originalColor;
+        }
+    }
+
+
+    //för en bugg som lämnade knappanar som "intryckta" när man bytte meny
+    private void OnButtonClick()
+    {
+        // Revert to the original color when the button is clicked
         if (button != null)
         {
             button.image.color = originalColor;
