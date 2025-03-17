@@ -1,36 +1,39 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Hover : MonoBehaviour
+public class Hover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-
-    private Color hoverColor = Color.red;
-    private Color defaultColor;
-    private Image buttonImage;
-
-    void Start()
+    private Button button;
+    private Color originalColor;
+    [SerializeField] public Color hoverColor;
+   
+    
+    //hämta den vanliga färgen på knappen
+    void Awake()
     {
-        buttonImage = GetComponent<Image>();
-        if(buttonImage != null)
+        button = GetComponent<Button>();
+        if (button != null)
         {
-            defaultColor = buttonImage.color;
+            originalColor = button.image.color;
         }
     }
 
-    private void OnMouseEnter()
+    //när musen går över knappen ändra till hover färgen
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        if(buttonImage != null)
+        if (button != null)
         {
-            buttonImage.color = hoverColor;
+            button.image.color = hoverColor;
         }
-        
     }
 
-    private void OnMouseLeave()
+    //när musen lämnar gå tillbaka till den vanliga fägren
+    public void OnPointerExit(PointerEventData eventData)
     {
-        if (buttonImage != null)
+        if (button != null)
         {
-            buttonImage.color = defaultColor;
+            button.image.color = originalColor;
         }
     }
 }
