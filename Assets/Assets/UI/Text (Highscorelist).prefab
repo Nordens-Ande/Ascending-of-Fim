@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Higshcores:'
+  m_text: 'Highscores:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8a1523610cee7c54f91230d1cf192568, type: 2}
   m_sharedMaterial: {fileID: -7861273274826584120, guid: 8a1523610cee7c54f91230d1cf192568, type: 2}
