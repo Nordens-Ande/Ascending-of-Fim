@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class RayGunScript : MonoBehaviour
 {
+    //För vapnet att skjuta,borde kopplas med shooting scriptet
+
     //Gun stats
     public int damage;
     public float timeBetweenShooting;
@@ -26,8 +28,24 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public RaycastHit rayHit;
     public LayerMask whatIsEnemy;
 
+    //weapon body
+    private Rigidbody weaponBody;
+    [SerializeField] private float WeaponRotationSpeed;
 
-    private void Awake()
+    public bool isRotating { get; set; }
+
+    private void Start()
+    {
+        weaponBody = GetComponent<Rigidbody>();
+
+        if (weaponBody) 
+        {
+            weaponBody.isKinematic = true;
+        }
+
+        isRotating = true;
+    }
+    private void Awake() //så man inte behver ladda om vapnet varje gång man starta spelet
     {
         bulletsLeft = magazineSize;
         readyToShoot = true;
@@ -35,8 +53,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private void Update()
     {
         MyInput();
+
+        if (isRotating) return;
+
+            transform.Rotate(Vector3.up * WeaponRotationSpeed * (1- Mathf.Exp(-WeaponRotationSpeed * Time.deltaTime)));
     }
-    private void MyInput() 
+    private void MyInput() //för att skjuta och ladda om
     {   
         if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
         else shooting = Input.GetKeyDown(KeyCode.Mouse0);
@@ -51,7 +73,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         }
     }
 
-    private void Shoot()
+    private void Shoot() //för att skjuta
     {
         readyToShoot = false;
 
@@ -62,7 +84,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
             if (rayHit.collider.CompareTag("Enemy"))
             {
-                rayHit.collider.GetComponent<Enemy>().TakeDamage(damage); //lägg in enemy scriptet här, så att den tar skada
+                //rayHit.collider.GetComponent<Enemy>().TakeDamage(damage); //lägg in enemy scriptet här, så att den tar skada
             }
         }
 
@@ -70,24 +92,24 @@ public class NewMonoBehaviourScript : MonoBehaviour
         bulletsShot--;
         Invoke("ResetShot", timeBetweenShooting);
 
-        if (bulletsShot > 0 && bulletsLeft > 0)
+        if (bulletsShot > 0 && bulletsLeft > 0) 
         {
             Invoke("Shoot", timeBetweenShots);
         }
     }
 
-    private void ResetShot()
+    private void ResetShot() //för att kunna skjuta igen
     {
         readyToShoot = true;
     }
 
-    private void Reload() 
+    private void Reload() //för att ladda om
     {
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
 
-    private void ReloadFinished()
+    private void ReloadFinished() //för att sluta ladda om
     {
         bulletsLeft = magazineSize;
         reloading = false;
