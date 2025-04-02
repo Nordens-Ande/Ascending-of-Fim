@@ -6,6 +6,7 @@ public class SoundEffectsEnemy : MonoBehaviour
     public AudioClip soundEffectShot, soundEffectWalk, soundEffectTalk;
     public bool EnemyIsMoving;
     public bool EnemyIsShooting;
+    
 
     public void Start()
     {

@@ -45,6 +45,7 @@ public class SoundEffectsPlayer : MonoBehaviour
         {
             walking();
         }
+        
         if (Input.GetKey(KeyCode.S))
         {
             walking();
@@ -64,6 +65,7 @@ public class SoundEffectsPlayer : MonoBehaviour
         { 
             shooting();
         }
+        
     }
     public void beginToTalk() 
     {
