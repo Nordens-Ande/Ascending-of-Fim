@@ -17,6 +17,8 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject InputMenu;
     [SerializeField] GameObject GameRuleMenu;
     [SerializeField] GameObject SoundMenu;
+    [SerializeField] GameObject BackStoryMenu;
+    [SerializeField] GameObject CreditsMenu;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -99,5 +101,15 @@ public class UIHandler : MonoBehaviour
     public void ActivateSoundMenu()
     {
         SoundMenu.SetActive(true); 
+    }
+
+    public void ActivateBackStoryMenu()
+    {
+        BackStoryMenu.SetActive(true);
+    }
+
+    public void ActivateCreditsMenu()
+    {
+        CreditsMenu.SetActive(true);
     }
 }
