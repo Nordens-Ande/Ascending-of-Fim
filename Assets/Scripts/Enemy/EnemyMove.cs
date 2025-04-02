@@ -5,11 +5,13 @@ using UnityEngine.AI;
 public class EnemyMove : MonoBehaviour
 {
     NavMeshAgent agent;
-    Vector3 movementSpeed;
+    public NavMeshAgent Agent {  get { return agent; } }
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = 3;
+        agent.angularSpeed = 3;
     }
 
     public Vector3 GetAgentPosition()
@@ -34,6 +36,6 @@ public class EnemyMove : MonoBehaviour
 
     void Update()
     {
-        
+    
     }
 }
