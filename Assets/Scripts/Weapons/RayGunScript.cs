@@ -32,18 +32,21 @@ public class RayGunScript : MonoBehaviour
     private Rigidbody weaponBody;
     [SerializeField] private float WeaponRotationSpeed;
 
-    public bool isRotating { get; set; }
+    public bool IsRotating { get; set; }
 
     private void Start()
     {
-        weaponBody = GetComponent<Rigidbody>();
 
-        if (weaponBody) 
+        weaponBody = GetComponent<Rigidbody>();
+        
+
+        if (weaponBody)
         {
             weaponBody.isKinematic = true;
+            
         }
 
-        isRotating = true;
+        IsRotating = true;
     }
     private void Awake() //så man inte behver ladda om vapnet varje gång man starta spelet
     {
@@ -54,10 +57,22 @@ public class RayGunScript : MonoBehaviour
     {
         MyInput();
 
-        if (isRotating) return;
+        if (!IsRotating) return;
 
             transform.Rotate(Vector3.up * WeaponRotationSpeed * (1- Mathf.Exp(-WeaponRotationSpeed * Time.deltaTime)));
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            if (weaponBody)
+            {
+                weaponBody.constraints = RigidbodyConstraints.FreezePosition;
+
+                IsRotating = true;
+            }
+    }   }
     private void MyInput() //för att skjuta och ladda om
     {   
         if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
@@ -113,5 +128,15 @@ public class RayGunScript : MonoBehaviour
     {
         bulletsLeft = magazineSize;
         reloading = false;
+    }
+
+    public void ChangeWeaponBehavior() 
+    {
+        if (weaponBody)
+        {
+            weaponBody.isKinematic = true;
+            weaponBody.constraints = RigidbodyConstraints.None;
+            
+        }
     }
 }
