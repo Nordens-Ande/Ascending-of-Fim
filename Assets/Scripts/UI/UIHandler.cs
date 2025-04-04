@@ -6,8 +6,10 @@ public class UIHandler : MonoBehaviour
 {
 
 
-    [SerializeField] GameObject menuList;
+    [SerializeField] GameObject MenuList;
     [SerializeField] GameObject UI;
+    [SerializeField] GameObject HUD;
+    [SerializeField] GameObject WholeMenu;
 
     [SerializeField] GameObject StartMenu;
     [SerializeField] GameObject OptionsMenu;
@@ -19,6 +21,7 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject SoundMenu;
     [SerializeField] GameObject BackStoryMenu;
     [SerializeField] GameObject CreditsMenu;
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,7 +30,7 @@ public class UIHandler : MonoBehaviour
 
     public void ResetUI()
     {
-        foreach(Transform child in menuList.transform)
+        foreach(Transform child in MenuList.transform)
         {
             child.gameObject.SetActive(false);
         }
@@ -46,6 +49,18 @@ public class UIHandler : MonoBehaviour
         bool isUIActive = UI.activeSelf; 
         //sets the opposite of what the ui was, a toggle
         UI.SetActive(!isUIActive);
+    }
+
+    public void ToggleHUD()
+    {
+        bool isHUDActive = HUD.activeSelf;
+        HUD.SetActive(!isHUDActive);
+    }
+
+    public void ToggleMenu()
+    {
+        bool isMenuActive = WholeMenu.activeSelf;
+        WholeMenu.SetActive(!isMenuActive);
     }
 
     public void QuitGame()
