@@ -9,11 +9,14 @@ public class EquipWeapon : MonoBehaviour
     [SerializeField][Range(0.0f, 2.0f)] private float rayLengt;
     [SerializeField] private Vector3 rayOffset; //för att flytta Ray uppåt så att den hamnar rätt med Fim
     [SerializeField] private LayerMask weaponMask; //för att determinera vad som kan bli träffat av rayen
+    [SerializeField] public Transform orientationObject;
     private RaycastHit topRayHitInfo;
-    private RaycastHit bottomRayHitInfo;
+    //private RaycastHit bottomRayHitInfo;
 
     private RayGunScript currentWeapon;
 
+    [Header("AnimationPos")]
+    [SerializeField] private float AnimationSpeed;
     [SerializeField] private Transform equipPos;
     [SerializeField] private Transform shootingPos;
 
@@ -30,7 +33,7 @@ public class EquipWeapon : MonoBehaviour
     [SerializeField] private Transform IKRightHandPos; //Referens till höger handens position, gjort för att kunna sätta vapnet i höger hand
     [SerializeField] private Transform IKLeftHandPos; //Referens till vänster handens position, gjort för att kunna sätta vapnet i vänster hand
 
-    private bool IsEquipped;
+    public bool IsEquipped;
 
     void Start()
     {
@@ -43,38 +46,59 @@ public class EquipWeapon : MonoBehaviour
         {
             Equip();
             Debug.Log("E pressed");
+            Debug.Log("IsEquipped: " + IsEquipped);
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
             UnEquip();
+        } 
+        
+        
+        if (Input.GetMouseButtonDown(0)) {
+
+            currentWeapon.MyInput();
+
+
         }
 
         if (currentWeapon)
         {
-            if (!isShooting)
-            {
-                currentWeapon.transform.parent = equipPos.transform;
-                currentWeapon.transform.position = equipPos.position;
-                currentWeapon.transform.rotation = equipPos.rotation;
+            //FUnkar ej med denna
+            //if (!isShooting)
+            //{
+            //    //currentWeapon.transform.parent = equipPos.transform;
+            //    //currentWeapon.transform.position = equipPos.position;
+            //    //currentWeapon.transform.rotation = equipPos.rotation;
 
-                leftHandIK.weight = 0f;
-            }
-            else
+            //    currentWeapon.transform.parent = equipPos.transform; //här
+            //    currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, equipPos.position, Time.deltaTime * AnimationSpeed);
+            //    currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, equipPos.rotation, Time.deltaTime * AnimationSpeed);
+
+            //    leftHandIK.weight = 0f;
+            //}
+            if(IsEquipped)
             {
                 //currentWeapon.transform.parent = shootingPos.transform;
-                //currentWeapon.transform.position = shootingPos.position;
+                //currentWeapon.transform.position = shootingPos.position; //här
                 //currentWeapon.transform.rotation = shootingPos.rotation;
+                
+                currentWeapon.transform.parent = shootingPos.transform; //här
+                currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, shootingPos.position,Time.deltaTime* AnimationSpeed); //test
+                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, shootingPos.rotation, Time.deltaTime * AnimationSpeed); 
 
+                
                 leftHandIK.weight = 1f;
                 leftHandTarget.position = IKLeftHandPos.position;
                 leftHandTarget.rotation = IKLeftHandPos.rotation;
 
+                rightHandIK.weight = 1f;
+                rightHandTarget.position = IKRightHandPos.position; //här
+                rightHandTarget.rotation = IKRightHandPos.rotation;
+
+
             }
 
-            //rightHandIK.weight = 1f;
-            //rightHandTarget.position = IKRightHandPos.position;
-            //rightHandTarget.rotation = IKRightHandPos.rotation;
         }
     }
 
@@ -89,14 +113,14 @@ public class EquipWeapon : MonoBehaviour
     }
     private void RayCastHandler()
     {
-        Ray topRay = new Ray(transform.position + rayOffset, transform.forward);
-        Ray bottomRay = new Ray(transform.position + Vector3.up * 0.175f, transform.forward);
+        Ray topRay = new Ray(transform.position + rayOffset, orientationObject.forward);
+        //Ray bottomRay = new Ray(transform.position + Vector3.up * 0.175f, orientationObject.forward);
 
-        Debug.DrawRay(transform.position + rayOffset, transform.forward * rayLengt, Color.red);
-        Debug.DrawRay(transform.position + Vector3.up * 0.175f, transform.forward * rayLengt, Color.green);
+        Debug.DrawRay(transform.position + rayOffset, orientationObject.forward * rayLengt, Color.red);
+        //Debug.DrawRay(transform.position + Vector3.up * 0.175f, orientationObject.forward * rayLengt, Color.green);
 
         Physics.Raycast(topRay, out topRayHitInfo, rayLengt, weaponMask); //För att kalla ut Rayen
-        Physics.Raycast(bottomRay, out bottomRayHitInfo, rayLengt, weaponMask); //För att kalla ut Rayen
+        //Physics.Raycast(bottomRay, out bottomRayHitInfo, rayLengt, weaponMask); //För att kalla ut Rayen
     }
     
     private void Equip()
@@ -111,10 +135,10 @@ public class EquipWeapon : MonoBehaviour
                 currentWeapon = topRayHitInfo.transform.GetComponent<RayGunScript>();
            }
 
-            if (bottomRayHitInfo.collider)
-            {
-                currentWeapon = bottomRayHitInfo.transform.GetComponent<RayGunScript>();
-            }
+            //if (bottomRayHitInfo.collider)
+            //{
+            //    currentWeapon = bottomRayHitInfo.transform.GetComponent<RayGunScript>();
+            //}
 
             if (!currentWeapon) return;
 
@@ -136,9 +160,9 @@ public class EquipWeapon : MonoBehaviour
         {
             rightHandIK.weight = 0.0f;
 
-            if (IKLeftHandPos) 
+            if (IKLeftHandPos)
             {
-                leftHandIK.weight = 0.0f;     
+                leftHandIK.weight = 0.0f;
             }
 
             IsEquipped = false;
@@ -148,6 +172,7 @@ public class EquipWeapon : MonoBehaviour
             currentWeapon.GetComponent<Collider>().enabled = true;
 
             currentWeapon = null;
+            
         }
     }
 }

@@ -1,41 +1,49 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System;
 
 public class RayGunScript : MonoBehaviour
 {
     //För vapnet att skjuta,borde kopplas med shooting scriptet
 
-    //Gun stats
-    public int damage;
-    public float timeBetweenShooting;
-    public float timeBetweenShots;
-    public bool allowButtonHold;
-    public float spread;
-    public float range;
-    public float reloadTime;
-    public int magazineSize;
-    public int bulletsPerTap;
+    [Header("GunStats")]
+    //[SerializeField] public int damage;
+    [SerializeField] public float timeBetweenShooting;
+    [SerializeField] public float timeBetweenShots;
+    [SerializeField] public bool allowButtonHold;
+    [SerializeField] public float spread;
+    [SerializeField] public float range;
+    [SerializeField] public float reloadTime;
+    [SerializeField] public int magazineSize;
+    [SerializeField] public int bulletsPerTap;
     public int bulletsLeft;
     public int bulletsShot;
+    public BulletController bullet;
+    public Transform firePoint;
 
     //bools
-    public bool shooting;
-    public bool readyToShoot;
-    public bool reloading;
-
+    public bool isshooting;
+    public bool isreadyToShoot;
+    public bool isreloading;
+    public bool isFiring;
     //Reference
     public Camera TopDownDShooterCam;
     public Transform attackPoint;
     public RaycastHit rayHit;
     public LayerMask whatIsEnemy;
-
+    public EquipWeapon equipWeapon;
     //weapon body
     private Rigidbody weaponBody;
     [SerializeField] private float WeaponRotationSpeed;
+
+ 
 
     public bool IsRotating { get; set; }
 
     private void Start()
     {
+        Debug.Log("I'm Here");
 
         weaponBody = GetComponent<Rigidbody>();
         
@@ -51,10 +59,11 @@ public class RayGunScript : MonoBehaviour
     private void Awake() //så man inte behver ladda om vapnet varje gång man starta spelet
     {
         bulletsLeft = magazineSize;
-        readyToShoot = true;
+        isreadyToShoot = true;
     }
     private void Update()
     {
+        Debug.Log("I'm Here");
         MyInput();
 
         if (!IsRotating) return;
@@ -73,25 +82,32 @@ public class RayGunScript : MonoBehaviour
                 IsRotating = true;
             }
     }   }
-    private void MyInput() //för att skjuta och ladda om
-    {   
-        if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
-        else shooting = Input.GetKeyDown(KeyCode.Mouse0);
+    public void MyInput() //för att skjuta och ladda om
+    {
+        
+        
+        if (allowButtonHold) isshooting = Input.GetKey(KeyCode.Mouse0);
+      
+        else isshooting = Input.GetKeyDown(KeyCode.Mouse0);
 
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
-
+        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !isreloading) Reload();
+        
         //Shoot
-        if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
+        if (isreadyToShoot && isshooting && !isreloading && bulletsLeft > 0)
         {
+         
+
             bulletsShot = bulletsPerTap;
+            BulletController newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation) as BulletController;
             Shoot();
+            
         }
     }
 
     private void Shoot() //för att skjuta
     {
-        readyToShoot = false;
-
+        isreadyToShoot = false;
+        Debug.Log("Shooting");
         //Raycast
         if (Physics.Raycast(TopDownDShooterCam.transform.position, TopDownDShooterCam.transform.forward, out rayHit, range, whatIsEnemy))
         {
@@ -115,19 +131,19 @@ public class RayGunScript : MonoBehaviour
 
     private void ResetShot() //för att kunna skjuta igen
     {
-        readyToShoot = true;
+        isreadyToShoot = true;
     }
 
     private void Reload() //för att ladda om
     {
-        reloading = true;
+        isreloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
 
     private void ReloadFinished() //för att sluta ladda om
     {
         bulletsLeft = magazineSize;
-        reloading = false;
+        isreloading = false;
     }
 
     public void ChangeWeaponBehavior() 
@@ -136,7 +152,7 @@ public class RayGunScript : MonoBehaviour
         {
             weaponBody.isKinematic = true;
             weaponBody.constraints = RigidbodyConstraints.None;
-            
+
         }
     }
 }
