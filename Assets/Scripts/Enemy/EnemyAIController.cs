@@ -5,7 +5,7 @@ public class EnemyAIController : MonoBehaviour
 {
     [SerializeField] EnemyMove enemyMove;
 
-    enum EnemyState { idle = 1, searching = 2, movingToPlayerLastKnown = 3, chasing = 4, shooting = 5, dead = 6 }
+    enum EnemyState {searching = 2, movingToPlayerLastKnown = 3, chasing = 4, shooting = 5, dead = 6 }
     EnemyState previousEnemyState;
     [SerializeField] EnemyState enemyState;
 
@@ -15,17 +15,18 @@ public class EnemyAIController : MonoBehaviour
     const int searchingDistance = 15;
 
     LayerMask layerMask;
-    bool lineOfSight;
+    [SerializeField] bool lineOfSight;
     bool lineOfSightLastUpdate;
     Vector3 playerLastKnownPosition;
     bool movingToPlayerLastKnownPos;
 
     void Start()
     {
-        layerMask = ~LayerMask.NameToLayer("Enemy");
+        layerMask = ~LayerMask.GetMask("Enemy");
         player = GameObject.Find("Player");
-        previousEnemyState = EnemyState.idle;
-        enemyState = EnemyState.idle;
+        previousEnemyState = EnemyState.searching;
+        enemyState = EnemyState.searching;
+        enemyMove.wandering = true;
         lineOfSight = false;
         lineOfSightLastUpdate = false;
         movingToPlayerLastKnownPos = false;
@@ -38,6 +39,7 @@ public class EnemyAIController : MonoBehaviour
         if(lineOfSight && distanceToPlayer <= shootingDistance)
         {
             enemyState = EnemyState.shooting;
+
         }
         else if(lineOfSight && distanceToPlayer > shootingDistance)
         {
@@ -47,13 +49,9 @@ public class EnemyAIController : MonoBehaviour
         {
             enemyState = EnemyState.movingToPlayerLastKnown;
         }
-        else if(!lineOfSight && distanceToPlayer <= searchingDistance)
-        {
-            enemyState = EnemyState.searching;
-        }
         else
         {
-            enemyState = EnemyState.idle;
+            enemyState = EnemyState.searching;
         }
     }
 
@@ -61,31 +59,29 @@ public class EnemyAIController : MonoBehaviour
     {
         if(enemyState == EnemyState.shooting)
         {
+            enemyMove.wandering = false;
             enemyMove.StopMoving();
         }
         else if(enemyState == EnemyState.chasing)
         {
-            
+            enemyMove.wandering = false;
             enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.movingToPlayerLastKnown)
         {
+            enemyMove.wandering = false;
             enemyMove.SetDestination(playerLastKnownPosition);
             enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.searching)
         {
-            enemyMove.StopMoving();
-        }
-        else if(enemyState == EnemyState.idle)
-        {
-            enemyMove.StopMoving();
+            enemyMove.wandering = true;
         }
     }
 
     void ResetDestination()
     {
-        if(!enemyMove.Agent.isStopped && enemyState != EnemyState.movingToPlayerLastKnown)
+        if(!enemyMove.agent.isStopped && enemyState == EnemyState.chasing)
         {
             enemyMove.SetDestination(player.transform.position);
         }
@@ -100,9 +96,10 @@ public class EnemyAIController : MonoBehaviour
         }
     }
 
-    void CheckIfEnemyReachedPLK()
+    void CheckIfEnemyReachedPlayerLastKnown()
     {
-        if (transform.position == playerLastKnownPosition) //maybe not correct (y-axis)
+        if (Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z),
+                             new Vector3(playerLastKnownPosition.x, 0, playerLastKnownPosition.z)) < 0.2f)
         {
             movingToPlayerLastKnownPos = false;
         }
@@ -141,7 +138,7 @@ public class EnemyAIController : MonoBehaviour
         
         ResetDestination();
         SetLastSpottedPos();
-        CheckIfEnemyReachedPLK();
+        CheckIfEnemyReachedPlayerLastKnown();
         DecideEnemyState();
 
         if(enemyState != previousEnemyState)
