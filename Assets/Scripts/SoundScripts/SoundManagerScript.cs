@@ -9,7 +9,6 @@ public class SoundManagerScript : MonoBehaviour
     void Start()
     {
         backgroundMusic = GetComponent<AudioSource>();
-        DontDestroyOnLoad(backgroundMusic);
         isPlaying = true;
         isPaused = false;
     }

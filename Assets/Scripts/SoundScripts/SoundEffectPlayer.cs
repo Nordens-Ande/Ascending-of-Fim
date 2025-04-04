@@ -3,7 +3,8 @@ using UnityEngine;
 public class SoundEffectsPlayer : MonoBehaviour
 {
     public AudioSource CurrentSoundEffect;
-    public AudioClip soundEffectShot, soundEffectWalk, soundEffectTalk;
+    public AudioClip soundEffectShot, soundEffectTalk;
+    int rand;
 
     public void Start()
     {
@@ -11,7 +12,7 @@ public class SoundEffectsPlayer : MonoBehaviour
     }
     public void Update()
     {
-        playSoundOnWalk();
+        rand = Random.Range(0, 10000);
 
         isActivelyShooting();
 
@@ -22,46 +23,22 @@ public class SoundEffectsPlayer : MonoBehaviour
     //När flera än en effekt är igång samtidigt
     public void shooting()
     {
+        
         CurrentSoundEffect.clip = soundEffectShot;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 5);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 5f);
+        
+
     }
-    public void walking() 
-    {
-        CurrentSoundEffect.clip = soundEffectWalk;
-        //CurrentSoundEffect.Play();
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 3);
-    }
+
     public void talking() 
     {
         CurrentSoundEffect.clip = soundEffectTalk;
-        //CurrentSoundEffect.Play();
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 7);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1);
     }
 
-    //Vad som ska uppdateras 
-    public void playSoundOnWalk() 
-    {
-        if (Input.GetKey(KeyCode.W))
-        {
-            walking();
-        }
-        
-        if (Input.GetKey(KeyCode.S))
-        {
-            walking();
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            walking();
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            walking();
-        }
-    }
     public void isActivelyShooting() 
     { 
-        if (Input.GetMouseButton(0)) 
+        if (Input.GetMouseButtonDown(0)) 
         { 
             shooting();
         }
@@ -69,7 +46,7 @@ public class SoundEffectsPlayer : MonoBehaviour
     }
     public void beginToTalk() 
     {
-        if (Random.Range(0, 1000) == 1) 
+        if (rand == 1) 
         { 
             talking();
         }

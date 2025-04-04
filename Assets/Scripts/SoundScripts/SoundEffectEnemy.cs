@@ -4,6 +4,7 @@ public class SoundEffectsEnemy : MonoBehaviour
 {
     public AudioSource CurrentSoundEffect;
     public AudioClip soundEffectShot, soundEffectWalk, soundEffectTalk;
+    int voiceLine;
     public bool EnemyIsMoving;
     public bool EnemyIsShooting;
     
@@ -17,6 +18,7 @@ public class SoundEffectsEnemy : MonoBehaviour
     }
     public void Update()
     {
+        voiceLine = Random.Range(0, 10000);
         playSoundOnWalk();
         isActivelyShooting();
         beginToTalk();
@@ -28,19 +30,17 @@ public class SoundEffectsEnemy : MonoBehaviour
     public void shooting()
     {
         CurrentSoundEffect.clip = soundEffectShot;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip,4);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
     }
     public void walking()
     {
         CurrentSoundEffect.clip = soundEffectWalk;
-        //CurrentSoundEffect.Play();
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip,2);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip,1f);
     }
     public void talking()
     {
         CurrentSoundEffect.clip = soundEffectTalk;
-        //CurrentSoundEffect.Play();
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip,6);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip,1f);
     }
 
     //Uppdateringar för varje metod
@@ -60,7 +60,7 @@ public class SoundEffectsEnemy : MonoBehaviour
     }
     public void beginToTalk()
     {
-        if (Random.Range(0, 1000) == 1)
+        if (voiceLine == 1)
         {
             talking();
         }
