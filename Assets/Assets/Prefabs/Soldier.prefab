@@ -111,8 +111,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMove: {fileID: 7986570055413740344}
   enemyState: 0
-  RotationSpeed: 8
+  RotationSpeed: 4
   OrientationObject: {fileID: 8417982732008745369}
+  lineOfSight: 0
 --- !u!114 &7986570055413740344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +150,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 377785680766734349}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
