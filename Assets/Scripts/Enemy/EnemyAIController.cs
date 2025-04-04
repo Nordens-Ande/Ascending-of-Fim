@@ -1,5 +1,7 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemyAIController : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class EnemyAIController : MonoBehaviour
     enum EnemyState {searching = 2, movingToPlayerLastKnown = 3, chasing = 4, shooting = 5, dead = 6 }
     EnemyState previousEnemyState;
     [SerializeField] EnemyState enemyState;
+    [SerializeField] float RotationSpeed;
+    [SerializeField] Transform OrientationObject;
 
     GameObject player;
 
@@ -19,6 +23,8 @@ public class EnemyAIController : MonoBehaviour
     bool lineOfSightLastUpdate;
     Vector3 playerLastKnownPosition;
     bool movingToPlayerLastKnownPos;
+
+    Vector3 lastPos;
 
     void Start()
     {
@@ -132,16 +138,32 @@ public class EnemyAIController : MonoBehaviour
         return Vector3.Distance(transform.position, player.transform.position);//maybe not correct (y-axis)
     }
 
+    private float CalculateRotationToPlayer()
+    {
+        Vector3 directionToPlayer = player.transform.position - transform.position;
+        float angle = Mathf.Atan2(directionToPlayer.x, directionToPlayer.z) * Mathf.Rad2Deg;
+
+        return angle;
+    }
+
     void Update()
     {
         lineOfSight = CheckForLineOfSight();
-        
+        float angle = CalculateRotationToPlayer();
+        Vector3 moveVector = transform.position - lastPos;
+        moveVector.y = 0;
+        lastPos = transform.position;
+
         ResetDestination();
         SetLastSpottedPos();
         CheckIfEnemyReachedPlayerLastKnown();
         DecideEnemyState();
+        if (lineOfSight && OrientationObject.rotation != Quaternion.Euler(0, angle, 0))
+            OrientationObject.rotation = Quaternion.Lerp(OrientationObject.rotation, Quaternion.Euler(0, angle, 0), Time.deltaTime * RotationSpeed);
+        else if (moveVector.magnitude > 0f)
+            OrientationObject.rotation = Quaternion.Lerp(OrientationObject.rotation, Quaternion.Euler(0, Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg, 0), Time.deltaTime * RotationSpeed);
 
-        if(enemyState != previousEnemyState)
+        if (enemyState != previousEnemyState)
         {
             UpdateEnemyBehaviour();
         }
