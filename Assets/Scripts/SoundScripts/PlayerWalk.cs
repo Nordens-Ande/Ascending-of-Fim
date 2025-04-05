@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerWalk : MonoBehaviour
 {
     public AudioSource WalkingSoundEffect;
-    public AudioClip WalkingClip;
+    public AudioClip WalkingClip;  
     
     void Start()
     {

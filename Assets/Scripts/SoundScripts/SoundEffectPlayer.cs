@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SoundEffectsPlayer : MonoBehaviour
 {
-    public AudioSource CurrentSoundEffect;
+    public AudioSource CurrentSoundEffect;  
     public AudioClip soundEffectShot, soundEffectTalk;
     int rand;
 

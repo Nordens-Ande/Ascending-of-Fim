@@ -1,61 +1,63 @@
+
 using UnityEngine;
 
 public class SoundEffectsEnemy : MonoBehaviour
 {
     public AudioSource CurrentSoundEffect;
-    public AudioClip soundEffectShot, soundEffectWalk, soundEffectTalk;
+    public AudioClip soundEffectShot, soundEffectTalk;
     int voiceLine;
-    public bool EnemyIsMoving;
-    public bool EnemyIsShooting;
+    public bool EnemyIsShooting = true;
+    bool deadmansswitch;
     
 
     public void Start()
     {
         CurrentSoundEffect = GetComponent<AudioSource>();
-        //EnemyIsMoving = GetComponent<SoundEffectsPlayer>().namnetPåBoolenIEnemyscript;
         //EnemyIsShooting = GetComponent<SoundEffectsPlayer>().namnetPåBoolenIEnemyscript;
-
+        deadmansswitch = false;
     }
     public void Update()
     {
+        
         voiceLine = Random.Range(0, 10000);
-        playSoundOnWalk();
+        
         isActivelyShooting();
+        
         beginToTalk();
-        //EnemyIsMoving = GetComponent<SoundEffectsPlayer>().namnetPåBoolenIEnemyscript;
         //EnemyIsShooting = GetComponent<SoundEffectsPlayer>().namnetPåBoolenIEnemyscript;
     }
-
-    //Vilka ljud till vilka händelser
     public void shooting()
     {
         CurrentSoundEffect.clip = soundEffectShot;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
+        //CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
+        CurrentSoundEffect.Play();
+
     }
-    public void walking()
-    {
-        CurrentSoundEffect.clip = soundEffectWalk;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip,1f);
-    }
+    
     public void talking()
     {
         CurrentSoundEffect.clip = soundEffectTalk;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip,1f);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
+       
     }
 
-    //Uppdateringar för varje metod
-    public void playSoundOnWalk()
-    {
-        if (EnemyIsMoving == true) 
-        { 
-            walking();
-        }
-    }
+    //Uppdateringar för shooting
+    //Deadmanswitch triggar loopen av ljudet 
+    //Sedan om enemy slutar skjuta så återställs deadmanswitc
+    //Och metoden kan sättas igång igen  
+    
     public void isActivelyShooting()
     {
-        if (EnemyIsShooting == true) 
+        if (EnemyIsShooting == true && deadmansswitch == false) 
         {
             shooting();
+            deadmansswitch = true;
+        }
+        if(!EnemyIsShooting) 
+        { 
+            CurrentSoundEffect.Stop();
+            deadmansswitch = false;
+        
         }
     }
     public void beginToTalk()

@@ -21,7 +21,7 @@ public class SoundManagerScript : MonoBehaviour
         { 
             backgroundMusic.Play();
         }
-        if (isPaused && !isPlaying) 
+        if (isPaused && !isPlaying)   
         { 
             backgroundMusic.Stop();
         }
