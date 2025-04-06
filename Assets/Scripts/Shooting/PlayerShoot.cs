@@ -8,7 +8,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] PlayerInventory playerInventory;
 
     WeaponData weaponData;
-
+    
     bool isReadyToShoot;
     bool isReloading;
 
@@ -24,7 +24,7 @@ public class PlayerShoot : MonoBehaviour
 
     void OnAttack(InputValue input)
     {
-        if (isReadyToShoot && !isReloading && playerInventory.equipped != null) // check bullets left
+        if (isReadyToShoot && !isReloading && playerInventory.equipped != null && playerInventory.equipped.GetComponent<WeaponScript>().bulletsLeft > 0) 
         {
             Shoot();
         }
@@ -41,20 +41,25 @@ public class PlayerShoot : MonoBehaviour
         return fireRate;
     }
 
-    void Reload()
+    void OnReload(InputValue input)
     {
-        isReloading = true;
-        Invoke("FinishReload", weaponData.reloadTime);
+        if(playerInventory.equipped.GetComponent<WeaponScript>().bulletsLeft < weaponData.ammoCapacity)
+        {
+            isReloading = true;
+            Invoke("FinishReload", weaponData.reloadTime);
+        }
     }
 
     void FinishReload()
     {
+        playerInventory.equipped.GetComponent<WeaponScript>().ReloadBullets();
         isReloading = false;
     }
 
     void Shoot()
     {
         isReadyToShoot = false;
+        playerInventory.equipped.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
         RaycastHit hit = shootScript.ShootRay();
         CheckRay(hit);
         Invoke("ResetIsReadyToShoot", CalculateFireRate());

@@ -12,12 +12,15 @@ public class WeaponScript : MonoBehaviour, IWeapon
     [SerializeField] WeaponData WeaponData;
     [SerializeField] private float WeaponRotationSpeed;
 
+    public int bulletsLeft { get; private set; }
+
     private Rigidbody weaponBody;
 
     public bool IsRotating { get; set; }
 
     public void Start()
     {
+        bulletsLeft = WeaponData.ammoCapacity;
         weaponBody = GetComponent<Rigidbody>();
 
         if (weaponBody)
@@ -26,12 +29,21 @@ public class WeaponScript : MonoBehaviour, IWeapon
         }
     }
 
+    public void DecreaseBullets(int amount)
+    {
+        bulletsLeft -= amount;
+    }
+
+    public void ReloadBullets()
+    {
+        bulletsLeft = WeaponData.ammoCapacity;
+    }
+
     public void Update()
     {
         if (IsRotating)
             transform.Rotate(Vector3.up * WeaponRotationSpeed * (1 - Mathf.Exp(-WeaponRotationSpeed * Time.deltaTime)));
     }
-
 
     public WeaponData GetWeaponData()
     {
