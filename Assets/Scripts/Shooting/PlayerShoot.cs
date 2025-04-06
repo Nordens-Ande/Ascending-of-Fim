@@ -5,12 +5,25 @@ using UnityEngine.InputSystem;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] Shoot shootScript;
-    // behövs mer info gällande vapen för fireRate, Damage etc.
+    [SerializeField] PlayerInventory playerInventory;
+
+    WeaponData weaponData;
+
+    void Start()
+    {
+        RetrieveWeaponData();
+    }
 
     void OnAttack(InputValue input)
     {
+        RetrieveWeaponData();
         RaycastHit hit = shootScript.ShootRay();
         CheckRay(hit);
+    }
+
+    void RetrieveWeaponData()
+    {
+        weaponData = playerInventory.equipped.GetComponent<WeaponScript>().GetWeaponData();
     }
 
     void CheckRay(RaycastHit hit)
@@ -19,7 +32,7 @@ public class PlayerShoot : MonoBehaviour
         {
             if (hit.transform.tag == "Enemy")
             {
-                //hit.transform.GetComponent<"script">.ReduceHealth("weapon damage")
+                hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
             }
         }
     }
