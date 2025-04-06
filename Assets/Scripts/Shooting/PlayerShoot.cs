@@ -43,7 +43,7 @@ public class PlayerShoot : MonoBehaviour
 
     void OnReload(InputValue input)
     {
-        if(playerInventory.equipped.GetComponent<WeaponScript>().bulletsLeft < weaponData.ammoCapacity)
+        if(playerInventory.equipped.GetComponent<WeaponScript>().bulletsLeft < weaponData.ammoCapacity && !isReloading)
         {
             isReloading = true;
             Invoke("FinishReload", weaponData.reloadTime);
