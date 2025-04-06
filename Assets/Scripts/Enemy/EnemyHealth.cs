@@ -6,12 +6,19 @@ public class EnemyHealth : MonoBehaviour
 
     void Start()
     {
-        health = 100;
+        health = 50;
     }
 
     public void ApplyDamage(int damage)
     {
         health -= damage;
     }
-    
+
+    void Update()
+    {
+        if(health < 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

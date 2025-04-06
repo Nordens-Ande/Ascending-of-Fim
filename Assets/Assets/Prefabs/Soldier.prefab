@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 5517625640143142542}
   - component: {fileID: 7986570055413740344}
   - component: {fileID: 5666982319390542064}
+  - component: {fileID: -5603950578808671637}
   - component: {fileID: 4529694265995918591}
   m_Layer: 0
   m_Name: Soldier
@@ -141,6 +142,18 @@ MonoBehaviour:
   Animator: {fileID: 569096520870269084}
   RotationNode: {fileID: 8417982732008745369}
   TransitionTime: 0.3
+--- !u!114 &-5603950578808671637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377785680766734349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f5d1d47402fd946ad637c44fd124bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &4529694265995918591
 NavMeshAgent:
   m_ObjectHideFlags: 0
