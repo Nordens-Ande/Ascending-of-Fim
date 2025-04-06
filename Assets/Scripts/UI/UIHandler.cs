@@ -21,6 +21,7 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject SoundMenu;
     [SerializeField] GameObject BackStoryMenu;
     [SerializeField] GameObject CreditsMenu;
+    
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,13 +35,6 @@ public class UIHandler : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
-    }
-
-    public void OnPause(InputValue input)
-    {
-        ToggleUI();
-        ResetUI();
-        ActivateOptionsMenu();
     }
 
     public void ToggleUI()
@@ -88,6 +82,16 @@ public class UIHandler : MonoBehaviour
         OptionsMenu.SetActive(true);
     }
 
+    public void OnPause(InputValue inputValue)
+    {
+        HUD.SetActive(false);
+        UI.SetActive(true);
+        ResetUI();
+        ActivateOptionsMenu();
+        Debug.Log("pasue kallad");
+    }
+
+
     public void ActivatePauseMenu()
     {
         PauseMenu.SetActive(true);
@@ -126,5 +130,15 @@ public class UIHandler : MonoBehaviour
     public void ActivateCreditsMenu()
     {
         CreditsMenu.SetActive(true);
+    }
+
+    public void StopTime()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void StartTime()
+    {
+        Time.timeScale = 1f;
     }
 }
