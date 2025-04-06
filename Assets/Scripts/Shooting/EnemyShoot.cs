@@ -46,7 +46,7 @@ public class EnemyShoot : MonoBehaviour
         {
             if (hit.transform.tag == "Player")
             {
-                //hit.transform.GetComponent<"script">.ReduceHealth("weapon damage")
+                //hit.transform.gameObject.GetComponent<PlayerHealth>().ApplyDamage(weaponData.damage);
             }
         }
     }
