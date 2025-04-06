@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class soundSyncScript : MonoBehaviour
@@ -11,7 +12,8 @@ public class soundSyncScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI numberMain;
     [SerializeField] TextMeshProUGUI numberSFX;
     [SerializeField] TextMeshProUGUI numberMusic;
-   
+
+    [SerializeField] AudioMixer audioMixer;
 
     void Start()
     {
@@ -34,6 +36,23 @@ public class soundSyncScript : MonoBehaviour
         numberSFX.text = Mathf.RoundToInt(sfx.value).ToString();
         numberMusic.text = Mathf.RoundToInt(music.value).ToString();
 
+        setMixerValues("Master", main.value);
+        setMixerValues("Background Music", sfx.value);
+        setMixerValues("Sound Effects", music.value);
+
+    }
+
+
+    void setMixerValues(string channelName, float value)
+    {
+        if(value <= 0.0001f)
+        {
+            audioMixer.SetFloat(channelName, -80f);
+        }
+        else
+        {
+            audioMixer.SetFloat(channelName, Mathf.Log10(value / 100f) * 20f);
+        }
     }
 
 
