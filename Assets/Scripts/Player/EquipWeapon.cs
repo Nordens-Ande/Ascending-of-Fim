@@ -2,9 +2,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
+using static UnityEditor.Progress;
 
 public class EquipWeapon : MonoBehaviour
 {
+    [Header("Inventory")]
+    [SerializeField] public PlayerInventory InventoryReference;
+
     [Header("Ray Settings")]
     [SerializeField][Range(0.0f, 2.0f)] private float rayLengt;
     [SerializeField] private Vector3 rayOffset; //för att flytta Ray uppåt så att den hamnar rätt med Fim
@@ -13,7 +17,7 @@ public class EquipWeapon : MonoBehaviour
     private RaycastHit topRayHitInfo;
     //private RaycastHit bottomRayHitInfo;
 
-    private RayGunScript currentWeapon;
+    private WeaponScript currentWeapon;
 
     [Header("AnimationPos")]
     [SerializeField] private float AnimationSpeed;
@@ -53,14 +57,6 @@ public class EquipWeapon : MonoBehaviour
         {
             UnEquip();
         } 
-        
-        
-        if (Input.GetMouseButtonDown(0)) {
-
-            currentWeapon.MyInput();
-
-
-        }
 
         if (currentWeapon)
         {
@@ -111,6 +107,7 @@ public class EquipWeapon : MonoBehaviour
     {
         isShooting = false;
     }
+
     private void RayCastHandler()
     {
         Ray topRay = new Ray(transform.position + rayOffset, orientationObject.forward);
@@ -130,28 +127,26 @@ public class EquipWeapon : MonoBehaviour
         if (topRayHitInfo.collider != null)
         {
             Debug.Log("Hit: " + topRayHitInfo.collider.name);
-           if(topRayHitInfo.collider != null)
-           {
-                currentWeapon = topRayHitInfo.transform.GetComponent<RayGunScript>();
-           }
-
-            //if (bottomRayHitInfo.collider)
-            //{
-            //    currentWeapon = bottomRayHitInfo.transform.GetComponent<RayGunScript>();
-            //}
+            if (topRayHitInfo.collider != null)
+            {
+                currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
+            }
 
             if (!currentWeapon) return;
 
-            //Sätter vapnets position och rotation till Player
-         
-            //får vapnet att sluta rotera
-            currentWeapon.IsRotating = false;
+            currentWeapon.Equip();
 
-            currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
+            //currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
 
-            currentWeapon.ChangeWeaponBehavior();
+            //currentWeapon.ChangeWeaponBehavior();
 
             IsEquipped = true;
+
+            IInventory inventory = InventoryReference.GetComponent<IInventory>();
+            if (inventory == null)
+                return;
+
+            inventory.ChangeEquipped(currentWeapon.gameObject);
         }
     }
     private void UnEquip() 
@@ -166,10 +161,11 @@ public class EquipWeapon : MonoBehaviour
             }
 
             IsEquipped = false;
+
             currentWeapon.transform.parent = null;
 
-            currentWeapon.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-            currentWeapon.GetComponent<Collider>().enabled = true;
+            //currentWeapon.Unequip();
+            Destroy(currentWeapon.gameObject);
 
             currentWeapon = null;
             

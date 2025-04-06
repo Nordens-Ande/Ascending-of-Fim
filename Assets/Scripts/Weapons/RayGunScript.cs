@@ -51,7 +51,6 @@ public class RayGunScript : MonoBehaviour
         if (weaponBody)
         {
             weaponBody.isKinematic = true;
-            
         }
 
         IsRotating = true;
@@ -63,7 +62,6 @@ public class RayGunScript : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("I'm Here");
         MyInput();
 
         if (!IsRotating) return;
@@ -84,8 +82,6 @@ public class RayGunScript : MonoBehaviour
     }   }
     public void MyInput() //för att skjuta och ladda om
     {
-        
-        
         if (allowButtonHold) isshooting = Input.GetKey(KeyCode.Mouse0);
       
         else isshooting = Input.GetKeyDown(KeyCode.Mouse0);
@@ -152,7 +148,6 @@ public class RayGunScript : MonoBehaviour
         {
             weaponBody.isKinematic = true;
             weaponBody.constraints = RigidbodyConstraints.None;
-
         }
     }
 }
