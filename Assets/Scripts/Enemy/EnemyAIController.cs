@@ -1,52 +1,63 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemyAIController : MonoBehaviour
 {
     [SerializeField] EnemyMove enemyMove;
 
-    enum EnemyState { idle = 1, searching = 2, movingToPLK = 3, chasing = 4, shooting = 5, dead = 6 }
+    enum EnemyState {searching = 2, movingToPlayerLastKnown = 3, chasing = 4, shooting = 5, dead = 6 }
     EnemyState previousEnemyState;
-    EnemyState enemyState;
+    [SerializeField] EnemyState enemyState;
+    [SerializeField] float RotationSpeed;
+    [SerializeField] Transform OrientationObject;
 
-    [SerializeField] GameObject player;
+    GameObject player;
 
-    bool lineOfSight;
+    const float shootingDistance = 4.5f;
+    const int searchingDistance = 15;
+
+    LayerMask layerMask;
+    [SerializeField] bool lineOfSight;
     bool lineOfSightLastUpdate;
     Vector3 playerLastKnownPosition;
-    bool movingTowardsPlayerLastKnownPos;
+    bool movingToPlayerLastKnownPos;
+
+    Vector3 lastPos;
 
     void Start()
     {
-        previousEnemyState = EnemyState.idle;
-        enemyState = EnemyState.idle;
+        layerMask = ~LayerMask.GetMask("Enemy");
+        player = GameObject.Find("Player");
+        previousEnemyState = EnemyState.searching;
+        enemyState = EnemyState.searching;
+        enemyMove.wandering = true;
         lineOfSight = false;
         lineOfSightLastUpdate = false;
-        movingTowardsPlayerLastKnownPos = false;
+        movingToPlayerLastKnownPos = false;
     }
 
     void DecideEnemyState()
     {
         float distanceToPlayer = CalculateDistanceToPlayer();
 
-        if(lineOfSight && distanceToPlayer <= 15)
+        if(lineOfSight && distanceToPlayer <= shootingDistance)
         {
             enemyState = EnemyState.shooting;
+
         }
-        else if(lineOfSight && distanceToPlayer > 15)
+        else if(lineOfSight && distanceToPlayer > shootingDistance)
         {
             enemyState = EnemyState.chasing;
         }
-        else if(movingTowardsPlayerLastKnownPos == true)
+        else if(movingToPlayerLastKnownPos == true)
         {
-            enemyState = EnemyState.movingToPLK;
-        }
-        else if(!lineOfSight && distanceToPlayer <= 15)
-        {
-            enemyState = EnemyState.searching;
+            enemyState = EnemyState.movingToPlayerLastKnown;
         }
         else
         {
-            enemyState = EnemyState.idle;
+            enemyState = EnemyState.searching;
         }
     }
 
@@ -54,26 +65,31 @@ public class EnemyAIController : MonoBehaviour
     {
         if(enemyState == EnemyState.shooting)
         {
+            enemyMove.wandering = false;
             enemyMove.StopMoving();
         }
         else if(enemyState == EnemyState.chasing)
         {
-            enemyMove.SetDestination(player.transform.position); //maybe not correct (y-axis)
+            enemyMove.wandering = false;
             enemyMove.StartMoving();
         }
-        else if(enemyState == EnemyState.movingToPLK)
+        else if(enemyState == EnemyState.movingToPlayerLastKnown)
         {
+            enemyMove.wandering = false;
             enemyMove.SetDestination(playerLastKnownPosition);
             enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.searching)
         {
-            //maybe set random pos and move there?
-            //move
+            enemyMove.wandering = true;
         }
-        else if(enemyState == EnemyState.idle)
+    }
+
+    void ResetDestination()
+    {
+        if(!enemyMove.agent.isStopped && enemyState == EnemyState.chasing)
         {
-            enemyMove.StopMoving();
+            enemyMove.SetDestination(player.transform.position);
         }
     }
 
@@ -82,15 +98,16 @@ public class EnemyAIController : MonoBehaviour
         if(lineOfSightLastUpdate && !lineOfSight)
         {
             playerLastKnownPosition = player.transform.position; //maybe not correct (y-axis)
-            movingTowardsPlayerLastKnownPos = true;
+            movingToPlayerLastKnownPos = true;
         }
     }
 
-    void CheckIfEnemyReachedPLK()
+    void CheckIfEnemyReachedPlayerLastKnown()
     {
-        if (transform.position == playerLastKnownPosition) //maybe not correct (y-axis)
+        if (Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z),
+                             new Vector3(playerLastKnownPosition.x, 0, playerLastKnownPosition.z)) < 0.2f)
         {
-            movingTowardsPlayerLastKnownPos = false;
+            movingToPlayerLastKnownPos = false;
         }
     }
 
@@ -99,20 +116,16 @@ public class EnemyAIController : MonoBehaviour
         Vector3 directionToPlayer = CalculateDirectionToPlayer();
         Ray ray = new Ray(transform.position, directionToPlayer);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, searchingDistance, layerMask))
         {
-
+            if (hit.transform != null && hit.transform.CompareTag("Player"))
+            {
+                movingToPlayerLastKnownPos = false;
+                return true;
+            }
         }
 
-        if (hit.transform.CompareTag("Player"))
-        {
-            movingTowardsPlayerLastKnownPos = false;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     Vector3 CalculateDirectionToPlayer() //maybe not correct (y-axis)
@@ -125,15 +138,32 @@ public class EnemyAIController : MonoBehaviour
         return Vector3.Distance(transform.position, player.transform.position);//maybe not correct (y-axis)
     }
 
+    private float CalculateRotationToPlayer()
+    {
+        Vector3 directionToPlayer = player.transform.position - transform.position;
+        float angle = Mathf.Atan2(directionToPlayer.x, directionToPlayer.z) * Mathf.Rad2Deg;
+
+        return angle;
+    }
+
     void Update()
     {
         lineOfSight = CheckForLineOfSight();
+        float angle = CalculateRotationToPlayer();
+        Vector3 moveVector = transform.position - lastPos;
+        moveVector.y = 0;
+        lastPos = transform.position;
 
+        ResetDestination();
         SetLastSpottedPos();
-        CheckIfEnemyReachedPLK();
+        CheckIfEnemyReachedPlayerLastKnown();
         DecideEnemyState();
+        if (lineOfSight && OrientationObject.rotation != Quaternion.Euler(0, angle, 0))
+            OrientationObject.rotation = Quaternion.Lerp(OrientationObject.rotation, Quaternion.Euler(0, angle, 0), Time.deltaTime * RotationSpeed);
+        else if (moveVector.magnitude > 0f)
+            OrientationObject.rotation = Quaternion.Lerp(OrientationObject.rotation, Quaternion.Euler(0, Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg, 0), Time.deltaTime * RotationSpeed);
 
-        if(enemyState != previousEnemyState)
+        if (enemyState != previousEnemyState)
         {
             UpdateEnemyBehaviour();
         }
