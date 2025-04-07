@@ -22,6 +22,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
     {
         bulletsLeft = WeaponData.ammoCapacity;
         weaponBody = GetComponent<Rigidbody>();
+        IsRotating = true;
 
         if (weaponBody)
         {

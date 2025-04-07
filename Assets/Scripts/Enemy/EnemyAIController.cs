@@ -29,7 +29,7 @@ public class EnemyAIController : MonoBehaviour
     void Start()
     {
         layerMask = ~LayerMask.GetMask("Enemy");
-        player = GameObject.Find("Player");
+        player = GameObject.Find("Player Equip");
         previousEnemyState = EnemyState.searching;
         enemyState = EnemyState.searching;
         enemyMove.wandering = true;
