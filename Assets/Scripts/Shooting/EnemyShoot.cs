@@ -44,7 +44,7 @@ public class EnemyShoot : MonoBehaviour
     {
         if (hit.collider != null)
         {
-            if (hit.transform.tag == "Player")
+            if (hit.transform.CompareTag("Player"))
             {
                 //hit.transform.gameObject.GetComponent<PlayerHealth>().ApplyDamage(weaponData.damage);
             }

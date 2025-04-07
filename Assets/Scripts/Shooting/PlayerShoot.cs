@@ -9,7 +9,7 @@ public class PlayerShoot : MonoBehaviour
 
     WeaponData weaponData;
     
-    bool isReadyToShoot;
+    bool isReadyToShoot = true;
     bool isReloading;
 
     void Start()
@@ -22,25 +22,14 @@ public class PlayerShoot : MonoBehaviour
     void RetrieveWeaponData()
     {
         weaponData = playerInventory.equipped.GetComponent<WeaponScript>().GetWeaponData();
-        
-        //if(weaponData != null)
-        //{
-        //    Debug.Log("retrived data:" + weaponData.name);
-        //}
-        
     }
 
     void OnAttack(InputValue input)
     {
-        Debug.Log("bullets left:"+playerInventory.equipped.GetComponent<WeaponScript>().bulletsLeft);
-        Debug.Log("reloading "+isReloading);
-        Debug.Log("ready to shoot "+isReadyToShoot);
-        Debug.Log("invenotry equipped"+playerInventory.equipped);
         if (isReadyToShoot && !isReloading && playerInventory.equipped != null && playerInventory.equipped.GetComponent<WeaponScript>().bulletsLeft > 0) 
         {
             Shoot();
         }
-        Debug.Log("player attack");
     }
 
     void ResetIsReadyToShoot()
@@ -71,12 +60,11 @@ public class PlayerShoot : MonoBehaviour
 
     void Shoot()
     {
-        //isReadyToShoot = false;
+        isReadyToShoot = false;
         playerInventory.equipped.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
         RaycastHit hit = shootScript.ShootRay();
         CheckRay(hit);
         Invoke("ResetIsReadyToShoot", CalculateFireRate());
-        Debug.Log("shoot");
     }
 
     void CheckRay(RaycastHit hit)
@@ -86,7 +74,6 @@ public class PlayerShoot : MonoBehaviour
             if (hit.transform.CompareTag("Enemy"))
             {
                 hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
-                Debug.Log("ray hit");
             }
         }
     }

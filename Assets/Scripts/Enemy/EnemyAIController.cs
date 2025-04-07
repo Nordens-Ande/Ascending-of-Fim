@@ -116,7 +116,7 @@ public class EnemyAIController : MonoBehaviour
         Vector3 directionToPlayer = CalculateDirectionToPlayer();
         Ray ray = new Ray(transform.position, directionToPlayer);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, searchingDistance, layerMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
             if (hit.transform != null && hit.transform.CompareTag("Player"))
             {

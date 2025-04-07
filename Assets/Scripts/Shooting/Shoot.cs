@@ -13,7 +13,7 @@ public class Shoot : MonoBehaviour
 
     Vector3 GetDirection()
     {
-        Vector3 direction = transform.forward;
+        Vector3 direction = bulletOrigin.transform.forward;
         direction.y = 0;
         return direction;
     }
