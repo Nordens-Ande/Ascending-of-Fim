@@ -6,8 +6,10 @@ public class UIHandler : MonoBehaviour
 {
 
 
-    [SerializeField] GameObject menuList;
+    [SerializeField] GameObject MenuList;
     [SerializeField] GameObject UI;
+    [SerializeField] GameObject HUD;
+    [SerializeField] GameObject WholeMenu;
 
     [SerializeField] GameObject StartMenu;
     [SerializeField] GameObject OptionsMenu;
@@ -17,6 +19,10 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject InputMenu;
     [SerializeField] GameObject GameRuleMenu;
     [SerializeField] GameObject SoundMenu;
+    [SerializeField] GameObject BackStoryMenu;
+    [SerializeField] GameObject CreditsMenu;
+    
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,17 +31,10 @@ public class UIHandler : MonoBehaviour
 
     public void ResetUI()
     {
-        foreach(Transform child in menuList.transform)
+        foreach(Transform child in MenuList.transform)
         {
             child.gameObject.SetActive(false);
         }
-    }
-
-    public void OnPause(InputValue input)
-    {
-        ToggleUI();
-        ResetUI();
-        ActivateOptionsMenu();
     }
 
     public void ToggleUI()
@@ -44,6 +43,18 @@ public class UIHandler : MonoBehaviour
         bool isUIActive = UI.activeSelf; 
         //sets the opposite of what the ui was, a toggle
         UI.SetActive(!isUIActive);
+    }
+
+    public void ToggleHUD()
+    {
+        bool isHUDActive = HUD.activeSelf;
+        HUD.SetActive(!isHUDActive);
+    }
+
+    public void ToggleMenu()
+    {
+        bool isMenuActive = WholeMenu.activeSelf;
+        WholeMenu.SetActive(!isMenuActive);
     }
 
     public void QuitGame()
@@ -70,6 +81,16 @@ public class UIHandler : MonoBehaviour
         Time.timeScale = 0f;
         OptionsMenu.SetActive(true);
     }
+
+    public void OnPause(InputValue inputValue)
+    {
+        HUD.SetActive(false);
+        UI.SetActive(true);
+        ResetUI();
+        ActivateOptionsMenu();
+        Debug.Log("pasue kallad");
+    }
+
 
     public void ActivatePauseMenu()
     {
@@ -99,5 +120,25 @@ public class UIHandler : MonoBehaviour
     public void ActivateSoundMenu()
     {
         SoundMenu.SetActive(true); 
+    }
+
+    public void ActivateBackStoryMenu()
+    {
+        BackStoryMenu.SetActive(true);
+    }
+
+    public void ActivateCreditsMenu()
+    {
+        CreditsMenu.SetActive(true);
+    }
+
+    public void StopTime()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void StartTime()
+    {
+        Time.timeScale = 1f;
     }
 }

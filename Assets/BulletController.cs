@@ -1,0 +1,21 @@
+using UnityEngine;
+
+public class BulletController : MonoBehaviour
+{
+    [Header("BulletStats")]
+    [SerializeField] private int Damage;
+    [SerializeField] private float Speed;
+    [SerializeField] private float BulletLifeTime;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.Translate(Vector3.forward * Speed * Time.deltaTime);
+        Destroy(gameObject, BulletLifeTime);
+    }
+}
