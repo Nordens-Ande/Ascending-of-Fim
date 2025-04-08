@@ -1,43 +1,93 @@
+using NUnit.Framework;
 using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour
 {
-    [SerializeField] GameObject player;
+    [Header("Possible Guns")]
+    [SerializeField] GameObject pistol;
+    //[SerializeField] GameObject rifle;
+    //[SerializeField] GameObject shotgun;
+
+    [Space]
+
     [SerializeField] Shoot shootScript;
+
+    //Decide what weapon enemy will have
+    enum Weapon { pistol, rifle, shotgun }
+    GameObject weapon;
+    WeaponData weaponData;
+
+    //Shooting logic
+    bool isReadyToFire;
+    bool isReloading;
+
     int rayLength;
-    bool lineOfSight;
+    bool isShooting; //EnemyAiController script will set to true if enemystate is shooting, and false when not, controlling when Shoot() get called in update
+    public void IsShooting(bool f)
+    {
+        isShooting = f;
+    }
 
     private void Start()
     {
-        rayLength = 100;
+        GameObject[] weapons = { pistol }; //rifle, shotgun };
+        weapon = DecideWeapon(weapons);
+        if(weapon != null )
+        {
+            RetrieveWeaponData();
+        }
+        isShooting = false;
+        isReadyToFire = true;
+        isReloading = false;
+        rayLength = 10000;
     }
 
-    private void Update()
+    GameObject DecideWeapon(GameObject[] weapons)
     {
-        if(CheckForLineOfSight()) // && firerate
+        int random = Random.Range(0, weapons.Length);
+        Debug.Log(weapons[random].ToString());
+        return weapons[random];
+    }
+
+    void RetrieveWeaponData()
+    {
+        weaponData = weapon.GetComponent<WeaponScript>().GetWeaponData();
+        if( weaponData == null)
         {
-            RaycastHit hit = shootScript.ShootRay();
-            CheckRay(hit);
+            Debug.Log("weapon data for enemy not retreived");
         }
     }
 
-    bool CheckForLineOfSight()
+    void Shoot()
     {
-        Ray ray = new Ray(transform.position, player.transform.forward);
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, rayLength))
-        {
-            
-        }
+        isReadyToFire = false;
+        weapon.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
+        RaycastHit hit = shootScript.ShootRay();
+        CheckRay(hit);
+        Invoke("ResetIsReadyToFire", CalculateFireRate());
+    }
 
-        if (hit.transform.tag == "Player")
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    void Reload()
+    {
+        isReloading = true;
+        Invoke("FinnishReload", weaponData.reloadTime);
+    }
+
+    void FinnishReload()
+    {
+        weapon.GetComponent<WeaponScript>().ReloadBullets();
+        isReloading = false;
+    }
+
+    void ResetIsReadyToFire()
+    {
+        isReadyToFire = true;
+    }
+
+    float CalculateFireRate()
+    {
+        float fireRate = 60 / weaponData.fireRate;
+        return fireRate;
     }
 
     void CheckRay(RaycastHit hit)
@@ -46,8 +96,20 @@ public class EnemyShoot : MonoBehaviour
         {
             if (hit.transform.CompareTag("Player"))
             {
-                //hit.transform.gameObject.GetComponent<PlayerHealth>().ApplyDamage(weaponData.damage);
+                hit.transform.gameObject.GetComponent<PlayerHealth>().ApplyDamage(weaponData.damage);
             }
+        }
+    }
+
+    private void Update()
+    {
+        if(weapon.GetComponent<WeaponScript>().bulletsLeft <= 0 && !isReloading)
+        {
+            Reload();
+        }
+        if (isShooting && isReadyToFire && !isReloading && weapon.GetComponent<WeaponScript>().bulletsLeft > 0)
+        {
+            Shoot();
         }
     }
 }

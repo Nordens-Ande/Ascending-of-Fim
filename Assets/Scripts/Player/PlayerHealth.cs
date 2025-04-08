@@ -11,5 +11,6 @@ public class PlayerHealth : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         health -= damage;
+        Debug.Log("player took damage");
     }
 }
