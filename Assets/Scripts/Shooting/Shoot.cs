@@ -29,11 +29,11 @@ public class Shoot : MonoBehaviour
     {
         Ray ray = BuildRay();
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, rayLength))
+        if (Physics.Raycast(ray, out hit, rayLength))
         {
-
+            return hit;
         }
-        return hit;
+        return new RaycastHit();
     }
 
 }

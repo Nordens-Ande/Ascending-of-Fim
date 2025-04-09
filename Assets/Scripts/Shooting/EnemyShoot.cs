@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyShoot : MonoBehaviour
 {
@@ -18,10 +20,9 @@ public class EnemyShoot : MonoBehaviour
     WeaponData weaponData;
 
     //Shooting logic
-    bool isReadyToFire;
+    bool isReadyToFire = true;
     bool isReloading;
 
-    int rayLength;
     bool isShooting; //EnemyAiController script will set to true if enemystate is shooting, and false when not, controlling when Shoot() get called in update
     public void IsShooting(bool f)
     {
@@ -39,7 +40,6 @@ public class EnemyShoot : MonoBehaviour
         isShooting = false;
         isReadyToFire = true;
         isReloading = false;
-        rayLength = 10000;
     }
 
     GameObject DecideWeapon(GameObject[] weapons)
@@ -54,7 +54,7 @@ public class EnemyShoot : MonoBehaviour
         weaponData = weapon.GetComponent<WeaponScript>().GetWeaponData();
         if( weaponData == null)
         {
-            Debug.Log("weapon data for enemy not retreived");
+            Debug.Log("no weapon data retreived for enemy");
         }
     }
 
@@ -64,23 +64,25 @@ public class EnemyShoot : MonoBehaviour
         weapon.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
         RaycastHit hit = shootScript.ShootRay();
         CheckRay(hit);
-        Invoke("ResetIsReadyToFire", CalculateFireRate());
+        StartCoroutine(ResetIsReadyToFire());
     }
 
     void Reload()
     {
         isReloading = true;
-        Invoke("FinnishReload", weaponData.reloadTime);
+        StartCoroutine(FinishReload(weaponData.reloadTime));
     }
 
-    void FinnishReload()
+    IEnumerator FinishReload(float reloadTime)
     {
+        yield return new WaitForSeconds(reloadTime);
         weapon.GetComponent<WeaponScript>().ReloadBullets();
         isReloading = false;
     }
 
-    void ResetIsReadyToFire()
+    IEnumerator ResetIsReadyToFire()
     {
+        yield return new WaitForSeconds(CalculateFireRate());
         isReadyToFire = true;
     }
 
@@ -92,18 +94,24 @@ public class EnemyShoot : MonoBehaviour
 
     void CheckRay(RaycastHit hit)
     {
-        if (hit.collider != null)
+        if (hit.collider == null)
         {
-            if (hit.transform.CompareTag("Player"))
+            return;
+        }
+
+        if (hit.transform.CompareTag("Player"))
+        {
+            PlayerHealth health = hit.transform.GetComponent<PlayerHealth>();
+            if(health != null)
             {
-                hit.transform.gameObject.GetComponent<PlayerHealth>().ApplyDamage(weaponData.damage);
+                health.ApplyDamage(weaponData.damage);
             }
         }
     }
 
     private void Update()
     {
-        if(weapon.GetComponent<WeaponScript>().bulletsLeft <= 0 && !isReloading)
+        if (weapon.GetComponent<WeaponScript>().bulletsLeft <= 0 && !isReloading)
         {
             Reload();
         }

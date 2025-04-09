@@ -1,6 +1,8 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -32,8 +34,9 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    void ResetIsReadyToShoot()
+    IEnumerator ResetIsReadyToShoot()
     {
+        yield return new WaitForSeconds(CalculateFireRate());
         isReadyToShoot = true;
     }
 
@@ -48,12 +51,13 @@ public class PlayerShoot : MonoBehaviour
         if(playerInventory.equipped.GetComponent<WeaponScript>().bulletsLeft < weaponData.ammoCapacity && !isReloading)
         {
             isReloading = true;
-            Invoke("FinishReload", weaponData.reloadTime);
+            StartCoroutine(FinishReload());
         }
     }
 
-    void FinishReload()
+    IEnumerator FinishReload()
     {
+        yield return new WaitForSeconds(weaponData.reloadTime);
         playerInventory.equipped.GetComponent<WeaponScript>().ReloadBullets();
         isReloading = false;
     }
@@ -64,17 +68,19 @@ public class PlayerShoot : MonoBehaviour
         playerInventory.equipped.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
         RaycastHit hit = shootScript.ShootRay();
         CheckRay(hit);
-        Invoke("ResetIsReadyToShoot", CalculateFireRate());
+        StartCoroutine(ResetIsReadyToShoot());
     }
 
     void CheckRay(RaycastHit hit)
     {
-        if(hit.collider != null)
+        if(hit.collider == null)
         {
-            if (hit.transform.CompareTag("Enemy"))
-            {
-                hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
-            }
+            return;
+        }
+
+        if (hit.transform.CompareTag("Enemy"))
+        {
+            hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
         }
     }
 
