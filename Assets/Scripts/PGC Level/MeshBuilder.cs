@@ -1,7 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class MeshBuilder
 {
+    //Dörrarna skall kunna befinnas på float värden, dess position skall vara mittpunkten av dörren och deras storlek bör kunnas förändras (inom float värden)
+    //Fixa också så att vi skapar endast en vägg eller fler beroende på antal dörringångar (1 dörr två väggar, 2 dörrar 3 väggar osv)
+
     public static GameObject CreateRoomMesh(Room room, Material wallMat, Material floorMat)
     {
         //Skapar GameObject-et
@@ -33,20 +37,38 @@ public static class MeshBuilder
                 CreateWall(root.transform, origin + new Vector3(x + 0.5f, room.WallHeight / 2f, 0), new Vector3(1, room.WallHeight, room.WallThickness), wallMat);
 
             //Back vägg (z = height)
-            if (!room.Doorways.Contains(new Vector2Int(x, room.Height)))
-                CreateWall(root.transform, origin + new Vector3(x + 0.5f, room.WallHeight / 2f, room.Height), new Vector3(1, room.WallHeight, room.WallThickness), wallMat);
+            //if (!room.Doorways.Contains(new Vector2Int(x, room.Height)))
+            //    CreateWall(root.transform, origin + new Vector3(x + 0.5f, room.WallHeight / 2f, room.Height), new Vector3(1, room.WallHeight, room.WallThickness), wallMat);
         }
 
-        for (int z = 0; z < room.Height; z++)
-        {
-            //Vänster vägg (x = 0)
-            if (!room.Doorways.Contains(new Vector2Int(0, z)))
-                CreateWall(root.transform, origin + new Vector3(0, room.WallHeight / 2f, z + 0.5f), new Vector3(room.WallThickness, room.WallHeight, 1), wallMat);
+        //for (int z = 0; z < room.Height; z++)
+        //{
+        //    //Vänster vägg (x = 0)
+        //    if (!room.Doorways.Contains(new Vector2Int(0, z)))
+        //        CreateWall(root.transform, origin + new Vector3(0, room.WallHeight / 2f, z + 0.5f), new Vector3(room.WallThickness, room.WallHeight, 1), wallMat);
 
-            //Höger vägg (x = width)
-            if (!room.Doorways.Contains(new Vector2Int(room.Width, z)))
-                CreateWall(root.transform, origin + new Vector3(room.Width, room.WallHeight / 2f, z + 0.5f), new Vector3(room.WallThickness, room.WallHeight, 1), wallMat);
-        }
+        //    //Höger vägg (x = width)
+        //    if (!room.Doorways.Contains(new Vector2Int(room.Width, z)))
+        //        CreateWall(root.transform, origin + new Vector3(room.Width, room.WallHeight / 2f, z + 0.5f), new Vector3(room.WallThickness, room.WallHeight, 1), wallMat);
+        //}
+
+        //float doorSize = 1.75f;
+
+        //List<float> upDoors = room.GetDoorways(Vector2.up);
+        //if (upDoors.Count > 0)
+        //{
+        //    float previousX = 0;
+        //    float doorX = 0;
+        //    for (int i = 0; i < upDoors.Count; i++)
+        //    {
+        //        doorX = upDoors[i];
+        //        CreateWall(root.transform, origin + new Vector3(previousX + (doorX - previousX - doorSize / 2f) / 2f, room.WallHeight / 2f, 0), new Vector3(doorX - previousX - doorSize / 2f, room.WallHeight, room.WallThickness), wallMat);
+        //        previousX = doorX;
+        //    }
+        //    CreateWall(root.transform, origin + new Vector3(previousX + (doorX - previousX - doorSize / 2f) / 2f, room.WallHeight / 2f, 0), new Vector3(doorX - previousX - doorSize / 2f, room.WallHeight, room.WallThickness), wallMat);
+        //}
+
+        //Debug.Log(upDoors.Count);
 
         return root;
     }

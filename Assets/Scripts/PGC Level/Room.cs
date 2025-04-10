@@ -6,7 +6,9 @@ public class Room
     public int Width, Height;
     public float WallHeight, WallThickness;
     public Vector2Int Position;
-    public HashSet<Vector2Int> Doorways = new HashSet<Vector2Int>();
+    public HashSet<Vector2> Doorways = new HashSet<Vector2>();
+    //Nytt sätt för dörringångarna måste göras.
+    //Försök implementera definitioner för dörringångarna åt varje riktning, detta underlättar för implementationen av dörren
 
     public GameObject RoomObject;
 
@@ -19,6 +21,30 @@ public class Room
         Position = position;
     }
 
+    public List<float> GetDoorways(Vector2 dir)
+    {
+        List<float> result = new List<float>();
+        BoundsInt bounds = GetBounds();
+
+        foreach (Vector2 door in Doorways)
+        {
+            float ?pos = dir switch
+            {
+                {x:0, y:1}  when door.y == bounds.yMax => door.x, //fram
+                {x:0, y:-1} when door.y == bounds.yMin => door.x, //bak
+                {x:1, y:0}  when door.x == bounds.xMax => door.y, //höger
+                {x:-1, y:0} when door.x == bounds.xMin => door.y, //vänster
+                _ => null
+            };
+
+            if (pos != null)
+                result.Add((float)pos);
+        }
+
+        result.Sort();
+        return result;
+    }
+
     public BoundsInt GetBounds()
     {
         return new BoundsInt(Position.x, Position.y, 0, Width, Height, 1);
@@ -28,7 +54,7 @@ public class Room
     {
         if (this == other) return true;
         if (Doorways.Count != other.Doorways.Count) return false;
-        foreach (Vector2Int d in Doorways) 
+        foreach (Vector2 d in Doorways) 
             if (!other.Doorways.Contains(d))
                 return false;
         bool changedRoom = 
@@ -41,10 +67,10 @@ public class Room
         return changedRoom;
     }
 
-    public bool Equals(int width, int height, float wallHeight, float wallThickness, Vector2Int pos, HashSet<Vector2Int> doorways)
+    public bool Equals(int width, int height, float wallHeight, float wallThickness, Vector2Int pos, HashSet<Vector2> doorways)
     {
         if (Doorways.Count != doorways.Count) return false;
-        foreach (Vector2Int d in Doorways)
+        foreach (Vector2 d in Doorways)
             if (!doorways.Contains(d))
                 return false;
         bool changedRoom =
