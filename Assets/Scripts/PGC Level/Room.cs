@@ -5,6 +5,7 @@ public class Room
 {
     public int Width, Height;
     public float WallHeight, WallThickness;
+    public float DoorSize;
     public Vector2Int Position;
     public HashSet<Vector2> Doorways = new HashSet<Vector2>();
     //Nytt sätt för dörringångarna måste göras.
@@ -12,12 +13,13 @@ public class Room
 
     public GameObject RoomObject;
 
-    public Room(int width, int height, float wallHeight, float wallThickness, Vector2Int position)
+    public Room(int width, int height, float wallHeight, float wallThickness, float doorSize, Vector2Int position)
     {
         Width = width;
         Height = height;
         WallHeight = wallHeight;
         WallThickness = wallThickness;
+        DoorSize = doorSize;
         Position = position;
     }
 
@@ -30,10 +32,10 @@ public class Room
         {
             float ?pos = dir switch
             {
-                {x:0, y:1}  when door.y == bounds.yMax => door.x, //fram
-                {x:0, y:-1} when door.y == bounds.yMin => door.x, //bak
-                {x:1, y:0}  when door.x == bounds.xMax => door.y, //höger
-                {x:-1, y:0} when door.x == bounds.xMin => door.y, //vänster
+                {x:0, y:1}  when door.y == bounds.yMax - bounds.yMin => door.x, //back/up
+                {x:0, y:-1} when door.y == bounds.yMin - bounds.yMin => door.x, //front/down
+                {x:1, y:0}  when door.x == bounds.xMax - bounds.xMin => door.y, //höger
+                {x:-1, y:0} when door.x == bounds.xMin - bounds.xMin => door.y, //vänster
                 _ => null
             };
 

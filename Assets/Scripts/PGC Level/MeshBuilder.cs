@@ -32,9 +32,9 @@ public static class MeshBuilder
 
         for (int x = 0; x < room.Width; x++)
         {
-            //Front vägg (z = 0)
-            if (!room.Doorways.Contains(new Vector2Int(x, 0)))
-                CreateWall(root.transform, origin + new Vector3(x + 0.5f, room.WallHeight / 2f, 0), new Vector3(1, room.WallHeight, room.WallThickness), wallMat);
+            //Front vägg(z = 0)
+            //if (!room.Doorways.Contains(new Vector2Int(x, 0)))
+            //    CreateWall(root.transform, origin + new Vector3(x + 0.5f, room.WallHeight / 2f, 0), new Vector3(1, room.WallHeight, room.WallThickness), wallMat);
 
             //Back vägg (z = height)
             //if (!room.Doorways.Contains(new Vector2Int(x, room.Height)))
@@ -52,26 +52,123 @@ public static class MeshBuilder
         //        CreateWall(root.transform, origin + new Vector3(room.Width, room.WallHeight / 2f, z + 0.5f), new Vector3(room.WallThickness, room.WallHeight, 1), wallMat);
         //}
 
-        //float doorSize = 1.75f;
 
-        //List<float> upDoors = room.GetDoorways(Vector2.up);
-        //if (upDoors.Count > 0)
+        //BoundsInt roomBounds = room.GetBounds();
+        //float doorSize = room.DoorSize;
+
+        //List<float> frontDoors = room.GetDoorways(Vector2.down);
+        //if (frontDoors.Count > 0)
         //{
         //    float previousX = 0;
         //    float doorX = 0;
-        //    for (int i = 0; i < upDoors.Count; i++)
+        //    for (int i = 0; i < frontDoors.Count; i++)
         //    {
-        //        doorX = upDoors[i];
+        //        doorX = frontDoors[i];
         //        CreateWall(root.transform, origin + new Vector3(previousX + (doorX - previousX - doorSize / 2f) / 2f, room.WallHeight / 2f, 0), new Vector3(doorX - previousX - doorSize / 2f, room.WallHeight, room.WallThickness), wallMat);
-        //        previousX = doorX;
+        //        //Debug.Log("Position: " + origin + new Vector3(previousX + (doorX - previousX - doorSize / 2f) / 2f, room.WallHeight / 2f, 0));
+        //        //Debug.Log("Position: " + (origin + new Vector3(previousX + (doorX - previousX - doorSize / 2f) / 2f, room.WallHeight / 2f, 0)));
+        //        //Debug.Log("PreviousX: " + previousX);
+        //        //Debug.Log("DoorX: " + doorX);
+        //        //Debug.Log("DoorSize: " + doorSize / 2f);
+        //        previousX = doorX + doorSize / 2f;
         //    }
-        //    CreateWall(root.transform, origin + new Vector3(previousX + (doorX - previousX - doorSize / 2f) / 2f, room.WallHeight / 2f, 0), new Vector3(doorX - previousX - doorSize / 2f, room.WallHeight, room.WallThickness), wallMat);
+        //    CreateWall(root.transform, origin + new Vector3(previousX + (room.Width - previousX) / 2f, room.WallHeight / 2f, 0), new Vector3(room.Width - previousX, room.WallHeight, room.WallThickness), wallMat);
+        //}
+        //else
+        //{
+        //    CreateWall(root.transform, origin + new Vector3(room.Width / 2f, room.WallHeight / 2f, 0), wallScaleZ, wallMat);
         //}
 
-        //Debug.Log(upDoors.Count);
+        //Debug.Log(frontDoors.Count);
+        //Debug.Log(origin);
+
+        CreateWallsWithDoorways(root.transform, origin, room.GetBounds(), room, wallMat);
 
         return root;
     }
+
+    private static void CreateWallsWithDoorways(Transform parent, Vector3 origin, BoundsInt roomBounds, Room room, Material wallMat)
+    {
+        Dictionary<Vector2, Vector3> directionOffsets = new()
+        {
+            { Vector2.down, Vector3.forward },  // Front wall (Z+)
+            { Vector2.up, Vector3.back },       // Back wall (Z-)
+            { Vector2.left, Vector3.right },    // Left wall (X-)
+            { Vector2.right, Vector3.left }     // Right wall (X+)
+        };
+
+        foreach (var dir in directionOffsets.Keys)
+        {
+            List<float> doorPositions = room.GetDoorways(dir);
+            Vector3 wallNormal = directionOffsets[dir];
+            bool horizontal = (dir == Vector2.down || dir == Vector2.up);
+            float roomLength = horizontal ? room.Width : room.Height;
+            float wallThickness = room.WallThickness;
+            float doorSize = room.DoorSize;
+
+            // Wall position and direction
+            Vector3 baseOffset = Vector3.zero;
+            Vector3 wallSize;
+            if (dir == Vector2.down)
+                baseOffset = new Vector3(0, 0, 0); // Front wall
+            else if (dir == Vector2.up)
+                baseOffset = new Vector3(0, 0, room.Height); // Back wall
+            else if (dir == Vector2.left)
+                baseOffset = new Vector3(0, 0, 0); // Left wall
+            else if (dir == Vector2.right)
+                baseOffset = new Vector3(room.Width, 0, 0); // Right wall
+
+            Vector3 wallDir = (horizontal ? Vector3.right : Vector3.forward);
+            Vector3 offsetDir = (horizontal ? Vector3.right : Vector3.forward);
+
+            Debug.Log("Amount doors: " + doorPositions.Count + " with dir: " + dir);
+
+            if (doorPositions.Count > 0)
+            {
+                float previousPos = 0;
+                for (int i = 0; i < doorPositions.Count; i++)
+                {
+                    float doorPos = doorPositions[i];
+                    float wallSegmentLength = doorPos - previousPos - doorSize / 2f;
+
+                    if (wallSegmentLength > 0)
+                    {
+                        Vector3 segmentCenter = origin + baseOffset + offsetDir * (previousPos + wallSegmentLength / 2f);
+                        wallSize = horizontal
+                            ? new Vector3(wallSegmentLength, room.WallHeight, wallThickness)
+                            : new Vector3(wallThickness, room.WallHeight, wallSegmentLength);
+
+                        CreateWall(parent, segmentCenter + new Vector3(0, room.WallHeight / 2f, 0), wallSize, wallMat);
+                    }
+
+                    previousPos = doorPos + doorSize / 2f;
+                }
+
+                float lastSegmentLength = roomLength - previousPos;
+                if (lastSegmentLength > 0)
+                {
+                    Vector3 segmentCenter = origin + baseOffset + offsetDir * (previousPos + lastSegmentLength / 2f);
+                    wallSize = horizontal
+                        ? new Vector3(lastSegmentLength, room.WallHeight, wallThickness)
+                        : new Vector3(wallThickness, room.WallHeight, lastSegmentLength);
+
+                    CreateWall(parent, segmentCenter + new Vector3(0, room.WallHeight / 2f, 0), wallSize, wallMat);
+                }
+            }
+            else
+            {
+                // Single full wall
+                Vector3 center = origin + baseOffset + offsetDir * (roomLength / 2f);
+                wallSize = horizontal
+                    ? new Vector3(roomLength, room.WallHeight, wallThickness)
+                    : new Vector3(wallThickness, room.WallHeight, roomLength);
+
+                CreateWall(parent, center + new Vector3(0, room.WallHeight / 2f, 0), wallSize, wallMat);
+            }
+        }
+    }
+
+
 
     private static void CreateWall(Transform parent, Vector3 pos, Vector3 scale, Material mat)
     {
