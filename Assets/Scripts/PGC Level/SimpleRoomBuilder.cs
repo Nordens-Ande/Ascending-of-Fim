@@ -21,7 +21,7 @@ public class SimpleRoomBuilder : MonoBehaviour
         if (roomObject != null)
             Destroy(roomObject);
 
-        room = new Room(Width, Height, WallHeight, WallThickness, DoorSize, Position);
+        room = new Room(Width, Height, WallHeight, WallThickness, DoorSize, Position, RoomType.LivingRoom);
         room.Doorways.Add(new Vector2Int(1, 1));
         roomObject = MeshBuilder.CreateRoomMesh(room, material, material);
 

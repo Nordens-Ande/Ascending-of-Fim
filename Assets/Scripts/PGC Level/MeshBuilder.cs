@@ -121,7 +121,7 @@ public static class MeshBuilder
             Vector3 wallDir = (horizontal ? Vector3.right : Vector3.forward);
             Vector3 offsetDir = (horizontal ? Vector3.right : Vector3.forward);
 
-            Debug.Log("Amount doors: " + doorPositions.Count + " with dir: " + dir);
+            //Debug.Log("Amount doors: " + doorPositions.Count + " with dir: " + dir);
 
             if (doorPositions.Count > 0)
             {
@@ -168,8 +168,6 @@ public static class MeshBuilder
         }
     }
 
-
-
     private static void CreateWall(Transform parent, Vector3 pos, Vector3 scale, Material mat)
     {
         GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -178,26 +176,4 @@ public static class MeshBuilder
         wall.transform.localScale = scale;
         wall.GetComponent<Renderer>().material = mat;
     }
-
-    //private static void CreateDoorBetween(Room a, Room b)
-    //{
-    //    Vector2Int doorPos;
-
-    //    if (a.Position.x == b.Position.x) // Vertical neighbor
-    //    {
-    //        int x = a.Position.x;
-    //        int y = Mathf.Max(a.Position.y, b.Position.y);
-    //        doorPos = new Vector2Int(x + a.Width / 2, y);
-    //    }
-    //    else // Horizontal neighbor
-    //    {
-    //        int y = a.Position.y;
-    //        int x = Mathf.Max(a.Position.x, b.Position.x);
-    //        doorPos = new Vector2Int(x, y + a.Height / 2);
-    //    }
-
-    //    // You could destroy a wall at that position, or skip placing it there.
-    //    // Since our walls are cubes, you'll want to mark that position as a "door opening"
-    //    // and skip generating a wall at that part.
-    //}
 }

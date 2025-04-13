@@ -1,6 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RoomType
+{
+    Hallway,
+    Corridor,
+    Bedroom,
+    LivingRoom,
+    DiningRoom,
+    Bathroom,
+    Closet
+}
+
 public class Room
 {
     public int Width, Height;
@@ -8,12 +19,11 @@ public class Room
     public float DoorSize;
     public Vector2Int Position;
     public HashSet<Vector2> Doorways = new HashSet<Vector2>();
-    //Nytt sätt för dörringångarna måste göras.
-    //Försök implementera definitioner för dörringångarna åt varje riktning, detta underlättar för implementationen av dörren
+    public RoomType Type;
 
     public GameObject RoomObject;
 
-    public Room(int width, int height, float wallHeight, float wallThickness, float doorSize, Vector2Int position)
+    public Room(int width, int height, float wallHeight, float wallThickness, float doorSize, Vector2Int position, RoomType type)
     {
         Width = width;
         Height = height;
@@ -21,6 +31,7 @@ public class Room
         WallThickness = wallThickness;
         DoorSize = doorSize;
         Position = position;
+        Type = type;
     }
 
     public List<float> GetDoorways(Vector2 dir)
@@ -50,6 +61,19 @@ public class Room
     public BoundsInt GetBounds()
     {
         return new BoundsInt(Position.x, Position.y, 0, Width, Height, 1);
+    }
+
+    public List<Vector2Int> GetOccupiedTiles()
+    {
+        List<Vector2Int> tiles = new List<Vector2Int>();
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                tiles.Add(new Vector2Int(Position.x + x, Position.y + y));
+            }
+        }
+        return tiles;
     }
 
     public bool Equals(Room other)
