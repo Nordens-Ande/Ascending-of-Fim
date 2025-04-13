@@ -16,6 +16,7 @@ public static class MeshBuilder
 
         //Definerar golv
         GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        floor.isStatic = true;
         floor.transform.parent = root.transform;
         floor.transform.position = origin + size / 2f;
         floor.transform.localScale = new Vector3(size.x, 0.1f, size.z);
@@ -83,7 +84,7 @@ public static class MeshBuilder
         //Debug.Log(origin);
 
         CreateWallsWithDoorways(root.transform, origin, room.GetBounds(), room, wallMat);
-
+        
         return root;
     }
 
