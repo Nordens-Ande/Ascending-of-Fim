@@ -116,15 +116,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2826510457370152246, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.411
+      value: 1503.74
       objectReference: {fileID: 0}
     - target: {fileID: 2826510457370152246, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.56
+      value: 1342.17
       objectReference: {fileID: 0}
     - target: {fileID: 2826510457370152246, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.598
+      value: 2751.33
       objectReference: {fileID: 0}
     - target: {fileID: 2826510457370152246, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_LocalRotation.w
@@ -200,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9147084696985637467, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_Name
-      value: Gun Variant
+      value: Scripted Pistol
       objectReference: {fileID: 0}
     - target: {fileID: 9147084696985637467, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_Layer
@@ -297,6 +297,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponData: {fileID: 11400000, guid: 534ef9f847aa6994e9ccef2b4c2e8735, type: 2}
   WeaponRotationSpeed: 10
+  RightHand: {fileID: 5365570141444010433}
+  LeftHand: {fileID: 7880239941682061418}
 --- !u!4 &917581412029143262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8805717431166605479, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}

@@ -12,6 +12,9 @@ public class WeaponScript : MonoBehaviour, IWeapon
     [SerializeField] WeaponData WeaponData;
     [SerializeField] private float WeaponRotationSpeed;
 
+    [SerializeField] public Transform RightHand;
+    [SerializeField] public Transform LeftHand;
+
     public int bulletsLeft { get; private set; }
 
     private Rigidbody weaponBody;
