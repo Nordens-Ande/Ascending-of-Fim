@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 7986570055413740344}
   - component: {fileID: 5666982319390542064}
   - component: {fileID: -5603950578808671637}
+  - component: {fileID: 6566555981062105991}
   - component: {fileID: -3050832955775012480}
   - component: {fileID: -4801287291405041118}
   - component: {fileID: 4529694265995918591}
@@ -157,6 +158,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19f5d1d47402fd946ad637c44fd124bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6566555981062105991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377785680766734349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6812d88ff3473914d97d7d6f873865b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyShootScript: {fileID: -3050832955775012480}
+  pistol: {fileID: 612259915127624226, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
 --- !u!114 &-3050832955775012480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61b18885c8db3a74d939c63c9bb0520c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pistol: {fileID: 612259915127624226, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
   shootScript: {fileID: -4801287291405041118}
 --- !u!114 &-4801287291405041118
 MonoBehaviour:
