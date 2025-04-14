@@ -76,6 +76,36 @@ public class Room
         return tiles;
     }
 
+    public List<Vector2Int> GetDoorTiles(int doorClearance)
+    {
+        List<Vector2Int> tiles = new List<Vector2Int>();
+        foreach (Vector2 door in Doorways)
+        {
+            //Back && front
+            if (door.y == 0 || door.y == Height)
+            {
+                for (int x = -Mathf.CeilToInt(DoorSize / 2f); x < Mathf.CeilToInt(DoorSize / 2f); x++)
+                {
+                    for (int y = -doorClearance; y < doorClearance; y++)
+                    {
+
+                    }
+                }
+            }
+            //Right && Left
+            if (door.x == 0 || door.x == Width)
+            {
+                for (int x = -doorClearance; x < doorClearance; x++)
+                {
+                    for (int y = -Mathf.CeilToInt(DoorSize / 2f); y < Mathf.CeilToInt(DoorSize / 2f); y++)
+                    {
+
+                    }
+                }
+            }
+        }
+    }
+
     public bool Equals(Room other)
     {
         if (this == other) return true;

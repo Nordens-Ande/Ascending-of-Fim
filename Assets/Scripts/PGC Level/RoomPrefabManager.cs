@@ -5,50 +5,59 @@ using UnityEngine;
 public class RoomPrefabManager : MonoBehaviour
 {
     [SerializeField] GameObject roomObject;
-    [SerializeField] List<GameObject> rooms;
-
-    private Dictionary<GameObject, RoomType> roomTypes;
-    private Dictionary<GameObject, Vector2Int> roomSizes;
-
-    private Dictionary<GameObject, List<GameObject>> furnitures;
-    private Dictionary<GameObject, List<Transform>> doors;
-    private Dictionary<GameObject, List<Transform>> enemySpawns;
-    private Dictionary<GameObject, List<Transform>> keycardSpawns;
+    [SerializeField] List<Furniture> furnitures;
 
 
     void Start()
     {
-        
+
     }
 
-    private Match NameParse()
+    public List<Furniture> GetFurniture(RoomType type, Vector2Int size)
     {
-        string objectName = "Hallway_6x6";
-        Regex regex = new Regex(@"^(?<type>[A-Za-z]+)_(?<width>\d+)x(?<height>\d+)$");
+        List<Furniture> result = new List<Furniture>();
 
-        Match match = regex.Match(objectName);
-        if (match.Success)
+        foreach(Furniture furniture in furnitures)
         {
-            string typeString = match.Groups["type"].Value;       //Namnet, dvs RoomType
-            int width = int.Parse(match.Groups["width"].Value);   //Width
-            int height = int.Parse(match.Groups["height"].Value); //Height
-
-            Debug.Log($"Type: {typeString}, Width: {width}, Height: {height}");
-            return match;
+            if (furniture.roomType == type && (furniture.size == size || (furniture.size.y == size.x && furniture.size.x == size.y)))
+            {
+                result.Add(furniture);
+            }
         }
 
-        return null;
+        return result;
     }
 
-    private void RoomParse()
-    {
 
-    }
 
-    public void GetRoom(RoomType type, int width, int height, List<Vector2> doors)
-    {
+    //private Match NameParse()
+    //{
+    //    string objectName = "Hallway_6x6";
+    //    Regex regex = new Regex(@"^(?<type>[A-Za-z]+)_(?<width>\d+)x(?<height>\d+)$");
 
-    }
+    //    Match match = regex.Match(objectName);
+    //    if (match.Success)
+    //    {
+    //        string typeString = match.Groups["type"].Value;       //Namnet, dvs RoomType
+    //        int width = int.Parse(match.Groups["width"].Value);   //Width
+    //        int height = int.Parse(match.Groups["height"].Value); //Height
+
+    //        Debug.Log($"Type: {typeString}, Width: {width}, Height: {height}");
+    //        return match;
+    //    }
+
+    //    return null;
+    //}
+
+    //private void RoomParse()
+    //{
+
+    //}
+
+    //public void GetRoom(RoomType type, int width, int height, List<Vector2> doors)
+    //{
+
+    //}
 
     // Update is called once per frame
     void Update()

@@ -10,8 +10,11 @@ public class RoomManager : MonoBehaviour
     [SerializeField] int minRoomSize = 2;
     [SerializeField] int maxRoomSize = 5;
 
+    int doorClearance;
+
     private List<Room> rooms;
     private HashSet<Vector2Int> occupiedPositions = new HashSet<Vector2Int>();
+    private HashSet<Vector2Int> occupiedDoorPositions = new HashSet<Vector2Int>();
 
     private Dictionary<RoomType, List<RoomType>> roomConnectionRules = new Dictionary<RoomType, List<RoomType>>()
     {
@@ -164,6 +167,11 @@ public class RoomManager : MonoBehaviour
             occupiedPositions.Add(tile);
         }
     }
+
+    //void AddDoorSpace(Room room)
+    //{
+    //    int maxX 
+    //}
 
     private Vector2Int GetRandomDirection()
     {
