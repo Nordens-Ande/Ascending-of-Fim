@@ -195,6 +195,7 @@ GameObject:
   - component: {fileID: 501987923}
   - component: {fileID: 501987925}
   - component: {fileID: 501987926}
+  - component: {fileID: 501987927}
   m_Layer: 0
   m_Name: ApartmentManager
   m_TagString: Untagged
@@ -249,7 +250,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25394886f6cce34dadfdee44d47a7f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: b8009114ab4f8fb4daf7a6f7efd42321, type: 2}
+  reroll: 0
+  wallMaterial: {fileID: 2100000, guid: b8009114ab4f8fb4daf7a6f7efd42321, type: 2}
+  floorMaterial: {fileID: 2100000, guid: b8009114ab4f8fb4daf7a6f7efd42321, type: 2}
+  wallHeight: 2
+  wallThickness: 0.05
+  doorSize: 1.25
+  initWidth: 6
+  initHeight: 6
+  roomAmountRange:
+    min: 2
+    max: 20
+  doorClearance: 1
+  hallwaySizeRange:
+    min: 4
+    max: 6
+  corridorSizeRange:
+    min: 4
+    max: 8
+  livingRoomSizeRange:
+    min: 5
+    max: 7
+  bedroomSizeRange:
+    min: 4
+    max: 6
+  diningRoomSizeRange:
+    min: 5
+    max: 7
+  closetSizeRange:
+    min: 2
+    max: 4
+  bathroomSizeRange:
+    min: 2
+    max: 4
   maxRooms: 10
   minRoomSize: 2
   maxRoomSize: 5
@@ -266,7 +299,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomObject: {fileID: 0}
-  rooms: []
+  furnitures: []
+--- !u!114 &501987927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501987922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b802aade4af2a294a86930310156317d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draw: 1
+  roomColor: {r: 0, g: 1, b: 0, a: 1}
+  doorColor: {r: 1, g: 0, b: 0, a: 1}
+  furnitureColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &638587831
 GameObject:
   m_ObjectHideFlags: 0

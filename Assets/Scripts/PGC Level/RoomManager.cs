@@ -2,19 +2,63 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 
+[System.Serializable]
+public struct MinMaxInt
+{
+    public int min;
+    public int max;
+
+    public MinMaxInt(int min, int max)
+    {
+        this.min = min;
+        this.max = max;
+    }
+}
+
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] Material m_Material;
+    [SerializeField] bool reroll = false;
+    //[SerializeField] bool debug = false;
+    [Space]
+
+    [Header("Room Settings")]
+    [SerializeField] Material wallMaterial;
+    [SerializeField] Material floorMaterial;
+    [SerializeField] int wallHeight;
+    [SerializeField] float wallThickness;
+    [SerializeField] float doorSize;
+
+    [Header("Initial Room")]
+    [SerializeField] int initWidth;
+    [SerializeField] int initHeight;
+    //[SerializeField] Vector2Int initPosition;
+
+    [Header("Apartment Settings")]
+    [SerializeField] MinMaxInt roomAmountRange;
+    [SerializeField] int doorClearance;
+
+    [Header("Specific Room Sizes")]
+    [SerializeField] MinMaxInt hallwaySizeRange;
+    [SerializeField] MinMaxInt corridorSizeRange;
+    [SerializeField] MinMaxInt livingRoomSizeRange;
+    [SerializeField] MinMaxInt bedroomSizeRange;
+    [SerializeField] MinMaxInt diningRoomSizeRange;
+    [SerializeField] MinMaxInt closetSizeRange;
+    [SerializeField] MinMaxInt bathroomSizeRange;
 
     [SerializeField] int maxRooms = 10;
     [SerializeField] int minRoomSize = 2;
     [SerializeField] int maxRoomSize = 5;
 
-    int doorClearance;
+
+    TileDebugger debugger;
 
     private List<Room> rooms;
-    private HashSet<Vector2Int> occupiedPositions = new HashSet<Vector2Int>();
-    private HashSet<Vector2Int> occupiedDoorPositions = new HashSet<Vector2Int>();
+    private List<GameObject> roomObjects;
+    private HashSet<Vector2Int> occupiedRoomPositions;
+    private HashSet<Vector2Int> occupiedDoorPositions;
+
+    private Dictionary<RoomType, MinMaxInt> roomSizes;
 
     private Dictionary<RoomType, List<RoomType>> roomConnectionRules = new Dictionary<RoomType, List<RoomType>>()
     {
@@ -27,59 +71,96 @@ public class RoomManager : MonoBehaviour
         { RoomType.Bathroom, new List<RoomType>() }
     };
 
+    private void Awake()
+    {
+        roomSizes = new Dictionary<RoomType, MinMaxInt>()
+        {
+            { RoomType.Hallway, hallwaySizeRange},
+            { RoomType.Corridor, corridorSizeRange},
+            { RoomType.LivingRoom, livingRoomSizeRange},
+            { RoomType.Bedroom, bedroomSizeRange},
+            { RoomType.DiningRoom, diningRoomSizeRange},
+            { RoomType.Closet, closetSizeRange},
+            { RoomType.Bathroom, bathroomSizeRange}
+        };
+
+        debugger = GetComponent<TileDebugger>();
+    }
+
     void Start()
     {
         rooms = new List<Room>();
-        //rooms.Add(new Room(6, 2, 1, 0.1f, 1.25f, new Vector2Int(0, 0)));
-        //rooms.Add(new Room(6, 2, 1, 0.1f, 1.25f, new Vector2Int(0, 2)));
-        //rooms.Add(new Room(6, 2, 1, 0.1f, 1.25f, new Vector2Int(2, 4)));
-        //rooms.Add(new Room(4, 2, 1, 0.1f, 1.25f, new Vector2Int(6, 2)));
+        roomObjects = new List<GameObject>();
+
+        occupiedRoomPositions = new HashSet<Vector2Int>();
+        occupiedDoorPositions = new HashSet<Vector2Int>();
 
         GenerateLayout();
 
         CheckNearbyRooms();
 
         foreach (Room room in rooms)
-            MeshBuilder.CreateRoomMesh(room, m_Material, m_Material);
+            roomObjects.Add(MeshBuilder.CreateRoomMesh(room, wallMaterial, floorMaterial));
 
-        //GameObject roomObject1 = MeshBuilder.CreateRoomMesh(rooms[0], m_Material, m_Material);
-        //GameObject roomObject2 = MeshBuilder.CreateRoomMesh(rooms[1], m_Material, m_Material);
-        //GameObject roomObject3 = MeshBuilder.CreateRoomMesh(rooms[2], m_Material, m_Material);
     }
 
     private void GenerateLayout()
     {
-        Room initialRoom = new Room(4, 4, 1, 0.1f, 1.25f, Vector2Int.zero, RoomType.Hallway);
+        Room initialRoom = new Room(initWidth, initHeight, wallHeight, wallThickness, doorSize, Vector2Int.zero, RoomType.Hallway);
         AddRoom(initialRoom);
 
         Queue<Room> roomQueue = new Queue<Room>();
         roomQueue.Enqueue(initialRoom);
 
-        while (rooms.Count < maxRooms && roomQueue.Count > 0)
+        int amountToGenerate = Random.Range(roomAmountRange.min, roomAmountRange.max + 1);
+        Debug.Log("Max amount to generate: " + amountToGenerate);
+
+        int failCount = 0;
+        int maxFails = 1000; //Övregräns för att hindra oändliga loops, när detta uppnås så stoppas generationen.
+
+        while ((rooms.Count < roomAmountRange.max || rooms.Count < roomAmountRange.min) && failCount < maxFails)
         {
+            if (roomQueue.Count == 0)
+            {
+                //Här väljer vi (random) ett nytt room att generera från, görs ifall algoritmen "fastnar"
+                Room fallbackRoom = rooms[Random.Range(0, rooms.Count)];
+                roomQueue.Enqueue(fallbackRoom);
+            }
+
             Room currentRoom = roomQueue.Dequeue();
             List<RoomType> possibleConnections = roomConnectionRules[currentRoom.Type];
 
+            bool addedRoomThisCycle = false;
+
             foreach (RoomType type in possibleConnections)
             {
-                if (rooms.Count >= maxRooms)
+                if (rooms.Count >= amountToGenerate)
                     break;
 
-                int width = Random.Range(minRoomSize, maxRoomSize + 1);
-                int height = Random.Range(minRoomSize, maxRoomSize + 1);
+                //int width = Random.Range(minRoomSize, maxRoomSize + 1);
+                //int height = Random.Range(minRoomSize, maxRoomSize + 1);
+
+                int width = Random.Range(roomSizes[type].min, roomSizes[type].max + 1);
+                int height = Random.Range(roomSizes[type].min, roomSizes[type].max + 1);
 
                 Vector2Int direction = GetRandomDirection();
                 Vector2Int offset = GetOffset(direction, width, height);
                 Vector2Int newPosition = currentRoom.Position + offset;
 
-                Room newRoom = new Room(width, height, 1, 0.1f, 1.25f, newPosition, type);
+                Room newRoom = new Room(width, height, wallHeight, wallThickness, doorSize, newPosition, type);
 
                 if (IsSpaceFree(newRoom) && IsRoomConnected(newRoom, direction))
                 {
                     AddRoom(newRoom);
                     roomQueue.Enqueue(newRoom);
+                    addedRoomThisCycle = true;
                 }
             }
+
+            if (!addedRoomThisCycle)
+                failCount++;
+            else
+                failCount = 0; // Reset fails if successful
         }
     }
 
@@ -132,6 +213,8 @@ public class RoomManager : MonoBehaviour
                 roomB.Doorways.Add(new Vector2(roomB.Width, doorZ - boundsB.yMin)); // Right vägg (B)
             }
         }
+
+        AddDoorSpace(roomA);
     }
 
 
@@ -139,7 +222,7 @@ public class RoomManager : MonoBehaviour
     {
         foreach (Vector2Int tile in room.GetOccupiedTiles())
         {
-            if (occupiedPositions.Contains(tile))
+            if (occupiedRoomPositions.Contains(tile))
                 return false;
         }
         return true;
@@ -153,7 +236,7 @@ public class RoomManager : MonoBehaviour
 
         foreach (Vector2Int tile in room.GetOccupiedTiles())
         {
-            if (occupiedPositions.Contains(tile + (dir * -1)))
+            if (occupiedRoomPositions.Contains(tile + (dir * -1)))
                 connectedTiles++;
         }
         return connectedTiles >= minConnectedTiles;
@@ -164,14 +247,21 @@ public class RoomManager : MonoBehaviour
         rooms.Add(room);
         foreach (Vector2Int tile in room.GetOccupiedTiles())
         {
-            occupiedPositions.Add(tile);
+            occupiedRoomPositions.Add(tile);
+            if (debugger)
+                debugger.roomTiles.Add(tile);
         }
     }
 
-    //void AddDoorSpace(Room room)
-    //{
-    //    int maxX 
-    //}
+    void AddDoorSpace(Room room)
+    {
+        foreach (Vector2Int tile in room.GetDoorTiles(doorClearance))
+        {
+            occupiedRoomPositions.Add(tile);
+            if (debugger)
+                debugger.doorTiles.Add(tile);
+        }
+    }
 
     private Vector2Int GetRandomDirection()
     {
@@ -204,6 +294,19 @@ public class RoomManager : MonoBehaviour
 
     void Update()
     {
-        
+        if (reroll)
+        {
+            reroll = false;
+
+            foreach(GameObject room in roomObjects)
+                Destroy(room);
+            
+            if (debugger)
+                debugger.ClearTiles();
+
+            Awake();
+
+            Start();
+        }
     }
 }

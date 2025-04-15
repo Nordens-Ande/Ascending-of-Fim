@@ -81,6 +81,8 @@ public class Room
         List<Vector2Int> tiles = new List<Vector2Int>();
         foreach (Vector2 door in Doorways)
         {
+            Vector2Int doorInt = new Vector2Int((int)door.x, (int)door.y);
+
             //Back && front
             if (door.y == 0 || door.y == Height)
             {
@@ -88,7 +90,7 @@ public class Room
                 {
                     for (int y = -doorClearance; y < doorClearance; y++)
                     {
-
+                        tiles.Add(new Vector2Int(Position.x + (int)door.x + x, Position.y + (int)door.y + y));
                     }
                 }
             }
@@ -99,11 +101,12 @@ public class Room
                 {
                     for (int y = -Mathf.CeilToInt(DoorSize / 2f); y < Mathf.CeilToInt(DoorSize / 2f); y++)
                     {
-
+                        tiles.Add(new Vector2Int(Position.x + (int)door.x + x, Position.y + (int)door.y + y));
                     }
                 }
             }
         }
+        return tiles;
     }
 
     public bool Equals(Room other)
