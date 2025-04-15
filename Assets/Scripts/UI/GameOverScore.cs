@@ -5,11 +5,11 @@ public class GameOverScore : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI gameOverScore;
 
-    public void setGameOverScore(int newMoney)
+    public void setGameOverScore(int score)
     {
         if (gameOverScore != null)
         {
-            gameOverScore.text = newMoney.ToString();
+            gameOverScore.text = score.ToString();
         }
         else
         {
