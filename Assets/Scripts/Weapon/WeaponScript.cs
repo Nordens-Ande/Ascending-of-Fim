@@ -65,8 +65,11 @@ public class WeaponScript : MonoBehaviour, IWeapon
     public void Equip()
     {
         GetComponent<Collider>().enabled = false;
+        Debug.Log("happened 1");
         weaponBody.isKinematic = true;
+        Debug.Log("happened 2");
         IsRotating = false;
+        Debug.Log("happened 3");
     }
 
     public void Unequip()

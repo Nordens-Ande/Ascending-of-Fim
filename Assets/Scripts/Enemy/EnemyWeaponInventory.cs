@@ -49,7 +49,8 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     void CreateWeapon(GameObject prefab)
     {
-        weapon = Instantiate(prefab, transform.position, transform.rotation, transform);
+        Vector3 spawn = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10); // just for test feel free to change
+        weapon = Instantiate(prefab, spawn, transform.rotation, transform);
     }
 
     void RetrieveWeaponData() // get data from weapon object and send to enemyShoot Script
@@ -57,6 +58,7 @@ public class EnemyWeaponInventory : MonoBehaviour
         weaponScript = weapon.GetComponentInChildren<WeaponScript>();
         weaponScript.CheckIfWeaponBodyNull();
         weaponScript.Equip();
+        Debug.Log("weaponScript.Equip");
         weaponData = weaponScript.GetWeaponData();
         enemyShootScript.SetWeaponData(weaponData, weaponScript);
         dropWeaponScript.SetWeapon(weapon);

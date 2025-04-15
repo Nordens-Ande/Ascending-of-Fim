@@ -11,7 +11,6 @@ public class DropWeaponScript : MonoBehaviour
         if(this.weapon != null)
         {
             weaponScript = weapon.GetComponent<WeaponScript>();
-            Debug.Log("DropWeaponScript: weaponScript set");
         }
         else
         {

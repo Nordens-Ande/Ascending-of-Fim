@@ -4,7 +4,7 @@ public class EnemyHealth : MonoBehaviour
 {
     int health;
 
-    [SerializeField] DropWeaponScript dropWeaponScript;
+    [SerializeField] CheckIfEnemyDead enemyDeathScript;
 
     void Start()
     {
@@ -22,9 +22,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if(health < 0)
         {
-            dropWeaponScript.DropWeapon();
-            Debug.Log("DropWeapon called");
-            Destroy(gameObject);
+            enemyDeathScript.EnemyDead();
         }
     }
 }
