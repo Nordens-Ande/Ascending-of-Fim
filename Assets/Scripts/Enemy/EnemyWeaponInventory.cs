@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 public class EnemyWeaponInventory : MonoBehaviour
 {
     [SerializeField] EnemyShoot enemyShootScript;
+    [SerializeField] DropWeaponScript dropWeaponScript;
 
     [Header("Prefab References")]
     [SerializeField] GameObject pistol;
@@ -54,9 +55,11 @@ public class EnemyWeaponInventory : MonoBehaviour
     void RetrieveWeaponData() // get data from weapon object and send to enemyShoot Script
     {
         weaponScript = weapon.GetComponentInChildren<WeaponScript>();
+        weaponScript.CheckIfWeaponBodyNull();
         weaponScript.Equip();
         weaponData = weaponScript.GetWeaponData();
         enemyShootScript.SetWeaponData(weaponData, weaponScript);
+        dropWeaponScript.SetWeapon(weapon);
     }
 
     void Update()
