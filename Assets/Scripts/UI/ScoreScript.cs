@@ -1,18 +1,16 @@
-using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class Money : MonoBehaviour
+public class ScoreScript : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI moneytext;
+    [SerializeField] private TextMeshProUGUI scoreText;
 
 
     private void Start()
     {
-        if (moneytext != null)
+        if (scoreText != null)
         {
-            moneytext.text = "0";
+            scoreText.text = "0";
         }
         else
         {
@@ -20,11 +18,11 @@ public class Money : MonoBehaviour
         }
     }
 
-    public void setNumber(int newMoney)
+    public void setScore(int newScore)
     {
-        if (moneytext != null)
+        if (scoreText != null)
         {
-            moneytext.text = newMoney.ToString();
+            scoreText.text = newScore.ToString();
         }
         else
         {
@@ -32,13 +30,13 @@ public class Money : MonoBehaviour
         }
     }
 
-    public void addMoney(int amountToAdd)
+    public void addScore(int amountToAdd)
     {
-        if(moneytext != null)
+        if (scoreText != null)
         {
-            int currentMoney = int.Parse(moneytext.text);
+            int currentMoney = int.Parse(scoreText.text);
             currentMoney = currentMoney + amountToAdd;
-            setNumber(currentMoney);
+            setScore(currentMoney);
         }
         else
         {
@@ -46,18 +44,17 @@ public class Money : MonoBehaviour
         }
     }
 
-    public void subtractMoney(int amountToAdd)
+    public void subtractScore(int amountToAdd)
     {
-        if (moneytext != null)
+        if (scoreText != null)
         {
-            int currentMoney = int.Parse(moneytext.text);
+            int currentMoney = int.Parse(scoreText.text);
             currentMoney = currentMoney - amountToAdd;
-            setNumber(currentMoney);
+            setScore(currentMoney);
         }
         else
         {
             Debug.LogWarning("TextMeshProUGUI reference is not assigned");
         }
     }
-
 }
