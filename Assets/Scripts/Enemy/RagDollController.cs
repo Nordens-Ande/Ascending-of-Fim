@@ -17,6 +17,10 @@ public class RagDollController : MonoBehaviour
         {
             rigidbody.isKinematic = true;
         }
+        if(gameObject.CompareTag("Player"))
+        {
+            gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        }
     }
 
     public void BecomeRagDoll()

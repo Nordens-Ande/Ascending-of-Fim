@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] Shoot shootScript;
-    [SerializeField] PlayerInventory playerInventory;
+    [SerializeField] EquipWeapon equipWeapon;
 
     WeaponData weaponData;
     
@@ -23,12 +23,12 @@ public class PlayerShoot : MonoBehaviour
 
     void RetrieveWeaponData()
     {
-        weaponData = playerInventory.equipped.GetComponent<WeaponScript>().GetWeaponData();
+        weaponData = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().GetWeaponData();
     }
 
     void OnAttack(InputValue input)
     {
-        if (isReadyToShoot && !isReloading && playerInventory.equipped != null && playerInventory.equipped.GetComponent<WeaponScript>().bulletsLeft > 0) 
+        if (isReadyToShoot && !isReloading && equipWeapon.currentWeaponObject != null && equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft > 0) 
         {
             Shoot();
         }
@@ -48,7 +48,7 @@ public class PlayerShoot : MonoBehaviour
 
     void OnReload(InputValue input)
     {
-        if(playerInventory.equipped.GetComponent<WeaponScript>().bulletsLeft < weaponData.ammoCapacity && !isReloading)
+        if(equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft < weaponData.ammoCapacity && !isReloading)
         {
             isReloading = true;
             StartCoroutine(FinishReload());
@@ -58,14 +58,14 @@ public class PlayerShoot : MonoBehaviour
     IEnumerator FinishReload()
     {
         yield return new WaitForSeconds(weaponData.reloadTime);
-        playerInventory.equipped.GetComponent<WeaponScript>().ReloadBullets();
+        equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().ReloadBullets();
         isReloading = false;
     }
 
     void Shoot()
     {
         isReadyToShoot = false;
-        playerInventory.equipped.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
+        equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
         RaycastHit hit = shootScript.ShootRay();
         CheckRay(hit);
         StartCoroutine(ResetIsReadyToShoot());
@@ -86,7 +86,7 @@ public class PlayerShoot : MonoBehaviour
 
     void Update()
     {
-        if (playerInventory.equipped != null)
+        if (equipWeapon.currentWeaponObject != null)
         {
             RetrieveWeaponData();
         }

@@ -17,7 +17,7 @@ public class EquipWeapon : MonoBehaviour
     private RaycastHit topRayHitInfo;
     //private RaycastHit bottomRayHitInfo;
 
-    private GameObject currentWeaponObject;
+    public GameObject currentWeaponObject;
     private WeaponScript currentWeapon;
 
     [Header("AnimationPos")]
@@ -137,6 +137,7 @@ public class EquipWeapon : MonoBehaviour
             if (topRayHitInfo.collider != null)
             {
                 currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
+                currentWeaponObject = topRayHitInfo.collider.gameObject;
                 SetHandPos(currentWeapon);
             }
 
@@ -144,20 +145,10 @@ public class EquipWeapon : MonoBehaviour
 
             currentWeapon.Equip();
 
-            //currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
-
-            //currentWeapon.ChangeWeaponBehavior();
-
             IsEquipped = true;
-
-            IInventory inventory = InventoryReference.GetComponent<IInventory>();
-            if (inventory == null)
-                return;
-
-            inventory.ChangeEquipped(currentWeapon.gameObject);
         }
     }
-    private void UnEquip() 
+    public void UnEquip() 
     {
         if (IsEquipped)
         {
@@ -172,11 +163,10 @@ public class EquipWeapon : MonoBehaviour
 
             currentWeapon.transform.parent = null;
 
-            //currentWeapon.Unequip();
-            Destroy(currentWeapon.gameObject);
+            currentWeapon.Unequip();
 
             currentWeapon = null;
-            
+            currentWeaponObject = null;
         }
     }
 }
