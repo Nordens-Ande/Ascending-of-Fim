@@ -9,6 +9,7 @@ public class HUDHandler : MonoBehaviour
     private announcement announcementScript;
     private GameOverScore gameOverScore;
     private HighscoreHandler highscoreHandler;
+    private ScoreScript scoreScript;
 
 
     private void Start()
@@ -20,6 +21,7 @@ public class HUDHandler : MonoBehaviour
         announcementScript = GetComponent<announcement>();
         gameOverScore = GetComponent<GameOverScore>();
         highscoreHandler = GetComponent<HighscoreHandler>();
+        scoreScript = GetComponent<ScoreScript>();
     }
 
     //timer
@@ -105,6 +107,22 @@ public class HUDHandler : MonoBehaviour
     public void addNewHighscore(int score)
     {
         highscoreHandler.AddNewScore(score);
+    }
+
+    //score for the hud
+    public void setScore(int newScore)
+    {
+        scoreScript.setScore(newScore);
+    }
+
+    public void addScore(int amount)
+    {
+        scoreScript.addScore(amount);
+    }
+
+    public void subtractScore(int amount)
+    {
+        scoreScript.subtractScore(amount);
     }
 
 
