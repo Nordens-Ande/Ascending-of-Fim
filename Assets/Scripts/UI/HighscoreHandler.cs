@@ -17,13 +17,12 @@ public class HighscoreHandler : MonoBehaviour
 
     public void LoadHighScores()
     {
-        TextAsset textFile = Resources.Load<TextAsset>("highscores");
+        
         highScores.Clear();
 
-        if (textFile != null)
+        if (File.Exists(filePath))
         {
-            string[] lines = textFile.text.Split('\n');
-
+            string[] lines = File.ReadAllLines(filePath);
             foreach (string line in lines)
             {
                 if (int.TryParse(line.Trim(), out int score))
@@ -36,7 +35,9 @@ public class HighscoreHandler : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No highscores.txt found in Resources!");
+            Debug.Log("No highscore file found, starting fresh." + filePath);
+            //gör den nya highscore filen och stänger streamreadern
+            File.Create(filePath).Close();
         }
 
     }
