@@ -15,6 +15,8 @@ public class WeaponScript : MonoBehaviour, IWeapon
     [SerializeField] public Transform RightHand;
     [SerializeField] public Transform LeftHand;
 
+    [SerializeField] GameObject bulletTrailPrefab;
+
     public int bulletsLeft { get; private set; }
 
     private Rigidbody weaponBody;
@@ -31,6 +33,11 @@ public class WeaponScript : MonoBehaviour, IWeapon
         {
             weaponBody.isKinematic = false;
         }
+    }
+
+    public GameObject GetBulletTrailPrefab()
+    {
+        return bulletTrailPrefab;
     }
 
     public void DecreaseBullets(int amount)

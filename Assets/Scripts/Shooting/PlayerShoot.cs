@@ -22,6 +22,10 @@ public class PlayerShoot : MonoBehaviour
     void RetrieveWeaponData()
     {
         weaponData = playerInventory.equipped.GetComponent<WeaponScript>().GetWeaponData();
+
+        // set the bullet trail for the current weapon
+        GameObject bulletTrailPrefab = playerInventory.equipped.GetComponent<WeaponScript>().GetBulletTrailPrefab();
+        shootScript.SetBulletTrailPrefab(bulletTrailPrefab);
     }
 
     void OnAttack(InputValue input)

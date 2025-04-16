@@ -6,15 +6,22 @@ public class Shoot : MonoBehaviour
 {
     int rayLength;
     [SerializeField] GameObject bulletOrigin; //placera child objectet som vapnet ska ha här, skottets/rayens origin.
-    [SerializeField] GameObject BulletTrail; // Placera Bullet trail prefab här. 
+    private GameObject bulletTrailPrefab;
+
+    public void SetBulletTrailPrefab(GameObject bulletTrail)
+    {
+        bulletTrailPrefab = bulletTrail;
+    }
 
     void CreateBulletTrail(Vector3 start, Vector3 end)
     {
+        if (bulletTrailPrefab == null) return;
+
         Vector3 direction = (end - start).normalized;
         Vector3 offsetStart = start + direction * 0.2f;
         //Debug.DrawLine(offsetStart, end, Color.green, 2f); // för testing
 
-        GameObject trail = Instantiate(BulletTrail, offsetStart, Quaternion.identity);
+        GameObject trail = Instantiate(bulletTrailPrefab, offsetStart, Quaternion.identity);
         LineRenderer line = trail.GetComponent<LineRenderer>();
         //line.SetPosition(0, start);
         //line.SetPosition(1, end);
