@@ -23,22 +23,24 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     void DecideWeapon() //assign random weapon from possible ones above
     {
-        Weapon[] weapons = (Weapon[])System.Enum.GetValues(typeof(Weapon));
-        Weapon selectedWeapon = weapons[Random.Range(0, weapons.Length)];
+        //Weapon[] weapons = (Weapon[])System.Enum.GetValues(typeof(Weapon));
+        //Weapon selectedWeapon = weapons[Random.Range(0, weapons.Length)];
 
-        GameObject weaponPrefab = null;
-        switch (selectedWeapon)
-        {
-            case Weapon.pistol:
-                weaponPrefab = pistol;
-                break;
-            case Weapon.rifle:
-                //weaponPrefab = rifle; //uncomment when prefabs for rifle and shotgun exist
-                break;
-            case Weapon.shotgun:
-                //weaponPrefab = shotgun;
-                break;
-        }
+        //GameObject weaponPrefab = null;
+        //switch (selectedWeapon)
+        //{
+        //    case Weapon.pistol:
+        //        weaponPrefab = pistol;
+        //        break;
+        //    case Weapon.rifle:
+        //        //weaponPrefab = rifle; //uncomment when prefabs for rifle and shotgun exist
+        //        break;
+        //    case Weapon.shotgun:
+        //        //weaponPrefab = shotgun;
+        //        break;
+        //}
+
+        GameObject weaponPrefab = pistol;
 
         if(weaponPrefab != null)
         {
