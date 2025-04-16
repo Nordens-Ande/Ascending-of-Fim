@@ -57,6 +57,10 @@ public class HUDHandler : MonoBehaviour
         moneyScript.subtractMoney(subtractMoney);
     }
 
+    public int getMoney()
+    {
+        return moneyScript.readMoney();
+    }
 
     //healthbar
     public void setHealth(float health)
@@ -72,6 +76,11 @@ public class HUDHandler : MonoBehaviour
     public void subtractHealth(float subtractHealth)
     {
         healthBarScript.SubtractHealth(subtractHealth);
+    }
+
+    public float getHealth()
+    {
+        return healthBarScript.readHealth();
     }
 
 

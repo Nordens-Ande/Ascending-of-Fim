@@ -32,4 +32,9 @@ public class HealthBar : MonoBehaviour
         SetHealth(currentHealth);
     }
 
+    public float readHealth()
+    {
+        return healthSlider.value;
+    }
+
 }
