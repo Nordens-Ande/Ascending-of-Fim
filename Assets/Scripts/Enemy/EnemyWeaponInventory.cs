@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 public class EnemyWeaponInventory : MonoBehaviour
 {
     [SerializeField] EnemyShoot enemyShootScript;
+    [SerializeField] DropWeaponScript dropWeaponScript;
 
     [Header("Prefab References")]
     [SerializeField] GameObject pistol;
@@ -22,9 +23,10 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     void DecideWeapon() //assign random weapon from possible ones above
     {
-        Weapon[] weapons = (Weapon[])System.Enum.GetValues(typeof(Weapon));
-        Weapon selectedWeapon = weapons[Random.Range(0, weapons.Length)];
+        //Weapon[] weapons = (Weapon[])System.Enum.GetValues(typeof(Weapon));
+        //Weapon selectedWeapon = weapons[Random.Range(0, weapons.Length)];
 
+<<<<<<< HEAD
         GameObject weaponPrefab = null;
         switch (selectedWeapon)
         {
@@ -38,6 +40,23 @@ public class EnemyWeaponInventory : MonoBehaviour
                 //weaponPrefab = shotgun;
                 break;
         }
+=======
+        //GameObject weaponPrefab = null;
+        //switch (selectedWeapon)
+        //{
+        //    case Weapon.pistol:
+        //        weaponPrefab = pistol;
+        //        break;
+        //    case Weapon.rifle:
+        //        //weaponPrefab = rifle; //uncomment when prefabs for rifle and shotgun exist
+        //        break;
+        //    case Weapon.shotgun:
+        //        //weaponPrefab = shotgun;
+        //        break;
+        //}
+
+        GameObject weaponPrefab = pistol;
+>>>>>>> main
 
         if(weaponPrefab != null)
         {
@@ -48,15 +67,19 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     void CreateWeapon(GameObject prefab)
     {
-        weapon = Instantiate(prefab, transform.position, transform.rotation, transform);
+        Vector3 spawn = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10); // just for test feel free to change
+        weapon = Instantiate(prefab, spawn, transform.rotation, transform);
     }
 
     void RetrieveWeaponData() // get data from weapon object and send to enemyShoot Script
     {
         weaponScript = weapon.GetComponentInChildren<WeaponScript>();
+        weaponScript.CheckIfWeaponBodyNull();
         weaponScript.Equip();
+        Debug.Log("weaponScript.Equip");
         weaponData = weaponScript.GetWeaponData();
         enemyShootScript.SetWeaponData(weaponData, weaponScript);
+        dropWeaponScript.SetWeapon(weapon);
     }
 
     void Update()

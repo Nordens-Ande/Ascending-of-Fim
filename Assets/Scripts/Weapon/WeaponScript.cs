@@ -54,20 +54,32 @@ public class WeaponScript : MonoBehaviour, IWeapon
         return WeaponData;
     }
 
+    public void CheckIfWeaponBodyNull() // used to fix issue with enemy spawn nullreferences
+    {
+        if (weaponBody == null)
+        {
+            weaponBody = GetComponent<Rigidbody>();
+        }
+    }
+
     public void Equip()
     {
         GetComponent<Collider>().enabled = false;
+        Debug.Log("happened 1");
         weaponBody.isKinematic = true;
+        Debug.Log("happened 2");
         IsRotating = false;
+        Debug.Log("happened 3");
     }
 
-    //public void Unequip()
-    //{
-    //    transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-    //    GetComponent<Collider>().enabled = true;
-    //    weaponBody.isKinematic = false;
-    //    IsRotating = true;
-    //}
+    public void Unequip()
+    {
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        GetComponent<Collider>().enabled = true;
+        weaponBody.isKinematic = false;
+        IsRotating = true;
+        transform.parent = null;
+    }
 
     private void OnCollisionEnter(Collision other)
     {
