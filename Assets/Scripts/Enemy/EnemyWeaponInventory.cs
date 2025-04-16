@@ -7,7 +7,7 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     [Header("Prefab References")]
     [SerializeField] GameObject pistol;
-    //[SerializeField] GameObject rifle; //uncomment when rifle/shotgun prefabs exist and assign in inspector
+    [SerializeField] GameObject rifle; 
     //[SerializeField] GameObject shotgun;
 
     GameObject weapon; //object for weapon that enemy will get, check method CreateWeapon() below
@@ -32,7 +32,7 @@ public class EnemyWeaponInventory : MonoBehaviour
                 weaponPrefab = pistol;
                 break;
             case Weapon.rifle:
-                //weaponPrefab = rifle; //uncomment when prefabs for rifle and shotgun exist
+                weaponPrefab = rifle; 
                 break;
             case Weapon.shotgun:
                 //weaponPrefab = shotgun;
