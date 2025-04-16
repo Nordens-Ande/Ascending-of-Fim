@@ -1,53 +1,102 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyShoot : MonoBehaviour
 {
-    [SerializeField] GameObject player;
     [SerializeField] Shoot shootScript;
-    int rayLength;
-    bool lineOfSight;
+
+    WeaponData weaponData;//retrieve from enemyWeaponInventory script
+    WeaponScript weaponScript;//retrieve from enemyWeaponInventory script
+
+    //Shooting logic
+    bool isReadyToFire = true;
+    bool isReloading;
+
+    bool isShooting; //EnemyAiController script will set to true if enemystate is shooting, and false when not, controlling when Shoot() get called in update
+    public void IsShooting(bool f)
+    {
+        isShooting = f;
+    }
 
     private void Start()
     {
-        rayLength = 100;
+        isShooting = false;
+        isReadyToFire = true;
+        isReloading = false;
     }
 
-    private void Update()
+    public void SetWeaponData(WeaponData weaponData, WeaponScript weaponScript)
     {
-        if(CheckForLineOfSight()) // && firerate
+        this.weaponData = weaponData;
+        this.weaponScript = weaponScript;
+        if(this.weaponData == null || this.weaponScript == null)
         {
-            RaycastHit hit = shootScript.ShootRay();
-            CheckRay(hit);
+            Debug.Log("weaponData or weaponScript = null for enemy");
         }
     }
 
-    bool CheckForLineOfSight()
+    void Shoot()
     {
-        Ray ray = new Ray(transform.position, player.transform.forward);
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, rayLength))
-        {
-            
-        }
+        isReadyToFire = false;
+        weaponScript.DecreaseBullets(1); // maybe change if shotgun?
+        RaycastHit hit = shootScript.ShootRay();
+        CheckRay(hit);
+        StartCoroutine(ResetIsReadyToFire());
+    }
 
-        if (hit.transform.tag == "Player")
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    void Reload()
+    {
+        isReloading = true;
+        StartCoroutine(FinishReload(weaponData.reloadTime));
+    }
+
+    IEnumerator FinishReload(float reloadTime)
+    {
+        yield return new WaitForSeconds(reloadTime);
+        weaponScript.ReloadBullets();
+        isReloading = false;
+    }
+
+    IEnumerator ResetIsReadyToFire()
+    {
+        yield return new WaitForSeconds(CalculateFireRate());
+        isReadyToFire = true;
+    }
+
+    float CalculateFireRate()
+    {
+        float fireRate = 60 / weaponData.fireRate;
+        return fireRate;
     }
 
     void CheckRay(RaycastHit hit)
     {
-        if (hit.collider != null)
+        if (hit.collider == null)
         {
-            if (hit.transform.tag == "Player")
+            return;
+        }
+
+        if (hit.transform.CompareTag("Player"))
+        {
+            PlayerHealth health = hit.transform.GetComponent<PlayerHealth>();
+            if(health != null)
             {
-                //hit.transform.GetComponent<"script">.ReduceHealth("weapon damage")
+                health.ApplyDamage(weaponData.damage);
             }
+        }
+    }
+
+    private void Update()
+    {
+        if (weaponScript.bulletsLeft <= 0 && !isReloading)
+        {
+            Reload();
+        }
+        if (isShooting && isReadyToFire && !isReloading && weaponScript.bulletsLeft > 0)
+        {
+            Shoot();
         }
     }
 }

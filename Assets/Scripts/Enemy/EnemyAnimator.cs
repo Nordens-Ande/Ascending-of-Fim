@@ -75,7 +75,7 @@ public class EnemyAnimator : MonoBehaviour
         Animator.CrossFadeInFixedTime(newState, transitionTime, layer, normalizedTime);
         currentState[layer] = newState;
 
-        Debug.Log(newState);
+        //Debug.Log(newState);
     }
     private void ChangeAnimatonState(float transitionTime, int layer, bool getCurrentFrame, params string[] newStates)
     {
