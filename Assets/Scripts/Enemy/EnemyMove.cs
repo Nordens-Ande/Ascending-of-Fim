@@ -77,8 +77,8 @@ public class EnemyMove : MonoBehaviour
 
     Vector3 GetRandomPos(Vector3 enemyPos)
     {
-        int maxDistance = 9;
-        int minDistance = 2;
+        int maxDistance = 70;
+        int minDistance = 10;
         for(int i = 0; i < 10; i++)
         {
             Vector3 randomDirection = Random.insideUnitSphere * maxDistance;

@@ -13,7 +13,7 @@ public class Shoot : MonoBehaviour
 
     Vector3 GetDirection()
     {
-        Vector3 direction = transform.forward;
+        Vector3 direction = bulletOrigin.transform.forward;
         direction.y = 0;
         return direction;
     }
@@ -29,11 +29,11 @@ public class Shoot : MonoBehaviour
     {
         Ray ray = BuildRay();
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, rayLength))
+        if (Physics.Raycast(ray, out hit, rayLength))
         {
-
+            return hit;
         }
-        return hit;
+        return new RaycastHit();
     }
 
 }
