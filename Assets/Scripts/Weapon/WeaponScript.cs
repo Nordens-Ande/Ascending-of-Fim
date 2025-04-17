@@ -66,6 +66,8 @@ public class WeaponScript : MonoBehaviour, IWeapon
     {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         GetComponent<Collider>().enabled = false;
         Debug.Log("happened 1");
         weaponBody.isKinematic = true;
@@ -73,6 +75,10 @@ public class WeaponScript : MonoBehaviour, IWeapon
         IsRotating = false;
         Debug.Log("happened 3");
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         if(GetComponent<Collider>())
@@ -83,6 +89,12 @@ public class WeaponScript : MonoBehaviour, IWeapon
         weaponBody.isKinematic = true;
         IsRotating = false;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

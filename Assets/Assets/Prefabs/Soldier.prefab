@@ -55,9 +55,15 @@ GameObject:
   - component: {fileID: 4529694265995918591}
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   - component: {fileID: 4008715154390137128}
   - component: {fileID: 5285204178953084710}
   - component: {fileID: 7672431943374892845}
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -219,11 +225,17 @@ MonoBehaviour:
   dropWeaponScript: {fileID: 3458477626775625409}
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   pistol: {fileID: 612259915127624226, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
 <<<<<<< HEAD
   rifle: {fileID: 5326336566149118072, guid: 04551ad63a1aed1489d83f531f096c27, type: 3}
 =======
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   pistol: {fileID: 2053629237125453388, guid: 94f75329186d33c42ac7f97de908c747, type: 3}
@@ -301,6 +313,8 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 --- !u!95 &4008715154390137128
@@ -397,6 +411,10 @@ MonoBehaviour:
   - {fileID: 7835554437089429503}
   - {fileID: 7602814093985379536}
   - {fileID: 6506993008440632903}
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -1123,7 +1141,15 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 --- !u!1 &1984160695478496090
+=======
+--- !u!1 &1740173598447891474
+>>>>>>> Stashed changes
+=======
+--- !u!1 &1740173598447891474
+>>>>>>> Stashed changes
 =======
 --- !u!1 &1740173598447891474
 >>>>>>> Stashed changes
@@ -1139,9 +1165,21 @@ GameObject:
   m_Component:
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   - component: {fileID: 3307579310075059592}
   m_Layer: 0
   m_Name: Right Hand IK_hint
+=======
+  - component: {fileID: 7005104832633041091}
+  m_Layer: 7
+  m_Name: RiflePos
+>>>>>>> Stashed changes
+=======
+  - component: {fileID: 7005104832633041091}
+  m_Layer: 7
+  m_Name: RiflePos
+>>>>>>> Stashed changes
 =======
   - component: {fileID: 7005104832633041091}
   m_Layer: 7
@@ -1159,7 +1197,15 @@ GameObject:
   m_IsActive: 1
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 --- !u!4 &3307579310075059592
+=======
+--- !u!4 &7005104832633041091
+>>>>>>> Stashed changes
+=======
+--- !u!4 &7005104832633041091
+>>>>>>> Stashed changes
 =======
 --- !u!4 &7005104832633041091
 >>>>>>> Stashed changes
@@ -1173,6 +1219,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   m_GameObject: {fileID: 1984160695478496090}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -1183,6 +1231,10 @@ Transform:
   m_Father: {fileID: 1227935328080945482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   m_GameObject: {fileID: 1740173598447891474}
@@ -1226,6 +1278,12 @@ Transform:
   m_Father: {fileID: 5128447932303892356}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2091,6 +2149,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 --- !u!1 &5102529401007380989
 GameObject:
   m_ObjectHideFlags: 0
@@ -2260,6 +2320,10 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -2968,7 +3032,13 @@ CharacterJoint:
   m_ConnectedMassScale: 1
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 --- !u!1 &6309761665927499157
@@ -3351,6 +3421,12 @@ Transform:
   m_Father: {fileID: 804335818869714248}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

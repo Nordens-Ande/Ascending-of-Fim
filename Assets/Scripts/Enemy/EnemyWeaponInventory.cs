@@ -10,6 +10,8 @@ public class EnemyWeaponInventory : MonoBehaviour
     [SerializeField] GameObject pistol;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     [SerializeField] GameObject rifle; 
     //[SerializeField] GameObject shotgun;
 =======
@@ -18,6 +20,10 @@ public class EnemyWeaponInventory : MonoBehaviour
 >>>>>>> Stashed changes
 
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     [SerializeField] GameObject rifle; //uncomment when rifle/shotgun prefabs exist and assign in inspector
     [SerializeField] GameObject shotgun;
 
@@ -68,6 +74,8 @@ public class EnemyWeaponInventory : MonoBehaviour
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 
         //GameObject weaponPrefab = null;
@@ -88,6 +96,10 @@ public class EnemyWeaponInventory : MonoBehaviour
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         GameObject weaponPrefab = null;
         switch (selectedWeapon)
         {
@@ -102,6 +114,12 @@ public class EnemyWeaponInventory : MonoBehaviour
                 break;
         }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -114,6 +132,12 @@ public class EnemyWeaponInventory : MonoBehaviour
 =======
             SetHandPos(weaponScript);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -124,9 +148,15 @@ public class EnemyWeaponInventory : MonoBehaviour
     {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         Vector3 spawn = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10); // just for test feel free to change
         weapon = Instantiate(prefab, spawn, transform.rotation, transform);
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         if(prefab == rifle)
@@ -150,6 +180,12 @@ public class EnemyWeaponInventory : MonoBehaviour
         IKLeftHandPos = weapon.LeftHand;
         IKRightHandPos = weapon.RightHand;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -161,8 +197,14 @@ public class EnemyWeaponInventory : MonoBehaviour
         weaponScript.CheckIfWeaponBodyNull();
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         weaponScript.Equip();
         Debug.Log("weaponScript.Equip");
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -176,8 +218,14 @@ public class EnemyWeaponInventory : MonoBehaviour
     {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         if (IsEquipped)
@@ -200,6 +248,12 @@ public class EnemyWeaponInventory : MonoBehaviour
             IsEquipped = true;
         }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

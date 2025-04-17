@@ -19,8 +19,14 @@ public class EquipWeapon : MonoBehaviour
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private GameObject currentWeaponObject;
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     //[Header("Weapon Prefab References")]
@@ -151,7 +157,13 @@ public class EquipWeapon : MonoBehaviour
                 currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
                 if(currentWeapon == null)
@@ -169,10 +181,16 @@ public class EquipWeapon : MonoBehaviour
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
             //currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
 
             //currentWeapon.ChangeWeaponBehavior();
 =======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
             
@@ -193,6 +211,12 @@ public class EquipWeapon : MonoBehaviour
                 WeaponPosition = shotgunPos;
             }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

@@ -55083,6 +55083,8 @@ PrefabInstance:
       value: 0.285
       objectReference: {fileID: 0}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
 <<<<<<< Updated upstream
       propertyPath: rayOffset.y
@@ -55102,6 +55104,24 @@ PrefabInstance:
     - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: pistolPos
       value: 
+=======
+    - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: riflePos
+      value: 
+      objectReference: {fileID: 1547928601}
+    - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: pistolPos
+      value: 
+>>>>>>> Stashed changes
+=======
+    - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: riflePos
+      value: 
+      objectReference: {fileID: 1547928601}
+    - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: pistolPos
+      value: 
+>>>>>>> Stashed changes
       objectReference: {fileID: 687157793}
     - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: shotgunPos
@@ -55201,6 +55221,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     - target: {fileID: 9169658499216914659, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: bulletOrigin
       value: 
@@ -55208,11 +55230,21 @@ PrefabInstance:
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     - target: {fileID: 8518970145993068369, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.286
       objectReference: {fileID: 0}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -89156,6 +89188,8 @@ Mesh:
     path: 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 --- !u!1001 &1989608896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89213,6 +89247,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
