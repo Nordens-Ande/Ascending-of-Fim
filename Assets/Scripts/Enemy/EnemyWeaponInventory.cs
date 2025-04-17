@@ -90,7 +90,6 @@ public class EnemyWeaponInventory : MonoBehaviour
         weaponScript = weapon.GetComponentInChildren<WeaponScript>();
         weaponScript.CheckIfWeaponBodyNull();
         weaponScript.Equip();
-        Debug.Log("weaponScript.Equip");
         weaponData = weaponScript.GetWeaponData();
         enemyShootScript.SetWeaponData(weaponData, weaponScript);
         dropWeaponScript.SetWeapon(weapon);
