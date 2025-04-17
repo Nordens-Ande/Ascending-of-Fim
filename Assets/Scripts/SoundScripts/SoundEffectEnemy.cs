@@ -4,7 +4,8 @@ using UnityEngine;
 public class SoundEffectsEnemy : MonoBehaviour
 {
     public AudioSource CurrentSoundEffect;
-    public AudioClip soundEffectShot, soundEffectTalk;
+    public AudioClip soundEffectShot;
+    public AudioClip[] enemyVoicelines;
     int voiceLine;
     public bool EnemyIsShooting = true;
     bool deadmansswitch;
@@ -36,8 +37,8 @@ public class SoundEffectsEnemy : MonoBehaviour
     
     public void talking()
     {
-        CurrentSoundEffect.clip = soundEffectTalk;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
+        CurrentSoundEffect.clip = enemyVoicelines[Random.Range(0, enemyVoicelines.Length)];
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 10f);
        
     }
 
