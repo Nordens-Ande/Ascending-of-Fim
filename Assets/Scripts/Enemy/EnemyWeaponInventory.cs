@@ -79,9 +79,6 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     void CreateWeapon(GameObject prefab)
     {
-        Vector3 spawn = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10); // just for test feel free to change
-        weapon = Instantiate(prefab, spawn, transform.rotation, transform);
-
         if(prefab == rifle)
         {
             WeaponPosition = riflePosition;
@@ -95,7 +92,6 @@ public class EnemyWeaponInventory : MonoBehaviour
             WeaponPosition = shotgunPosition;
         }
         weapon = Instantiate(prefab, WeaponPosition.position, prefab.transform.rotation, WeaponPosition);
-
     }
 
     void SetHandPos(WeaponScript weapon)
@@ -108,7 +104,6 @@ public class EnemyWeaponInventory : MonoBehaviour
     {
         weaponScript = weapon.GetComponentInChildren<WeaponScript>();
         weaponScript.CheckIfWeaponBodyNull();
-        weaponScript.Equip();
         weaponData = weaponScript.GetWeaponData();
         enemyShootScript.SetWeaponData(weaponData, weaponScript);
         dropWeaponScript.SetWeapon(weapon);
