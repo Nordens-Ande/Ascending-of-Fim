@@ -37,7 +37,7 @@ public class Shoot : MonoBehaviour
         float timer = 0f;
 
         line.SetPosition(0, start);
-        line.SetPosition(1, start); // Start both points at origin
+        line.SetPosition(1, start);
 
         while (timer < travelDuration)
         {

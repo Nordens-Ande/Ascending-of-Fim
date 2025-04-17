@@ -75,9 +75,20 @@ public class PlayerShoot : MonoBehaviour
     {
         if(hit.collider != null)
         {
+            // damage enemies
             if (hit.transform.CompareTag("Enemy"))
             {
                 hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
+            }
+
+            // trigger barrels
+            else if (hit.transform.CompareTag("Barrel"))
+            {
+                ExplodingBarrel barrel = hit.transform.GetComponent<ExplodingBarrel>();
+                if (barrel != null)
+                {
+                    barrel.TakeDamage();
+                }
             }
         }
     }

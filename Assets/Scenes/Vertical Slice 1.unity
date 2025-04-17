@@ -26590,7 +26590,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletOrigin: {fileID: 1073339136}
-  BulletTrail: {fileID: 1076382615}
 --- !u!4 &492932760 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8099097284020078440, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
@@ -89434,6 +89433,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scripted Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 1888997046177512966, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867373142569452789, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
+      propertyPath: bulletTrailPrefab
+      value: 
+      objectReference: {fileID: 1076382615}
     - target: {fileID: 5887927091564940623, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1503.74
