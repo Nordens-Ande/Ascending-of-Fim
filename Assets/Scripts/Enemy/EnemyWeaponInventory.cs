@@ -8,23 +8,7 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     [Header("Prefab References")]
     [SerializeField] GameObject pistol;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
     [SerializeField] GameObject rifle; 
-    //[SerializeField] GameObject shotgun;
-=======
-    [SerializeField] GameObject rifle; //uncomment when rifle/shotgun prefabs exist and assign in inspector
-    [SerializeField] GameObject shotgun;
->>>>>>> Stashed changes
-
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-    [SerializeField] GameObject rifle; //uncomment when rifle/shotgun prefabs exist and assign in inspector
     [SerializeField] GameObject shotgun;
 
     [Header("WeaponPosition")]
@@ -48,7 +32,6 @@ public class EnemyWeaponInventory : MonoBehaviour
     private bool IsEquipped;
     private bool enemyDead;
 
->>>>>>> Stashed changes
     GameObject weapon; //object for weapon that enemy will get, check method CreateWeapon() below
     enum Weapon { pistol, rifle, shotgun }
     WeaponData weaponData;
@@ -72,34 +55,6 @@ public class EnemyWeaponInventory : MonoBehaviour
         Weapon[] weapons = (Weapon[])System.Enum.GetValues(typeof(Weapon));
         Weapon selectedWeapon = weapons[Random.Range(0, weapons.Length)];
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-
-        //GameObject weaponPrefab = null;
-        //switch (selectedWeapon)
-        //{
-        //    case Weapon.pistol:
-        //        weaponPrefab = pistol;
-        //        break;
-        //    case Weapon.rifle:
-        //        //weaponPrefab = rifle; //uncomment when prefabs for rifle and shotgun exist
-        //        break;
-        //    case Weapon.shotgun:
-        //        //weaponPrefab = shotgun;
-        //        break;
-        //}
-
-        GameObject weaponPrefab = rifle; // ta bort sen
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         GameObject weaponPrefab = null;
         switch (selectedWeapon)
         {
@@ -107,58 +62,26 @@ public class EnemyWeaponInventory : MonoBehaviour
                 weaponPrefab = pistol;
                 break;
             case Weapon.rifle:
-                weaponPrefab = rifle; 
+                weaponPrefab = rifle; //uncomment when prefabs for rifle and shotgun exist
                 break;
             case Weapon.shotgun:
                 weaponPrefab = shotgun;
                 break;
         }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
         if (weaponPrefab != null)
         {
             CreateWeapon(weaponPrefab);
             RetrieveWeaponData();
-<<<<<<< Updated upstream
-=======
             SetHandPos(weaponScript);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         }
     }
 
     void CreateWeapon(GameObject prefab)
     {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
         Vector3 spawn = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10); // just for test feel free to change
         weapon = Instantiate(prefab, spawn, transform.rotation, transform);
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
         if(prefab == rifle)
         {
             WeaponPosition = riflePosition;
@@ -179,36 +102,13 @@ public class EnemyWeaponInventory : MonoBehaviour
     {
         IKLeftHandPos = weapon.LeftHand;
         IKRightHandPos = weapon.RightHand;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
 
     void RetrieveWeaponData() // get data from weapon object and send to enemyShoot Script
     {
         weaponScript = weapon.GetComponentInChildren<WeaponScript>();
         weaponScript.CheckIfWeaponBodyNull();
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
         weaponScript.Equip();
-        Debug.Log("weaponScript.Equip");
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         weaponData = weaponScript.GetWeaponData();
         enemyShootScript.SetWeaponData(weaponData, weaponScript);
         dropWeaponScript.SetWeapon(weapon);
@@ -216,18 +116,6 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     void Update()
     {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         if (IsEquipped)
         {
             weapon.transform.parent = WeaponPosition.transform; //set the weapon to the position of the weapon position object
@@ -247,15 +135,5 @@ public class EnemyWeaponInventory : MonoBehaviour
             weaponScript.Equip();
             IsEquipped = true;
         }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     }
 }

@@ -17,26 +17,8 @@ public class EquipWeapon : MonoBehaviour
     private RaycastHit topRayHitInfo;
     //private RaycastHit bottomRayHitInfo;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    private GameObject currentWeaponObject;
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-    //[Header("Weapon Prefab References")]
-    //[SerializeField] GameObject rayGunPrefab;
-    //[SerializeField] GameObject pistolPrefab;
-    //[SerializeField] GameObject riflePrefab;
-    //[SerializeField] GameObject shotgunPrefab;
 
-    public GameObject currentWeaponObject;
->>>>>>> Stashed changes
+    private GameObject currentWeaponObject;
     private WeaponScript currentWeapon;
 
     [Header("AnimationPos")]
@@ -155,44 +137,18 @@ public class EquipWeapon : MonoBehaviour
             {
                 UnEquip();
                 currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
                 if(currentWeapon == null)
                 {
                     Debug.Log("currentWeapon null in EquipWeapon");
                 }
                 currentWeaponObject = topRayHitInfo.collider.gameObject;
->>>>>>> Stashed changes
                 SetHandPos(currentWeapon);
             }
 
             if (!currentWeapon) return;
 
             currentWeapon.Equip();
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            //currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
-
-            //currentWeapon.ChangeWeaponBehavior();
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
             
             if(currentWeapon.GetWeaponData().weaponName == "Pistol")
             {
@@ -210,16 +166,6 @@ public class EquipWeapon : MonoBehaviour
                 currentWeaponObject.transform.parent = shotgunPos;
                 WeaponPosition = shotgunPos;
             }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
             IsEquipped = true;
 
@@ -245,11 +191,9 @@ public class EquipWeapon : MonoBehaviour
 
             currentWeapon.transform.parent = null;
 
-            //currentWeapon.Unequip();
-            Destroy(currentWeapon.gameObject);
-
-            currentWeapon = null;
+            currentWeapon.Unequip();
             
+            currentWeapon = null;
         }
     }
 }
