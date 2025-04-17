@@ -88,15 +88,15 @@ public class EnemyShoot : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (weaponScript.bulletsLeft <= 0 && !isReloading)
-        {
-            Reload();
-        }
-        if (isShooting && isReadyToFire && !isReloading && weaponScript.bulletsLeft > 0)
-        {
-            Shoot();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (weaponScript.bulletsLeft <= 0 && !isReloading)
+    //    {
+    //        Reload();
+    //    }
+    //    if (isShooting && isReadyToFire && !isReloading && weaponScript.bulletsLeft > 0)
+    //    {
+    //        Shoot();
+    //    }
+    //}
 }
