@@ -260,7 +260,7 @@ MonoBehaviour:
   initHeight: 6
   roomAmountRange:
     min: 2
-    max: 20
+    max: 5
   doorClearance: 1
   hallwaySizeRange:
     min: 4
@@ -283,9 +283,6 @@ MonoBehaviour:
   bathroomSizeRange:
     min: 2
     max: 4
-  maxRooms: 10
-  minRoomSize: 2
-  maxRoomSize: 5
 --- !u!114 &501987926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,7 +296,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomObject: {fileID: 0}
-  furnitures: []
+  furnitures:
+  - {fileID: 7217056665347449587, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
 --- !u!114 &501987927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,6 +686,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6093190425248888455
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 968566208978899543, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_Name
+      value: furniture1x1
+      objectReference: {fileID: 0}
+    - target: {fileID: 968566208978899543, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -695,3 +754,4 @@ SceneRoots:
   - {fileID: 1999920383}
   - {fileID: 976945671}
   - {fileID: 501987924}
+  - {fileID: 6093190425248888455}

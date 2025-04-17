@@ -46,17 +46,16 @@ public class RoomManager : MonoBehaviour
     [SerializeField] MinMaxInt closetSizeRange;
     [SerializeField] MinMaxInt bathroomSizeRange;
 
-    [SerializeField] int maxRooms = 10;
-    [SerializeField] int minRoomSize = 2;
-    [SerializeField] int maxRoomSize = 5;
-
 
     TileDebugger debugger;
+    RoomPrefabManager roomPrefabManager;
 
     private List<Room> rooms;
     private List<GameObject> roomObjects;
+    private List<GameObject> furnitureObjects;
     private HashSet<Vector2Int> occupiedRoomPositions;
     private HashSet<Vector2Int> occupiedDoorPositions;
+    private HashSet<Vector2Int> occupiedFurniturePositions;
 
     private Dictionary<RoomType, MinMaxInt> roomSizes;
 
@@ -85,6 +84,7 @@ public class RoomManager : MonoBehaviour
         };
 
         debugger = GetComponent<TileDebugger>();
+        roomPrefabManager = GetComponent<RoomPrefabManager>();
     }
 
     void Start()
@@ -94,13 +94,19 @@ public class RoomManager : MonoBehaviour
 
         occupiedRoomPositions = new HashSet<Vector2Int>();
         occupiedDoorPositions = new HashSet<Vector2Int>();
+        occupiedFurniturePositions = new HashSet<Vector2Int>();
 
         GenerateLayout();
 
         CheckNearbyRooms();
 
         foreach (Room room in rooms)
-            roomObjects.Add(MeshBuilder.CreateRoomMesh(room, wallMaterial, floorMaterial));
+        {
+            GameObject roomMesh = MeshBuilder.CreateRoomMesh(room, wallMaterial, floorMaterial);
+            roomObjects.Add(roomMesh);
+            TryCreateFurniture(room);
+            MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
+        }
 
     }
 
@@ -149,7 +155,7 @@ public class RoomManager : MonoBehaviour
 
                 Room newRoom = new Room(width, height, wallHeight, wallThickness, doorSize, newPosition, type);
 
-                if (IsSpaceFree(newRoom) && IsRoomConnected(newRoom, direction))
+                if (IsRoomSpaceFree(newRoom) && IsRoomConnected(newRoom, direction))
                 {
                     AddRoom(newRoom);
                     roomQueue.Enqueue(newRoom);
@@ -217,14 +223,65 @@ public class RoomManager : MonoBehaviour
         AddDoorSpace(roomA);
     }
 
+    void TryCreateFurniture(Room room)
+    {
+        List<Furniture> furnitures = roomPrefabManager.GetFurniture(room.Type);
+        if (furnitures == null || furnitures.Count == 0)
+            return;
 
-    bool IsSpaceFree(Room room)
+        BoundsInt bounds = room.GetBounds();
+        List<Vector2Int> currRoomTiles = room.GetOccupiedTiles();
+        Vector2Int spawnPos = currRoomTiles[Random.Range(0, currRoomTiles.Count)];
+        Furniture selectedFurniture = furnitures[Random.Range(0, furnitures.Count)];
+
+        if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
+        {
+            Debug.Log("Trying ray for furniture");
+
+            RaycastHit hit;
+            //Ray ray = selectedFurniture.BuildRay(selectedFurniture.frontDirection);
+            Ray ray = new Ray(new Vector3(spawnPos.x, 1, spawnPos.y), new Vector3(selectedFurniture.frontDirection.x, 0, selectedFurniture.frontDirection.y));
+
+            // Draw the ray in the Scene view for 1 second (red if it hits, green if not)
+            Color rayColor = Physics.Raycast(ray, out hit, 0.5f) ? Color.red : Color.green;
+            Debug.DrawRay(ray.origin, ray.direction * 0.5f, rayColor, 15f);
+
+            // Now handle the placement logic
+            if (Physics.Raycast(ray, out hit, 0.5f))
+            {
+                Debug.Log("Failed with placement, hit: " + hit.transform.name);
+            }
+            else
+            {
+                Debug.Log("Placed furniture");
+                AddFurniture(room, selectedFurniture, spawnPos);
+
+                //room.FurnitureList.Add(furnitures[0]);
+            }
+        }
+    }
+
+
+    bool IsRoomSpaceFree(Room room)
     {
         foreach (Vector2Int tile in room.GetOccupiedTiles())
         {
             if (occupiedRoomPositions.Contains(tile))
                 return false;
         }
+        return true;
+    }
+    bool IsFurnitureSpaceFree(Room room, Furniture furniture, Vector2Int position)
+    {
+        List<Vector2Int> roomTiles = room.GetOccupiedTiles();
+        List<Vector2Int> doorTiles = room.GetDoorTiles(doorClearance);
+
+        foreach (Vector2Int tile in furniture.GetOccupiedTiles(position))
+        {
+            if (doorTiles.Contains(tile) || !roomTiles.Contains(tile))
+                return false;
+        }
+
         return true;
     }
 
@@ -250,6 +307,21 @@ public class RoomManager : MonoBehaviour
             occupiedRoomPositions.Add(tile);
             if (debugger)
                 debugger.roomTiles.Add(tile);
+        }
+    }
+
+    void AddFurniture(Room room, Furniture furniture, Vector2Int pos)
+    {
+        Vector2Int offset = pos - room.Position;
+        furniture.transform.position = new Vector3(pos.x, 0, pos.y);
+
+        room.FurnitureList.Add(furniture);
+
+        foreach (Vector2Int tile in furniture.GetOccupiedTiles())
+        {
+            occupiedFurniturePositions.Add(tile);
+            if (debugger)
+                debugger.furnitureTiles.Add(tile);
         }
     }
 
