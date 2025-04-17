@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
+using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
 public struct MinMaxInt
@@ -104,10 +106,19 @@ public class RoomManager : MonoBehaviour
         {
             GameObject roomMesh = MeshBuilder.CreateRoomMesh(room, wallMaterial, floorMaterial);
             roomObjects.Add(roomMesh);
-            TryCreateFurniture(room);
-            MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
+            StartCoroutine(DelayedFurnitureCreation(room, roomMesh));
+            //TryCreateFurniture(room);
+            //MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
         }
 
+    }
+
+    private IEnumerator DelayedFurnitureCreation(Room room, GameObject roomMesh)
+    {
+        //yield return null; //en frame
+        yield return new WaitForSeconds(0.1f);
+        TryCreateFurniture(room);
+        MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
     }
 
     private void GenerateLayout()
@@ -237,19 +248,21 @@ public class RoomManager : MonoBehaviour
         if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
         {
             Debug.Log("Trying ray for furniture");
+            selectedFurniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
 
             RaycastHit hit;
-            //Ray ray = selectedFurniture.BuildRay(selectedFurniture.frontDirection);
-            Ray ray = new Ray(new Vector3(spawnPos.x, 1, spawnPos.y), new Vector3(selectedFurniture.frontDirection.x, 0, selectedFurniture.frontDirection.y));
+            Ray ray = selectedFurniture.BuildRay(selectedFurniture.frontDirection);
+            //Ray ray = new Ray(new Vector3(spawnPos.x, 1, spawnPos.y), new Vector3(selectedFurniture.frontDirection.x, 0, selectedFurniture.frontDirection.y));
 
             // Draw the ray in the Scene view for 1 second (red if it hits, green if not)
             Color rayColor = Physics.Raycast(ray, out hit, 0.5f) ? Color.red : Color.green;
-            Debug.DrawRay(ray.origin, ray.direction * 0.5f, rayColor, 15f);
+            Debug.DrawRay(ray.origin, ray.direction * 0.5f, rayColor, 10f);
 
             // Now handle the placement logic
-            if (Physics.Raycast(ray, out hit, 0.5f))
+            if (Physics.Raycast(ray, out hit, 1f))
             {
                 Debug.Log("Failed with placement, hit: " + hit.transform.name);
+                AddFurniture(room, selectedFurniture, spawnPos);
             }
             else
             {
@@ -312,8 +325,8 @@ public class RoomManager : MonoBehaviour
 
     void AddFurniture(Room room, Furniture furniture, Vector2Int pos)
     {
-        Vector2Int offset = pos - room.Position;
-        furniture.transform.position = new Vector3(pos.x, 0, pos.y);
+        //Vector2Int offset = pos - room.Position;
+        //furniture.transform.position = new Vector3(pos.x, 0, pos.y);
 
         room.FurnitureList.Add(furniture);
 
