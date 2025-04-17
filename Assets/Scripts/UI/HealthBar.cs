@@ -37,4 +37,9 @@ public class HealthBar : MonoBehaviour
         return healthSlider.value;
     }
 
+    public float getMaxHealth()
+    {
+        return healthSlider.maxValue;
+    }
+
 }
