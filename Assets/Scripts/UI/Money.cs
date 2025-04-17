@@ -20,6 +20,20 @@ public class Money : MonoBehaviour
         }
     }
 
+    public int readMoney()
+    {
+        if(moneytext != null)
+        {
+            return int.Parse(moneytext.text);
+            
+        }
+        else
+        {
+            Debug.LogWarning("money is null");
+            return 0;
+        }
+    }
+
     public void setNumber(int newMoney)
     {
         if (moneytext != null)

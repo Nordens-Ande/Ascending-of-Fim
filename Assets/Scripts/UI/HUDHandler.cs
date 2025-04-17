@@ -40,6 +40,11 @@ public class HUDHandler : MonoBehaviour
         timerUIScript.ResetTimer();
     }
 
+    public float getTime()
+    {
+        return timerUIScript.getTime();
+    }
+
 
     //money
     public void setMoney(int newMoney)
@@ -57,6 +62,10 @@ public class HUDHandler : MonoBehaviour
         moneyScript.subtractMoney(subtractMoney);
     }
 
+    public int getMoney()
+    {
+        return moneyScript.readMoney();
+    }
 
     //healthbar
     public void setHealth(float health)
@@ -74,6 +83,15 @@ public class HUDHandler : MonoBehaviour
         healthBarScript.SubtractHealth(subtractHealth);
     }
 
+    public float getHealth()
+    {
+        return healthBarScript.readHealth();
+    }
+
+    public float getMaxHealth()
+    {
+        return healthBarScript.getMaxHealth();
+    }
 
     //ammo
     public void setAmmo(int ammo)
