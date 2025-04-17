@@ -17,13 +17,29 @@ public class EquipWeapon : MonoBehaviour
     private RaycastHit topRayHitInfo;
     //private RaycastHit bottomRayHitInfo;
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private GameObject currentWeaponObject;
+=======
+=======
+>>>>>>> Stashed changes
+    //[Header("Weapon Prefab References")]
+    //[SerializeField] GameObject rayGunPrefab;
+    //[SerializeField] GameObject pistolPrefab;
+    //[SerializeField] GameObject riflePrefab;
+    //[SerializeField] GameObject shotgunPrefab;
+
+    public GameObject currentWeaponObject;
+>>>>>>> Stashed changes
     private WeaponScript currentWeapon;
 
     [Header("AnimationPos")]
     [SerializeField] private float AnimationSpeed;
-    [SerializeField] private Transform equipPos;
-    [SerializeField] private Transform shootingPos;
+    //[SerializeField] private Transform equipPos;
+    [SerializeField] private Transform pistolPos;
+    [SerializeField] private Transform shotgunPos;
+    [SerializeField] private Transform riflePos;
+    private Transform WeaponPosition;
 
     private bool isShooting;
 
@@ -42,7 +58,7 @@ public class EquipWeapon : MonoBehaviour
 
     void Start()
     {
-        
+        IsEquipped = false;
     }
 
     private void Update()
@@ -50,8 +66,6 @@ public class EquipWeapon : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             Equip();
-            Debug.Log("E pressed");
-            Debug.Log("IsEquipped: " + IsEquipped);
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -59,7 +73,7 @@ public class EquipWeapon : MonoBehaviour
             UnEquip();
         } 
 
-        if (currentWeapon)
+        if (currentWeapon != null)
         {
             //FUnkar ej med denna
             //if (!isShooting)
@@ -80,9 +94,9 @@ public class EquipWeapon : MonoBehaviour
                 //currentWeapon.transform.position = shootingPos.position; //h�r
                 //currentWeapon.transform.rotation = shootingPos.rotation;
                 
-                currentWeapon.transform.parent = shootingPos.transform; //h�r
-                currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, shootingPos.position,Time.deltaTime* AnimationSpeed); //test
-                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, shootingPos.rotation, Time.deltaTime * AnimationSpeed); 
+                currentWeapon.transform.parent = WeaponPosition.transform; //h�r
+                currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, WeaponPosition.position, Time.deltaTime * AnimationSpeed); //test
+                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, WeaponPosition.rotation, Time.deltaTime * AnimationSpeed); 
 
                 
                 leftHandIK.weight = 1f;
@@ -92,10 +106,7 @@ public class EquipWeapon : MonoBehaviour
                 rightHandIK.weight = 1f;
                 rightHandTarget.position = IKRightHandPos.position; //h�r
                 rightHandTarget.rotation = IKRightHandPos.rotation;
-
-
             }
-
         }
     }
 
@@ -136,7 +147,19 @@ public class EquipWeapon : MonoBehaviour
             Debug.Log("Hit: " + topRayHitInfo.collider.name);
             if (topRayHitInfo.collider != null)
             {
+                UnEquip();
                 currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+                if(currentWeapon == null)
+                {
+                    Debug.Log("currentWeapon null in EquipWeapon");
+                }
+                currentWeaponObject = topRayHitInfo.collider.gameObject;
+>>>>>>> Stashed changes
                 SetHandPos(currentWeapon);
             }
 
@@ -144,9 +167,35 @@ public class EquipWeapon : MonoBehaviour
 
             currentWeapon.Equip();
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
             //currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
 
             //currentWeapon.ChangeWeaponBehavior();
+=======
+=======
+>>>>>>> Stashed changes
+            
+            if(currentWeapon.GetWeaponData().weaponName == "Pistol")
+            {
+                
+                currentWeaponObject.transform.parent = pistolPos;
+                WeaponPosition = pistolPos;
+            }
+            else if(currentWeapon.GetWeaponData().weaponName == "Rifle")
+            {
+                currentWeaponObject.transform.parent = riflePos;
+                WeaponPosition = riflePos;
+            }
+            else if (currentWeapon.GetWeaponData().weaponName == "Shotgun")
+            {
+                currentWeaponObject.transform.parent = shotgunPos;
+                WeaponPosition = shotgunPos;
+            }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
             IsEquipped = true;
 

@@ -64,12 +64,28 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     public void Equip()
     {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         GetComponent<Collider>().enabled = false;
         Debug.Log("happened 1");
         weaponBody.isKinematic = true;
         Debug.Log("happened 2");
         IsRotating = false;
         Debug.Log("happened 3");
+=======
+=======
+>>>>>>> Stashed changes
+        if(GetComponent<Collider>())
+        {
+            GetComponent<Collider>().enabled = false;
+        }
+        Debug.Log(weaponBody == null);
+        weaponBody.isKinematic = true;
+        IsRotating = false;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     }
 
     public void Unequip()

@@ -8,9 +8,41 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     [Header("Prefab References")]
     [SerializeField] GameObject pistol;
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     [SerializeField] GameObject rifle; 
     //[SerializeField] GameObject shotgun;
+=======
+    [SerializeField] GameObject rifle; //uncomment when rifle/shotgun prefabs exist and assign in inspector
+    [SerializeField] GameObject shotgun;
+>>>>>>> Stashed changes
 
+=======
+    [SerializeField] GameObject rifle; //uncomment when rifle/shotgun prefabs exist and assign in inspector
+    [SerializeField] GameObject shotgun;
+
+    [Header("WeaponPosition")]
+    private Transform WeaponPosition;
+    [SerializeField] private Transform riflePosition; //position where the weapon will be spawned, set in inspector
+    [SerializeField] private Transform pistolPosition; //position where the weapon will be spawned, set in inspector
+    [SerializeField] private Transform shotgunPosition; //position where the weapon will be spawned, set in inspector
+    [SerializeField] private float AnimationSpeed;
+
+    [Header("Right Hand Target")]
+    [SerializeField] private TwoBoneIKConstraint RightHandIK;
+    [SerializeField] private Transform RightHandTarget;
+
+    [Header("Left Hand Target")]
+    [SerializeField] private TwoBoneIKConstraint LeftHandIK;
+    [SerializeField] private Transform LeftHandTarget;
+
+    [SerializeField] private Transform IKRightHandPos;  //Referens till h�ger handens position, gjort f�r att kunna s�tta vapnet i h�ger hand
+    [SerializeField] private Transform IKLeftHandPos; //Referens till v�nster handens position, gjort f�r att kunna s�tta vapnet i v�nster hand
+
+    private bool IsEquipped;
+    private bool enemyDead;
+
+>>>>>>> Stashed changes
     GameObject weapon; //object for weapon that enemy will get, check method CreateWeapon() below
     enum Weapon { pistol, rifle, shotgun }
     WeaponData weaponData;
@@ -19,6 +51,14 @@ public class EnemyWeaponInventory : MonoBehaviour
     void Start()
     {
         DecideWeapon();
+        IsEquipped = false;
+        enemyDead = false;
+    }
+
+    public void EnemyDead(bool e, bool d) // set isequipped false so weapon stops following enemy movement when ragdolling
+    {
+        IsEquipped = e;
+        enemyDead = d;
     }
 
     void DecideWeapon() //assign random weapon from possible ones above
@@ -26,6 +66,8 @@ public class EnemyWeaponInventory : MonoBehaviour
         Weapon[] weapons = (Weapon[])System.Enum.GetValues(typeof(Weapon));
         Weapon selectedWeapon = weapons[Random.Range(0, weapons.Length)];
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 
         //GameObject weaponPrefab = null;
@@ -43,26 +85,88 @@ public class EnemyWeaponInventory : MonoBehaviour
         //}
 
         GameObject weaponPrefab = rifle; // ta bort sen
+=======
+=======
+>>>>>>> Stashed changes
+        GameObject weaponPrefab = null;
+        switch (selectedWeapon)
+        {
+            case Weapon.pistol:
+                weaponPrefab = pistol;
+                break;
+            case Weapon.rifle:
+                weaponPrefab = rifle; 
+                break;
+            case Weapon.shotgun:
+                weaponPrefab = shotgun;
+                break;
+        }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
         if (weaponPrefab != null)
         {
             CreateWeapon(weaponPrefab);
             RetrieveWeaponData();
+<<<<<<< Updated upstream
+=======
+            SetHandPos(weaponScript);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         }
     }
 
     void CreateWeapon(GameObject prefab)
     {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         Vector3 spawn = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10); // just for test feel free to change
         weapon = Instantiate(prefab, spawn, transform.rotation, transform);
+=======
+=======
+>>>>>>> Stashed changes
+        if(prefab == rifle)
+        {
+            WeaponPosition = riflePosition;
+        }
+        else if (prefab == pistol)
+        {
+            WeaponPosition = pistolPosition;
+        }
+        else if (prefab == shotgun)
+        {
+            WeaponPosition = shotgunPosition;
+        }
+        weapon = Instantiate(prefab, WeaponPosition.position, prefab.transform.rotation, WeaponPosition);
+
+    }
+
+    void SetHandPos(WeaponScript weapon)
+    {
+        IKLeftHandPos = weapon.LeftHand;
+        IKRightHandPos = weapon.RightHand;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     }
 
     void RetrieveWeaponData() // get data from weapon object and send to enemyShoot Script
     {
         weaponScript = weapon.GetComponentInChildren<WeaponScript>();
         weaponScript.CheckIfWeaponBodyNull();
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         weaponScript.Equip();
         Debug.Log("weaponScript.Equip");
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         weaponData = weaponScript.GetWeaponData();
         enemyShootScript.SetWeaponData(weaponData, weaponScript);
         dropWeaponScript.SetWeapon(weapon);
@@ -70,6 +174,34 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     void Update()
     {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         
+=======
+=======
+>>>>>>> Stashed changes
+        if (IsEquipped)
+        {
+            weapon.transform.parent = WeaponPosition.transform; //set the weapon to the position of the weapon position object
+            weapon.transform.position = Vector3.Lerp(weapon.transform.position, WeaponPosition.position, Time.deltaTime * AnimationSpeed); //test
+            weapon.transform.rotation = Quaternion.Lerp(weapon.transform.rotation, WeaponPosition.rotation, Time.deltaTime * AnimationSpeed); //test
+
+            LeftHandIK.weight = 1f;
+            LeftHandTarget.position = IKLeftHandPos.position;
+            LeftHandTarget.rotation = IKLeftHandPos.rotation;
+
+            RightHandIK.weight = 1f;
+            RightHandTarget.position = IKRightHandPos.position; //h�r
+            RightHandTarget.rotation = IKRightHandPos.rotation;
+        }
+        else if(!IsEquipped && enemyDead != true)
+        {
+            weaponScript.Equip();
+            IsEquipped = true;
+        }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     }
 }

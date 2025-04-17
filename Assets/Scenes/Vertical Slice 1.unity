@@ -12217,11 +12217,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!4 &280009775 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7880239941682061418, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
-  m_PrefabInstance: {fileID: 1989608896}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &289483406
 Mesh:
   m_ObjectHideFlags: 0
@@ -22860,6 +22855,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &402508018 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8747892159703675461, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+  m_PrefabInstance: {fileID: 1111548620}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &403526800
 Mesh:
   m_ObjectHideFlags: 0
@@ -37240,6 +37240,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &687157793 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4718310546870374849, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+  m_PrefabInstance: {fileID: 1111548620}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &688207143
 Mesh:
   m_ObjectHideFlags: 0
@@ -55073,21 +55078,86 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 415313392560651846, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.285
+      objectReference: {fileID: 0}
+<<<<<<< Updated upstream
     - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+<<<<<<< Updated upstream
       propertyPath: rayOffset.y
       value: -0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: IKLeftHandPos
-      value: 
-      objectReference: {fileID: 280009775}
+=======
+      propertyPath: riflePos
+>>>>>>> Stashed changes
+=======
     - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
-      propertyPath: IKRightHandPos
+      propertyPath: riflePos
+>>>>>>> Stashed changes
       value: 
-      objectReference: {fileID: 1707920429}
+      objectReference: {fileID: 1547928601}
+    - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: pistolPos
+      value: 
+      objectReference: {fileID: 687157793}
+    - target: {fileID: 2322401664770598830, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: shotgunPos
+      value: 
+      objectReference: {fileID: 402508018}
+    - target: {fileID: 3540365445230626801, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3540365445230626801, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3540365445230626801, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3540365445230626801, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3540365445230626801, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.256
+      objectReference: {fileID: 0}
+    - target: {fileID: 3540365445230626801, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.107
+      objectReference: {fileID: 0}
     - target: {fileID: 6122269429410655769, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: m_Name
       value: Player Equip
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197569613553811619, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197569613553811619, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197569613553811619, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.165
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197569613553811619, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197569613553811619, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197569613553811619, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8099097284020078440, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: m_LocalPosition.x
@@ -55095,7 +55165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8099097284020078440, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1343.44
+      value: 1342.89
       objectReference: {fileID: 0}
     - target: {fileID: 8099097284020078440, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: m_LocalPosition.z
@@ -55129,10 +55199,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     - target: {fileID: 9169658499216914659, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
       propertyPath: bulletOrigin
       value: 
       objectReference: {fileID: 1073339136}
+=======
+=======
+>>>>>>> Stashed changes
+    - target: {fileID: 8518970145993068369, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.286
+      objectReference: {fileID: 0}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -71189,6 +71272,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &1547928601 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7779769809245269231, guid: 789d74b0e2e5edc46b89bea5c9148f59, type: 3}
+  m_PrefabInstance: {fileID: 1111548620}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1548784529
 Mesh:
   m_ObjectHideFlags: 0
@@ -77459,11 +77547,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!4 &1707920429 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5365570141444010433, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
-  m_PrefabInstance: {fileID: 1989608896}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1709208936
 Mesh:
   m_ObjectHideFlags: 0
@@ -89071,6 +89154,8 @@ Mesh:
     offset: 0
     size: 0
     path: 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 --- !u!1001 &1989608896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89128,6 +89213,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 --- !u!43 &1991166434
 Mesh:
   m_ObjectHideFlags: 0
@@ -96465,6 +96554,5 @@ SceneRoots:
   - {fileID: 659909584}
   - {fileID: 367629265}
   - {fileID: 1111548620}
-  - {fileID: 1989608896}
   - {fileID: 485147912}
   - {fileID: 1374909894}
