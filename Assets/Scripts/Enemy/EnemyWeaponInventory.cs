@@ -50,7 +50,6 @@ public class EnemyWeaponInventory : MonoBehaviour
     {
         IsEquiped = e;
         enemyDead = d;
-
     }
 
     void DecideWeapon() //assign random weapon from possible ones above
@@ -120,6 +119,16 @@ public class EnemyWeaponInventory : MonoBehaviour
             enemyShootScript.SetWeaponData(weaponData, weaponScript);
             dropWeaponScript.SetWeapon(weapon);
         }
+    }
+
+    public void UnEquip()
+    {
+        weapon.transform.parent = null;
+        weaponScript.Unequip();
+        IsEquiped = false;
+        weapon = null;
+        weaponScript = null;
+        weaponData = null;
     }
 
     void Update()

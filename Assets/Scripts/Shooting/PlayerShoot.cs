@@ -10,13 +10,14 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] EquipWeapon equipWeapon;
 
     WeaponData weaponData;
-    
+
+    bool isShooting;
     bool isReadyToShoot = true;
     bool isReloading;
 
     void Start()
     {
-        RetrieveWeaponData();
+        isShooting = false;
         isReadyToShoot = true;
         isReloading = false;
     }
@@ -28,10 +29,12 @@ public class PlayerShoot : MonoBehaviour
 
     void OnAttack(InputValue input)
     {
-        if (isReadyToShoot && !isReloading && equipWeapon.currentWeaponObject != null && equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft > 0) 
-        {
-            Shoot();
-        }
+        isShooting = true;
+    }
+
+    void OnAttackStop(InputValue input)
+    {
+        isShooting = false;
     }
 
     IEnumerator ResetIsReadyToShoot()
@@ -86,9 +89,20 @@ public class PlayerShoot : MonoBehaviour
 
     void Update()
     {
-        if (equipWeapon.currentWeaponObject != null)
+        if (equipWeapon.currentWeaponObject == null)
         {
-            RetrieveWeaponData();
+            return;
+        }
+        
+        RetrieveWeaponData();
+        
+        if (isShooting && isReadyToShoot && !isReloading && equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft > 0)
+        {
+            Shoot();
+            if(!weaponData.allowButtonHold)
+            {
+                isShooting = false;
+            }
         }
     }
 }

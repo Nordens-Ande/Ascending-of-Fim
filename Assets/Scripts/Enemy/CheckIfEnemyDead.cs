@@ -14,7 +14,8 @@ public class CheckIfEnemyDead : MonoBehaviour
     public void EnemyDead() // everything that happens when enemy dies here
     {
         enemyWeaponInventory.EnemyDead(false, true);
-        dropWeaponScript.DropWeapon();
+        enemyWeaponInventory.UnEquip();
+        //dropWeaponScript.DropWeapon();
         enemyAiController.enabled = false;
         enemyMove.StopMoving();
         enemyMove.enabled = false;
