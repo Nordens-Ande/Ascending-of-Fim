@@ -57,21 +57,21 @@ public class EnemyWeaponInventory : MonoBehaviour
         Weapon[] weapons = (Weapon[])System.Enum.GetValues(typeof(Weapon));
         Weapon selectedWeapon = weapons[Random.Range(0, weapons.Length)];
 
-        GameObject weaponPrefab = null;
-        switch (selectedWeapon)
-        {
-            case Weapon.pistol:
-                weaponPrefab = pistolPrefab;
-                break;
-            case Weapon.rifle:
-                weaponPrefab = riflePrefab; 
-                break;
-            case Weapon.shotgun:
-                weaponPrefab = shotgunPrefab;
-                break;
-        }
+        //GameObject weaponPrefab = null;
+        //switch (selectedWeapon)
+        //{
+        //    case Weapon.pistol:
+        //        weaponPrefab = pistolPrefab;
+        //        break;
+        //    case Weapon.rifle:
+        //        weaponPrefab = riflePrefab; 
+        //        break;
+        //    case Weapon.shotgun:
+        //        weaponPrefab = shotgunPrefab;
+        //        break;
+        //}
 
-        
+        GameObject weaponPrefab = riflePrefab;
 
         if (weaponPrefab != null)
         {
