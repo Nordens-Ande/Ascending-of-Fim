@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: RaygunData
   m_EditorClassIdentifier: 
   weaponType: 0
-  weaponName: 
-  damage: 0
-  fireRate: 0
-  ammoCapacity: 0
+  weaponName: RayGun
+  damage: 25
+  fireRate: 150
+  ammoCapacity: 15
   allowButtonHold: 0
-  reloadTime: 0
+  reloadTime: 0.75
