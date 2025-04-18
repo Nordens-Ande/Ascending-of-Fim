@@ -10,7 +10,7 @@ public class DropWeaponScript : MonoBehaviour
         this.weapon = weapon;
         if(this.weapon != null)
         {
-            weaponScript = weapon.GetComponent<WeaponScript>();
+            weaponScript = this.weapon.GetComponent<WeaponScript>();
         }
         else
         {
@@ -20,6 +20,11 @@ public class DropWeaponScript : MonoBehaviour
 
     public void DropWeapon() // call when enemy dies
     {
+        if(weaponScript == null)
+        {
+            Debug.Log("weaponScript null in dropWeapon");
+        }
+        weapon.transform.parent = null;
         weaponScript.Unequip();
     }
 }

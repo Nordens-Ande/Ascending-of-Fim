@@ -9,12 +9,15 @@ public class EnemyWeaponInventory : MonoBehaviour
 
 
     [Header("Prefab References")]
-    [SerializeField] GameObject pistol;
-    [SerializeField] GameObject rifle; //uncomment when rifle/shotgun prefabs exist and assign in inspector
-    //[SerializeField] GameObject shotgun;
+    [SerializeField] GameObject pistolPrefab;
+    [SerializeField] GameObject riflePrefab; 
+    [SerializeField] GameObject shotgunPrefab;
 
     [Header("WeaponPosition")]
-    [SerializeField] private Transform WeaponPosition; //position where the weapon will be spawned, set in inspector
+    private Transform WeaponPosition;
+    [SerializeField] private Transform pistolPos; //position where the weapon will be spawned, set in inspector
+    [SerializeField] private Transform riflePos; //position where the weapon will be spawned, set in inspector
+    [SerializeField] private Transform shotgunPos; //position where the weapon will be spawned, set in inspector
     [SerializeField] private float AnimationSpeed;
 
     [Header("Right Hand Target")]
@@ -28,7 +31,8 @@ public class EnemyWeaponInventory : MonoBehaviour
     [SerializeField] private Transform IKRightHandPos;  //Referens till h�ger handens position, gjort f�r att kunna s�tta vapnet i h�ger hand
     [SerializeField] private Transform IKLeftHandPos; //Referens till v�nster handens position, gjort f�r att kunna s�tta vapnet i v�nster hand
 
-    private bool IsEquiped; 
+    private bool IsEquiped;
+    bool enemyDead;
 
     GameObject weapon; //object for weapon that enemy will get, check method CreateWeapon() below
     enum Weapon { pistol, rifle, shotgun }
@@ -38,6 +42,15 @@ public class EnemyWeaponInventory : MonoBehaviour
     void Start()
     {
         DecideWeapon();
+        IsEquiped = false;
+        enemyDead = false;
+    }
+
+    public void EnemyDead(bool e, bool d)
+    {
+        IsEquiped = e;
+        enemyDead = d;
+
     }
 
     void DecideWeapon() //assign random weapon from possible ones above
@@ -45,59 +58,73 @@ public class EnemyWeaponInventory : MonoBehaviour
         Weapon[] weapons = (Weapon[])System.Enum.GetValues(typeof(Weapon));
         Weapon selectedWeapon = weapons[Random.Range(0, weapons.Length)];
 
-        //GameObject weaponPrefab = null;
-        //switch (selectedWeapon)
-        //{
-        //    case Weapon.pistol:
-        //        weaponPrefab = pistol;
-        //        break;
-        //    case Weapon.rifle:
-        //        weaponPrefab = rifle; //uncomment when prefabs for rifle and shotgun exist
-                //break;
-                //    case Weapon.shotgun:
-                //        //weaponPrefab = shotgun;
-                //        break;
-        //}
+        GameObject weaponPrefab = null;
+        switch (selectedWeapon)
+        {
+            case Weapon.pistol:
+                weaponPrefab = pistolPrefab;
+                break;
+            case Weapon.rifle:
+                weaponPrefab = riflePrefab; 
+                break;
+            case Weapon.shotgun:
+                weaponPrefab = shotgunPrefab;
+                break;
+        }
 
-        GameObject weaponPrefab = rifle;
+        
 
         if (weaponPrefab != null)
         {
             CreateWeapon(weaponPrefab);
             RetrieveWeaponData();
             SetHandPos(weaponScript);
-            IsEquiped = true;
         }
     }
 
     void CreateWeapon(GameObject prefab)
     {
-        
-        weapon = Instantiate(prefab, WeaponPosition.position ,transform.rotation, WeaponPosition);
+        string weaponName = prefab.GetComponent<WeaponScript>().GetWeaponData().weaponName.ToLower();
+        if(weaponName == "pistol")
+        {
+            WeaponPosition = pistolPos;
+        }
+        else if (weaponName == "rifle")
+        {
+            WeaponPosition = riflePos;
+        }
+        else if (weaponName == "shotgun")
+        {
+            WeaponPosition = shotgunPos;
+        }
+        weapon = Instantiate(prefab, WeaponPosition.position, WeaponPosition.rotation, WeaponPosition);
 
     }
 
     void SetHandPos(WeaponScript weapon)
     {
-        IKLeftHandPos = weapon.LeftHand;
-        IKRightHandPos = weapon.RightHand;
-        Debug.Log("IKLeftHandPos: " + IKLeftHandPos.position);
-        Debug.Log("IKRightHandPos: " + IKRightHandPos.position);
+        if(weapon != null)
+        {
+            IKLeftHandPos = weapon.LeftHand;
+            IKRightHandPos = weapon.RightHand;
+        }
     }
 
     void RetrieveWeaponData() // get data from weapon object and send to enemyShoot Script
     {
-        weaponScript = weapon.GetComponentInChildren<WeaponScript>();
-        weaponScript.CheckIfWeaponBodyNull();
-        weaponScript.Equip();
-        weaponData = weaponScript.GetWeaponData();
-        enemyShootScript.SetWeaponData(weaponData, weaponScript);
-        dropWeaponScript.SetWeapon(weapon);
+        if(weapon != null)
+        {
+            weaponScript = weapon.GetComponentInChildren<WeaponScript>();
+            weaponScript.CheckIfWeaponBodyNull();
+            weaponData = weaponScript.GetWeaponData();
+            enemyShootScript.SetWeaponData(weaponData, weaponScript);
+            dropWeaponScript.SetWeapon(weapon);
+        }
     }
 
     void Update()
     {
-        if (IsEquiped)
+        if (IsEquiped && enemyDead == false)
         {
             weapon.transform.parent = WeaponPosition.transform; //set the weapon to the position of the weapon position object
             weapon.transform.position = Vector3.Lerp(weapon.transform.position, WeaponPosition.position, Time.deltaTime * AnimationSpeed); //test
@@ -110,6 +137,14 @@ public class EnemyWeaponInventory : MonoBehaviour
             RightHandIK.weight = 1f;
             RightHandTarget.position = IKRightHandPos.position; //h�r
             RightHandTarget.rotation = IKRightHandPos.rotation;
+        }
+        else
+        {
+            if(weapon != null)
+            {
+                weaponScript.Equip();
+                IsEquiped = true;
+            }
         }
     }
 }

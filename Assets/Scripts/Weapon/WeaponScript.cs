@@ -64,26 +64,25 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     public void Equip()
     {
-
         if(GetComponent<Collider>())
         {
             GetComponent<Collider>().enabled = false;
         }
-       
         weaponBody.isKinematic = true;
-        
         IsRotating = false;
-
     }
 
     public void Unequip()
     {
+        Debug.Log("unequip called");
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        Debug.Log("rotation thing");
         GetComponent<Collider>().enabled = true;
+        Debug.Log("collider");
         weaponBody.isKinematic = false;
+        Debug.Log("kinematic");
         IsRotating = true;
-        transform.parent = null;
-        Debug.Log("player died and transform.parent = null for weapon");
+        Debug.Log("isRoating");
     }
 
     //private void OnCollisionEnter(Collision other)
@@ -93,7 +92,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
     //        Debug.Log("Weapon touched ground");
     //        if (weaponBody)
     //        {
-    //            weaponBody.constraints = RigidbodyConstraints.FreezePosition;
+    //            //weaponBody.constraints = RigidbodyConstraints.FreezePosition;
     //            weaponBody.isKinematic = true;
     //            IsRotating = true;
     //        }

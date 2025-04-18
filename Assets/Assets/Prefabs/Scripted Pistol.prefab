@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67372a20b26b6f4894beea72910eb77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponData: {fileID: 11400000, guid: 534ef9f847aa6994e9ccef2b4c2e8735, type: 2}
+  WeaponData: {fileID: 11400000, guid: d651c2b56a15348429eef78c0497155f, type: 2}
   WeaponRotationSpeed: 10
   RightHand: {fileID: 5365570141444010433}
   LeftHand: {fileID: 7880239941682061418}
