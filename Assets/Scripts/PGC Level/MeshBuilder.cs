@@ -3,8 +3,8 @@ using UnityEngine;
 
 public static class MeshBuilder
 {
-    //Dörrarna skall kunna befinnas på float värden, dess position skall vara mittpunkten av dörren och deras storlek bör kunnas förändras (inom float värden)
-    //Fixa också så att vi skapar endast en vägg eller fler beroende på antal dörringångar (1 dörr två väggar, 2 dörrar 3 väggar osv)
+    //D?rrarna skall kunna befinnas p? float v?rden, dess position skall vara mittpunkten av d?rren och deras storlek b?r kunnas f?r?ndras (inom float v?rden)
+    //Fixa ocks? s? att vi skapar endast en v?gg eller fler beroende p? antal d?rring?ngar (1 d?rr tv? v?ggar, 2 d?rrar 3 v?ggar osv)
 
     public static GameObject CreateRoomMesh(Room room, Material wallMat, Material floorMat)
     {
@@ -22,7 +22,7 @@ public static class MeshBuilder
         floor.transform.localScale = new Vector3(size.x, 0.1f, size.z);
         floor.GetComponent<Renderer>().material = floorMat;
 
-        //Definar fyra vägar (4 directions)
+        //Definar fyra v?gar (4 directions)
         //Vector3 wallScaleX = new Vector3(room.WallThickness, room.WallHeight, room.Height);
         //Vector3 wallScaleZ = new Vector3(room.Width, room.WallHeight, room.WallThickness);
 
@@ -33,7 +33,9 @@ public static class MeshBuilder
     public static void DecorateRoomMesh(Transform root, Room room)
     {
         foreach (Furniture furniture in room.FurnitureList)
+        {
             CreateFurniture(root.transform, furniture.gameObject);
+        }       
     }
 
     private static void CreateWallsWithDoorways(Transform parent, Vector3 origin, BoundsInt roomBounds, Room room, Material wallMat)
@@ -128,9 +130,10 @@ public static class MeshBuilder
         wall.layer = 8;
     }
 
-    private static void CreateFurniture(Transform parent, GameObject prefab)
+    public static void CreateFurniture(Transform parent, GameObject prefab)
     {
         GameObject furnitureObject = GameObject.Instantiate(prefab);
+        furnitureObject.name = "Furniture " + furnitureObject.transform.position;
         furnitureObject.transform.parent = parent;
         furnitureObject.transform.position = prefab.transform.position;
     }

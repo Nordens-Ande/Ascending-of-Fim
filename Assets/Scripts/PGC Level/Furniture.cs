@@ -45,7 +45,7 @@ public class Furniture : MonoBehaviour
     public Vector2Int frontDirection;
     public List<Vector2Int> wallDirections = new List<Vector2Int>();
 
-    [SerializeField] private bool drawDebug = false;
+    public bool drawDebug = false;
     
     void Start()
     {
@@ -88,6 +88,9 @@ public class Furniture : MonoBehaviour
         if (!drawDebug)
             return;
 
+        Vector3 cubeSize = new Vector3(size.x, Mathf.Clamp(2, 1, (size.x + size.y) / 2f), size.y);
+        Gizmos.DrawWireCube(transform.position + cubeSize / 2f, cubeSize);
+
         DrawDirectionFromEdge(frontDirection, Color.yellow);
         foreach (Vector2Int dir in wallDirections)
             DrawDirectionFromEdge(dir, Color.red);
@@ -109,8 +112,9 @@ public class Furniture : MonoBehaviour
     public Ray BuildRay(Vector2 dir)
     {
         Vector2 normDir = dir.normalized;
+        Vector3 offset = new Vector3(normDir.x, 0, normDir.y) * -0.1f; //Offset för att se till så att ray-en inte skapas inuti en väg (och aldrig kolliderar), den är halverad av nån anledning
         Vector3 origo = transform.position + new Vector3(((float)size.x * (1 + normDir.x)) / 2f, 1, ((float)size.y * (1 + normDir.y)) / 2f);
-        return new Ray(origo, new Vector3(normDir.x, 0, normDir.y));
+        return new Ray(origo + offset, new Vector3(normDir.x, 0, normDir.y));
     }
 
     // Update is called once per frame

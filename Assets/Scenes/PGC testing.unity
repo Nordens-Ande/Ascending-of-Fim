@@ -262,27 +262,41 @@ MonoBehaviour:
     min: 2
     max: 5
   doorClearance: 1
-  hallwaySizeRange:
-    min: 4
-    max: 6
-  corridorSizeRange:
-    min: 4
-    max: 8
-  livingRoomSizeRange:
-    min: 5
-    max: 7
-  bedroomSizeRange:
-    min: 4
-    max: 6
-  diningRoomSizeRange:
-    min: 5
-    max: 7
-  closetSizeRange:
-    min: 2
-    max: 4
-  bathroomSizeRange:
-    min: 2
-    max: 4
+  hallwaySettings:
+    sizeRange:
+      min: 6
+      max: 5
+    maxFurniture: 4
+  corridorSettings:
+    sizeRange:
+      min: 2
+      max: 8
+    maxFurniture: 4
+  livingRoomSettings:
+    sizeRange:
+      min: 5
+      max: 7
+    maxFurniture: 4
+  bedroomSettings:
+    sizeRange:
+      min: 2
+      max: 3
+    maxFurniture: 4
+  diningRoomSettings:
+    sizeRange:
+      min: 5
+      max: 8
+    maxFurniture: 4
+  closetSettings:
+    sizeRange:
+      min: 2
+      max: 2
+    maxFurniture: 4
+  bathroomSettings:
+    sizeRange:
+      min: 3
+      max: 4
+    maxFurniture: 4
 --- !u!114 &501987926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,6 +715,10 @@ PrefabInstance:
     - target: {fileID: 968566208978899543, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217056665347449587, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
+      propertyPath: drawDebug
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8457823149309233202, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
       propertyPath: m_LocalPosition.x

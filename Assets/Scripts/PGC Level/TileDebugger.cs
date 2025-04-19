@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TileDebugger : MonoBehaviour
 {
-    [SerializeField] bool draw = true;
+    [SerializeField] bool draw = false;
     [SerializeField] Color roomColor = Color.green;
     [SerializeField] Color doorColor = Color.red;
     [SerializeField] Color furnitureColor = Color.yellow;
