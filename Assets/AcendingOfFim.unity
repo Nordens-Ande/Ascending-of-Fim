@@ -384,6 +384,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerWalkSound
       objectReference: {fileID: 0}
+    - target: {fileID: 8565257981671306590, guid: ae0d1947dbe7bfa4fb4214303d4b54cf, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -397,6 +401,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3928957103477881364, guid: ae5ee37569271c54ba74574092975bcc, type: 3}
+      propertyPath: soundEffectTalk
+      value: 
+      objectReference: {fileID: 8300000, guid: deed80df9999738458a225fa0919824d, type: 3}
+    - target: {fileID: 3928957103477881364, guid: ae5ee37569271c54ba74574092975bcc, type: 3}
+      propertyPath: voicelines.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3928957103477881364, guid: ae5ee37569271c54ba74574092975bcc, type: 3}
+      propertyPath: playerVoicelines.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3928957103477881364, guid: ae5ee37569271c54ba74574092975bcc, type: 3}
+      propertyPath: 'playerVoicelines.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 77836a9c9df080d4f83f9aa0ff2157c3, type: 3}
+    - target: {fileID: 3928957103477881364, guid: ae5ee37569271c54ba74574092975bcc, type: 3}
+      propertyPath: 'playerVoicelines.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: bac63f76c9f05cc43a086484179119d2, type: 3}
+    - target: {fileID: 3928957103477881364, guid: ae5ee37569271c54ba74574092975bcc, type: 3}
+      propertyPath: 'playerVoicelines.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 5541c486811fc4043b94ab0bef636afa, type: 3}
+    - target: {fileID: 3928957103477881364, guid: ae5ee37569271c54ba74574092975bcc, type: 3}
+      propertyPath: 'playerVoicelines.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: cd5eb388b3a5d9349bdae2beeb5fc810, type: 3}
+    - target: {fileID: 3928957103477881364, guid: ae5ee37569271c54ba74574092975bcc, type: 3}
+      propertyPath: 'playerVoicelines.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 82c464e339b8e6c4a9a100c6cacd5436, type: 3}
     - target: {fileID: 8474534406201102343, guid: ae5ee37569271c54ba74574092975bcc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -454,6 +490,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3538037209227960407, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3538037209227960407, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 4bf12f57899e5ff4184d472bb1bbd451, type: 3}
+    - target: {fileID: 3538037209227960407, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4bf12f57899e5ff4184d472bb1bbd451, type: 3}
     - target: {fileID: 7095094375233164103, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
       propertyPath: m_Name
       value: BackGroundMusic
@@ -555,6 +603,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7219427402039299147, guid: f42c2d851beeb1c419d58b3e2b34aae4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -611,6 +663,10 @@ PrefabInstance:
     - target: {fileID: 8265023790624889629, guid: 4d8f40a51fdd3b94f99c0acffa7ea07b, type: 3}
       propertyPath: m_Name
       value: EnemyWalkSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 8307676029745231762, guid: 4d8f40a51fdd3b94f99c0acffa7ea07b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
