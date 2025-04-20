@@ -12,7 +12,7 @@ public enum RoomType
     Closet
 }
 
-public class Room
+public class Room : ITileable
 {
     public int Width, Height;
     public float WallHeight, WallThickness;
@@ -46,8 +46,8 @@ public class Room
             {
                 {x:0, y:1}  when door.y == bounds.yMax - bounds.yMin => door.x, //back/up
                 {x:0, y:-1} when door.y == bounds.yMin - bounds.yMin => door.x, //front/down
-                {x:1, y:0}  when door.x == bounds.xMax - bounds.xMin => door.y, //höger
-                {x:-1, y:0} when door.x == bounds.xMin - bounds.xMin => door.y, //vänster
+                {x:1, y:0}  when door.x == bounds.xMax - bounds.xMin => door.y, //h?ger
+                {x:-1, y:0} when door.x == bounds.xMin - bounds.xMin => door.y, //v?nster
                 _ => null
             };
 

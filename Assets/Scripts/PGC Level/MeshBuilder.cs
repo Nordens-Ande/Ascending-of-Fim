@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface ITileable
+{
+    public List<Vector2Int> GetOccupiedTiles();
+    //public List<Vector2Int> GetOccupiedTiles(Vector2Int tempPos);
+}
+
 public static class MeshBuilder
 {
     //D?rrarna skall kunna befinnas p? float v?rden, dess position skall vara mittpunkten av d?rren och deras storlek b?r kunnas f?r?ndras (inom float v?rden)
@@ -34,7 +40,8 @@ public static class MeshBuilder
     {
         foreach (Furniture furniture in room.FurnitureList)
         {
-            CreateFurniture(root.transform, furniture.gameObject);
+            Debug.Log(furniture.transform.position);
+            CreateFurniture(root.transform.root, furniture.gameObject);
         }       
     }
 
@@ -133,8 +140,8 @@ public static class MeshBuilder
     public static void CreateFurniture(Transform parent, GameObject prefab)
     {
         GameObject furnitureObject = GameObject.Instantiate(prefab);
-        furnitureObject.name = "Furniture " + furnitureObject.transform.position;
         furnitureObject.transform.parent = parent;
         furnitureObject.transform.position = prefab.transform.position;
+        furnitureObject.name = "Furniture " + furnitureObject.transform.position;
     }
 }
