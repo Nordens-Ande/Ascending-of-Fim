@@ -17,17 +17,20 @@ public class EquipWeapon : MonoBehaviour
     private RaycastHit topRayHitInfo;
     //private RaycastHit bottomRayHitInfo;
 
-    private GameObject currentWeaponObject;
+    public GameObject currentWeaponObject;
     private WeaponScript currentWeapon;
 
     [Header("AnimationPos")]
     [SerializeField] private float AnimationSpeed;
-    [SerializeField] private Transform equipPos;
-    [SerializeField] private Transform shootingPos;
+    [SerializeField] private Transform raygunPos;
+    [SerializeField] private Transform pistolPos;
+    [SerializeField] private Transform riflePos;
+    [SerializeField] private Transform shotgunPos;
+    Transform WeaponPosition;
 
     private bool isShooting;
 
-    [Header ("Right Hand Target")]
+    [Header("Right Hand Target")]
     [SerializeField] private TwoBoneIKConstraint rightHandIK; //Referens till h�ger handens IK constraint
     [SerializeField] private Transform rightHandTarget; //Referens till h�ger handens target, gjort f�r att kunna s�tta vapnet i h�ger hand
 
@@ -42,7 +45,7 @@ public class EquipWeapon : MonoBehaviour
 
     void Start()
     {
-        
+        IsEquipped = false;
     }
 
     private void Update()
@@ -50,16 +53,14 @@ public class EquipWeapon : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             Equip();
-            Debug.Log("E pressed");
-            Debug.Log("IsEquipped: " + IsEquipped);
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
             UnEquip();
-        } 
+        }
 
-        if (currentWeapon)
+        if (currentWeapon != null)
         {
             //FUnkar ej med denna
             //if (!isShooting)
@@ -74,17 +75,17 @@ public class EquipWeapon : MonoBehaviour
 
             //    leftHandIK.weight = 0f;
             //}
-            if(IsEquipped)
+            if (IsEquipped)
             {
                 //currentWeapon.transform.parent = shootingPos.transform;
                 //currentWeapon.transform.position = shootingPos.position; //h�r
                 //currentWeapon.transform.rotation = shootingPos.rotation;
-                
-                currentWeapon.transform.parent = shootingPos.transform; //h�r
-                currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, shootingPos.position,Time.deltaTime* AnimationSpeed); //test
-                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, shootingPos.rotation, Time.deltaTime * AnimationSpeed); 
 
-                
+                currentWeapon.transform.parent = WeaponPosition.transform; //h�r
+                currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, WeaponPosition.position, Time.deltaTime * AnimationSpeed); //test
+                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, WeaponPosition.rotation, Time.deltaTime * AnimationSpeed);
+
+
                 leftHandIK.weight = 1f;
                 leftHandTarget.position = IKLeftHandPos.position;
                 leftHandTarget.rotation = IKLeftHandPos.rotation;
@@ -92,10 +93,7 @@ public class EquipWeapon : MonoBehaviour
                 rightHandIK.weight = 1f;
                 rightHandTarget.position = IKRightHandPos.position; //h�r
                 rightHandTarget.rotation = IKRightHandPos.rotation;
-
-
             }
-
         }
     }
 
@@ -133,31 +131,51 @@ public class EquipWeapon : MonoBehaviour
 
         if (topRayHitInfo.collider != null)
         {
-            Debug.Log("Hit: " + topRayHitInfo.collider.name);
             if (topRayHitInfo.collider != null)
             {
+                if (IsEquipped)
+                {
+                    UnEquip();
+                }
                 currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
-                SetHandPos(currentWeapon);
+                currentWeaponObject = topRayHitInfo.collider.gameObject;
             }
 
-            if (!currentWeapon) return;
-
-            currentWeapon.Equip();
-
-            //currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
-
-            //currentWeapon.ChangeWeaponBehavior();
-
-            IsEquipped = true;
-
-            IInventory inventory = InventoryReference.GetComponent<IInventory>();
-            if (inventory == null)
+            if (currentWeapon == null)
+            {
+                Debug.Log("currentWeapon null after equip for player");
                 return;
+            }
 
-            inventory.ChangeEquipped(currentWeapon.gameObject);
+            SetHandPos(currentWeapon);
+            SetWeaponPos();
+            currentWeapon.Equip();
+            IsEquipped = true;
         }
     }
-    private void UnEquip() 
+
+    void SetWeaponPos()
+    {
+        string weaponName = currentWeapon.GetWeaponData().weaponName.ToLower();
+        if (weaponName == "raygun")
+        {
+            WeaponPosition = raygunPos;
+        }
+        else if (weaponName == "pistol")
+        {
+            WeaponPosition = pistolPos;
+        }
+        else if (weaponName == "rifle")
+        {
+            WeaponPosition = riflePos;
+        }
+        else if (weaponName == "shotgun")
+        {
+            WeaponPosition = shotgunPos;
+        }
+    }
+
+    public void UnEquip()
     {
         if (IsEquipped)
         {
@@ -172,11 +190,10 @@ public class EquipWeapon : MonoBehaviour
 
             currentWeapon.transform.parent = null;
 
-            //currentWeapon.Unequip();
-            Destroy(currentWeapon.gameObject);
+            currentWeapon.Unequip();
 
             currentWeapon = null;
-            
+            currentWeaponObject = null;
         }
     }
 }
