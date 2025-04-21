@@ -3,12 +3,15 @@ using UnityEngine;
 public class SoundManagerScript : MonoBehaviour
 {
     AudioSource backgroundMusic;
+    AudioSource elevatorMusic;
     bool isPaused;
     bool isPlaying;
 
     void Start()
     {
+
         backgroundMusic = GetComponent<AudioSource>();
+        elevatorMusic = GetComponent<AudioSource>();
         isPlaying = true;
         isPaused = false;
     }
@@ -38,4 +41,16 @@ public class SoundManagerScript : MonoBehaviour
         }
         
     }
+
+    void IsInTheElevator() 
+    {
+        backgroundMusic.Stop();
+        elevatorMusic.Play();
+    }
+    void IsBackInTheGame() 
+    { 
+        backgroundMusic.Play();
+        elevatorMusic.Stop();
+    }
+
 }

@@ -80,6 +80,10 @@ public class EquipWeapon : MonoBehaviour
                 //currentWeapon.transform.parent = shootingPos.transform;
                 //currentWeapon.transform.position = shootingPos.position; //h�r
                 //currentWeapon.transform.rotation = shootingPos.rotation;
+                
+                currentWeapon.transform.parent = WeaponPosition.transform; //h�r
+                currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, WeaponPosition.position, Time.deltaTime * AnimationSpeed); //test
+                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, WeaponPosition.rotation, Time.deltaTime * AnimationSpeed); 
 
                 currentWeapon.transform.parent = WeaponPosition.transform; //h�r
                 currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, WeaponPosition.position, Time.deltaTime * AnimationSpeed); //test
@@ -133,7 +137,7 @@ public class EquipWeapon : MonoBehaviour
         {
             if (topRayHitInfo.collider != null)
             {
-                if (IsEquipped)
+                if(IsEquipped)
                 {
                     UnEquip();
                 }
@@ -141,7 +145,7 @@ public class EquipWeapon : MonoBehaviour
                 currentWeaponObject = topRayHitInfo.collider.gameObject;
             }
 
-            if (currentWeapon == null)
+            if (currentWeapon == null) 
             {
                 Debug.Log("currentWeapon null after equip for player");
                 return;
@@ -175,7 +179,7 @@ public class EquipWeapon : MonoBehaviour
         }
     }
 
-    public void UnEquip()
+    public void UnEquip() 
     {
         if (IsEquipped)
         {

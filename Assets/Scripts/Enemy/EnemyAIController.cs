@@ -6,6 +6,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class EnemyAIController : MonoBehaviour
 {
     [SerializeField] EnemyMove enemyMove;
+    [SerializeField] EnemyShoot enemyShoot;
 
     enum EnemyState {searching = 2, movingToPlayerLastKnown = 3, chasing = 4, shooting = 5, dead = 6 }
     EnemyState previousEnemyState;
@@ -29,7 +30,7 @@ public class EnemyAIController : MonoBehaviour
     void Start()
     {
         layerMask = ~LayerMask.GetMask("Enemy");
-        player = GameObject.Find("Player Equip");
+        player = GameObject.FindWithTag("Player");
         previousEnemyState = EnemyState.searching;
         enemyState = EnemyState.searching;
         enemyMove.wandering = true;
@@ -66,21 +67,25 @@ public class EnemyAIController : MonoBehaviour
         if(enemyState == EnemyState.shooting)
         {
             enemyMove.wandering = false;
+            enemyShoot.IsShooting(true);
             enemyMove.StopMoving();
         }
         else if(enemyState == EnemyState.chasing)
         {
             enemyMove.wandering = false;
+            enemyShoot.IsShooting(false);
             enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.movingToPlayerLastKnown)
         {
             enemyMove.wandering = false;
+            enemyShoot.IsShooting(false);
             enemyMove.SetDestination(playerLastKnownPosition);
             enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.searching)
         {
+            enemyShoot.IsShooting(false);
             enemyMove.wandering = true;
         }
     }

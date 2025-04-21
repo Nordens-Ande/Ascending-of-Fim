@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Shoot : MonoBehaviour
 {
     int rayLength;
-    [SerializeField] GameObject bulletOrigin; //placera child objectet som vapnet ska ha här, skottets/rayens origin.
+    [SerializeField] GameObject bulletOrigin; //placera child objectet som vapnet ska ha hï¿½r, skottets/rayens origin.
     private GameObject bulletTrailPrefab;
 
     public void SetBulletTrailPrefab(GameObject bulletTrail)
@@ -20,21 +20,21 @@ public class Shoot : MonoBehaviour
 
         Vector3 direction = (end - start).normalized;
         Vector3 offsetStart = start + direction * 0.2f;
-        //Debug.DrawLine(offsetStart, end, Color.green, 2f); // för testing
+        //Debug.DrawLine(offsetStart, end, Color.green, 2f); // fï¿½r testing
 
         GameObject trail = Instantiate(bulletTrailPrefab, offsetStart, Quaternion.identity);
         LineRenderer line = trail.GetComponent<LineRenderer>();
         //line.SetPosition(0, start);
         //line.SetPosition(1, end);
-        //Destroy(trail, 0.15f); // Förstör trail efter ett tag
+        //Destroy(trail, 0.15f); // Fï¿½rstï¿½r trail efter ett tag
         StartCoroutine(AnimateBulletTrail(line, offsetStart, end));
 
     }
 
     IEnumerator AnimateBulletTrail(LineRenderer line, Vector3 start, Vector3 end)
     {
-        float travelDuration = 0.05f; // Hur lång tid det tar för trailen att nå objektet
-        float fadeDuration = 0.1f; // Hur lång tid det tar för trailen att fadea
+        float travelDuration = 0.05f; // Hur lï¿½ng tid det tar fï¿½r trailen att nï¿½ objektet
+        float fadeDuration = 0.1f; // Hur lï¿½ng tid det tar fï¿½r trailen att fadea
         float timer = 0f;
 
         line.SetPosition(0, start);
@@ -59,7 +59,7 @@ public class Shoot : MonoBehaviour
         while (timer < fadeDuration)
         {
             timer += Time.deltaTime;
-            float t = 1 - (timer / fadeDuration); // Gå mot 0, "fadea ut"
+            float t = 1 - (timer / fadeDuration); // Gï¿½ mot 0, "fadea ut"
 
             Color fadedColor = new Color(startColor.r, startColor.g, startColor.b, t);
             line.startColor = fadedColor;
@@ -87,7 +87,7 @@ public class Shoot : MonoBehaviour
     {
         Vector3 direction = GetDirection();
 
-        if (applyRandomness)
+        if(applyRandomness)
         {
             float offset = Random.Range(-0.3f, 0.3f); //offset only applied in x of direction
             direction.x += offset;
@@ -103,7 +103,7 @@ public class Shoot : MonoBehaviour
         List<RaycastHit> hits = new List<RaycastHit>();
         List<Ray> rays = new List<Ray>();
 
-        for (int i = 0; i < amountOfBullets; i++)
+        for(int i = 0; i < amountOfBullets; i++)
         {
             if (i > 0)
             {

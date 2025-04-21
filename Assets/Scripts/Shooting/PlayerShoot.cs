@@ -10,7 +10,6 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] EquipWeapon equipWeapon;
 
     WeaponData weaponData;
-    
     bool isShooting;
     bool isReadyToShoot = true;
     bool isReloading;
@@ -55,7 +54,7 @@ public class PlayerShoot : MonoBehaviour
 
     void OnReload(InputValue input)
     {
-        if (equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft < weaponData.ammoCapacity && !isReloading)
+        if(equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft < weaponData.ammoCapacity && !isReloading)
         {
             isReloading = true;
             StartCoroutine(FinishReload());
@@ -83,7 +82,7 @@ public class PlayerShoot : MonoBehaviour
         {
             hits = shootScript.ShootRay(1);
         }
-
+        
         CheckRay(hits);
         StartCoroutine(ResetIsReadyToShoot());
     }
@@ -93,7 +92,6 @@ public class PlayerShoot : MonoBehaviour
         foreach(RaycastHit hit in hits)
         {
             if (hit.collider == null) continue;
-            // damage enemies
             if (hit.transform.CompareTag("Enemy"))
             {
                 hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
@@ -116,13 +114,13 @@ public class PlayerShoot : MonoBehaviour
         {
             return;
         }
-
+        
         RetrieveWeaponData();
-
+        
         if (isShooting && isReadyToShoot && !isReloading && equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft > 0)
         {
             Shoot();
-            if (!weaponData.allowButtonHold)
+            if(!weaponData.allowButtonHold)
             {
                 isShooting = false;
             }

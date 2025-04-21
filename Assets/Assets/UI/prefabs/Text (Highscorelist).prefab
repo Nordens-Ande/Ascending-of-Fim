@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 626002670204054032}
   - component: {fileID: 5059107964846294675}
   - component: {fileID: 5596598632070793858}
+  - component: {fileID: 7428744358023471086}
+  - component: {fileID: 7271540493640383813}
   m_Layer: 5
   m_Name: Text (Highscorelist)
   m_TagString: Untagged
@@ -35,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 700, y: 350}
-  m_SizeDelta: {x: 320, y: 50}
+  m_SizeDelta: {x: 372.3, y: 504.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5059107964846294675
 CanvasRenderer:
@@ -67,8 +69,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Highscores:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8a1523610cee7c54f91230d1cf192568, type: 2}
-  m_sharedMaterial: {fileID: -7861273274826584120, guid: 8a1523610cee7c54f91230d1cf192568, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0b4f98c9bd889c847945a995c99ad6d0, type: 2}
+  m_sharedMaterial: {fileID: 5932206736228327449, guid: 0b4f98c9bd889c847945a995c99ad6d0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -99,7 +101,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -133,6 +135,32 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7428744358023471086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8922632086219093074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e654c0bf250854e829caabacb36ef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highscoreHandler: {fileID: 7271540493640383813}
+  highScoreText: {fileID: 5596598632070793858}
+--- !u!114 &7271540493640383813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8922632086219093074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51426763e68a9044386400df711b4dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

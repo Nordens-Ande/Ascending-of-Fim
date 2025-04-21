@@ -31,7 +31,7 @@ public class EnemyShoot : MonoBehaviour
     {
         this.weaponData = weaponData;
         this.weaponScript = weaponScript;
-        if (this.weaponData == null || this.weaponScript == null)
+        if(this.weaponData == null || this.weaponScript == null)
         {
             Debug.Log("weaponData or weaponScript = null for enemy");
         }
@@ -82,9 +82,9 @@ public class EnemyShoot : MonoBehaviour
 
     void CheckRay(List<RaycastHit> hits)
     {
-        foreach (RaycastHit hit in hits)
+        foreach(RaycastHit hit in hits)
         {
-            if (hit.collider == null) continue;
+            if(hit.collider == null) continue;
             if (hit.transform.CompareTag("Player"))
             {
                 PlayerHealth health = hit.transform.GetComponent<PlayerHealth>();
