@@ -2,36 +2,61 @@ using UnityEngine;
 
 public class EnemyHitSound : MonoBehaviour
 {
-    AudioSource enemyHitAudiosource;
-    AudioClip enemyHitAudioclip;
-    public bool isEnemyHurting;
+    public AudioSource enemyHitAudiosource;
+    public AudioClip enemyHitAudioclip;
+    int EnemyHurting;
+    private bool deadmanswitch;
 
     void Start()
     {
         enemyHitAudiosource = GetComponent<AudioSource>();
-        //isEnemyHurting = GetComponent<Scriptet där boolen finns när ray träffar fiender>().boolens namn i scriptet;
+        //isEnemyHurting = GetComponent<EnemyHealth>().Health;
+        deadmanswitch = false;
 
     }
-    // Update is called once per frame
     void Update()
     {
         IsEnemyHit();
     }
+
     void EnemyHurtSound() 
     { 
-        enemyHitAudiosource.clip = enemyHitAudioclip;
-        enemyHitAudiosource.PlayOneShot(enemyHitAudioclip, 5);
+        enemyHitAudiosource.Play();
         
     
     }
 
+    //Denna metod ger ett hurtsound vid varje fjärdedel av livet som har tagit borts
+    //Deadmansswitch används för att hela tiden göra så att ljudet kan användas igen
     void IsEnemyHit() 
     {
-        if (isEnemyHurting) 
-        { 
+        if (EnemyHurting < 100 && EnemyHurting > 75 && deadmanswitch == false)
+        {
             EnemyHurtSound();
-        
+            deadmanswitch = true;
+
+
         }
-    
+        if (EnemyHurting < 75 && EnemyHurting > 50 && deadmanswitch == true)
+        {
+            EnemyHurtSound();
+            deadmanswitch = false;
+
+        }
+        if (EnemyHurting < 50 && EnemyHurting > 25 && deadmanswitch == false)
+        {
+            EnemyHurtSound();
+            deadmanswitch = true;
+
+        }
+        if (EnemyHurting < 25 && EnemyHurting > 0 && deadmanswitch == true)
+        {
+            EnemyHurtSound();
+            deadmanswitch = false;
+
+        }
+
+
+
     }
 }
