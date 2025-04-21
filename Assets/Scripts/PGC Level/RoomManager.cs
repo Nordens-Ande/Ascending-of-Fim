@@ -33,6 +33,7 @@ public struct RoomSettings
 public class RoomManager : MonoBehaviour
 {
     [SerializeField] bool reroll = false;
+    [SerializeField] GameObject player;
     //[SerializeField] bool debug = false;
     [Space]
 
@@ -108,6 +109,7 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         reroll = false;
+        player.transform.position = new Vector3(initWidth/2f,1,initHeight/2f);
 
         rooms = new List<Room>();
         roomObjects = new List<GameObject>();
