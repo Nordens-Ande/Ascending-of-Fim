@@ -61,46 +61,32 @@ public class WeaponScript : MonoBehaviour, IWeapon
         return WeaponData;
     }
 
-    public void CheckIfWeaponBodyNull() // used to fix issue with enemy spawn nullreferences
-    {
-        if (weaponBody == null)
-        {
-            weaponBody = GetComponent<Rigidbody>();
-        }
-    }
-
     public void Equip()
     {
-        if (GetComponent<Collider>())
-        {
-            GetComponent<Collider>().enabled = false;
-        }
+        GetComponent<Collider>().enabled = false;
         weaponBody.isKinematic = true;
         IsRotating = false;
     }
 
-    public void Unequip()
-    {
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        GetComponent<Collider>().enabled = true;
-        weaponBody.isKinematic = false;
-        weaponBody.linearVelocity = Vector3.zero;
-        weaponBody.angularVelocity = Vector3.zero;
-        IsRotating = true;
-
-    }
-
-    //private void OnCollisionEnter(Collision other)
+    //public void Unequip()
     //{
-    //    if (other.gameObject.CompareTag("Ground"))
-    //    {
-    //        Debug.Log("Weapon touched ground");
-    //        if (weaponBody)
-    //        {
-    //            //weaponBody.constraints = RigidbodyConstraints.FreezePosition;
-    //            weaponBody.isKinematic = true;
-    //            IsRotating = true;
-    //        }
-    //    }
+    //    transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+    //    GetComponent<Collider>().enabled = true;
+    //    weaponBody.isKinematic = false;
+    //    IsRotating = true;
     //}
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            Debug.Log("Weapon touched ground");
+            if (weaponBody)
+            {
+                weaponBody.constraints = RigidbodyConstraints.FreezePosition;
+                weaponBody.isKinematic = true;
+                IsRotating = true;
+            }
+        }
+    }
 }

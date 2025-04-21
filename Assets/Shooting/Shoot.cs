@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
-using System.Collections.Generic;
 
 public class Shoot : MonoBehaviour
 {
@@ -83,53 +82,26 @@ public class Shoot : MonoBehaviour
         return direction;
     }
 
-    Ray BuildRay(bool applyRandomness)
+    Ray BuildRay()
     {
-        Vector3 direction = GetDirection();
-
-        if (applyRandomness)
-        {
-            float offset = Random.Range(-0.3f, 0.3f); //offset only applied in x of direction
-            direction.x += offset;
-        }
-
-        Ray ray = new Ray(bulletOrigin.transform.position, direction);
+        Ray ray = new Ray(bulletOrigin.transform.position, GetDirection());
         Debug.DrawRay(ray.origin, ray.direction * rayLength);
         return ray;
     }
 
-    public List<RaycastHit> ShootRay(int amountOfBullets) // amountOfBullets used to make shotguns shoot multiple rays
+    public RaycastHit ShootRay()
     {
-        List<RaycastHit> hits = new List<RaycastHit>();
-        List<Ray> rays = new List<Ray>();
+        Ray ray = BuildRay();
+        RaycastHit hit;
 
-        for (int i = 0; i < amountOfBullets; i++)
+        Vector3 endPoint = ray.origin + ray.direction * rayLength;
+
+        if (Physics.Raycast(ray, out hit, rayLength))
         {
-            if (i > 0)
-            {
-                Ray ray = BuildRay(true); // applies a bit of randomness in direction
-                rays.Add(ray);
-            }
-            else
-            {
-                Ray ray = BuildRay(false); // doesnt apply randomness in direction, and makes atleast one shotgun pellet go straight
-                rays.Add(ray);
-            }
+            endPoint = hit.point;
         }
-
-        foreach (Ray ray in rays)
-        {
-            RaycastHit hit;
-            Vector3 endPoint = ray.origin + ray.direction * rayLength;
-
-            if (Physics.Raycast(ray, out hit, rayLength))
-            {
-                endPoint = hit.point;
-            }
-
-            hits.Add(hit);
-            CreateBulletTrail(ray.origin, endPoint);
-        }
-        return hits;
+        CreateBulletTrail(ray.origin, endPoint);
+        return hit;
     }
+
 }
