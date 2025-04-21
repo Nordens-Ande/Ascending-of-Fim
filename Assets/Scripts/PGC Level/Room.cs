@@ -12,7 +12,7 @@ public enum RoomType
     Closet
 }
 
-public class Room
+public class Room : ITileable
 {
     public int Width, Height;
     public float WallHeight, WallThickness;
@@ -21,7 +21,8 @@ public class Room
     public HashSet<Vector2> Doorways = new HashSet<Vector2>();
     public RoomType Type;
 
-    public GameObject RoomObject;
+    public List<(Furniture furniture, Vector2Int position)> FurnitureList = new List<(Furniture furniture, Vector2Int position)>();
+    //public GameObject RoomObject { get; set; }
 
     public Room(int width, int height, float wallHeight, float wallThickness, float doorSize, Vector2Int position, RoomType type)
     {
@@ -45,8 +46,8 @@ public class Room
             {
                 {x:0, y:1}  when door.y == bounds.yMax - bounds.yMin => door.x, //back/up
                 {x:0, y:-1} when door.y == bounds.yMin - bounds.yMin => door.x, //front/down
-                {x:1, y:0}  when door.x == bounds.xMax - bounds.xMin => door.y, //höger
-                {x:-1, y:0} when door.x == bounds.xMin - bounds.xMin => door.y, //vänster
+                {x:1, y:0}  when door.x == bounds.xMax - bounds.xMin => door.y, //h?ger
+                {x:-1, y:0} when door.x == bounds.xMin - bounds.xMin => door.y, //v?nster
                 _ => null
             };
 
@@ -71,6 +72,39 @@ public class Room
             for (int y = 0; y < Height; y++)
             {
                 tiles.Add(new Vector2Int(Position.x + x, Position.y + y));
+            }
+        }
+        return tiles;
+    }
+
+    public List<Vector2Int> GetDoorTiles(int doorClearance)
+    {
+        List<Vector2Int> tiles = new List<Vector2Int>();
+        foreach (Vector2 door in Doorways)
+        {
+            Vector2Int doorInt = new Vector2Int((int)door.x, (int)door.y);
+
+            //Back && front
+            if (door.y == 0 || door.y == Height)
+            {
+                for (int x = -Mathf.CeilToInt(DoorSize / 2f); x < Mathf.CeilToInt(DoorSize / 2f); x++)
+                {
+                    for (int y = -doorClearance; y < doorClearance; y++)
+                    {
+                        tiles.Add(new Vector2Int(Position.x + (int)door.x + x, Position.y + (int)door.y + y));
+                    }
+                }
+            }
+            //Right && Left
+            if (door.x == 0 || door.x == Width)
+            {
+                for (int x = -doorClearance; x < doorClearance; x++)
+                {
+                    for (int y = -Mathf.CeilToInt(DoorSize / 2f); y < Mathf.CeilToInt(DoorSize / 2f); y++)
+                    {
+                        tiles.Add(new Vector2Int(Position.x + (int)door.x + x, Position.y + (int)door.y + y));
+                    }
+                }
             }
         }
         return tiles;
