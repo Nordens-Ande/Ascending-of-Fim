@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Shoot : MonoBehaviour
 {
@@ -18,22 +20,47 @@ public class Shoot : MonoBehaviour
         return direction;
     }
 
-    Ray BuildRay()
+    Ray BuildRay(bool applyRandomness)
     {
-        Ray ray = new Ray(bulletOrigin.transform.position, GetDirection());
+        Vector3 direction = GetDirection();
+
+        if(applyRandomness)
+        {
+            float offset = Random.Range(-0.3f, 0.3f); //offset only applied in x of direction
+            direction.x += offset;
+        }
+
+        Ray ray = new Ray(bulletOrigin.transform.position, direction);
         Debug.DrawRay(ray.origin, ray.direction * rayLength);
         return ray;
     }
 
-    public RaycastHit ShootRay()
+    public List<RaycastHit> ShootRay(int amountOfBullets) // amountOfBullets used to make shotguns shoot multiple rays
     {
-        Ray ray = BuildRay();
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, rayLength))
-        {
-            return hit;
-        }
-        return new RaycastHit();
-    }
+        List<RaycastHit> hits = new List<RaycastHit>();
+        List<Ray> rays = new List<Ray>();
 
+        for(int i = 0; i < amountOfBullets; i++)
+        {
+            if (i > 0)
+            {
+                Ray ray = BuildRay(true); // applies a bit of randomness in direction
+                rays.Add(ray);
+            }
+            else
+            {
+                Ray ray = BuildRay(false); // doesnt apply randomness in direction, and makes atleast one shotgun pellet go straight
+                rays.Add(ray);
+            }
+        }
+
+        foreach(Ray ray in rays)
+        {
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit, rayLength);
+            hits.Add(hit);
+        }
+
+        return hits;
+    }
 }

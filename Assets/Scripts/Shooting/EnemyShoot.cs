@@ -41,8 +41,17 @@ public class EnemyShoot : MonoBehaviour
     {
         isReadyToFire = false;
         weaponScript.DecreaseBullets(1); // maybe change if shotgun?
-        RaycastHit hit = shootScript.ShootRay();
-        CheckRay(hit);
+
+        List<RaycastHit> hits;
+        if (weaponData.weaponName.ToLower() == "shotgun")
+        {
+            hits = shootScript.ShootRay(8);
+        }
+        else
+        {
+            hits = shootScript.ShootRay(1);
+        }
+        CheckRay(hits);
         StartCoroutine(ResetIsReadyToFire());
     }
 
@@ -71,19 +80,18 @@ public class EnemyShoot : MonoBehaviour
         return fireRate;
     }
 
-    void CheckRay(RaycastHit hit)
+    void CheckRay(List<RaycastHit> hits)
     {
-        if (hit.collider == null)
+        foreach(RaycastHit hit in hits)
         {
-            return;
-        }
-
-        if (hit.transform.CompareTag("Player"))
-        {
-            PlayerHealth health = hit.transform.GetComponent<PlayerHealth>();
-            if(health != null)
+            if(hit.collider == null) continue;
+            if (hit.transform.CompareTag("Player"))
             {
-                health.ApplyDamage(weaponData.damage);
+                PlayerHealth health = hit.transform.GetComponent<PlayerHealth>();
+                if (health != null)
+                {
+                    health.ApplyDamage(weaponData.damage);
+                }
             }
         }
     }

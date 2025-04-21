@@ -68,22 +68,31 @@ public class PlayerShoot : MonoBehaviour
     void Shoot()
     {
         isReadyToShoot = false;
-        equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
-        RaycastHit hit = shootScript.ShootRay();
-        CheckRay(hit);
+        equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().DecreaseBullets(1);
+
+        List<RaycastHit> hits;
+        if (weaponData.weaponName.ToLower() == "shotgun")
+        {
+            hits = shootScript.ShootRay(8);
+        }
+        else
+        {
+            hits = shootScript.ShootRay(1);
+        }
+        
+        CheckRay(hits);
         StartCoroutine(ResetIsReadyToShoot());
     }
 
-    void CheckRay(RaycastHit hit)
+    void CheckRay(List<RaycastHit> hits)
     {
-        if(hit.collider == null)
+        foreach(RaycastHit hit in hits)
         {
-            return;
-        }
-
-        if (hit.transform.CompareTag("Enemy"))
-        {
-            hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
+            if (hit.collider == null) continue;
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
+            }
         }
     }
 
