@@ -5,14 +5,14 @@ public class PlayerHitSound : MonoBehaviour
     public AudioSource playerHitaudioSource;
     public AudioClip playerHurtSoundEffect;
     bool ishit;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+
     void Start()
     {
         playerHitaudioSource = GetComponent<AudioSource>();
-        //ishit = GetComponent<Script,där,ray,finns,när,Fim,blir,träffad>().Namnet,på,bool,som,används,när,ray,träffar;
+        //playerHealth = GetComponent<PlayerHealth>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         IsPlayerHit();
@@ -33,6 +33,7 @@ public class PlayerHitSound : MonoBehaviour
             SoundActivate();
         
         }
+        
     
     }
 }

@@ -11,7 +11,7 @@ public class EnemyWalk : MonoBehaviour
     {
         enemyWalkSound = GetComponent<AudioSource>();
         deadMansSwitch = false;
-        //enemyIsMoving = GetComponent<?>().namnetPÂBoolenIEnemyscript;
+        //enemyIsWalking = GetComponent<EnemyMove>().Wandering;
 
 
     }
@@ -19,7 +19,6 @@ public class EnemyWalk : MonoBehaviour
     void Update()
     { 
         playSoundOnWalk();
-        //EnemyIsMoving = GetComponent<SoundEffectsPlayer>().namnetPÂBoolenIEnemyscript;
 
     }
     //Deadmanswitch triggar loopen av ljudet 

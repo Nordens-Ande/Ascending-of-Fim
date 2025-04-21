@@ -4,8 +4,8 @@ public class EnemyHitSound : MonoBehaviour
 {
     AudioSource enemyHitAudiosource;
     AudioClip enemyHitAudioclip;
-    bool isEnemyHurting;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public bool isEnemyHurting;
+
     void Start()
     {
         enemyHitAudiosource = GetComponent<AudioSource>();
