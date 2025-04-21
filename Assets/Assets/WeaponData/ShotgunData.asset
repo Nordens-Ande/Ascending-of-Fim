@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 0
   weaponName: Shotgun
-  damage: 60
+  damage: 8
   fireRate: 70
   ammoCapacity: 6
   allowButtonHold: 0
