@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 using static UnityEditor.PlayerSettings;
@@ -227,78 +228,6 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    //private IEnumerator GenerateFurnitureLayout()
-    //{
-    //    //Queue<Furniture> furnitureQueue = new Queue<Furniture>();
-
-    //    foreach (Room room in rooms)
-    //    {
-    //        yield return null;
-    //        yield return null; //väntar 2 frames
-
-    //        RoomType type = room.Type;
-    //        int failCount = 0;
-    //        int maxFails = 50;
-
-    //        while (failCount < maxFails && room.FurnitureList.Count <= roomSettings[type].maxFurniture)
-    //        {
-    //            List<Furniture> availableFurnitures = roomPrefabManager.GetFurniture(room.Type);
-    //            if (availableFurnitures == null || availableFurnitures.Count == 0)
-    //            {
-    //                failCount++;
-    //                continue;
-    //            }
-
-    //            bool addedFurnitureThisCycle = false;
-
-    //            List<Vector2Int> currRoomTiles = room.GetOccupiedTiles();
-    //            Vector2Int spawnPos = currRoomTiles[Random.Range(0, currRoomTiles.Count)];
-    //            Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
-
-    //            if (room.FurnitureList.Contains(selectedFurniture))
-    //            {
-    //                failCount++;
-    //                continue;
-    //            }
-
-    //            if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
-    //            {
-    //                //Debug.Log("Trying ray for furniture");
-    //                selectedFurniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
-
-    //                float rayLength = 0.5f;
-
-    //                bool isClear = IsClearAhead(selectedFurniture.BuildRay(selectedFurniture.frontDirection), rayLength, null, selectedFurniture.drawDebug);
-    //                bool IsNextToWall = true;
-    //                foreach (Vector2Int dir in selectedFurniture.wallDirections)
-    //                {
-    //                    if (IsClearAhead(selectedFurniture.BuildRay(dir), rayLength, LayerMask.GetMask("Wall"), selectedFurniture.drawDebug))
-    //                        IsNextToWall = false;
-    //                }
-
-    //                if (isClear && IsNextToWall)
-    //                {
-    //                    Debug.Log("Placed furniture: " + spawnPos);
-    //                    AddFurniture(room, selectedFurniture, spawnPos);
-    //                    MeshBuilder.CreateFurniture(roomDictionary[room].transform.root, selectedFurniture.gameObject);
-    //                    addedFurnitureThisCycle = true;
-    //                }
-    //                else
-    //                {
-    //                    Debug.Log("Failed placement");
-    //                    //AddFurniture(room, selectedFurniture, spawnPos);
-    //                }
-    //            }
-
-    //            if (!addedFurnitureThisCycle)
-    //                failCount++;
-    //            else
-    //                failCount = 0; // Reset fails if successful
-    //        }
-
-    //        //MeshBuilder.DecorateRoomMesh(roomDictionary[room].transform.root, room);
-    //    }
-    //}
     private void GenerateFurnitureLayout()
     {
         Queue<Furniture> furnitureQueue = new Queue<Furniture>();
@@ -309,35 +238,40 @@ public class RoomManager : MonoBehaviour
 
             RoomType type = room.Type;
             int failCount = 0;
-            int maxFails = 50;
+            int maxFails = 20;
+            int amountToGenerate = Random.Range(1, roomSettings[type].maxFurniture + 1);
 
             while (failCount < maxFails && room.FurnitureList.Count <= roomSettings[type].maxFurniture)
             {
+                if (room.FurnitureList.Count >= amountToGenerate)
+                    break;
+
                 List<Furniture> availableFurnitures = roomPrefabManager.GetFurniture(room.Type);
                 if (availableFurnitures == null || availableFurnitures.Count == 0)
                 {
                     failCount++;
                     continue;
                 }
+                    
 
                 bool addedFurnitureThisCycle = false;
 
                 List<Vector2Int> roomTiles = room.GetOccupiedTiles();
                 List<Vector2Int> doorTiles = room.GetDoorTiles(doorClearance);
-                List<Vector2Int> furnitureTiles = new List<Vector2Int>();
-                foreach (Furniture furniture in room.FurnitureList)
-                    furnitureTiles.AddRange(furniture.GetOccupiedTiles());
+                //List<Vector2Int> furnitureTiles = new List<Vector2Int>();
+                //foreach (Furniture furniture in room.FurnitureList.Keys)
+                //    furnitureTiles.AddRange(furniture.GetOccupiedTiles(room.FurnitureList[furniture]));
 
                 Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
                 Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
 
-                List<Vector2Int> selectedFurnitureTiles = selectedFurniture.GetOccupiedTiles(spawnPos);
+                if (room.FurnitureList.Any(f => f.Item1 == selectedFurniture) && !selectedFurniture.repeating)
+                {
+                    failCount++;
+                    continue;
+                }
 
-                //if (room.FurnitureList.Contains(selectedFurniture))
-                //{
-                //    failCount++;
-                //    continue;
-                //}
+                List<Vector2Int> selectedFurnitureTiles = selectedFurniture.GetOccupiedTiles(spawnPos);
 
                 if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
                 {
@@ -345,8 +279,8 @@ public class RoomManager : MonoBehaviour
 
                     float rayLength = 0.5f;
 
-                    bool isClear = CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, roomTiles, doorTiles)
-                                   && !CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, furnitureTiles);
+                    bool isClear = CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, roomTiles, doorTiles.ToList())
+                                   && !CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, occupiedFurniturePositions.ToList());
                     bool isNextToWall = true;
                     foreach (Vector2Int dir in selectedFurniture.wallDirections)
                     {
@@ -410,7 +344,7 @@ public class RoomManager : MonoBehaviour
             }
         }
 
-        // LEFT & RIGHT (A ?r h?ger om B)
+        // LEFT & RIGHT (A är höger om B)
         else if (boundsA.xMin == boundsB.xMax)
         {
             int overlapMinY = Mathf.Max(boundsA.yMin, boundsB.yMin);
@@ -421,51 +355,12 @@ public class RoomManager : MonoBehaviour
             {
                 int doorZ = Mathf.RoundToInt(Random.Range(overlapMinY + doorSize / 2f, overlapMaxY - doorSize / 2f));
                 roomA.Doorways.Add(new Vector2(0, doorZ - boundsA.yMin)); // Left (A)
-                roomB.Doorways.Add(new Vector2(roomB.Width, doorZ - boundsB.yMin)); // Right v?gg (B)
+                roomB.Doorways.Add(new Vector2(roomB.Width, doorZ - boundsB.yMin)); // Right vägg (B)
             }
         }
 
         AddDoorSpace(roomA);
     }
-
-    //void TryCreateFurniture(Room room)
-    //{
-    //    List<Furniture> availableFurnitures = roomPrefabManager.GetFurniture(room.Type);
-    //    if (availableFurnitures == null || availableFurnitures.Count == 0)
-    //        return;
-
-    //    BoundsInt bounds = room.GetBounds();
-    //    List<Vector2Int> currRoomTiles = room.GetOccupiedTiles();
-    //    Vector2Int spawnPos = currRoomTiles[Random.Range(0, currRoomTiles.Count)];
-    //    Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
-
-    //    if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
-    //    {
-    //        Debug.Log("Trying ray for furniture");
-    //        selectedFurniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
-
-    //        float rayLength = 0.5f;
-
-    //        bool isClear = IsClearAhead(selectedFurniture.BuildRay(selectedFurniture.frontDirection), rayLength, null, selectedFurniture.drawDebug);
-    //        bool IsNextToWall = true;
-    //        foreach (Vector2Int dir in selectedFurniture.wallDirections)
-    //        {
-    //            if (IsClearAhead(selectedFurniture.BuildRay(dir), rayLength, LayerMask.GetMask("Wall"), selectedFurniture.drawDebug))
-    //                IsNextToWall = false;
-    //        }
-
-    //        if (isClear && IsNextToWall)
-    //        {
-    //            Debug.Log("Placed furniture: " + spawnPos);
-    //            AddFurniture(room, selectedFurniture, spawnPos);
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Failed placement");
-    //            //AddFurniture(room, selectedFurniture, spawnPos);
-    //        }
-    //    }
-    //}
 
     void TryCreateFurniture(Room room)
     {
@@ -476,8 +371,8 @@ public class RoomManager : MonoBehaviour
         List<Vector2Int> roomTiles = room.GetOccupiedTiles();
         List<Vector2Int> doorTiles = room.GetDoorTiles(doorClearance);
         List<Vector2Int> furnitureTiles = new List<Vector2Int>();
-        foreach (Furniture furniture in room.FurnitureList)
-            furnitureTiles.AddRange(furniture.GetOccupiedTiles());
+        foreach ((Furniture f, Vector2Int v) furniture in room.FurnitureList)
+            furnitureTiles.AddRange(furniture.f.GetOccupiedTiles(furniture.v));
 
         Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
         Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
@@ -568,12 +463,16 @@ public class RoomManager : MonoBehaviour
     }
     bool IsFurnitureSpaceFree(Room room, Furniture furniture, Vector2Int position)
     {
+        //tiles för det specifika rummet
         List<Vector2Int> roomTiles = room.GetOccupiedTiles();
         List<Vector2Int> doorTiles = room.GetDoorTiles(doorClearance);
+        List<Vector2Int> furnitureTiles = new List<Vector2Int>();
+        foreach ((Furniture f, Vector2Int v) furn in room.FurnitureList)
+            furnitureTiles.AddRange(furn.f.GetOccupiedTiles(furn.v));
 
         foreach (Vector2Int tile in furniture.GetOccupiedTiles(position))
         {
-            if (doorTiles.Contains(tile) || !roomTiles.Contains(tile))
+            if (doorTiles.Contains(tile) || !roomTiles.Contains(tile) || furnitureTiles.Contains(tile))
                 return false;
         }
 
@@ -608,9 +507,10 @@ public class RoomManager : MonoBehaviour
     void AddFurniture(Room room, Furniture furniture, Vector2Int pos)
     {
         //Vector2Int offset = pos - room.Position;
-        furniture.gameObject.transform.position = new Vector3(pos.x, 0, pos.y);
+        furniture.transform.position = new Vector3(pos.x, 0, pos.y);
 
-        room.FurnitureList.Add(furniture);
+        room.FurnitureList.Add((furniture, pos));
+        Debug.Log($"{furniture.gameObject.transform.position} with vector3: {new Vector3(pos.x, 0, pos.y)}");
 
         foreach (Vector2Int tile in furniture.GetOccupiedTiles())
         {

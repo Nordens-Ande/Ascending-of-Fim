@@ -27,6 +27,7 @@ public static class MeshBuilder
         floor.transform.position = origin + size / 2f;
         floor.transform.localScale = new Vector3(size.x, 0.1f, size.z);
         floor.GetComponent<Renderer>().material = floorMat;
+        floor.layer = 3;
 
         //Definar fyra v?gar (4 directions)
         //Vector3 wallScaleX = new Vector3(room.WallThickness, room.WallHeight, room.Height);
@@ -38,10 +39,11 @@ public static class MeshBuilder
     }
     public static void DecorateRoomMesh(Transform root, Room room)
     {
-        foreach (Furniture furniture in room.FurnitureList)
+        foreach ((Furniture f, Vector2Int v) furniture in room.FurnitureList)
         {
-            Debug.Log(furniture.transform.position);
-            CreateFurniture(root.transform.root, furniture.gameObject);
+            Debug.Log("DecorateRoomMesh: " + furniture.f.gameObject.transform.position);
+            Vector2Int pos2 = furniture.v;
+            CreateFurniture(root.transform.root, furniture.f.gameObject, new Vector3(pos2.x, 0, pos2.y));
         }       
     }
 
@@ -137,11 +139,11 @@ public static class MeshBuilder
         wall.layer = 8;
     }
 
-    public static void CreateFurniture(Transform parent, GameObject prefab)
+    public static void CreateFurniture(Transform parent, GameObject prefab, Vector3 pos)
     {
         GameObject furnitureObject = GameObject.Instantiate(prefab);
         furnitureObject.transform.parent = parent;
-        furnitureObject.transform.position = prefab.transform.position;
-        furnitureObject.name = "Furniture " + furnitureObject.transform.position;
+        furnitureObject.transform.position = pos;
+        furnitureObject.name = "Furniture " + pos;
     }
 }

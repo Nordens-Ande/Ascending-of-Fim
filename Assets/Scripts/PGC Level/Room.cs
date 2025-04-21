@@ -21,7 +21,7 @@ public class Room : ITileable
     public HashSet<Vector2> Doorways = new HashSet<Vector2>();
     public RoomType Type;
 
-    public List<Furniture> FurnitureList = new List<Furniture>();
+    public List<(Furniture furniture, Vector2Int position)> FurnitureList = new List<(Furniture furniture, Vector2Int position)>();
     //public GameObject RoomObject { get; set; }
 
     public Room(int width, int height, float wallHeight, float wallThickness, float doorSize, Vector2Int position, RoomType type)

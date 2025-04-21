@@ -8,6 +8,7 @@ public class Furniture : MonoBehaviour, ITileable
     public Vector2Int size;
     public Vector2Int frontDirection;
     public List<Vector2Int> wallDirections = new List<Vector2Int>();
+    public bool repeating;
 
     public bool drawDebug = false;
     
