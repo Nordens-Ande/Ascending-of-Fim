@@ -130,7 +130,6 @@ public static class MeshBuilder
         wall.transform.position = pos;
         wall.transform.localScale = scale;
         wall.GetComponent<Renderer>().material = mat;
-        wall.layer = 8;
     }
 
     public static void CreateFurniture(Transform parent, GameObject prefab, Vector3 pos)

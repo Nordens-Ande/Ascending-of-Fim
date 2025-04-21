@@ -77,7 +77,7 @@ public class EnemyMove : MonoBehaviour
 
     Vector3 GetRandomPos(Vector3 enemyPos)
     {
-        int maxDistance = 70;
+        int maxDistance = 40;
         int minDistance = 10;
         for(int i = 0; i < 10; i++)
         {
@@ -86,7 +86,7 @@ public class EnemyMove : MonoBehaviour
             NavMeshHit hit;
             if(NavMesh.SamplePosition(randomDirection, out hit, maxDistance, NavMesh.AllAreas))
             {
-                if(Vector3.Distance(hit.normal, enemyPos) > minDistance)
+                if(Vector3.Distance(hit.position, enemyPos) > minDistance)
                 {
                     return hit.position;
                 }

@@ -33,8 +33,11 @@ public struct RoomSettings
 public class RoomManager : MonoBehaviour
 {
     [SerializeField] bool reroll = false;
+
+    [SerializeField] GameObject player;
     //[SerializeField] bool debug = false;
     [Space]
+
 
     [Header("Room Settings")]
     [SerializeField] Material wallMaterial;
@@ -63,6 +66,8 @@ public class RoomManager : MonoBehaviour
 
     TileDebugger debugger;
     RoomPrefabManager roomPrefabManager;
+    NavMeshBaker navMeshBaker;
+    [SerializeField] EnemySpawnPointManager enemySpawnPointManager;
 
     private List<Room> rooms;
     private List<GameObject> roomObjects;
@@ -103,11 +108,13 @@ public class RoomManager : MonoBehaviour
 
         debugger = GetComponent<TileDebugger>();
         roomPrefabManager = GetComponent<RoomPrefabManager>();
+        navMeshBaker = GetComponent<NavMeshBaker>();
     }
 
     void Start()
     {
         reroll = false;
+        player.transform.position = new Vector3(initWidth / 2f, 5, initHeight / 2f);
 
         rooms = new List<Room>();
         roomObjects = new List<GameObject>();
@@ -131,6 +138,16 @@ public class RoomManager : MonoBehaviour
             //StartCoroutine(DelayedFurnitureCreation(room, roomMesh));
             //TryCreateFurniture(room);
             MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
+        }
+
+        if(navMeshBaker != null)
+        {
+            navMeshBaker.BakeNavMesh();
+        }
+
+        if(enemySpawnPointManager != null)
+        {
+            enemySpawnPointManager.GetSpawnPoints();
         }
     }
 
