@@ -74,13 +74,6 @@ public class Furniture : MonoBehaviour, ITileable
         Gizmos.DrawLine(startPoint, endPoint);
         Gizmos.DrawSphere(endPoint, 0.05f);
     }
-    public Ray BuildRay(Vector2 dir)
-    {
-        Vector2 normDir = dir.normalized;
-        Vector3 offset = new Vector3(normDir.x, 0, normDir.y) * -0.1f; //Offset för att se till så att ray-en inte skapas inuti en väg (och aldrig kolliderar), den är halverad av nån anledning
-        Vector3 origo = transform.position + new Vector3(((float)size.x * (1 + normDir.x)) / 2f, 1, ((float)size.y * (1 + normDir.y)) / 2f);
-        return new Ray(origo + offset, new Vector3(normDir.x, 0, normDir.y));
-    }
 
     // Update is called once per frame
     void Update()

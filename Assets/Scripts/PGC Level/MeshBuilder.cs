@@ -29,10 +29,6 @@ public static class MeshBuilder
         floor.GetComponent<Renderer>().material = floorMat;
         floor.layer = 3;
 
-        //Definar fyra v?gar (4 directions)
-        //Vector3 wallScaleX = new Vector3(room.WallThickness, room.WallHeight, room.Height);
-        //Vector3 wallScaleZ = new Vector3(room.Width, room.WallHeight, room.WallThickness);
-
         CreateWallsWithDoorways(root.transform, origin, room.GetBounds(), room, wallMat);
 
         return root;
@@ -80,8 +76,6 @@ public static class MeshBuilder
 
             Vector3 wallDir = (horizontal ? Vector3.right : Vector3.forward);
             Vector3 offsetDir = (horizontal ? Vector3.right : Vector3.forward);
-
-            //Debug.Log("Amount doors: " + doorPositions.Count + " with dir: " + dir);
 
             if (doorPositions.Count > 0)
             {

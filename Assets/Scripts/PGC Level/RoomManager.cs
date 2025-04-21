@@ -53,15 +53,6 @@ public class RoomManager : MonoBehaviour
     [SerializeField] int doorClearance;
 
     [Header("Specific Room Sizes")]
-    //[SerializeField] MinMaxInt hallwaySizeRange;
-    //[SerializeField] MinMaxInt corridorSizeRange;
-    //[SerializeField] MinMaxInt livingRoomSizeRange;
-    //[SerializeField] MinMaxInt bedroomSizeRange;
-    //[SerializeField] MinMaxInt diningRoomSizeRange;
-    //[SerializeField] MinMaxInt closetSizeRange;
-    //[SerializeField] MinMaxInt bathroomSizeRange;
-    //[SerializeField] RoomSettings test;
-
     [SerializeField] RoomSettings hallwaySettings;
     [SerializeField] RoomSettings corridorSettings;
     [SerializeField] RoomSettings livingRoomSettings;
@@ -99,16 +90,6 @@ public class RoomManager : MonoBehaviour
 
     private void Awake()
     {
-        //roomSizes = new Dictionary<RoomType, MinMaxInt>()
-        //{
-        //    { RoomType.Hallway, hallwaySizeRange},
-        //    { RoomType.Corridor, corridorSizeRange},
-        //    { RoomType.LivingRoom, livingRoomSizeRange},
-        //    { RoomType.Bedroom, bedroomSizeRange},
-        //    { RoomType.DiningRoom, diningRoomSizeRange},
-        //    { RoomType.Closet, closetSizeRange},
-        //    { RoomType.Bathroom, bathroomSizeRange}
-        //};
         roomSettings = new Dictionary<RoomType, RoomSettings>()
         {
             { RoomType.Hallway, hallwaySettings},
@@ -151,13 +132,6 @@ public class RoomManager : MonoBehaviour
             //TryCreateFurniture(room);
             MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
         }
-
-        //StartCoroutine(DelayedFurnitureLayout());
-
-        //foreach (Room room in rooms)
-        //{
-        //    MeshBuilder.DecorateRoomMesh(roomDictionary[room].transform.root, room);
-        //}
     }
 
     private IEnumerator DelayedFurnitureLayout()
@@ -362,82 +336,51 @@ public class RoomManager : MonoBehaviour
         AddDoorSpace(roomA);
     }
 
-    void TryCreateFurniture(Room room)
-    {
-        List<Furniture> availableFurnitures = roomPrefabManager.GetFurniture(room.Type);
-        if (availableFurnitures == null || availableFurnitures.Count == 0)
-            return;
+    //REFERNS
+    //void TryCreateFurniture(Room room)
+    //{
+    //    List<Furniture> availableFurnitures = roomPrefabManager.GetFurniture(room.Type);
+    //    if (availableFurnitures == null || availableFurnitures.Count == 0)
+    //        return;
 
-        List<Vector2Int> roomTiles = room.GetOccupiedTiles();
-        List<Vector2Int> doorTiles = room.GetDoorTiles(doorClearance);
-        List<Vector2Int> furnitureTiles = new List<Vector2Int>();
-        foreach ((Furniture f, Vector2Int v) furniture in room.FurnitureList)
-            furnitureTiles.AddRange(furniture.f.GetOccupiedTiles(furniture.v));
+    //    List<Vector2Int> roomTiles = room.GetOccupiedTiles();
+    //    List<Vector2Int> doorTiles = room.GetDoorTiles(doorClearance);
+    //    List<Vector2Int> furnitureTiles = new List<Vector2Int>();
+    //    foreach ((Furniture f, Vector2Int v) furniture in room.FurnitureList)
+    //        furnitureTiles.AddRange(furniture.f.GetOccupiedTiles(furniture.v));
 
-        Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
-        Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
+    //    Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
+    //    Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
 
-        List<Vector2Int> selectedFurnitureTiles = selectedFurniture.GetOccupiedTiles(spawnPos);
+    //    List<Vector2Int> selectedFurnitureTiles = selectedFurniture.GetOccupiedTiles(spawnPos);
 
-        if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
-        {
-            selectedFurniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
+    //    if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
+    //    {
+    //        selectedFurniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
 
-            float rayLength = 0.5f;
+    //        float rayLength = 0.5f;
 
-            bool isClear = CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, roomTiles, doorTiles)
-                           && !CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, furnitureTiles);
-            bool isNextToWall = true;
-            foreach (Vector2Int dir in selectedFurniture.wallDirections)
-            {
-                if (CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, roomTiles))
-                    isNextToWall = false;
-            }
+    //        bool isClear = CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, roomTiles, doorTiles)
+    //                       && !CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, furnitureTiles);
+    //        bool isNextToWall = true;
+    //        foreach (Vector2Int dir in selectedFurniture.wallDirections)
+    //        {
+    //            if (CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, roomTiles))
+    //                isNextToWall = false;
+    //        }
 
-            if (isClear && isNextToWall)
-            {
-                Debug.Log("Placed furniture: " + spawnPos);
-                AddFurniture(room, selectedFurniture, spawnPos);
-            }
-            else
-            {
-                Debug.Log("Failed placement");
-                //AddFurniture(room, selectedFurniture, spawnPos);
-            }
-        }
-    }
-
-    bool IsClearAhead(Ray ray, float length, LayerMask? layer = null, bool debug = false)
-    {
-        RaycastHit hit;
-        Color rayColor = Physics.Raycast(ray, out hit, length) ? Color.red : Color.green;
-
-        if (layer.HasValue && layer.Value != 0)
-        {
-            rayColor = Physics.Raycast(ray, out hit, length, layer.Value) ? Color.red : Color.green;
-
-            if (Physics.Raycast(ray, out hit, length, layer.Value))
-            {
-                if (debug)
-                    Debug.Log($"Hit obstacle: {hit.transform.name} with layer: {layer.Value}");
-                return false;
-            }
-        }
-        else
-        {
-            if (Physics.Raycast(ray, out hit, length))
-            {
-                if (debug)
-                    Debug.Log("Hit obstacle: " + hit.transform.name);
-                return false;
-            }
-        }
-
-        if (debug)
-            Debug.DrawRay(ray.origin, ray.direction * length, rayColor, 10f);
-
-        return true;
-    }
+    //        if (isClear && isNextToWall)
+    //        {
+    //            Debug.Log("Placed furniture: " + spawnPos);
+    //            AddFurniture(room, selectedFurniture, spawnPos);
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Failed placement");
+    //            //AddFurniture(room, selectedFurniture, spawnPos);
+    //        }
+    //    }
+    //}
 
     bool CheckCollidingTilesAtDir(Vector2Int dir, List<Vector2Int> compareTiles, params List<Vector2Int>[] tileLists)
     {
