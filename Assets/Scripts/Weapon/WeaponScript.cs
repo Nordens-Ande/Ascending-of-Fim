@@ -74,15 +74,13 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     public void Unequip()
     {
-        Debug.Log("unequip called");
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        Debug.Log("rotation thing");
         GetComponent<Collider>().enabled = true;
-        Debug.Log("collider");
         weaponBody.isKinematic = false;
-        Debug.Log("kinematic");
+        weaponBody.linearVelocity = Vector3.zero;
+        weaponBody.angularVelocity = Vector3.zero;
         IsRotating = true;
-        Debug.Log("isRoating");
+        
     }
 
     //private void OnCollisionEnter(Collision other)
