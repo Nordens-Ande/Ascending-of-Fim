@@ -36,9 +36,4 @@ public class TimerUIScript : MonoBehaviour
     {
         elapsedTime = 0f;
     }
-
-    public float getTime()
-    {
-        return elapsedTime;
-    }
 }

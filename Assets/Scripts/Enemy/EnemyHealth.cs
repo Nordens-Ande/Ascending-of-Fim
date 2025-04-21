@@ -4,8 +4,6 @@ public class EnemyHealth : MonoBehaviour
 {
     int health;
 
-    [SerializeField] CheckIfEnemyDead enemyDeathScript;
-
     void Start()
     {
         health = 50;
@@ -14,9 +12,13 @@ public class EnemyHealth : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         health -= damage;
+    }
+
+    void Update()
+    {
         if(health < 0)
         {
-            enemyDeathScript.EnemyDead();
+            Destroy(gameObject);
         }
     }
 }

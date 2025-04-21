@@ -4,21 +4,16 @@ using UnityEngine;
 public class SoundEffectsEnemy : MonoBehaviour
 {
     public AudioSource CurrentSoundEffect;
-    public AudioClip soundEffectShot;
-    public AudioClip[] enemyVoicelines;
+    public AudioClip soundEffectShot, soundEffectTalk;
     int voiceLine;
-
-    public bool EnemyIsShooting;
-    //public EnemyShot = enemyShot;
-
+    public bool EnemyIsShooting = true;
     bool deadmansswitch;
     
 
     public void Start()
     {
-        //EnemyIsShooting = GetComponent<EnemyShot>().isShooting;
         CurrentSoundEffect = GetComponent<AudioSource>();
-
+        //EnemyIsShooting = GetComponent<SoundEffectsPlayer>().namnetPÂBoolenIEnemyscript;
         deadmansswitch = false;
     }
     public void Update()
@@ -29,18 +24,20 @@ public class SoundEffectsEnemy : MonoBehaviour
         isActivelyShooting();
         
         beginToTalk();
+        //EnemyIsShooting = GetComponent<SoundEffectsPlayer>().namnetPÂBoolenIEnemyscript;
     }
     public void shooting()
     {
         CurrentSoundEffect.clip = soundEffectShot;
+        //CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
         CurrentSoundEffect.Play();
 
     }
     
     public void talking()
     {
-        CurrentSoundEffect.clip = enemyVoicelines[Random.Range(0, enemyVoicelines.Length)];
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 10f);
+        CurrentSoundEffect.clip = soundEffectTalk;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
        
     }
 

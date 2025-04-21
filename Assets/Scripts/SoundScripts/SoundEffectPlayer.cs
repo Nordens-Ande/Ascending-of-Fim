@@ -3,8 +3,7 @@ using UnityEngine;
 public class SoundEffectsPlayer : MonoBehaviour
 {
     public AudioSource CurrentSoundEffect;  
-    public AudioClip soundEffectShot;
-    public AudioClip[] playerVoicelines; 
+    public AudioClip soundEffectShot, soundEffectTalk;
     int rand;
 
     public void Start()
@@ -33,8 +32,8 @@ public class SoundEffectsPlayer : MonoBehaviour
 
     public void talking() 
     {
-        CurrentSoundEffect.clip = playerVoicelines[Random.Range(0, playerVoicelines.Length)];
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 10);
+        CurrentSoundEffect.clip = soundEffectTalk;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1);
     }
 
     public void isActivelyShooting() 

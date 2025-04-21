@@ -71,7 +71,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     public void Equip()
     {
-        if(GetComponent<Collider>())
+        if (GetComponent<Collider>())
         {
             GetComponent<Collider>().enabled = false;
         }
@@ -87,7 +87,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
         weaponBody.linearVelocity = Vector3.zero;
         weaponBody.angularVelocity = Vector3.zero;
         IsRotating = true;
-        
+
     }
 
     //private void OnCollisionEnter(Collision other)

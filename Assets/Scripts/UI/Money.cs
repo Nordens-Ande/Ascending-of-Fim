@@ -7,33 +7,6 @@ public class Money : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI moneytext;
 
-
-    private void Start()
-    {
-        if (moneytext != null)
-        {
-            moneytext.text = "0";
-        }
-        else
-        {
-            Debug.LogWarning("TextMeshProUGUI reference is not assigned");
-        }
-    }
-
-    public int readMoney()
-    {
-        if(moneytext != null)
-        {
-            return int.Parse(moneytext.text);
-            
-        }
-        else
-        {
-            Debug.LogWarning("money is null");
-            return 0;
-        }
-    }
-
     public void setNumber(int newMoney)
     {
         if (moneytext != null)

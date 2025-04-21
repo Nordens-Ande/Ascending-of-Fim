@@ -32,14 +32,4 @@ public class HealthBar : MonoBehaviour
         SetHealth(currentHealth);
     }
 
-    public float readHealth()
-    {
-        return healthSlider.value;
-    }
-
-    public float getMaxHealth()
-    {
-        return healthSlider.maxValue;
-    }
-
 }

@@ -11,7 +11,7 @@ public class EnemySpawnPointManager : MonoBehaviour
     {
         //create spawnPoints
         
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.Find("Player Equip");
     }
 
     public List<Vector3> GetViableSpawnPoints()
