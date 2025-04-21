@@ -116,15 +116,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2826510457370152246, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.411
+      value: 1503.74
       objectReference: {fileID: 0}
     - target: {fileID: 2826510457370152246, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.56
+      value: 1342.17
       objectReference: {fileID: 0}
     - target: {fileID: 2826510457370152246, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.598
+      value: 2751.33
       objectReference: {fileID: 0}
     - target: {fileID: 2826510457370152246, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_LocalRotation.w
@@ -167,10 +167,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -5889119629771874676, guid: 8b4118dc61cf205499a67bf3f1878fc9, type: 3}
     - target: {fileID: 7834230326950182527, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
-      propertyPath: firePoint
-      value: 
-      objectReference: {fileID: 7098998519686701564}
-    - target: {fileID: 7834230326950182527, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -200,7 +196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9147084696985637467, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_Name
-      value: Gun Variant
+      value: Scripted Pistol
       objectReference: {fileID: 0}
     - target: {fileID: 9147084696985637467, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       propertyPath: m_Layer
@@ -211,7 +207,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7451157721420588447, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8805717431166605479, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
       insertIndex: -1
@@ -297,13 +294,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponData: {fileID: 11400000, guid: 534ef9f847aa6994e9ccef2b4c2e8735, type: 2}
   WeaponRotationSpeed: 10
+  RightHand: {fileID: 5365570141444010433}
+  LeftHand: {fileID: 7880239941682061418}
 --- !u!4 &917581412029143262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8805717431166605479, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
-  m_PrefabInstance: {fileID: 8543282552295194745}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7098998519686701564 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1444357769769132421, guid: 25d9a3f73b7748942becb9edf4a12bec, type: 3}
   m_PrefabInstance: {fileID: 8543282552295194745}
   m_PrefabAsset: {fileID: 0}

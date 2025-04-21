@@ -11,12 +11,13 @@ public class EquipWeapon : MonoBehaviour
 
     [Header("Ray Settings")]
     [SerializeField][Range(0.0f, 2.0f)] private float rayLengt;
-    [SerializeField] private Vector3 rayOffset; //för att flytta Ray uppåt så att den hamnar rätt med Fim
-    [SerializeField] private LayerMask weaponMask; //för att determinera vad som kan bli träffat av rayen
+    [SerializeField] private Vector3 rayOffset; //fï¿½r att flytta Ray uppï¿½t sï¿½ att den hamnar rï¿½tt med Fim
+    [SerializeField] private LayerMask weaponMask; //fï¿½r att determinera vad som kan bli trï¿½ffat av rayen
     [SerializeField] public Transform orientationObject;
     private RaycastHit topRayHitInfo;
     //private RaycastHit bottomRayHitInfo;
 
+    public GameObject currentWeaponObject;
     private WeaponScript currentWeapon;
 
     [Header("AnimationPos")]
@@ -27,15 +28,15 @@ public class EquipWeapon : MonoBehaviour
     private bool isShooting;
 
     [Header ("Right Hand Target")]
-    [SerializeField] private TwoBoneIKConstraint rightHandIK; //Referens till höger handens IK constraint
-    [SerializeField] private Transform rightHandTarget; //Referens till höger handens target, gjort för att kunna sätta vapnet i höger hand
+    [SerializeField] private TwoBoneIKConstraint rightHandIK; //Referens till hï¿½ger handens IK constraint
+    [SerializeField] private Transform rightHandTarget; //Referens till hï¿½ger handens target, gjort fï¿½r att kunna sï¿½tta vapnet i hï¿½ger hand
 
     [Header("Left Hand Target")]
-    [SerializeField] private TwoBoneIKConstraint leftHandIK; //Referens till vänster handens IK constraint
-    [SerializeField] private Transform leftHandTarget; //Referens till vänster handens target, gjort för att kunna sätta vapnet i vänster hand
+    [SerializeField] private TwoBoneIKConstraint leftHandIK; //Referens till vï¿½nster handens IK constraint
+    [SerializeField] private Transform leftHandTarget; //Referens till vï¿½nster handens target, gjort fï¿½r att kunna sï¿½tta vapnet i vï¿½nster hand
 
-    [SerializeField] private Transform IKRightHandPos; //Referens till höger handens position, gjort för att kunna sätta vapnet i höger hand
-    [SerializeField] private Transform IKLeftHandPos; //Referens till vänster handens position, gjort för att kunna sätta vapnet i vänster hand
+    [SerializeField] private Transform IKRightHandPos; //Referens till hï¿½ger handens position, gjort fï¿½r att kunna sï¿½tta vapnet i hï¿½ger hand
+    [SerializeField] private Transform IKLeftHandPos; //Referens till vï¿½nster handens position, gjort fï¿½r att kunna sï¿½tta vapnet i vï¿½nster hand
 
     public bool IsEquipped;
 
@@ -67,7 +68,7 @@ public class EquipWeapon : MonoBehaviour
             //    //currentWeapon.transform.position = equipPos.position;
             //    //currentWeapon.transform.rotation = equipPos.rotation;
 
-            //    currentWeapon.transform.parent = equipPos.transform; //här
+            //    currentWeapon.transform.parent = equipPos.transform; //hï¿½r
             //    currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, equipPos.position, Time.deltaTime * AnimationSpeed);
             //    currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, equipPos.rotation, Time.deltaTime * AnimationSpeed);
 
@@ -76,10 +77,10 @@ public class EquipWeapon : MonoBehaviour
             if(IsEquipped)
             {
                 //currentWeapon.transform.parent = shootingPos.transform;
-                //currentWeapon.transform.position = shootingPos.position; //här
+                //currentWeapon.transform.position = shootingPos.position; //hï¿½r
                 //currentWeapon.transform.rotation = shootingPos.rotation;
                 
-                currentWeapon.transform.parent = shootingPos.transform; //här
+                currentWeapon.transform.parent = shootingPos.transform; //hï¿½r
                 currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, shootingPos.position,Time.deltaTime* AnimationSpeed); //test
                 currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, shootingPos.rotation, Time.deltaTime * AnimationSpeed); 
 
@@ -89,7 +90,7 @@ public class EquipWeapon : MonoBehaviour
                 leftHandTarget.rotation = IKLeftHandPos.rotation;
 
                 rightHandIK.weight = 1f;
-                rightHandTarget.position = IKRightHandPos.position; //här
+                rightHandTarget.position = IKRightHandPos.position; //hï¿½r
                 rightHandTarget.rotation = IKRightHandPos.rotation;
 
 
@@ -116,10 +117,16 @@ public class EquipWeapon : MonoBehaviour
         Debug.DrawRay(transform.position + rayOffset, orientationObject.forward * rayLengt, Color.red);
         //Debug.DrawRay(transform.position + Vector3.up * 0.175f, orientationObject.forward * rayLengt, Color.green);
 
-        Physics.Raycast(topRay, out topRayHitInfo, rayLengt, weaponMask); //För att kalla ut Rayen
-        //Physics.Raycast(bottomRay, out bottomRayHitInfo, rayLengt, weaponMask); //För att kalla ut Rayen
+        Physics.Raycast(topRay, out topRayHitInfo, rayLengt, weaponMask); //Fï¿½r att kalla ut Rayen
+        //Physics.Raycast(bottomRay, out bottomRayHitInfo, rayLengt, weaponMask); //Fï¿½r att kalla ut Rayen
     }
-    
+
+    void SetHandPos(WeaponScript weapon)
+    {
+        IKLeftHandPos = weapon.LeftHand;
+        IKRightHandPos = weapon.RightHand;
+    }
+
     private void Equip()
     {
         RayCastHandler();
@@ -130,26 +137,18 @@ public class EquipWeapon : MonoBehaviour
             if (topRayHitInfo.collider != null)
             {
                 currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
+                currentWeaponObject = topRayHitInfo.collider.gameObject;
+                SetHandPos(currentWeapon);
             }
 
             if (!currentWeapon) return;
 
             currentWeapon.Equip();
 
-            //currentWeapon.gameObject.GetComponent<Collider>().enabled = false;
-
-            //currentWeapon.ChangeWeaponBehavior();
-
             IsEquipped = true;
-
-            IInventory inventory = InventoryReference.GetComponent<IInventory>();
-            if (inventory == null)
-                return;
-
-            inventory.ChangeEquipped(currentWeapon.gameObject);
         }
     }
-    private void UnEquip() 
+    public void UnEquip() 
     {
         if (IsEquipped)
         {
@@ -164,11 +163,10 @@ public class EquipWeapon : MonoBehaviour
 
             currentWeapon.transform.parent = null;
 
-            //currentWeapon.Unequip();
-            Destroy(currentWeapon.gameObject);
+            currentWeapon.Unequip();
 
             currentWeapon = null;
-            
+            currentWeaponObject = null;
         }
     }
 }

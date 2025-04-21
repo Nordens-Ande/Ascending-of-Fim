@@ -29,7 +29,7 @@ public class EnemyManager : MonoBehaviour
     Vector3 GetRandomSpawnPoint()
     {
         List<Vector3> viableSpawnPoints = spawnPointManager.GetViableSpawnPoints();
-        Debug.Log(viableSpawnPoints.Count);
+        //Debug.Log(viableSpawnPoints.Count);
         int random = Random.Range(0, viableSpawnPoints.Count);
         Vector3 spawnPointPos = viableSpawnPoints[random];
         return spawnPointPos;

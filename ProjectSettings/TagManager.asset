@@ -15,9 +15,9 @@ TagManager:
   - UI
   - Weapon
   - Enemy
-  - Wall
-  - 
-  - 
+  - EnemyLimbs
+  - PlayerLimbs
+  - Player
   - 
   - 
   - 

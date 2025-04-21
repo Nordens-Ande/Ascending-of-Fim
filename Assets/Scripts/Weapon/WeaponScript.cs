@@ -12,6 +12,9 @@ public class WeaponScript : MonoBehaviour, IWeapon
     [SerializeField] WeaponData WeaponData;
     [SerializeField] private float WeaponRotationSpeed;
 
+    [SerializeField] public Transform RightHand;
+    [SerializeField] public Transform LeftHand;
+
     public int bulletsLeft { get; private set; }
 
     private Rigidbody weaponBody;
@@ -51,32 +54,49 @@ public class WeaponScript : MonoBehaviour, IWeapon
         return WeaponData;
     }
 
-    public void Equip()
+    public void CheckIfWeaponBodyNull() // used to fix issue with enemy spawn nullreferences
     {
-        GetComponent<Collider>().enabled = false;
-        weaponBody.isKinematic = true;
-        IsRotating = false;
-    }
-
-    //public void Unequip()
-    //{
-    //    transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-    //    GetComponent<Collider>().enabled = true;
-    //    weaponBody.isKinematic = false;
-    //    IsRotating = true;
-    //}
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
+        if (weaponBody == null)
         {
-            Debug.Log("Weapon touched ground");
-            if (weaponBody)
-            {
-                weaponBody.constraints = RigidbodyConstraints.FreezePosition;
-                weaponBody.isKinematic = true;
-                IsRotating = true;
-            }
+            weaponBody = GetComponent<Rigidbody>();
         }
     }
+
+    public void Equip()
+    {
+
+        if(GetComponent<Collider>())
+        {
+            GetComponent<Collider>().enabled = false;
+        }
+       
+        weaponBody.isKinematic = true;
+        
+        IsRotating = false;
+
+    }
+
+    public void Unequip()
+    {
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        GetComponent<Collider>().enabled = true;
+        weaponBody.isKinematic = false;
+        IsRotating = true;
+        transform.parent = null;
+        Debug.Log("player died and transform.parent = null for weapon");
+    }
+
+    //private void OnCollisionEnter(Collision other)
+    //{
+    //    if (other.gameObject.CompareTag("Ground"))
+    //    {
+    //        Debug.Log("Weapon touched ground");
+    //        if (weaponBody)
+    //        {
+    //            weaponBody.constraints = RigidbodyConstraints.FreezePosition;
+    //            weaponBody.isKinematic = true;
+    //            IsRotating = true;
+    //        }
+    //    }
+    //}
 }

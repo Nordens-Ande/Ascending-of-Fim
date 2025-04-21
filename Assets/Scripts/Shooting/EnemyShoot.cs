@@ -5,19 +5,10 @@ using System.Collections.Generic;
 
 public class EnemyShoot : MonoBehaviour
 {
-    [Header("Possible Guns")]
-    [SerializeField] GameObject pistol;
-    //[SerializeField] GameObject rifle;
-    //[SerializeField] GameObject shotgun;
-
-    [Space]
-
     [SerializeField] Shoot shootScript;
 
-    //Decide what weapon enemy will have
-    enum Weapon { pistol, rifle, shotgun }
-    GameObject weapon;
-    WeaponData weaponData;
+    WeaponData weaponData;//retrieve from enemyWeaponInventory script
+    WeaponScript weaponScript;//retrieve from enemyWeaponInventory script
 
     //Shooting logic
     bool isReadyToFire = true;
@@ -31,37 +22,25 @@ public class EnemyShoot : MonoBehaviour
 
     private void Start()
     {
-        GameObject[] weapons = { pistol }; //rifle, shotgun };
-        weapon = DecideWeapon(weapons);
-        if(weapon != null )
-        {
-            RetrieveWeaponData();
-        }
         isShooting = false;
         isReadyToFire = true;
         isReloading = false;
     }
 
-    GameObject DecideWeapon(GameObject[] weapons)
+    public void SetWeaponData(WeaponData weaponData, WeaponScript weaponScript)
     {
-        int random = Random.Range(0, weapons.Length);
-        Debug.Log(weapons[random].ToString());
-        return weapons[random];
-    }
-
-    void RetrieveWeaponData()
-    {
-        weaponData = weapon.GetComponent<WeaponScript>().GetWeaponData();
-        if( weaponData == null)
+        this.weaponData = weaponData;
+        this.weaponScript = weaponScript;
+        if(this.weaponData == null || this.weaponScript == null)
         {
-            Debug.Log("no weapon data retreived for enemy");
+            Debug.Log("weaponData or weaponScript = null for enemy");
         }
     }
 
     void Shoot()
     {
         isReadyToFire = false;
-        weapon.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
+        weaponScript.DecreaseBullets(1); // maybe change if shotgun?
         RaycastHit hit = shootScript.ShootRay();
         CheckRay(hit);
         StartCoroutine(ResetIsReadyToFire());
@@ -76,7 +55,7 @@ public class EnemyShoot : MonoBehaviour
     IEnumerator FinishReload(float reloadTime)
     {
         yield return new WaitForSeconds(reloadTime);
-        weapon.GetComponent<WeaponScript>().ReloadBullets();
+        weaponScript.ReloadBullets();
         isReloading = false;
     }
 
@@ -109,15 +88,15 @@ public class EnemyShoot : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (weapon.GetComponent<WeaponScript>().bulletsLeft <= 0 && !isReloading)
-        {
-            Reload();
-        }
-        if (isShooting && isReadyToFire && !isReloading && weapon.GetComponent<WeaponScript>().bulletsLeft > 0)
-        {
-            Shoot();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (weaponScript.bulletsLeft <= 0 && !isReloading)
+    //    {
+    //        Reload();
+    //    }
+    //    if (isShooting && isReadyToFire && !isReloading && weaponScript.bulletsLeft > 0)
+    //    {
+    //        Shoot();
+    //    }
+    //}
 }
