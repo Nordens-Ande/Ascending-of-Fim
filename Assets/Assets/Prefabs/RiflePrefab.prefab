@@ -152,6 +152,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 475636260510853249}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 143.16}
+--- !u!1 &4713104977577539047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8434634926048608120}
+  m_Layer: 0
+  m_Name: bulletTrailOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8434634926048608120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4713104977577539047}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.508, y: 0.346, z: 0.054}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5990260224664536476}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6946584997913953624
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,6 +215,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8434634926048608120}
   - {fileID: 475636260510853249}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -251,3 +283,5 @@ MonoBehaviour:
   WeaponRotationSpeed: 10
   RightHand: {fileID: 2388050716674369041}
   LeftHand: {fileID: 6821709241315974586}
+  bulletTrailPrefab: {fileID: 2824931573348123357, guid: 1acb52c0b22fc1a46a076c6194907558, type: 3}
+  bulletOrigin: {fileID: 8434634926048608120}

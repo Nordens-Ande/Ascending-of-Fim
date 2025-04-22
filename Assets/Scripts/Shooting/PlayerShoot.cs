@@ -10,6 +10,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] EquipWeapon equipWeapon;
 
     WeaponData weaponData;
+    WeaponScript weaponScript;
 
     bool isShooting;
     bool isReadyToShoot = true;
@@ -25,6 +26,7 @@ public class PlayerShoot : MonoBehaviour
     void RetrieveWeaponData()
     {
         weaponData = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().GetWeaponData();
+        weaponScript = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>();
     }
 
     void OnAttack(InputValue input)
@@ -51,7 +53,7 @@ public class PlayerShoot : MonoBehaviour
 
     void OnReload(InputValue input)
     {
-        if(equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft < weaponData.ammoCapacity && !isReloading)
+        if(weaponScript.bulletsLeft < weaponData.ammoCapacity && !isReloading)
         {
             isReloading = true;
             StartCoroutine(FinishReload());
@@ -61,14 +63,15 @@ public class PlayerShoot : MonoBehaviour
     IEnumerator FinishReload()
     {
         yield return new WaitForSeconds(weaponData.reloadTime);
-        equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().ReloadBullets();
+        weaponScript.ReloadBullets();
         isReloading = false;
+        isReadyToShoot = true;
     }
 
     void Shoot()
     {
         isReadyToShoot = false;
-        equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().DecreaseBullets(1);
+        weaponScript.DecreaseBullets(1);
 
         List<RaycastHit> hits;
         if (weaponData.weaponName.ToLower() == "shotgun")
@@ -86,8 +89,6 @@ public class PlayerShoot : MonoBehaviour
 
     void CheckRay(List<RaycastHit> hits)
     {
-        WeaponScript weapon = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>();
-
         foreach (RaycastHit hit in hits)
         {
             Vector3 endPoint;
@@ -96,18 +97,29 @@ public class PlayerShoot : MonoBehaviour
             else
                 endPoint = shootScript.transform.position + shootScript.transform.forward * 1000f;
 
-            weapon.SpawnBulletTrail(endPoint);
+            weaponScript.SpawnBulletTrail(endPoint);
 
             if (hit.collider == null) continue;
             if (hit.transform.CompareTag("Enemy"))
             {
                 hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
             }
+
+            //
             ExplodingBarrel barrel = hit.transform.GetComponent<ExplodingBarrel>();
             if (barrel != null)
             {
                 barrel.TakeDamage();
             }
+
+            //if (hit.transform.CompareTag("ExplodingBarrel"))  detta kanske är ett bättre sätt
+            //{
+            //    ExplodingBarrel barrel = hit.transform.GetComponent<ExplodingBarrel>();
+            //    if (barrel != null)
+            //    {
+            //        barrel.TakeDamage();
+            //    }
+            //}
         }
     }
 
@@ -120,7 +132,7 @@ public class PlayerShoot : MonoBehaviour
         
         RetrieveWeaponData();
         
-        if (isShooting && isReadyToShoot && !isReloading && equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft > 0)
+        if (isShooting && isReadyToShoot && !isReloading && weaponScript.bulletsLeft > 0)
         {
             Shoot();
             if(!weaponData.allowButtonHold)

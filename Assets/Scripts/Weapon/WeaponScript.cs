@@ -102,7 +102,8 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     public void SpawnBulletTrail(Vector3 endPoint)
     {
-        if (bulletTrailPrefab == null || bulletOrigin == null) return;
+        if (bulletTrailPrefab == null)// || bulletOrigin == null) 
+            return;
 
         GameObject lineObj = Instantiate(bulletTrailPrefab);
         LineRenderer line = lineObj.GetComponent<LineRenderer>();
