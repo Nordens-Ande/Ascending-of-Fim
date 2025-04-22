@@ -54,7 +54,8 @@ MonoBehaviour:
   roomType: 0
   size: {x: 1, y: 1}
   frontDirections: []
-  wallDirections: []
+  wallDirections:
+  - {x: 0, y: -1}
   repeating: 0
   drawDebug: 1
 --- !u!1001 &866629517130000695
