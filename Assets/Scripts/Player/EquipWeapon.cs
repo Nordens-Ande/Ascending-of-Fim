@@ -22,8 +22,11 @@ public class EquipWeapon : MonoBehaviour
 
     [Header("AnimationPos")]
     [SerializeField] private float AnimationSpeed;
-    [SerializeField] private Transform equipPos;
-    [SerializeField] private Transform shootingPos;
+    [SerializeField] private Transform raygunPos;
+    [SerializeField] private Transform pistolPos;
+    [SerializeField] private Transform riflePos;
+    [SerializeField] private Transform shotgunPos;
+    Transform WeaponPosition;
 
     private bool isShooting;
 
@@ -42,7 +45,7 @@ public class EquipWeapon : MonoBehaviour
 
     void Start()
     {
-        
+        IsEquipped = false;
     }
 
     private void Update()
@@ -50,8 +53,6 @@ public class EquipWeapon : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             Equip();
-            Debug.Log("E pressed");
-            Debug.Log("IsEquipped: " + IsEquipped);
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -59,7 +60,7 @@ public class EquipWeapon : MonoBehaviour
             UnEquip();
         } 
 
-        if (currentWeapon)
+        if (currentWeapon != null)
         {
             //FUnkar ej med denna
             //if (!isShooting)
@@ -80,9 +81,9 @@ public class EquipWeapon : MonoBehaviour
                 //currentWeapon.transform.position = shootingPos.position; //h�r
                 //currentWeapon.transform.rotation = shootingPos.rotation;
                 
-                currentWeapon.transform.parent = shootingPos.transform; //h�r
-                currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, shootingPos.position,Time.deltaTime* AnimationSpeed); //test
-                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, shootingPos.rotation, Time.deltaTime * AnimationSpeed); 
+                currentWeapon.transform.parent = WeaponPosition.transform; //h�r
+                currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, WeaponPosition.position, Time.deltaTime * AnimationSpeed); //test
+                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, WeaponPosition.rotation, Time.deltaTime * AnimationSpeed); 
 
                 
                 leftHandIK.weight = 1f;
@@ -92,10 +93,7 @@ public class EquipWeapon : MonoBehaviour
                 rightHandIK.weight = 1f;
                 rightHandTarget.position = IKRightHandPos.position; //h�r
                 rightHandTarget.rotation = IKRightHandPos.rotation;
-
-
             }
-
         }
     }
 
@@ -133,21 +131,50 @@ public class EquipWeapon : MonoBehaviour
 
         if (topRayHitInfo.collider != null)
         {
-            Debug.Log("Hit: " + topRayHitInfo.collider.name);
             if (topRayHitInfo.collider != null)
             {
+                if(IsEquipped)
+                {
+                    UnEquip();
+                }
                 currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
                 currentWeaponObject = topRayHitInfo.collider.gameObject;
-                SetHandPos(currentWeapon);
             }
 
-            if (!currentWeapon) return;
+            if (currentWeapon == null) 
+            {
+                Debug.Log("currentWeapon null after equip for player");
+                return;
+            }
 
+            SetHandPos(currentWeapon);
+            SetWeaponPos();
             currentWeapon.Equip();
-
             IsEquipped = true;
         }
     }
+
+    void SetWeaponPos()
+    {
+        string weaponName = currentWeapon.GetWeaponData().weaponName.ToLower();
+        if (weaponName == "raygun")
+        {
+            WeaponPosition = raygunPos;
+        }
+        else if (weaponName == "pistol")
+        {
+            WeaponPosition = pistolPos;
+        }
+        else if (weaponName == "rifle")
+        {
+            WeaponPosition = riflePos;
+        }
+        else if (weaponName == "shotgun")
+        {
+            WeaponPosition = shotgunPos;
+        }
+    }
+
     public void UnEquip() 
     {
         if (IsEquipped)

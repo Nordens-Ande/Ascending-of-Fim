@@ -10,13 +10,14 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] EquipWeapon equipWeapon;
 
     WeaponData weaponData;
-    
+
+    bool isShooting;
     bool isReadyToShoot = true;
     bool isReloading;
 
     void Start()
     {
-        RetrieveWeaponData();
+        isShooting = false;
         isReadyToShoot = true;
         isReloading = false;
     }
@@ -28,10 +29,12 @@ public class PlayerShoot : MonoBehaviour
 
     void OnAttack(InputValue input)
     {
-        if (isReadyToShoot && !isReloading && equipWeapon.currentWeaponObject != null && equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft > 0) 
-        {
-            Shoot();
-        }
+        isShooting = true;
+    }
+
+    void OnAttackStop(InputValue input)
+    {
+        isShooting = false;
     }
 
     IEnumerator ResetIsReadyToShoot()
@@ -65,30 +68,50 @@ public class PlayerShoot : MonoBehaviour
     void Shoot()
     {
         isReadyToShoot = false;
-        equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().DecreaseBullets(1); // maybe change if shotgun?
-        RaycastHit hit = shootScript.ShootRay();
-        CheckRay(hit);
+        equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().DecreaseBullets(1);
+
+        List<RaycastHit> hits;
+        if (weaponData.weaponName.ToLower() == "shotgun")
+        {
+            hits = shootScript.ShootRay(8);
+        }
+        else
+        {
+            hits = shootScript.ShootRay(1);
+        }
+        
+        CheckRay(hits);
         StartCoroutine(ResetIsReadyToShoot());
     }
 
-    void CheckRay(RaycastHit hit)
+    void CheckRay(List<RaycastHit> hits)
     {
-        if(hit.collider == null)
+        foreach(RaycastHit hit in hits)
         {
-            return;
-        }
-
-        if (hit.transform.CompareTag("Enemy"))
-        {
-            hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
+            if (hit.collider == null) continue;
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
+            }
         }
     }
 
     void Update()
     {
-        if (equipWeapon.currentWeaponObject != null)
+        if (equipWeapon.currentWeaponObject == null)
         {
-            RetrieveWeaponData();
+            return;
+        }
+        
+        RetrieveWeaponData();
+        
+        if (isShooting && isReadyToShoot && !isReloading && equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().bulletsLeft > 0)
+        {
+            Shoot();
+            if(!weaponData.allowButtonHold)
+            {
+                isShooting = false;
+            }
         }
     }
 }

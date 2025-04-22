@@ -16,7 +16,7 @@ public class EnemyAIController : MonoBehaviour
 
     GameObject player;
 
-    const float shootingDistance = 4.5f;
+    const float shootingDistance = 3f;
     const int searchingDistance = 15;
 
     LayerMask layerMask;
@@ -27,16 +27,19 @@ public class EnemyAIController : MonoBehaviour
 
     Vector3 lastPos;
 
+    bool forceUpdateBehaviour;
+
     void Start()
     {
         layerMask = ~LayerMask.GetMask("Enemy");
-        player = GameObject.Find("Player Equip");
+        player = GameObject.FindWithTag("Player");
         previousEnemyState = EnemyState.searching;
         enemyState = EnemyState.searching;
         enemyMove.wandering = true;
         lineOfSight = false;
         lineOfSightLastUpdate = false;
         movingToPlayerLastKnownPos = false;
+        forceUpdateBehaviour = true;
     }
 
     void DecideEnemyState()
@@ -153,6 +156,11 @@ public class EnemyAIController : MonoBehaviour
 
     void Update()
     {
+        if(forceUpdateBehaviour)
+        {
+            UpdateEnemyBehaviour();
+            forceUpdateBehaviour = false;
+        }
         lineOfSight = CheckForLineOfSight();
         float angle = CalculateRotationToPlayer();
         Vector3 moveVector = transform.position - lastPos;
