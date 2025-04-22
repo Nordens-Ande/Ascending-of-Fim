@@ -103,6 +103,11 @@ public class PlayerShoot : MonoBehaviour
             {
                 hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
             }
+            ExplodingBarrel barrel = hit.transform.GetComponent<ExplodingBarrel>();
+            if (barrel != null)
+            {
+                barrel.TakeDamage();
+            }
         }
     }
 
