@@ -1052,4 +1052,8 @@ MonoBehaviour:
   wallDirections:
   - {x: -1, y: 0}
   repeating: 0
+  lookAlikes:
+  - {fileID: 1739366309334430692, guid: 4eb6d66c91e98f24b8e39d88a006ea89, type: 3}
+  - {fileID: 5446211844842314832, guid: e55ba351e5d481942af34bb3db89c29d, type: 3}
+  - {fileID: 1488843789245277679, guid: 4eb79cc6ee995d544b5ca429465b7666, type: 3}
   drawDebug: 1

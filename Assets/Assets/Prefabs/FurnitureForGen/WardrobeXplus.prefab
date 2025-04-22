@@ -51,7 +51,8 @@ MonoBehaviour:
   - {x: 1, y: 0}
   wallDirections:
   - {x: -1, y: 0}
-  repeating: 0
+  repeating: 1
+  lookAlikes: []
   drawDebug: 1
 --- !u!1001 &8104903949405000598
 PrefabInstance:

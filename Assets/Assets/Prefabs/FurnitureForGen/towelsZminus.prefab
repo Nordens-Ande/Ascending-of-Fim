@@ -57,6 +57,10 @@ MonoBehaviour:
   wallDirections:
   - {x: 0, y: 1}
   repeating: 0
+  lookAlikes:
+  - {fileID: 7162619298606598485, guid: c41c64fbf394c7649a588e5e75c74893, type: 3}
+  - {fileID: 7162619298606598485, guid: 744c31d83528b8245989a3f3b1587480, type: 3}
+  - {fileID: 7162619298606598485, guid: f5d292584528c5e4c8b1899f20b61fb8, type: 3}
   drawDebug: 1
 --- !u!1001 &866629517130000695
 PrefabInstance:

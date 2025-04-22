@@ -52,6 +52,10 @@ MonoBehaviour:
   wallDirections:
   - {x: 0, y: -1}
   repeating: 0
+  lookAlikes:
+  - {fileID: 955559305025221566, guid: e632164c63d527544a963bb787de216a, type: 3}
+  - {fileID: 1990157100169837599, guid: 2ed0632db588c2c43be0d495bb64615f, type: 3}
+  - {fileID: 8914706397357245121, guid: c40ac976b50098441971d757428390b1, type: 3}
   drawDebug: 1
 --- !u!1 &5624136156829637340
 GameObject:

@@ -1125,10 +1125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   furnitures:
-  - {fileID: 4714243574288071095, guid: 6b86bd68337c4174cae15bdabcbffc40, type: 3}
-  - {fileID: 727965102215150471, guid: e7ba3878ba674e546bc0c856a7eb03b1, type: 3}
-  - {fileID: 9188748479654174387, guid: ead2cbcec91837349922fd47844f3075, type: 3}
-  - {fileID: 4912788185444323625, guid: 8363c1b0482d9d54c98d449797c3b6cb, type: 3}
   - {fileID: 5775261574356613840, guid: 55298a929a46dc3408b57856af3f844c, type: 3}
   - {fileID: 7103510874591384617, guid: dcdd7a37b963c93408085149e52aa549, type: 3}
   - {fileID: 3359536032133502979, guid: 1868e74631aa8f6418efff60380b6533, type: 3}
@@ -1173,36 +1169,38 @@ MonoBehaviour:
   wallHeight: 3
   wallThickness: 0.05
   doorSize: 1.5
-  initWidth: 6
-  initHeight: 6
+  initWidth: 4
+  initHeight: 4
   roomAmountRange:
     min: 10
     max: 15
   doorClearance: 1
+  maxRoomFails: 1000
+  maxFurnitureFails: 150
   hallwaySettings:
     sizeRange:
       min: 6
       max: 6
     wallMaterial: {fileID: 0}
     floorMaterial: {fileID: 0}
-    maxFurniture: 4
+    maxFurniture: 6
   corridorSettings:
     sizeRange:
-      min: 3
+      min: 2
       max: 8
     wallMaterial: {fileID: 0}
-    floorMaterial: {fileID: 0}
-    maxFurniture: 2
+    floorMaterial: {fileID: 7806100501455280664, guid: d84aa048753dfb44a8850a129fdec572, type: 3}
+    maxFurniture: 4
   livingRoomSettings:
     sizeRange:
-      min: 5
-      max: 7
+      min: 4
+      max: 6
     wallMaterial: {fileID: 0}
     floorMaterial: {fileID: 0}
     maxFurniture: 6
   bedroomSettings:
     sizeRange:
-      min: 4
+      min: 3
       max: 6
     wallMaterial: {fileID: 0}
     floorMaterial: {fileID: 0}
@@ -1213,21 +1211,21 @@ MonoBehaviour:
       max: 6
     wallMaterial: {fileID: 0}
     floorMaterial: {fileID: 0}
-    maxFurniture: 5
+    maxFurniture: 6
   closetSettings:
     sizeRange:
-      min: 3
-      max: 3
-    wallMaterial: {fileID: 0}
-    floorMaterial: {fileID: 0}
-    maxFurniture: 1
-  bathroomSettings:
-    sizeRange:
-      min: 3
-      max: 4
+      min: 1
+      max: 2
     wallMaterial: {fileID: 0}
     floorMaterial: {fileID: 0}
     maxFurniture: 3
+  bathroomSettings:
+    sizeRange:
+      min: 2
+      max: 3
+    wallMaterial: {fileID: 0}
+    floorMaterial: {fileID: 0}
+    maxFurniture: 6
   enemySpawnPointManager: {fileID: 193646585}
 --- !u!114 &906973924
 MonoBehaviour:

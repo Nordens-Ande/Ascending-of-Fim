@@ -50,7 +50,12 @@ MonoBehaviour:
   frontDirections: []
   wallDirections:
   - {x: 0, y: -1}
+  - {x: 1, y: 0}
   repeating: 0
+  lookAlikes:
+  - {fileID: 7932850577633068403, guid: 94ec0f78f40dd694b9a4c84578c595ea, type: 3}
+  - {fileID: 7932850577633068403, guid: b768dcdb11b962b48841896a5aa57a7f, type: 3}
+  - {fileID: 7932850577633068403, guid: 80666271352467b4eb4dfe914d49a1be, type: 3}
   drawDebug: 1
 --- !u!1001 &9114806190144001531
 PrefabInstance:
