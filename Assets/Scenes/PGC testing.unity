@@ -333,8 +333,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reroll: 0
-  wallMaterial: {fileID: 2100000, guid: b8009114ab4f8fb4daf7a6f7efd42321, type: 2}
-  floorMaterial: {fileID: 2100000, guid: b8009114ab4f8fb4daf7a6f7efd42321, type: 2}
+  player: {fileID: 0}
+  wallMaterial: {fileID: 382224095092679573, guid: d84aa048753dfb44a8850a129fdec572, type: 3}
+  floorMaterial: {fileID: 2781410738928257789, guid: 230cb74d355d12a4d9a415f55eff43b7, type: 3}
   wallHeight: 2
   wallThickness: 0.05
   doorSize: 1.25
@@ -348,37 +349,52 @@ MonoBehaviour:
     sizeRange:
       min: 6
       max: 5
+    wallMaterial: {fileID: 0}
+    floorMaterial: {fileID: 0}
     maxFurniture: 4
   corridorSettings:
     sizeRange:
       min: 2
       max: 8
+    wallMaterial: {fileID: 0}
+    floorMaterial: {fileID: 0}
     maxFurniture: 4
   livingRoomSettings:
     sizeRange:
       min: 5
       max: 7
+    wallMaterial: {fileID: 0}
+    floorMaterial: {fileID: 0}
     maxFurniture: 4
   bedroomSettings:
     sizeRange:
       min: 2
       max: 3
+    wallMaterial: {fileID: 0}
+    floorMaterial: {fileID: 0}
     maxFurniture: 4
   diningRoomSettings:
     sizeRange:
       min: 5
       max: 8
+    wallMaterial: {fileID: 0}
+    floorMaterial: {fileID: 0}
     maxFurniture: 4
   closetSettings:
     sizeRange:
       min: 2
       max: 2
+    wallMaterial: {fileID: 0}
+    floorMaterial: {fileID: 0}
     maxFurniture: 4
   bathroomSettings:
     sizeRange:
       min: 3
       max: 4
+    wallMaterial: {fileID: 0}
+    floorMaterial: {fileID: 0}
     maxFurniture: 4
+  enemySpawnPointManager: {fileID: 0}
 --- !u!114 &501987926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,7 +407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b695fdc9f64b28740b2c626c2d9f1b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomObject: {fileID: 0}
   furnitures:
   - {fileID: 7217056665347449587, guid: 0fa0c8b7e017a324aa7bd587fd3410e9, type: 3}
   - {fileID: 477224399}
