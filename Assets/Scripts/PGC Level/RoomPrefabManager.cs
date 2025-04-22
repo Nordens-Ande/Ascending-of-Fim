@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class RoomPrefabManager : MonoBehaviour
 {
-    [SerializeField] GameObject roomObject;
     [SerializeField] List<Furniture> furnitures;
-
 
     void Start()
     {
 
     }
-
 
     public List<Furniture> GetFurniture(RoomType type)
     {

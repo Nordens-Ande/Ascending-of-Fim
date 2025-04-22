@@ -64,15 +64,16 @@ public static class MeshBuilder
 
             // Wall position and direction
             Vector3 baseOffset = Vector3.zero;
+            float wallThickOffset = room.WallThickness / 3f;
             Vector3 wallSize;
             if (dir == Vector2.down)
-                baseOffset = new Vector3(0, 0, 0); //Front wall
+                baseOffset = new Vector3(0, 0, 0 + wallThickOffset); //Front wall
             else if (dir == Vector2.up)
-                baseOffset = new Vector3(0, 0, room.Height); //Back wall
+                baseOffset = new Vector3(0, 0, room.Height - wallThickOffset); //Back wall
             else if (dir == Vector2.left)
-                baseOffset = new Vector3(0, 0, 0); //Left wall
+                baseOffset = new Vector3(0 + wallThickOffset, 0, 0); //Left wall
             else if (dir == Vector2.right)
-                baseOffset = new Vector3(room.Width, 0, 0); //Right wall
+                baseOffset = new Vector3(room.Width - wallThickOffset, 0, 0); //Right wall
 
             Vector3 wallDir = (horizontal ? Vector3.right : Vector3.forward);
             Vector3 offsetDir = (horizontal ? Vector3.right : Vector3.forward);

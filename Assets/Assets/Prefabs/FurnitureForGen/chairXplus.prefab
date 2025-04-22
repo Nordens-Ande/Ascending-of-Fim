@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomType: 4
   size: {x: 1, y: 1}
-  frontDirection: {x: 0, y: 0}
+  frontDirections: []
   wallDirections: []
   repeating: 0
   drawDebug: 0
