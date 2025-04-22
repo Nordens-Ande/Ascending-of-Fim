@@ -58,6 +58,8 @@ public class RoomManager : MonoBehaviour
     [Header("Apartment Settings")]
     [SerializeField] MinMaxInt roomAmountRange;
     [SerializeField] int doorClearance;
+    [SerializeField] int maxRoomFails = 1000;
+    [SerializeField] int maxFurnitureFails = 100;
 
     [Header("Specific Room Sizes")]
     [SerializeField] RoomSettings hallwaySettings;
@@ -118,7 +120,7 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         reroll = false;
-        player.transform.position = new Vector3(initWidth / 2f, 5, initHeight / 2f);
+        player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
 
         rooms = new List<Room>();
         roomObjects = new List<GameObject>();
@@ -149,7 +151,7 @@ public class RoomManager : MonoBehaviour
 
         if(navMeshBaker != null)
         {
-            navMeshBaker.BakeNavMesh();
+            StartCoroutine(navMeshBaker.BakeNavMesh());
         }
 
         if(enemySpawnPointManager != null)
@@ -179,7 +181,7 @@ public class RoomManager : MonoBehaviour
         Debug.Log("Max amount to generate: " + amountToGenerate);
 
         int failCount = 0;
-        int maxFails = 1000; //övregräns för att hindra oändliga loops, när detta uppnås så stoppas generationen.
+        int maxFails = maxRoomFails; //övregräns för att hindra oändliga loops, när detta uppnås så stoppas generationen.
 
         while ((rooms.Count < roomAmountRange.max || rooms.Count < roomAmountRange.min) && failCount < maxFails)
         {
@@ -204,6 +206,18 @@ public class RoomManager : MonoBehaviour
 
                 int width = Random.Range(sizeRange.min, sizeRange.max + 1);
                 int height = Random.Range(sizeRange.min, sizeRange.max + 1);
+
+                if (type == RoomType.Corridor)
+                {
+                    Vector2 dir = GetRandomDirection();
+                    bool alongZ = dir == Vector2.up || dir == Vector2.down;
+                    width = alongZ
+                        ? Random.Range(sizeRange.min, sizeRange.min + 2)
+                        : Random.Range(sizeRange.max - 4, sizeRange.max + 1);
+                    height = alongZ
+                        ? Random.Range(sizeRange.max - 4, sizeRange.max + 1)
+                        : Random.Range(sizeRange.min, sizeRange.min + 2);
+                }
 
                 Vector2Int direction = GetRandomDirection();
                 Vector2Int offset = GetOffset(direction, width, height);
@@ -236,7 +250,7 @@ public class RoomManager : MonoBehaviour
 
             RoomType type = room.Type;
             int failCount = 0;
-            int maxFails = 20;
+            int maxFails = maxFurnitureFails;
             int amountToGenerate = Random.Range(1, roomSettings[type].maxFurniture + 1);
 
             while (failCount < maxFails && room.FurnitureList.Count <= roomSettings[type].maxFurniture)
@@ -263,10 +277,21 @@ public class RoomManager : MonoBehaviour
                 Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
                 Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
 
-                if (room.FurnitureList.Any(f => f.Item1 == selectedFurniture) && !selectedFurniture.repeating)
+                if (!selectedFurniture.repeating)
                 {
-                    failCount++;
-                    continue;
+                    if (room.FurnitureList.Any(f => f.Item1 == selectedFurniture))
+                    {
+                        failCount++;
+                        continue;
+                    }
+                    foreach (Furniture furniture in selectedFurniture.lookAlikes)
+                    {
+                        if (room.FurnitureList.Any(f => f.Item1 == furniture))
+                        {
+                            failCount++;
+                            continue;
+                        }
+                    }
                 }
 
                 List<Vector2Int> selectedFurnitureTiles = selectedFurniture.GetOccupiedTiles(spawnPos);

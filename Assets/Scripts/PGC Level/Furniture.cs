@@ -10,6 +10,7 @@ public class Furniture : MonoBehaviour, ITileable
     public List<Vector2Int> frontDirections = new List<Vector2Int>();
     public List<Vector2Int> wallDirections = new List<Vector2Int>();
     public bool repeating;
+    public List<Furniture> lookAlikes;
 
     public bool drawDebug = false;
     
