@@ -6,7 +6,8 @@ public class Furniture : MonoBehaviour, ITileable
 {
     public RoomType roomType;
     public Vector2Int size;
-    public Vector2Int frontDirection;
+    //public Vector2Int frontDirection;
+    public List<Vector2Int> frontDirections = new List<Vector2Int>();
     public List<Vector2Int> wallDirections = new List<Vector2Int>();
     public bool repeating;
 
@@ -56,7 +57,8 @@ public class Furniture : MonoBehaviour, ITileable
         Vector3 cubeSize = new Vector3(size.x, Mathf.Clamp(2, 1, (size.x + size.y) / 2f), size.y);
         Gizmos.DrawWireCube(transform.position + cubeSize / 2f, cubeSize);
 
-        DrawDirectionFromEdge(frontDirection, Color.yellow);
+        foreach (Vector2Int dir in frontDirections)
+            DrawDirectionFromEdge(dir, Color.yellow);
         foreach (Vector2Int dir in wallDirections)
             DrawDirectionFromEdge(dir, Color.red);
     }

@@ -253,12 +253,24 @@ public class RoomManager : MonoBehaviour
 
                     float rayLength = 0.5f;
 
-                    bool isClear = CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, roomTiles, doorTiles.ToList())
-                                   && !CheckCollidingTilesAtDir(selectedFurniture.frontDirection, selectedFurnitureTiles, occupiedFurniturePositions.ToList());
+                    bool isClear = true;
+                    foreach (Vector2Int dir in selectedFurniture.frontDirections)
+                    {
+                        Debug.Log("Amount furniture tiles: " + occupiedFurniturePositions.Count);
+
+                        bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
+                        bool isFurniture = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, occupiedFurniturePositions.ToList());
+
+                        Debug.Log($"Is dir {dir} a room tile {isRoom} or a furniture tile {isFurniture}");
+
+                        if (!isRoom || isFurniture)
+                            isClear = false;
+                    }
+
                     bool isNextToWall = true;
                     foreach (Vector2Int dir in selectedFurniture.wallDirections)
                     {
-                        if (CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, roomTiles))
+                        if (CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles))
                             isNextToWall = false;
                     }
 
@@ -382,18 +394,32 @@ public class RoomManager : MonoBehaviour
     //    }
     //}
 
-    bool CheckCollidingTilesAtDir(Vector2Int dir, List<Vector2Int> compareTiles, params List<Vector2Int>[] tileLists)
+    bool CheckCollidingTilesAtDir(Vector2Int dir, List<Vector2Int> compareTiles, bool allMustCollide, params List<Vector2Int>[] tileLists)
     {
+        bool allCollided = true;
+
         foreach (List<Vector2Int> list in tileLists)
         {
+            //if (list.Count == 0) continue;
+
             foreach (Vector2Int tile in compareTiles)
             {
-                if (list.Contains(tile + dir))
-                    return true;
+                Vector2Int tileToCheck = tile + dir;
+                if (debugger)
+                    debugger.checkedTiles.Add(tileToCheck);
+                if (list.Contains(tileToCheck))
+                {
+                    if (!allMustCollide) return true;
+                }
+                else
+                {
+                    if (allMustCollide) allCollided = false;
+                }  
             }
         }
 
-        return false;
+        if (allMustCollide) return allCollided;
+        else return false;
     }
     bool IsRoomSpaceFree(Room room)
     {
