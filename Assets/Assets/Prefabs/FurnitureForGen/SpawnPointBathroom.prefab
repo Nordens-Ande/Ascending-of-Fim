@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3417667025183871432}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: -11}
+  m_LocalPosition: {x: -7, y: 0, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomType: 5
   size: {x: 1, y: 1}
-  frontDirection: {x: 0, y: 0}
+  frontDirections: []
   wallDirections: []
   repeating: 0
   drawDebug: 0
