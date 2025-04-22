@@ -15,6 +15,9 @@ public class WeaponScript : MonoBehaviour, IWeapon
     [SerializeField] public Transform RightHand;
     [SerializeField] public Transform LeftHand;
 
+    [SerializeField] private GameObject bulletTrailPrefab;
+    [SerializeField] private Transform bulletOrigin;
+
     public int bulletsLeft { get; private set; }
 
     private Rigidbody weaponBody;
@@ -96,4 +99,18 @@ public class WeaponScript : MonoBehaviour, IWeapon
     //        }
     //    }
     //}
+
+    public void SpawnBulletTrail(Vector3 endPoint)
+    {
+        if (bulletTrailPrefab == null || bulletOrigin == null) return;
+
+        GameObject lineObj = Instantiate(bulletTrailPrefab);
+        LineRenderer line = lineObj.GetComponent<LineRenderer>();
+
+        Vector3 start = bulletOrigin.position;
+        line.SetPosition(0, start);
+        line.SetPosition(1, endPoint);
+
+        Destroy(lineObj, 0.05f); // lower number for "faster" effect
+    }
 }

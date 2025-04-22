@@ -86,8 +86,18 @@ public class PlayerShoot : MonoBehaviour
 
     void CheckRay(List<RaycastHit> hits)
     {
-        foreach(RaycastHit hit in hits)
+        WeaponScript weapon = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>();
+
+        foreach (RaycastHit hit in hits)
         {
+            Vector3 endPoint;
+            if (hit.collider != null)
+                endPoint = hit.point;
+            else
+                endPoint = shootScript.transform.position + shootScript.transform.forward * 1000f;
+
+            weapon.SpawnBulletTrail(endPoint);
+
             if (hit.collider == null) continue;
             if (hit.transform.CompareTag("Enemy"))
             {
