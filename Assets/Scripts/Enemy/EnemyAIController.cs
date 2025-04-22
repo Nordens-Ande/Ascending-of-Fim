@@ -7,6 +7,7 @@ public class EnemyAIController : MonoBehaviour
 {
     [SerializeField] EnemyMove enemyMove;
     [SerializeField] EnemyShoot enemyShoot;
+    [SerializeField] SoundEffectsEnemy soundEffectsEnemy;
 
     enum EnemyState {searching = 2, movingToPlayerLastKnown = 3, chasing = 4, shooting = 5, dead = 6 }
     EnemyState previousEnemyState;
@@ -71,24 +72,28 @@ public class EnemyAIController : MonoBehaviour
         {
             enemyMove.wandering = false;
             enemyShoot.IsShooting(true);
+            soundEffectsEnemy.SetIsShooting(true);
             enemyMove.StopMoving();
         }
         else if(enemyState == EnemyState.chasing)
         {
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
+            soundEffectsEnemy.SetIsShooting(false);
             enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.movingToPlayerLastKnown)
         {
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
+            soundEffectsEnemy.SetIsShooting(false);
             enemyMove.SetDestination(playerLastKnownPosition);
             enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.searching)
         {
             enemyShoot.IsShooting(false);
+            soundEffectsEnemy.SetIsShooting(false);
             enemyMove.wandering = true;
         }
     }

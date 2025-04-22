@@ -21,6 +21,11 @@ public class SoundEffectsEnemy : MonoBehaviour
 
         deadmansswitch = false;
     }
+    public void SetIsShooting(bool b)
+    { 
+        EnemyIsShooting = b;
+    
+    }
     public void Update()
     {
         
