@@ -13,7 +13,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void ApplyDamage(int damage)
     {
-        health -= damage/2;
+        health -= damage/4;
         if(health < 0)
         {
             playerDeathController.PlayerDead();
