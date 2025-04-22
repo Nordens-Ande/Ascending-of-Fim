@@ -21,11 +21,15 @@ public struct MinMaxInt
 public struct RoomSettings
 {
     public MinMaxInt sizeRange;
+    public Material wallMaterial;
+    public Material floorMaterial;
     public int maxFurniture;
 
-    public RoomSettings(MinMaxInt sizeRange, int maxFurniture)
+    public RoomSettings(MinMaxInt sizeRange, Material wallMaterial, Material floorMaterial, int maxFurniture)
     {
         this.sizeRange = sizeRange;
+        this.wallMaterial = wallMaterial;
+        this.floorMaterial = floorMaterial;
         this.maxFurniture = maxFurniture;
     }
 }
@@ -125,7 +129,10 @@ public class RoomManager : MonoBehaviour
 
         foreach (Room room in rooms)
         {
-            GameObject roomMesh = MeshBuilder.CreateRoomMesh(room, wallMaterial, floorMaterial);
+            Material wall = roomSettings[room.Type].wallMaterial ? roomSettings[room.Type].wallMaterial : wallMaterial;
+            Material floor = roomSettings[room.Type].floorMaterial ? roomSettings[room.Type].floorMaterial : floorMaterial;
+            GameObject roomMesh = MeshBuilder.CreateRoomMesh(room, wall, floor);
+
             roomObjects.Add(roomMesh);
             roomDictionary[room] = roomMesh;
             //StartCoroutine(DelayedFurnitureCreation(room, roomMesh));
@@ -134,14 +141,14 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    private IEnumerator DelayedFurnitureLayout()
-    {
-        //yield return null; //en frame
-        yield return new WaitForSeconds(0.1f);
-        //TryCreateFurniture(room);
-        //MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
-        //StartCoroutine(GenerateFurnitureLayout());
-    }
+    //private IEnumerator DelayedFurnitureLayout()
+    //{
+    //    //yield return null; //en frame
+    //    yield return new WaitForSeconds(0.1f);
+    //    //TryCreateFurniture(room);
+    //    //MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
+    //    //StartCoroutine(GenerateFurnitureLayout());
+    //}
 
     private void GenerateRoomLayout()
     {
