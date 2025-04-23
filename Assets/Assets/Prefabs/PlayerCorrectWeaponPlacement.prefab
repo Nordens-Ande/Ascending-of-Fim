@@ -210,7 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentSoundEffect: {fileID: 4548143035747909626}
   soundEffectShot: {fileID: 8300000, guid: 2497b31d6d4b3c8439a7c61e7e50a334, type: 3}
-  soundEffectTalk: {fileID: 0}
+  playerVoicelines: []
 --- !u!1 &2570567280906134979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,6 +1023,10 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7048641471226029495, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
+      propertyPath: m_Name
+      value: PlayerHitbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048641471226029495, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
@@ -1032,7 +1036,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095624228978418415, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.62
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7095624228978418415, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_LocalPosition.z

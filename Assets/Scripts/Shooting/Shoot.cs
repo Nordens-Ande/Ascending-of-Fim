@@ -7,10 +7,12 @@ public class Shoot : MonoBehaviour
 {
     int rayLength;
     [SerializeField] GameObject bulletOrigin; //placera child objectet som vapnet ska ha här, skottets/rayens origin.
+    LayerMask layerMask;
 
     void Start()
     {
         rayLength = 10000;
+        layerMask = ~LayerMask.GetMask("Weapon");
     }
 
     Vector3 GetDirection()
@@ -57,7 +59,7 @@ public class Shoot : MonoBehaviour
         foreach(Ray ray in rays)
         {
             RaycastHit hit;
-            Physics.Raycast(ray, out hit, rayLength);
+            Physics.Raycast(ray, out hit, rayLength, layerMask);
             hits.Add(hit);
         }
 

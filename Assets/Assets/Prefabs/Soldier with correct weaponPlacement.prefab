@@ -2445,6 +2445,8 @@ MonoBehaviour:
   enemyMove: {fileID: 2061650463669928461}
   enemyShoot: {fileID: 86072208557635113}
   enemyWeaponInventory: {fileID: 4902952662063163408}
+  hitboxCollider: {fileID: 4271677926691105876}
+  playerCollider: {fileID: 0}
 --- !u!114 &5738588817305396176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2810,7 +2812,7 @@ GameObject:
   - component: {fileID: 7987467827576630634}
   - component: {fileID: 4271677926691105876}
   m_Layer: 0
-  m_Name: Hitbox
+  m_Name: EnemyHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

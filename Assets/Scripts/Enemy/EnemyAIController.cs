@@ -32,7 +32,7 @@ public class EnemyAIController : MonoBehaviour
 
     void Start()
     {
-        layerMask = ~LayerMask.GetMask("Enemy");
+        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon"));
         player = GameObject.FindWithTag("Player");
         previousEnemyState = EnemyState.searching;
         enemyState = EnemyState.searching;
@@ -123,7 +123,7 @@ public class EnemyAIController : MonoBehaviour
             movingToPlayerLastKnownPos = false;
         }
     }
-
+    
     bool CheckForLineOfSight()
     {
         Vector3 directionToPlayer = CalculateDirectionToPlayer();
@@ -131,7 +131,7 @@ public class EnemyAIController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-            if (hit.transform != null && hit.transform.CompareTag("Player"))
+            if (hit.transform.CompareTag("Player"))
             {
                 movingToPlayerLastKnownPos = false;
                 return true;
@@ -161,11 +161,13 @@ public class EnemyAIController : MonoBehaviour
 
     void Update()
     {
-        if(forceUpdateBehaviour)
+        if(forceUpdateBehaviour) // used to call the updateEnemyBehaviour method once at the first update,
+                                 // ensuring that the enemy behaves correctly even if no EnemyState changes have occured
         {
             UpdateEnemyBehaviour();
             forceUpdateBehaviour = false;
         }
+
         lineOfSight = CheckForLineOfSight();
         float angle = CalculateRotationToPlayer();
         Vector3 moveVector = transform.position - lastPos;

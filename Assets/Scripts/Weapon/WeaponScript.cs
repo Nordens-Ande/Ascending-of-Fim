@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public interface IWeapon
@@ -23,6 +24,8 @@ public class WeaponScript : MonoBehaviour, IWeapon
     private Rigidbody weaponBody;
 
     public bool IsRotating { get; set; }
+
+    Coroutine destroyCoroutine;// used to cancel and check if DestroyOnGround coroutine is running
 
     public void Start()
     {
@@ -67,38 +70,45 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     public void Equip()
     {
+        if(destroyCoroutine != null)
+        {
+            StopCoroutine(destroyCoroutine);
+            destroyCoroutine = null;
+        }
         if(GetComponent<Collider>())
         {
             GetComponent<Collider>().enabled = false;
         }
+        weaponBody.constraints = RigidbodyConstraints.None;
         weaponBody.isKinematic = true;
         IsRotating = false;
     }
 
-    public void Unequip()
+    public void Unequip(bool enemyDropped) // enemyDropped = true if enemy is the one dropping weapon, a 80% chance that the weapon gets removed is the added
     {
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        if(enemyDropped)
+        {
+            int value = Random.Range(1, 101);
+            if (value > 20)
+            {
+                Destroy(gameObject);
+            }
+        }
+        weaponBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        transform.rotation = Quaternion.identity;
         GetComponent<Collider>().enabled = true;
         weaponBody.isKinematic = false;
         weaponBody.linearVelocity = Vector3.zero;
         weaponBody.angularVelocity = Vector3.zero;
         IsRotating = true;
-        
+        destroyCoroutine = StartCoroutine(DestroyOnGround());
     }
 
-    //private void OnCollisionEnter(Collision other)
-    //{
-    //    if (other.gameObject.CompareTag("Ground"))
-    //    {
-    //        Debug.Log("Weapon touched ground");
-    //        if (weaponBody)
-    //        {
-    //            //weaponBody.constraints = RigidbodyConstraints.FreezePosition;
-    //            weaponBody.isKinematic = true;
-    //            IsRotating = true;
-    //        }
-    //    }
-    //}
+    IEnumerator DestroyOnGround()
+    {
+        yield return new WaitForSeconds(8);
+        Destroy(gameObject);
+    }
 
     public void SpawnBulletTrail(Vector3 endPoint)
     {

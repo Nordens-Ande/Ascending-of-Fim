@@ -190,7 +190,7 @@ public class EquipWeapon : MonoBehaviour
 
             currentWeapon.transform.parent = null;
 
-            currentWeapon.Unequip();
+            currentWeapon.Unequip(false);
 
             currentWeapon = null;
             currentWeaponObject = null;
