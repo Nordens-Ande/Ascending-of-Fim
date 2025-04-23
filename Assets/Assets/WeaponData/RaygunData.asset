@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 0
   weaponName: RayGun
-  damage: 25
+  damage: 35
   fireRate: 150
   ammoCapacity: 15
   allowButtonHold: 0

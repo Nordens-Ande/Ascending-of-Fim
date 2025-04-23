@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 0
   weaponName: Rifle
-  damage: 40
+  damage: 25
   fireRate: 600
   ammoCapacity: 30
   allowButtonHold: 1
-  reloadTime: 1
+  reloadTime: 1.25
