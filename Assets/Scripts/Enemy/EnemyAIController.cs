@@ -9,7 +9,7 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] EnemyShoot enemyShoot;
     [SerializeField] SoundEffectsEnemy soundEffectsEnemy;
 
-    enum EnemyState {searching = 2, movingToPlayerLastKnown = 3, chasing = 4, shooting = 5, dead = 6 }
+    enum EnemyState {searching = 1, movingToPlayerLastKnown = 2, chasing = 3, standingShooting = 4, runningShooting = 5 }
     EnemyState previousEnemyState;
     [SerializeField] EnemyState enemyState;
     [SerializeField] float RotationSpeed;
@@ -17,8 +17,8 @@ public class EnemyAIController : MonoBehaviour
 
     GameObject player;
 
-    const float shootingDistance = 3f;
-    const int searchingDistance = 15;
+    const float stoppingDistance = 3f;
+    const int shootingDistance = 5;
 
     LayerMask layerMask;
     [SerializeField] bool lineOfSight;
@@ -47,10 +47,13 @@ public class EnemyAIController : MonoBehaviour
     {
         float distanceToPlayer = CalculateDistanceToPlayer();
 
-        if(lineOfSight && distanceToPlayer <= shootingDistance)
+        if(lineOfSight && distanceToPlayer <= stoppingDistance)
         {
-            enemyState = EnemyState.shooting;
-
+            enemyState = EnemyState.standingShooting;
+        }
+        else if(lineOfSight && distanceToPlayer < shootingDistance)
+        {
+            enemyState = EnemyState.runningShooting;
         }
         else if(lineOfSight && distanceToPlayer > shootingDistance)
         {
@@ -68,12 +71,19 @@ public class EnemyAIController : MonoBehaviour
 
     void UpdateEnemyBehaviour()
     {
-        if(enemyState == EnemyState.shooting)
+        if(enemyState == EnemyState.standingShooting)
         {
             enemyMove.wandering = false;
             enemyShoot.IsShooting(true);
             soundEffectsEnemy.SetIsShooting(true);
             enemyMove.StopMoving();
+        }
+        else if(enemyState == EnemyState.runningShooting)
+        {
+            enemyMove.wandering = false;
+            enemyShoot.IsShooting(true);
+            soundEffectsEnemy.SetIsShooting(true);
+            enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.chasing)
         {
@@ -100,7 +110,7 @@ public class EnemyAIController : MonoBehaviour
 
     void ResetDestination()
     {
-        if(!enemyMove.agent.isStopped && enemyState == EnemyState.chasing)
+        if(!enemyMove.agent.isStopped && enemyState == EnemyState.chasing || enemyState == EnemyState.runningShooting)
         {
             enemyMove.SetDestination(player.transform.position);
         }
