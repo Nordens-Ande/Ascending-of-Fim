@@ -294,6 +294,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1886939184857967307, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+      propertyPath: ammoText
+      value: 
+      objectReference: {fileID: 1333477152}
     - target: {fileID: 3798312028381657834, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -419,12 +423,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 8426525189285280307, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
-    - {fileID: 6738089095487564537, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
-    - {fileID: 4418564477685110088, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
-    - {fileID: 1886939184857967307, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
-    - {fileID: 7594956423705387962, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
-    - {fileID: 1480059521804233448, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
     - {fileID: 6714887395143289295, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
     - {fileID: 8895203059793948926, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
     m_RemovedGameObjects: []
@@ -2183,6 +2181,17 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &1333477152 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2985216091224006211, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+  m_PrefabInstance: {fileID: 141870442}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1414720199 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6651703366094387919, guid: e632164c63d527544a963bb787de216a, type: 3}
@@ -2961,6 +2970,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 8810053529756146234, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: hudHandler
+      value: 
+      objectReference: {fileID: 106777122}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3297,7 +3310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97551f88303d04c48bfff2a72a6fe5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoText: {fileID: 0}
+  ammoText: {fileID: 1333477152}
 --- !u!114 &2099810216
 MonoBehaviour:
   m_ObjectHideFlags: 0

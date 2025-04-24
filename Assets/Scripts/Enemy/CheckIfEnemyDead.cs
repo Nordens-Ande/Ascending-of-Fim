@@ -8,6 +8,7 @@ public class CheckIfEnemyDead : MonoBehaviour
     [SerializeField] EnemyMove enemyMove;
     [SerializeField] EnemyShoot enemyShoot;
     [SerializeField] EnemyWeaponInventory enemyWeaponInventory;
+    [SerializeField] HUDHandler hudHandler;
 
     [SerializeField] Collider hitboxCollider;
     //references

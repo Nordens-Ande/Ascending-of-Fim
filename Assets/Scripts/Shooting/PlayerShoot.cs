@@ -8,6 +8,7 @@ public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] Shoot shootScript;
     [SerializeField] EquipWeapon equipWeapon;
+    [SerializeField] HUDHandler hudHandler;
 
     WeaponData weaponData;
     WeaponScript weaponScript;
@@ -27,6 +28,8 @@ public class PlayerShoot : MonoBehaviour
     {
         weaponData = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().GetWeaponData();
         weaponScript = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>();
+        //basically uptpade funktionen, ui ammo kollas varje frame och skriver ut hur mycket ammo man har
+        hudHandler.setAmmo(weaponScript.bulletsLeft);
     }
 
     void OnAttack(InputValue input)

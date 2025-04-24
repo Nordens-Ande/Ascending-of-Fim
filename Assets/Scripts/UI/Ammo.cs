@@ -6,8 +6,20 @@ public class Ammo : MonoBehaviour
 
 
     [SerializeField] private TextMeshProUGUI ammoText;
-    
-  
+
+
+    private void Start()
+    {
+        if (ammoText != null)
+        {
+            ammoText.text = "0";
+        }
+        else
+        {
+            Debug.LogWarning("TextMeshProUGUI reference is not assigned");
+        }
+    }
+
     public void setAmmo(int newAmmo)
     {
         if (ammoText != null)
