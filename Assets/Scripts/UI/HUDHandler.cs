@@ -19,6 +19,7 @@ public class HUDHandler : MonoBehaviour
     [SerializeField] GameOverScore gameOverScore;
     [SerializeField] HighscoreHandler highscoreHandler;
     [SerializeField] ScoreScript scoreScript;
+    [SerializeField] HitUI hitUIscript;
 
 
     private void Start()
@@ -107,6 +108,11 @@ public class HUDHandler : MonoBehaviour
         return healthBarScript.getMaxHealth();
     }
 
+    //hit visual
+    public void hitVisualUI(float duration)
+    {
+        hitUIscript.Show(duration);
+    }
     
 
     //ammo

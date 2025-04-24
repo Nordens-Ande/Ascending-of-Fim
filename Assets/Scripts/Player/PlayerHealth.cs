@@ -18,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
     {
         health -= damage/4;
         hudHandler.setHealth(health);
+        hudHandler.hitVisualUI(0.7f);
         if(health < 0)
         {
             playerDeathController.PlayerDead();
