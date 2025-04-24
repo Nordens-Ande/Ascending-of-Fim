@@ -82,17 +82,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a04a367acf2c84aa895cab5bf7a8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomType: 2
+  roomType: 3
   size: {x: 2, y: 1}
   frontDirections:
   - {x: 0, y: -1}
   wallDirections:
   - {x: 0, y: 1}
   repeating: 0
-  lookAlikes:
-  - {fileID: 955559305025221566, guid: e632164c63d527544a963bb787de216a, type: 3}
-  - {fileID: 1990157100169837599, guid: 2ed0632db588c2c43be0d495bb64615f, type: 3}
-  - {fileID: 7023140547108345158, guid: 7bd7fed8cbbf64c49b94973318bfffd9, type: 3}
+  lookAlikeID: 401
   drawDebug: 1
 --- !u!1001 &362499618104459428
 PrefabInstance:

@@ -6,11 +6,11 @@ public class Furniture : MonoBehaviour, ITileable
 {
     public RoomType roomType;
     public Vector2Int size;
-    //public Vector2Int frontDirection;
+
     public List<Vector2Int> frontDirections = new List<Vector2Int>();
     public List<Vector2Int> wallDirections = new List<Vector2Int>();
-    public bool repeating;
-    public List<Furniture> lookAlikes;
+
+    public int lookAlikeID;
 
     public bool drawDebug = false;
     

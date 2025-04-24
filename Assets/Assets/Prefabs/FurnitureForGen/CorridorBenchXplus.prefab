@@ -52,6 +52,7 @@ MonoBehaviour:
   wallDirections:
   - {x: -1, y: 0}
   repeating: 0
+  lookAlikeID: 201
   drawDebug: 1
 --- !u!1 &8070076230687011336
 GameObject:

@@ -33,30 +33,6 @@ public class TileDebugger : MonoBehaviour
         DrawTileSet(doorTiles, doorColor);
         DrawTileSet(furnitureTiles, furnitureColor);
         DrawTileSet(checkedTiles, checkedColor);
-
-        //Gizmos.color = roomColor;
-        //foreach (Vector2Int tile in roomTiles)
-        //{
-        //    // Convert Vector2Int to Vector3 (optional: adjust for grid origin/offset)
-        //    Vector3 worldPos = new Vector3(tile.x, 0, tile.y);
-        //    Gizmos.DrawCube(worldPos + tileSize * 0.5f, tileSize);
-        //}
-
-        //Gizmos.color = doorColor;
-        //foreach (Vector2Int tile in doorTiles)
-        //{
-        //    // Convert Vector2Int to Vector3 (optional: adjust for grid origin/offset)
-        //    Vector3 worldPos = new Vector3(tile.x, 0, tile.y);
-        //    Gizmos.DrawCube(worldPos + tileSize * 0.5f, tileSize);
-        //}
-
-        //Gizmos.color = furnitureColor;
-        //foreach (Vector2Int tile in furnitureTiles)
-        //{
-        //    // Convert Vector2Int to Vector3 (optional: adjust for grid origin/offset)
-        //    Vector3 worldPos = new Vector3(tile.x, 0, tile.y);
-        //    Gizmos.DrawCube(worldPos + tileSize * 0.5f, tileSize);
-        //}
     }
 
     void DrawTileSet(HashSet<Vector2Int> tiles, Color color)

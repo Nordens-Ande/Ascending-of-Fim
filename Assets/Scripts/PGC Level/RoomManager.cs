@@ -120,7 +120,8 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         reroll = false;
-        player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
+        if (player)
+            player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
 
         rooms = new List<Room>();
         roomObjects = new List<GameObject>();
@@ -207,6 +208,7 @@ public class RoomManager : MonoBehaviour
                 int width = Random.Range(sizeRange.min, sizeRange.max + 1);
                 int height = Random.Range(sizeRange.min, sizeRange.max + 1);
 
+                //Specific settings for corridor (så den blir avlång)
                 if (type == RoomType.Corridor)
                 {
                     Vector2 dir = GetRandomDirection();
@@ -277,20 +279,12 @@ public class RoomManager : MonoBehaviour
                 Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
                 Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
 
-                if (!selectedFurniture.repeating)
+                if (selectedFurniture.lookAlikeID != 0)
                 {
-                    if (room.FurnitureList.Any(f => f.Item1 == selectedFurniture))
+                    if (room.FurnitureList.Any(f => f.Item1.lookAlikeID == selectedFurniture.lookAlikeID))
                     {
                         failCount++;
                         continue;
-                    }
-                    foreach (Furniture furniture in selectedFurniture.lookAlikes)
-                    {
-                        if (room.FurnitureList.Any(f => f.Item1 == furniture))
-                        {
-                            failCount++;
-                            continue;
-                        }
                     }
                 }
 
@@ -525,7 +519,7 @@ public class RoomManager : MonoBehaviour
     void AddFurniture(Room room, Furniture furniture, Vector2Int pos)
     {
         //Vector2Int offset = pos - room.Position;
-        furniture.transform.position = new Vector3(pos.x, 0, pos.y);
+        //furniture.transform.position = new Vector3(pos.x, 0, pos.y);
 
         room.FurnitureList.Add((furniture, pos));
         Debug.Log($"{furniture.gameObject.transform.position} with vector3: {new Vector3(pos.x, 0, pos.y)}");

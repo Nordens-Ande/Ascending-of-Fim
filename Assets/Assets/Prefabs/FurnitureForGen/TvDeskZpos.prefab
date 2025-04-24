@@ -45,17 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a04a367acf2c84aa895cab5bf7a8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomType: 2
+  roomType: 3
   size: {x: 2, y: 1}
   frontDirections:
   - {x: 0, y: 1}
   wallDirections:
   - {x: 0, y: -1}
   repeating: 0
-  lookAlikes:
-  - {fileID: 955559305025221566, guid: e632164c63d527544a963bb787de216a, type: 3}
-  - {fileID: 1990157100169837599, guid: 2ed0632db588c2c43be0d495bb64615f, type: 3}
-  - {fileID: 8914706397357245121, guid: c40ac976b50098441971d757428390b1, type: 3}
+  lookAlikeID: 401
   drawDebug: 1
 --- !u!1 &5624136156829637340
 GameObject:

@@ -50,14 +50,11 @@ MonoBehaviour:
   roomType: 5
   size: {x: 1, y: 1}
   frontDirections:
-  - {x: 0, y: 1}
+  - {x: -1, y: 0}
   wallDirections:
-  - {x: 0, y: -1}
+  - {x: 1, y: 0}
   repeating: 0
-  lookAlikes:
-  - {fileID: 418420030445107081, guid: 9cdae2dc252cd894f991c110498d75b2, type: 3}
-  - {fileID: 418420030445107081, guid: 79d43a0dc8b53c84482b8401c38bc27c, type: 3}
-  - {fileID: 418420030445107081, guid: d8936fb95008dca45a46c4e5a75bde03, type: 3}
+  lookAlikeID: 603
   drawDebug: 1
 --- !u!1001 &1479647934726220472
 PrefabInstance:
