@@ -1228,6 +1228,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af128fdb807820b43a0996fad03eda0a, type: 3}
+--- !u!1 &844739805 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 428293768870690191, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+  m_PrefabInstance: {fileID: 1923635145}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &844739810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844739805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab8353b5ebd32545867da143199a814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shakeTechnique: 0
+  _makeDefaultOnEnable: 1
+  _limitMagnitude: 0
+  _positionalMagnitudeLimit: 10
+  _rotationalMagnitudeLimit: 3
 --- !u!1001 &855846215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2992,6 +3014,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2859507241806587065, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: hitShake
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e51b6b4f38e9b04897e3886fe3c44f3, type: 2}
+    - target: {fileID: 2859507241806587065, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: hudHandler
       value: 
       objectReference: {fileID: 106777122}
@@ -3017,6 +3043,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3434813471946459404, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       insertIndex: -1
       addedObject: {fileID: 106777137}
+    - targetCorrespondingSourceObject: {fileID: 428293768870690191, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 844739810}
   m_SourcePrefab: {fileID: 100100000, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
 --- !u!4 &1965190966 stripped
 Transform:
