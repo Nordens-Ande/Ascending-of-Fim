@@ -2,26 +2,35 @@ using UnityEngine;
 
 public class HUDHandler : MonoBehaviour
 {
-    private TimerUIScript timerUIScript;
-    private Money moneyScript;
-    private HealthBar healthBarScript;
-    private Ammo ammoScript;
-    private announcement announcementScript;
-    private GameOverScore gameOverScore;
-    private HighscoreHandler highscoreHandler;
-    private ScoreScript scoreScript;
+    //private TimerUIScript timerUIScript;
+    //private Money moneyScript;
+    //private HealthBar healthBarScript;
+    //private Ammo ammoScript;
+    //private announcement announcementScript;
+    //private GameOverScore gameOverScore;
+    //private HighscoreHandler highscoreHandler;
+    //private ScoreScript scoreScript;
+
+    [SerializeField] TimerUIScript timerUIScript;
+    [SerializeField] Money moneyScript;
+    [SerializeField] HealthBar healthBarScript;
+    [SerializeField] Ammo ammoScript;
+    [SerializeField] announcement announcementScript;
+    [SerializeField] GameOverScore gameOverScore;
+    [SerializeField] HighscoreHandler highscoreHandler;
+    [SerializeField] ScoreScript scoreScript;
 
 
     private void Start()
     {
-        timerUIScript = GetComponent<TimerUIScript>();
-        moneyScript = GetComponent<Money>();
-        healthBarScript = GetComponent<HealthBar>();
-        ammoScript = GetComponent<Ammo>();
-        announcementScript = GetComponent<announcement>();
-        gameOverScore = GetComponent<GameOverScore>();
-        highscoreHandler = GetComponent<HighscoreHandler>();
-        scoreScript = GetComponent<ScoreScript>();
+        //timerUIScript = GetComponent<TimerUIScript>();
+        //moneyScript = GetComponent<Money>();
+        //healthBarScript = GetComponent<HealthBar>();
+        //ammoScript = GetComponent<Ammo>();
+        //announcementScript = GetComponent<announcement>();
+        //gameOverScore = GetComponent<GameOverScore>();
+        //highscoreHandler = GetComponent<HighscoreHandler>();
+        //scoreScript = GetComponent<ScoreScript>();
     }
 
     //timer
@@ -73,6 +82,11 @@ public class HUDHandler : MonoBehaviour
         healthBarScript.SetHealth(health);
     }
 
+    public void setMaxHealth(float health)
+    {
+        healthBarScript.setMaxHealth(health);
+    }
+
     public void addHealth(float addHealth)
     {
         healthBarScript.AddHealth(addHealth);
@@ -92,6 +106,8 @@ public class HUDHandler : MonoBehaviour
     {
         return healthBarScript.getMaxHealth();
     }
+
+    
 
     //ammo
     public void setAmmo(int ammo)
