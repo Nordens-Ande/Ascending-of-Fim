@@ -210,7 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentSoundEffect: {fileID: 4548143035747909626}
   soundEffectShot: {fileID: 8300000, guid: 2497b31d6d4b3c8439a7c61e7e50a334, type: 3}
-  soundEffectTalk: {fileID: 0}
+  playerVoicelines: []
 --- !u!1 &2570567280906134979
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,6 +870,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 1087508255791953301, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1147520176836613223, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1019,20 +1023,24 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7048641471226029495, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
+      propertyPath: m_Name
+      value: PlayerHitbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048641471226029495, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7095624228978418415, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1504.5787
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7095624228978418415, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1341.7997
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7095624228978418415, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2766.4421
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7095624228978418415, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1065,6 +1073,18 @@ PrefabInstance:
     - target: {fileID: 7200224259964740013, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7382875951686800929, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7660445
+      objectReference: {fileID: 0}
+    - target: {fileID: 7382875951686800929, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.6427876
+      objectReference: {fileID: 0}
+    - target: {fileID: 7382875951686800929, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 7476876854394018550, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer

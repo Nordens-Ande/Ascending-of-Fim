@@ -70,7 +70,7 @@ public class EnemyShoot : MonoBehaviour
 
     IEnumerator ResetIsReadyToFire()
     {
-        yield return new WaitForSeconds(CalculateFireRate());
+        yield return new WaitForSeconds(CalculateFireRate() * 2);
         isReadyToFire = true;
     }
 
@@ -84,7 +84,15 @@ public class EnemyShoot : MonoBehaviour
     {
         foreach(RaycastHit hit in hits)
         {
-            if(hit.collider == null) continue;
+            Vector3 endPoint;
+            if (hit.collider != null)
+                endPoint = hit.point;
+            else
+                endPoint = shootScript.transform.position + shootScript.transform.forward * 1000f;
+
+            weaponScript.SpawnBulletTrail(endPoint);
+
+            if (hit.collider == null) continue;
             if (hit.transform.CompareTag("Player"))
             {
                 PlayerHealth health = hit.transform.GetComponent<PlayerHealth>();

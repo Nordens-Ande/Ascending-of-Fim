@@ -23,20 +23,25 @@ public class EnemyManager : MonoBehaviour
 
     void CreateEnemy()
     {
-        Instantiate(enemyPrefab, GetRandomSpawnPoint(), Quaternion.identity);
+        Vector3 spawnPoint = GetRandomSpawnPoint();
+        if(spawnPoint != Vector3.zero)
+        {
+            Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
+        }
     }
 
     Vector3 GetRandomSpawnPoint()
     {
         List<Vector3> viableSpawnPoints = spawnPointManager.GetViableSpawnPoints();
-        //Debug.Log(viableSpawnPoints.Count);
-        int random = Random.Range(0, viableSpawnPoints.Count);
-        Vector3 spawnPointPos = viableSpawnPoints[random];
-        return spawnPointPos;
-    }
-
-    void Update()
-    {
-        
+        if(viableSpawnPoints.Count > 0)
+        {
+            int random = Random.Range(0, viableSpawnPoints.Count);
+            Vector3 spawnPointPos = viableSpawnPoints[random];
+            return spawnPointPos;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 }

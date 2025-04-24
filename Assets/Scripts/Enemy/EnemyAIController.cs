@@ -7,6 +7,7 @@ public class EnemyAIController : MonoBehaviour
 {
     [SerializeField] EnemyMove enemyMove;
     [SerializeField] EnemyShoot enemyShoot;
+    [SerializeField] SoundEffectsEnemy soundEffectsEnemy;
 
     enum EnemyState {searching = 2, movingToPlayerLastKnown = 3, chasing = 4, shooting = 5, dead = 6 }
     EnemyState previousEnemyState;
@@ -16,7 +17,7 @@ public class EnemyAIController : MonoBehaviour
 
     GameObject player;
 
-    const float shootingDistance = 4.5f;
+    const float shootingDistance = 3f;
     const int searchingDistance = 15;
 
     LayerMask layerMask;
@@ -27,9 +28,11 @@ public class EnemyAIController : MonoBehaviour
 
     Vector3 lastPos;
 
+    bool forceUpdateBehaviour;
+
     void Start()
     {
-        layerMask = ~LayerMask.GetMask("Enemy");
+        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon"));
         player = GameObject.FindWithTag("Player");
         previousEnemyState = EnemyState.searching;
         enemyState = EnemyState.searching;
@@ -37,6 +40,7 @@ public class EnemyAIController : MonoBehaviour
         lineOfSight = false;
         lineOfSightLastUpdate = false;
         movingToPlayerLastKnownPos = false;
+        forceUpdateBehaviour = true;
     }
 
     void DecideEnemyState()
@@ -68,24 +72,28 @@ public class EnemyAIController : MonoBehaviour
         {
             enemyMove.wandering = false;
             enemyShoot.IsShooting(true);
+            soundEffectsEnemy.SetIsShooting(true);
             enemyMove.StopMoving();
         }
         else if(enemyState == EnemyState.chasing)
         {
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
+            soundEffectsEnemy.SetIsShooting(false);
             enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.movingToPlayerLastKnown)
         {
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
+            soundEffectsEnemy.SetIsShooting(false);
             enemyMove.SetDestination(playerLastKnownPosition);
             enemyMove.StartMoving();
         }
         else if(enemyState == EnemyState.searching)
         {
             enemyShoot.IsShooting(false);
+            soundEffectsEnemy.SetIsShooting(false);
             enemyMove.wandering = true;
         }
     }
@@ -115,7 +123,7 @@ public class EnemyAIController : MonoBehaviour
             movingToPlayerLastKnownPos = false;
         }
     }
-
+    
     bool CheckForLineOfSight()
     {
         Vector3 directionToPlayer = CalculateDirectionToPlayer();
@@ -123,7 +131,7 @@ public class EnemyAIController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-            if (hit.transform != null && hit.transform.CompareTag("Player"))
+            if (hit.transform.CompareTag("Player"))
             {
                 movingToPlayerLastKnownPos = false;
                 return true;
@@ -153,6 +161,13 @@ public class EnemyAIController : MonoBehaviour
 
     void Update()
     {
+        if(forceUpdateBehaviour) // used to call the updateEnemyBehaviour method once at the first update,
+                                 // ensuring that the enemy behaves correctly even if no EnemyState changes have occured
+        {
+            UpdateEnemyBehaviour();
+            forceUpdateBehaviour = false;
+        }
+
         lineOfSight = CheckForLineOfSight();
         float angle = CalculateRotationToPlayer();
         Vector3 moveVector = transform.position - lastPos;

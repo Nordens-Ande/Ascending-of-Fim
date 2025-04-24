@@ -5,8 +5,6 @@ using UnityEngine.UIElements;
 public class EnemyWeaponInventory : MonoBehaviour
 {
     [SerializeField] EnemyShoot enemyShootScript;
-    [SerializeField] DropWeaponScript dropWeaponScript;
-
 
     [Header("Prefab References")]
     [SerializeField] GameObject pistolPrefab;
@@ -115,14 +113,16 @@ public class EnemyWeaponInventory : MonoBehaviour
             weaponScript.CheckIfWeaponBodyNull();
             weaponData = weaponScript.GetWeaponData();
             enemyShootScript.SetWeaponData(weaponData, weaponScript);
-            dropWeaponScript.SetWeapon(weapon);
         }
     }
 
     public void UnEquip()
     {
-        weapon.transform.parent = null;
-        weaponScript.Unequip();
+        if(weapon != null)
+        {
+            weapon.transform.parent = null;
+            weaponScript.Unequip(true);
+        }
         IsEquiped = false;
         weapon = null;
         weaponScript = null;

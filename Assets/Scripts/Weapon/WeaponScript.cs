@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public interface IWeapon
@@ -15,11 +16,16 @@ public class WeaponScript : MonoBehaviour, IWeapon
     [SerializeField] public Transform RightHand;
     [SerializeField] public Transform LeftHand;
 
+    [SerializeField] private GameObject bulletTrailPrefab;
+    [SerializeField] private Transform bulletOrigin;
+
     public int bulletsLeft { get; private set; }
 
     private Rigidbody weaponBody;
 
     public bool IsRotating { get; set; }
+
+    Coroutine destroyCoroutine;// used to cancel and check if DestroyOnGround coroutine is running
 
     public void Start()
     {
@@ -64,36 +70,58 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     public void Equip()
     {
+        if(destroyCoroutine != null)
+        {
+            StopCoroutine(destroyCoroutine);
+            destroyCoroutine = null;
+        }
         if(GetComponent<Collider>())
         {
             GetComponent<Collider>().enabled = false;
         }
+        weaponBody.constraints = RigidbodyConstraints.None;
         weaponBody.isKinematic = true;
         IsRotating = false;
     }
 
-    public void Unequip()
+    public void Unequip(bool enemyDropped) // enemyDropped = true if enemy is the one dropping weapon, a 80% chance that the weapon gets removed is the added
     {
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        if(enemyDropped)
+        {
+            int value = Random.Range(1, 101);
+            if (value > 20)
+            {
+                Destroy(gameObject);
+            }
+        }
+        weaponBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        transform.rotation = Quaternion.identity;
         GetComponent<Collider>().enabled = true;
         weaponBody.isKinematic = false;
         weaponBody.linearVelocity = Vector3.zero;
         weaponBody.angularVelocity = Vector3.zero;
         IsRotating = true;
-        
+        destroyCoroutine = StartCoroutine(DestroyOnGround());
     }
 
-    //private void OnCollisionEnter(Collision other)
-    //{
-    //    if (other.gameObject.CompareTag("Ground"))
-    //    {
-    //        Debug.Log("Weapon touched ground");
-    //        if (weaponBody)
-    //        {
-    //            //weaponBody.constraints = RigidbodyConstraints.FreezePosition;
-    //            weaponBody.isKinematic = true;
-    //            IsRotating = true;
-    //        }
-    //    }
-    //}
+    IEnumerator DestroyOnGround()
+    {
+        yield return new WaitForSeconds(8);
+        Destroy(gameObject);
+    }
+
+    public void SpawnBulletTrail(Vector3 endPoint)
+    {
+        if (bulletTrailPrefab == null)// || bulletOrigin == null) 
+            return;
+
+        GameObject lineObj = Instantiate(bulletTrailPrefab);
+        LineRenderer line = lineObj.GetComponent<LineRenderer>();
+
+        Vector3 start = bulletOrigin.position;
+        line.SetPosition(0, start);
+        line.SetPosition(1, endPoint);
+
+        Destroy(lineObj, 0.05f); // lower number for "faster" effect
+    }
 }
