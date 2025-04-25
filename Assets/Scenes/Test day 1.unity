@@ -312,6 +312,22 @@ PrefabInstance:
       propertyPath: ammoText
       value: 
       objectReference: {fileID: 1333477152}
+    - target: {fileID: 2527505788655966910, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+      propertyPath: m_text
+      value: Fimland
+      objectReference: {fileID: 0}
+    - target: {fileID: 2527505788655966910, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+      propertyPath: m_fontSize
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2527505788655966910, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2527505788655966910, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3798312028381657834, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -400,6 +416,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6136903679479323276, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+      propertyPath: m_text
+      value: "W\t\t\t   RS\nS\t\t\t   RS\nD\t\t\t   RS\nA\t\t\t   RS\n\t       M1\t  
+        L2\nE\t\t\tSquare\n\t MousePos       LS\nQ\t\t\t  TBT"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6444225243855575835, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+      propertyPath: m_text
+      value: "Inputs:    Keyboard    Mouse    Controller\nForward      \nBackward  
+        \nLeft\t  \nRight\nShoot\nInteract\nRotate\nDrop"
+      objectReference: {fileID: 0}
     - target: {fileID: 6873539594455852879, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
       propertyPath: m_Name
       value: UI
@@ -434,6 +460,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8989798461867430622, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990465493332827952, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9019551416232528946, guid: 0c1213f141373804f976d2c2ac7ad555, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
