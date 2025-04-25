@@ -3025,10 +3025,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCorrectWeaponPlacement
       objectReference: {fileID: 0}
+    - target: {fileID: 4548143035747909626, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4548143035747909626, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 4232273485107137044, guid: 33118a7a7de2f5f4cbbcc5f624316590, type: 2}
     - target: {fileID: 7374265567498303239, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: m_Radius
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 8493299175376454050, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8493299175376454050, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8493299175376454050, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 4232273485107137044, guid: 33118a7a7de2f5f4cbbcc5f624316590, type: 2}
     - target: {fileID: 8810053529756146234, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: hudHandler
       value: 

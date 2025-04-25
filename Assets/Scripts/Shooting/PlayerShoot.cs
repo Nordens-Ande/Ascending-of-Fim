@@ -13,7 +13,7 @@ public class PlayerShoot : MonoBehaviour
     WeaponData weaponData;
     WeaponScript weaponScript;
 
-    bool isShooting;
+    public bool isShooting;
     bool isReadyToShoot = true;
     bool isReloading;
 

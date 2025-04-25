@@ -4,12 +4,15 @@ public class SoundEffectsPlayer : MonoBehaviour
 {
     public AudioSource CurrentSoundEffect;  
     public AudioClip soundEffectShot;
-    public AudioClip[] playerVoicelines; 
+    public AudioClip[] playerVoicelines;
     int rand;
+    bool playershooting;
+    PlayerShoot playershoot;
 
     public void Start()
     {
         CurrentSoundEffect = GetComponent<AudioSource>();
+        playershooting = GetComponent<PlayerShoot>().isShooting;
     }
     public void Update()
     {
