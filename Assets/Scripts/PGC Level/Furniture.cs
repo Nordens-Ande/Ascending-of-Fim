@@ -4,15 +4,18 @@ using UnityEngine.UIElements;
 
 public class Furniture : MonoBehaviour, ITileable
 {
+    [Header("Furniture")]
     public RoomType roomType;
     public Vector2Int size;
+    public bool drawDebug = false;
 
-    public List<Vector2Int> frontDirections = new List<Vector2Int>();
+    [Header("Directions")]
+    public List<Vector2Int> clearDirections = new List<Vector2Int>();
     public List<Vector2Int> wallDirections = new List<Vector2Int>();
 
+    [Header("Variants and look alikes")]
+    public List<GameObject> variants = new List<GameObject>();
     public int lookAlikeID;
-
-    public bool drawDebug = false;
     
     void Start()
     {
@@ -58,7 +61,7 @@ public class Furniture : MonoBehaviour, ITileable
         Vector3 cubeSize = new Vector3(size.x, Mathf.Clamp(2, 1, (size.x + size.y) / 2f), size.y);
         Gizmos.DrawWireCube(transform.position + cubeSize / 2f, cubeSize);
 
-        foreach (Vector2Int dir in frontDirections)
+        foreach (Vector2Int dir in clearDirections)
             DrawDirectionFromEdge(dir, Color.yellow);
         foreach (Vector2Int dir in wallDirections)
             DrawDirectionFromEdge(dir, Color.red);

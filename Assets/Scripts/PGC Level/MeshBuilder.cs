@@ -37,9 +37,9 @@ public static class MeshBuilder
     {
         foreach ((Furniture f, Vector2Int v) furniture in room.FurnitureList)
         {
-            Debug.Log("DecorateRoomMesh: " + furniture.f.gameObject.transform.position);
+            //Debug.Log("DecorateRoomMesh: " + furniture.f.gameObject.transform.position);
             Vector2Int pos2 = furniture.v;
-            CreateFurniture(root.transform.root, furniture.f.gameObject, new Vector3(pos2.x, 0, pos2.y));
+            CreateFurniture(root.transform.root, furniture.f, new Vector3(pos2.x, 0, pos2.y));
         }       
     }
 
@@ -133,11 +133,26 @@ public static class MeshBuilder
         wall.GetComponent<Renderer>().material = mat;
     }
 
-    public static void CreateFurniture(Transform parent, GameObject prefab, Vector3 pos)
+    public static void CreateFurniture(Transform parent, Furniture prefab, Vector3 pos)
     {
-        GameObject furnitureObject = GameObject.Instantiate(prefab);
+        GameObject furnitureObject = GameObject.Instantiate(prefab.gameObject);
+
+        Furniture furniture = furnitureObject.GetComponent<Furniture>();
+        if (furniture.variants.Count > 0)
+        {
+            GameObject selectedVariant = furniture.variants[Random.Range(0, furniture.variants.Count)];
+            foreach (GameObject variant in furniture.variants)
+            {
+                if (variant != selectedVariant)
+                    GameObject.Destroy(variant);
+            }
+
+            //foreach (GameObject child in prefab.variants)
+            //    child.SetActive(false);
+        }
+
         furnitureObject.transform.parent = parent;
         furnitureObject.transform.position = pos;
-        furnitureObject.name = "Furniture " + pos;
+        furnitureObject.name = furnitureObject.name + pos;
     }
 }

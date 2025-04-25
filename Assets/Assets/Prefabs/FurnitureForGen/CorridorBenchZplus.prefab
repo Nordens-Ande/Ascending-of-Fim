@@ -81,13 +81,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomType: 1
   size: {x: 2, y: 1}
-  frontDirections:
+  drawDebug: 1
+  clearDirections:
   - {x: 0, y: 1}
   wallDirections:
   - {x: 0, y: -1}
-  repeating: 0
+  variants: []
   lookAlikeID: 201
-  drawDebug: 1
 --- !u!1001 &5094857661067970990
 PrefabInstance:
   m_ObjectHideFlags: 0

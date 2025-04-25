@@ -47,13 +47,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomType: 1
   size: {x: 2, y: 1}
-  frontDirections:
+  drawDebug: 1
+  clearDirections:
   - {x: 0, y: -1}
   wallDirections:
   - {x: 0, y: 1}
-  repeating: 0
+  variants: []
   lookAlikeID: 201
-  drawDebug: 1
 --- !u!1 &7995719864430552593
 GameObject:
   m_ObjectHideFlags: 0

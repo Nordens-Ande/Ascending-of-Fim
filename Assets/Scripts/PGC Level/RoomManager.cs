@@ -297,7 +297,7 @@ public class RoomManager : MonoBehaviour
                     float rayLength = 0.5f;
 
                     bool isClear = true;
-                    foreach (Vector2Int dir in selectedFurniture.frontDirections)
+                    foreach (Vector2Int dir in selectedFurniture.clearDirections)
                     {
                         Debug.Log("Amount furniture tiles: " + occupiedFurniturePositions.Count);
 
