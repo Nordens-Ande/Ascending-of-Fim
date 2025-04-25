@@ -1,17 +1,18 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyWalk : MonoBehaviour
 {
     public AudioSource enemyWalkSound;
     public AudioClip enemyWalkingClip;
-    bool enemyIsWalking;
     bool deadMansSwitch;
+    private NavMeshAgent agent;
 
     void Start()
     {
         enemyWalkSound = GetComponent<AudioSource>();
         deadMansSwitch = false;
-        //enemyIsWalking = GetComponent<EnemyMove>().Wandering;
+        agent = GetComponent<NavMeshAgent>();
 
 
     }
@@ -26,12 +27,12 @@ public class EnemyWalk : MonoBehaviour
     //Och metoden kan sättas igång igen
     public void playSoundOnWalk()
     {
-        if (enemyIsWalking == true && deadMansSwitch == false)
+        if (agent.isStopped == false && deadMansSwitch == false)
         {
             walking();
             deadMansSwitch=true;
         }
-        if(!enemyIsWalking)
+        if(agent.isStopped == true)
         { 
             enemyWalkSound.Stop();
             deadMansSwitch=false;
