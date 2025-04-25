@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a04a367acf2c84aa895cab5bf7a8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomType: 2
+  roomType: 3
   size: {x: 3, y: 3}
   drawDebug: 1
   clearDirections:

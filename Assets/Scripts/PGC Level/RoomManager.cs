@@ -57,6 +57,7 @@ public class RoomManager : MonoBehaviour
 
     [Header("Apartment Settings")]
     [SerializeField] MinMaxInt roomAmountRange;
+    [SerializeField] MinMaxInt elevatorAmount;
     [SerializeField] int doorClearance;
     [SerializeField] int maxRoomFails = 1000;
     [SerializeField] int maxFurnitureFails = 100;
@@ -69,6 +70,7 @@ public class RoomManager : MonoBehaviour
     [SerializeField] RoomSettings diningRoomSettings;
     [SerializeField] RoomSettings closetSettings;
     [SerializeField] RoomSettings bathroomSettings;
+    RoomSettings elevatorSettings;
 
     TileDebugger debugger;
     RoomPrefabManager roomPrefabManager;
@@ -90,8 +92,9 @@ public class RoomManager : MonoBehaviour
 
     private Dictionary<RoomType, List<RoomType>> roomConnectionRules = new Dictionary<RoomType, List<RoomType>>()
     {
-        { RoomType.Hallway, new List<RoomType> { RoomType.Corridor, RoomType.LivingRoom, RoomType.Bedroom, RoomType.Bathroom } },
-        { RoomType.Corridor, new List<RoomType> { RoomType.Bedroom, RoomType.Closet, RoomType.Bathroom, RoomType.LivingRoom, RoomType.DiningRoom } },
+        { RoomType.Elevator, new List<RoomType>() },
+        { RoomType.Hallway, new List<RoomType> { RoomType.Corridor, RoomType.LivingRoom, RoomType.Bedroom, RoomType.Bathroom, RoomType.Elevator } },
+        { RoomType.Corridor, new List<RoomType> { RoomType.Bedroom, RoomType.Closet, RoomType.Bathroom, RoomType.LivingRoom, RoomType.DiningRoom, RoomType.Elevator } },
         { RoomType.LivingRoom, new List<RoomType> { RoomType.DiningRoom, RoomType.Corridor } },
         { RoomType.Bedroom, new List<RoomType> { RoomType.Closet, RoomType.Bathroom } },
         { RoomType.DiningRoom, new List<RoomType> { RoomType.Corridor, RoomType.Bedroom, RoomType.LivingRoom } },
@@ -103,6 +106,7 @@ public class RoomManager : MonoBehaviour
     {
         roomSettings = new Dictionary<RoomType, RoomSettings>()
         {
+            { RoomType.Elevator, elevatorSettings },
             { RoomType.Hallway, hallwaySettings},
             { RoomType.Corridor, corridorSettings},
             { RoomType.LivingRoom, livingRoomSettings},
@@ -111,6 +115,7 @@ public class RoomManager : MonoBehaviour
             { RoomType.Closet, closetSettings},
             { RoomType.Bathroom, bathroomSettings}
         };
+        elevatorSettings = new RoomSettings(new MinMaxInt(2, 2), wallMaterial, floorMaterial, 1);
 
         debugger = GetComponent<TileDebugger>();
         roomPrefabManager = GetComponent<RoomPrefabManager>();
@@ -179,7 +184,9 @@ public class RoomManager : MonoBehaviour
         roomQueue.Enqueue(initialRoom);
 
         int amountToGenerate = Random.Range(roomAmountRange.min, roomAmountRange.max + 1);
-        Debug.Log("Max amount to generate: " + amountToGenerate);
+        Debug.Log("Max amount rooms to generate: " + amountToGenerate);
+        int elevatorsToGenerate = Random.Range(elevatorAmount.min, elevatorAmount.max + 1);
+        Debug.Log("Max amount elevators to generate: " + elevatorsToGenerate);
 
         int failCount = 0;
         int maxFails = maxRoomFails; //övregräns för att hindra oändliga loops, när detta uppnås så stoppas generationen.
@@ -202,6 +209,8 @@ public class RoomManager : MonoBehaviour
             {
                 if (rooms.Count >= amountToGenerate)
                     break;
+                if (type == RoomType.Elevator/* && elevatorsToGenerate < rooms.Count(r => r.Type == RoomType.Elevator)*/)
+                    continue;
 
                 MinMaxInt sizeRange = roomSettings[type].sizeRange;
 
@@ -236,6 +245,39 @@ public class RoomManager : MonoBehaviour
             }
 
             if (!addedRoomThisCycle)
+                failCount++;
+            else
+                failCount = 0; // Reset fails if successful
+        }
+        //Extra while-loop för att säkra att hissar skapas. SÄTT EN GRÄNS
+        failCount = 0;
+        while (elevatorsToGenerate > rooms.Count(r => r.Type == RoomType.Elevator) && failCount < maxFails)
+        {
+            Room currentRoom = rooms[Random.Range(0, rooms.Count)];
+            //Debug.Log("Attempting elevator");
+            if (!roomConnectionRules[currentRoom.Type].Contains(RoomType.Elevator))
+                continue;
+
+            bool addedElevatorThisCycle = false;
+
+            MinMaxInt sizeRange = roomSettings[RoomType.Elevator].sizeRange;
+
+            int width = Random.Range(sizeRange.min, sizeRange.max + 1);
+            int height = Random.Range(sizeRange.min, sizeRange.max + 1) + 2;
+
+            Vector2Int direction = GetRandomDirection();
+            Vector2Int offset = GetOffset(direction, width, height);
+            Vector2Int newPosition = currentRoom.Position + offset;
+
+            Room elevator = new Room(width, height, wallHeight, wallThickness, doorSize, newPosition, RoomType.Elevator);
+            if (IsRoomSpaceFree(elevator) && IsRoomConnected(elevator, direction))
+            {
+                AddRoom(elevator);
+                addedElevatorThisCycle = true;
+                Debug.Log("Created elevator");
+            }
+
+            if (!addedElevatorThisCycle)
                 failCount++;
             else
                 failCount = 0; // Reset fails if successful
@@ -299,12 +341,12 @@ public class RoomManager : MonoBehaviour
                     bool isClear = true;
                     foreach (Vector2Int dir in selectedFurniture.clearDirections)
                     {
-                        Debug.Log("Amount furniture tiles: " + occupiedFurniturePositions.Count);
+                        //Debug.Log("Amount furniture tiles: " + occupiedFurniturePositions.Count);
 
                         bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
                         bool isFurniture = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, occupiedFurniturePositions.ToList());
 
-                        Debug.Log($"Is dir {dir} a room tile {isRoom} or a furniture tile {isFurniture}");
+                        //Debug.Log($"Is dir {dir} a room tile {isRoom} or a furniture tile {isFurniture}");
 
                         if (!isRoom || isFurniture)
                             isClear = false;
@@ -325,7 +367,7 @@ public class RoomManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Failed placement");
+                        //Debug.Log("Failed placement");
                         //AddFurniture(room, selectedFurniture, spawnPos);
                     }
                 }
