@@ -22,8 +22,9 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        yield return new WaitForSeconds(0.5f);
-        foreach(Vector3 spawnPos in GetRandomUniqueSpawnPoints(amountToSpawnAtStart))
+        yield return new WaitForSeconds(0);
+        Debug.Log("hi");
+        foreach (Vector3 spawnPos in GetRandomUniqueSpawnPoints(amountToSpawnAtStart))
         {
             CreateEnemy(spawnPos);
         }
@@ -63,6 +64,11 @@ public class EnemyManager : MonoBehaviour
                     foundUnique = true;
                     usedSpawnPoints.Add(spawnPoint);
                 }
+                if(foundUnique == false)
+                {
+                    Debug.Log("failed to find spawnpoint");
+                }
+                
             }
         }
         return usedSpawnPoints;
