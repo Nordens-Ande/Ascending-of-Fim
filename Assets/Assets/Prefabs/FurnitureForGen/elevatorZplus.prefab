@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1173964894911578896}
   - component: {fileID: 8848551827068776849}
   m_Layer: 0
-  m_Name: elevatorXplus 3
+  m_Name: elevatorZplus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

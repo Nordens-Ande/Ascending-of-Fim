@@ -926,21 +926,20 @@ MonoBehaviour:
   wallHeight: 3
   wallThickness: 0.05
   doorSize: 1.5
-  initWidth: 4
-  initHeight: 4
+  initType: 0
+  initWidth: 2
+  initHeight: 2
   roomAmountRange:
     min: 10
     max: 15
-  elevatorAmount:
-    min: 0
-    max: 0
+  maxElevators: 0
   doorClearance: 1
   maxRoomFails: 1000
   maxFurnitureFails: 150
   hallwaySettings:
     sizeRange:
-      min: 6
-      max: 6
+      min: 4
+      max: 4
     wallMaterial: {fileID: 0}
     floorMaterial: {fileID: 0}
     maxFurniture: 6
