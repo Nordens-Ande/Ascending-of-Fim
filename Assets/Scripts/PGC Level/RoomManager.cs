@@ -212,7 +212,7 @@ public class RoomManager : MonoBehaviour
             {
                 if (rooms.Count >= amountToGenerate)
                     break;
-                if (type == RoomType.Elevator /*&& elevatorsToGenerate < rooms.Count(r => r.Type == RoomType.Elevator)*/)
+                if (type == RoomType.Elevator)
                     continue;
 
                 MinMaxInt sizeRange = roomSettings[type].sizeRange;
@@ -346,7 +346,7 @@ public class RoomManager : MonoBehaviour
                 //}
                 if (TryPlaceFurniture(room, selectedFurniture, spawnPos))
                 {
-                    Debug.Log("Placed furniture: " + spawnPos);
+                    //Debug.Log("Placed furniture: " + spawnPos);
                     addedFurnitureThisCycle = true;
                     AddFurniture(room, selectedFurniture, spawnPos);
                 }
@@ -436,10 +436,6 @@ public class RoomManager : MonoBehaviour
         List<Vector2Int> selectedFurnitureTiles = furniture.GetOccupiedTiles(spawnPos);
 
 
-        //TESTAR ATT TA BORT DETTA. KANSKE MÅSTE TAS TILLBAKA
-        //furniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
-
-
         //Kollar så möbeln har utrymme i rummet. Dvs kollar så att den är inom roomTiles och att den inte kolliderar med doorTiles eller furnitureTiles (om inte annorlunda givet i parametrarna)
         bool isSpaceFree = true;
         foreach (Vector2Int tile in selectedFurnitureTiles)
@@ -485,7 +481,7 @@ public class RoomManager : MonoBehaviour
                 
         }
 
-        //extra koll (egentligen onödigt) -- KANSKE SENARE / IGNORERA DETTA NU
+        //extra koll (egentligen onödigt)
         if (isSpaceFree && isClear && isNextToWall)
             return true;
         else
@@ -701,11 +697,7 @@ public class RoomManager : MonoBehaviour
 
     void AddFurniture(Room room, Furniture furniture, Vector2Int pos)
     {
-        //Vector2Int offset = pos - room.Position;
-        //furniture.transform.position = new Vector3(pos.x, 0, pos.y);
-
         room.FurnitureList.Add((furniture, pos));
-        Debug.Log($"{furniture.gameObject.transform.position} with vector3: {new Vector3(pos.x, 0, pos.y)}");
 
         foreach (Vector2Int tile in furniture.GetOccupiedTiles())
         {
