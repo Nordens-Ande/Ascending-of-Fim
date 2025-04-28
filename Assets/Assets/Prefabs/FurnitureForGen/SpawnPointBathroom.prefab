@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a04a367acf2c84aa895cab5bf7a8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomType: 5
+  roomType: 6
   size: {x: 1, y: 1}
   drawDebug: 0
   clearDirections: []

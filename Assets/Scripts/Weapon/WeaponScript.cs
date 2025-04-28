@@ -84,7 +84,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
         IsRotating = false;
     }
 
-    public void Unequip(bool enemyDropped) // enemyDropped = true if enemy is the one dropping weapon, a 80% chance that the weapon gets removed is the added
+    public void Unequip(bool enemyDropped) // enemyDropped = true if enemy is the one dropping weapon, a 80% chance that the weapon gets removed is then added
     {
         if(enemyDropped)
         {
