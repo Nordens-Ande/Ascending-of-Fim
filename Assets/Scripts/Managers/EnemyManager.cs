@@ -9,10 +9,10 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] EnemySpawnPointManager spawnPointManager;
 
-    int amountToSpawnAtStart = 7;
+    int amountToSpawnAtStart = 4;
 
-    float timeBeforeFirstEnemySpawn = 15;
-    float timeBetweenEnemySpawns = 7;
+    float timeBeforeFirstEnemySpawn = 9;
+    float timeBetweenEnemySpawns = 4;
 
     void Start()
     {
@@ -22,8 +22,7 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        yield return new WaitForSeconds(0);
-        Debug.Log("hi");
+        yield return new WaitForSeconds(2);
         foreach (Vector3 spawnPos in GetRandomUniqueSpawnPoints(amountToSpawnAtStart))
         {
             CreateEnemy(spawnPos);
@@ -66,9 +65,8 @@ public class EnemyManager : MonoBehaviour
                 }
                 if(foundUnique == false)
                 {
-                    Debug.Log("failed to find spawnpoint");
+                    
                 }
-                
             }
         }
         return usedSpawnPoints;

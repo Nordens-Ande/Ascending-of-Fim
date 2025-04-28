@@ -12,7 +12,7 @@ public class Shoot : MonoBehaviour
     void Start()
     {
         rayLength = 10000;
-        layerMask = ~LayerMask.GetMask("Weapon");
+        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs"));
     }
 
     Vector3 GetDirection()
@@ -64,5 +64,10 @@ public class Shoot : MonoBehaviour
         }
 
         return hits;
+    }
+
+    void Update()
+    {
+        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs"));
     }
 }
