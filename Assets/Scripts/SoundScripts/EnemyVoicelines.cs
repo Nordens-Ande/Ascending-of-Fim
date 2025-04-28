@@ -37,7 +37,6 @@ public class EnemyVoicelines : MonoBehaviour
     public void SetIdleEnemyVoiceline(bool a) 
     { 
         isEnemyIdle = a;
-    
     }
     public void SetSearchEnemyVoiceline(bool b)
     {
@@ -47,6 +46,33 @@ public class EnemyVoicelines : MonoBehaviour
     {
         isEnemyAttacking = c;
     }
+
+    public void SetEnemyVoicelines(int which) 
+    {
+        if (which == 1) //Idle voicelines
+        {
+            SetIdleEnemyVoiceline(true);
+            SetAttackEnemyVoiceline(false);
+            SetSearchEnemyVoiceline(false);
+
+        }
+        else if (which == 2) //searchvoicelines
+        { 
+            SetIdleEnemyVoiceline(false);
+            SetAttackEnemyVoiceline(false);
+            SetSearchEnemyVoiceline(true);
+        
+        }
+        else if(which == 3) //Attck voicelines
+        { 
+            SetIdleEnemyVoiceline(false);
+            SetAttackEnemyVoiceline(true);
+            SetSearchEnemyVoiceline(false);
+        
+        }
+    
+    }
+
 
     //Metoderna för att de olika voicelinesen ska kunna spelas upp
     //När deras respektive bools sätts som true i enemy scriptet kommer randomtime göra att det 

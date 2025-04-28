@@ -6,14 +6,12 @@ public class UiButtonSound : MonoBehaviour
     public AudioClip buttonSound;
     bool isButtonInUse;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentAudio = GetComponent<AudioSource>();
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         IsButtonClicked();
@@ -24,12 +22,11 @@ public class UiButtonSound : MonoBehaviour
         isButtonInUse = b;
     }
 
-    void IsButtonClicked() 
+    public void IsButtonClicked() 
     {
-        if (isButtonInUse && Input.GetMouseButtonDown(0)) 
-        {
-            playButtonSound();
-        }
+        
+        playButtonSound();
+        
     }
 
     void playButtonSound() 
