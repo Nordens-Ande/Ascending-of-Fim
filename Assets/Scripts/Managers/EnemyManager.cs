@@ -9,25 +9,67 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] EnemySpawnPointManager spawnPointManager;
 
+    int amountToSpawnAtStart = 4;
+
+    float timeBeforeFirstEnemySpawn = 9;
+    float timeBetweenEnemySpawns = 4;
+
     void Start()
     {
-        StartCoroutine(EnemySpawner());
+        StartCoroutine(SpawnEnemies()); // spawns enemies at start of level
+        StartCoroutine(EnemySpawner(timeBeforeFirstEnemySpawn));
     }
 
-    IEnumerator EnemySpawner()
+    IEnumerator SpawnEnemies()
     {
-        yield return new WaitForSeconds(5);
-        CreateEnemy();
-        StartCoroutine(EnemySpawner());
-    }
-
-    void CreateEnemy()
-    {
-        Vector3 spawnPoint = GetRandomSpawnPoint();
-        if(spawnPoint != Vector3.zero)
+        yield return new WaitForSeconds(2);
+        foreach (Vector3 spawnPos in GetRandomUniqueSpawnPoints(amountToSpawnAtStart))
         {
-            Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
+            CreateEnemy(spawnPos);
         }
+    }
+
+    IEnumerator EnemySpawner(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        CreateEnemy(GetRandomSpawnPoint());
+        StartCoroutine(EnemySpawner(timeBetweenEnemySpawns));
+    }
+
+    void CreateEnemy(Vector3 spawnPos)
+    {
+        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+    }
+
+    List<Vector3> GetRandomUniqueSpawnPoints(int amount)
+    {
+        List<Vector3> viableSpawnPoints = spawnPointManager.GetViableSpawnPoints(); // removes any spawnpoints too close to player spawn
+        List<Vector3> usedSpawnPoints = new List<Vector3>();
+
+        if(amount > viableSpawnPoints.Count)
+        {
+            amount = viableSpawnPoints.Count;
+        }
+
+        for(int i = 0; i < amount; i++)
+        {
+            bool foundUnique = false; // need to make sure not more than 1 enemy spawn at a spawnpoint
+            while(foundUnique == false)
+            {
+                int random = Random.Range(0, viableSpawnPoints.Count);
+                Vector3 spawnPoint = viableSpawnPoints[random];
+                if(!usedSpawnPoints.Contains(spawnPoint))
+                {
+                    foundUnique = true;
+                    usedSpawnPoints.Add(spawnPoint);
+                }
+                if(foundUnique == false)
+                {
+                    
+                }
+            }
+        }
+        return usedSpawnPoints;
     }
 
     Vector3 GetRandomSpawnPoint()

@@ -1,5 +1,3 @@
-using System;
-using Unity.Mathematics;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -8,6 +6,7 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] EnemyMove enemyMove;
     [SerializeField] EnemyShoot enemyShoot;
     [SerializeField] SoundEffectsEnemy soundEffectsEnemy;
+    EnemyVoicelines enemyVoicelines;
 
     enum EnemyState {searching = 1, movingToPlayerLastKnown = 2, chasing = 3, standingShooting = 4, runningShooting = 5 }
     EnemyState previousEnemyState;
@@ -17,8 +16,8 @@ public class EnemyAIController : MonoBehaviour
 
     GameObject player;
 
-    const float stoppingDistance = 3f;
-    const int shootingDistance = 5;
+    float stoppingDistance;
+    float shootingDistance = 3;
 
     LayerMask layerMask;
     [SerializeField] bool lineOfSight;
@@ -32,7 +31,8 @@ public class EnemyAIController : MonoBehaviour
 
     void Start()
     {
-        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon"));
+        stoppingDistance = SetStoppingDistance();
+        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs"));
         player = GameObject.FindWithTag("Player");
         previousEnemyState = EnemyState.searching;
         enemyState = EnemyState.searching;
@@ -41,6 +41,12 @@ public class EnemyAIController : MonoBehaviour
         lineOfSightLastUpdate = false;
         movingToPlayerLastKnownPos = false;
         forceUpdateBehaviour = true;
+    }
+
+    float SetStoppingDistance()
+    {
+        float random = Random.Range(2.5f, 3);
+        return random;
     }
 
     void DecideEnemyState()
@@ -73,6 +79,8 @@ public class EnemyAIController : MonoBehaviour
     {
         if(enemyState == EnemyState.standingShooting)
         {
+            enemyVoicelines.SetEnemyVoicelines(3);
+
             enemyMove.wandering = false;
             enemyShoot.IsShooting(true);
             soundEffectsEnemy.SetIsShooting(true);
@@ -80,6 +88,8 @@ public class EnemyAIController : MonoBehaviour
         }
         else if(enemyState == EnemyState.runningShooting)
         {
+            enemyVoicelines.SetEnemyVoicelines(3);
+
             enemyMove.wandering = false;
             enemyShoot.IsShooting(true);
             soundEffectsEnemy.SetIsShooting(true);
@@ -87,6 +97,8 @@ public class EnemyAIController : MonoBehaviour
         }
         else if(enemyState == EnemyState.chasing)
         {
+            enemyVoicelines.SetEnemyVoicelines(3);
+
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
             soundEffectsEnemy.SetIsShooting(false);
@@ -94,6 +106,8 @@ public class EnemyAIController : MonoBehaviour
         }
         else if(enemyState == EnemyState.movingToPlayerLastKnown)
         {
+            enemyVoicelines.SetEnemyVoicelines(2);
+
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
             soundEffectsEnemy.SetIsShooting(false);
@@ -102,6 +116,8 @@ public class EnemyAIController : MonoBehaviour
         }
         else if(enemyState == EnemyState.searching)
         {
+            enemyVoicelines.SetEnemyVoicelines(1);
+
             enemyShoot.IsShooting(false);
             soundEffectsEnemy.SetIsShooting(false);
             enemyMove.wandering = true;
@@ -120,7 +136,7 @@ public class EnemyAIController : MonoBehaviour
     {
         if(lineOfSightLastUpdate && !lineOfSight)
         {
-            playerLastKnownPosition = player.transform.position; //maybe not correct (y-axis)
+            playerLastKnownPosition = player.transform.position;
             movingToPlayerLastKnownPos = true;
         }
     }
@@ -177,6 +193,7 @@ public class EnemyAIController : MonoBehaviour
             UpdateEnemyBehaviour();
             forceUpdateBehaviour = false;
         }
+        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs"));
 
         lineOfSight = CheckForLineOfSight();
         float angle = CalculateRotationToPlayer();

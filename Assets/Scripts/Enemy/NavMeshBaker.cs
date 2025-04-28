@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(NavMeshSurface))]
 public class NavMeshBaker : MonoBehaviour
 {
-    //[ContextMenu("BakeNavMesh")]
     NavMeshSurface surface;
 
     public IEnumerator BakeNavMesh()

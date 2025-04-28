@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum RoomType
 {
+    Elevator,
     Hallway,
     Corridor,
     Bedroom,

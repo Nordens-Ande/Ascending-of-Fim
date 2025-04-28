@@ -51,12 +51,14 @@ public class RoomManager : MonoBehaviour
     [SerializeField] float doorSize;
 
     [Header("Initial Room")]
+    [SerializeField] RoomType initType;
     [SerializeField] int initWidth;
     [SerializeField] int initHeight;
     //[SerializeField] Vector2Int initPosition;
 
     [Header("Apartment Settings")]
     [SerializeField] MinMaxInt roomAmountRange;
+    //[SerializeField] int maxElevators;
     [SerializeField] int doorClearance;
     [SerializeField] int maxRoomFails = 1000;
     [SerializeField] int maxFurnitureFails = 100;
@@ -69,6 +71,7 @@ public class RoomManager : MonoBehaviour
     [SerializeField] RoomSettings diningRoomSettings;
     [SerializeField] RoomSettings closetSettings;
     [SerializeField] RoomSettings bathroomSettings;
+    RoomSettings elevatorSettings;
 
     TileDebugger debugger;
     RoomPrefabManager roomPrefabManager;
@@ -90,6 +93,7 @@ public class RoomManager : MonoBehaviour
 
     private Dictionary<RoomType, List<RoomType>> roomConnectionRules = new Dictionary<RoomType, List<RoomType>>()
     {
+        { RoomType.Elevator, new List<RoomType>() { } },
         { RoomType.Hallway, new List<RoomType> { RoomType.Corridor, RoomType.LivingRoom, RoomType.Bedroom, RoomType.Bathroom } },
         { RoomType.Corridor, new List<RoomType> { RoomType.Bedroom, RoomType.Closet, RoomType.Bathroom, RoomType.LivingRoom, RoomType.DiningRoom } },
         { RoomType.LivingRoom, new List<RoomType> { RoomType.DiningRoom, RoomType.Corridor } },
@@ -103,6 +107,7 @@ public class RoomManager : MonoBehaviour
     {
         roomSettings = new Dictionary<RoomType, RoomSettings>()
         {
+            { RoomType.Elevator, elevatorSettings },
             { RoomType.Hallway, hallwaySettings},
             { RoomType.Corridor, corridorSettings},
             { RoomType.LivingRoom, livingRoomSettings},
@@ -111,6 +116,7 @@ public class RoomManager : MonoBehaviour
             { RoomType.Closet, closetSettings},
             { RoomType.Bathroom, bathroomSettings}
         };
+        elevatorSettings = new RoomSettings(new MinMaxInt(2, 2), wallMaterial, floorMaterial, 1);
 
         debugger = GetComponent<TileDebugger>();
         roomPrefabManager = GetComponent<RoomPrefabManager>();
@@ -120,7 +126,8 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         reroll = false;
-        player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
+        if (player)
+            player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
 
         rooms = new List<Room>();
         roomObjects = new List<GameObject>();
@@ -171,14 +178,17 @@ public class RoomManager : MonoBehaviour
 
     private void GenerateRoomLayout()
     {
-        Room initialRoom = new Room(initWidth, initHeight, wallHeight, wallThickness, doorSize, Vector2Int.zero, RoomType.Hallway);
+        Room initialRoom = new Room(initWidth, initHeight, wallHeight, wallThickness, doorSize, Vector2Int.zero, initType);
         AddRoom(initialRoom);
+        GenerateElevator(initialRoom);
 
         Queue<Room> roomQueue = new Queue<Room>();
         roomQueue.Enqueue(initialRoom);
 
         int amountToGenerate = Random.Range(roomAmountRange.min, roomAmountRange.max + 1);
-        Debug.Log("Max amount to generate: " + amountToGenerate);
+        Debug.Log("Max amount rooms to generate: " + amountToGenerate);
+        //int elevatorsToGenerate = Random.Range(1, maxElevators + 1);
+        //Debug.Log("Max amount elevators to generate: " + elevatorsToGenerate);
 
         int failCount = 0;
         int maxFails = maxRoomFails; //övregräns för att hindra oändliga loops, när detta uppnås så stoppas generationen.
@@ -187,8 +197,9 @@ public class RoomManager : MonoBehaviour
         {
             if (roomQueue.Count == 0)
             {
-                //H?r väljer vi (random) ett nytt room att generera från, görs ifall algoritmen "fastnar"
+                //Här väljer vi (random) ett nytt room att generera från, görs ifall algoritmen "fastnar".
                 Room fallbackRoom = rooms[Random.Range(0, rooms.Count)];
+
                 roomQueue.Enqueue(fallbackRoom);
             }
 
@@ -201,12 +212,15 @@ public class RoomManager : MonoBehaviour
             {
                 if (rooms.Count >= amountToGenerate)
                     break;
+                if (type == RoomType.Elevator)
+                    continue;
 
                 MinMaxInt sizeRange = roomSettings[type].sizeRange;
 
                 int width = Random.Range(sizeRange.min, sizeRange.max + 1);
                 int height = Random.Range(sizeRange.min, sizeRange.max + 1);
 
+                //Specific settings for corridor (så den blir avlång)
                 if (type == RoomType.Corridor)
                 {
                     Vector2 dir = GetRandomDirection();
@@ -225,7 +239,7 @@ public class RoomManager : MonoBehaviour
 
                 Room newRoom = new Room(width, height, wallHeight, wallThickness, doorSize, newPosition, type);
 
-                if (IsRoomSpaceFree(newRoom) && IsRoomConnected(newRoom, direction))
+                if (IsRoomSpaceFree(newRoom) && IsRoomConnected(currentRoom, newRoom))
                 {
                     AddRoom(newRoom);
                     roomQueue.Enqueue(newRoom);
@@ -238,6 +252,39 @@ public class RoomManager : MonoBehaviour
             else
                 failCount = 0; // Reset fails if successful
         }
+        //Extra while-loop för att säkra att hissar skapas. SÄTT EN GRÄNS
+        //failCount = 0;
+        //while (elevatorsToGenerate > rooms.Count(r => r.Type == RoomType.Elevator) && failCount < maxFails)
+        //{
+        //    Room currentRoom = rooms[Random.Range(0, rooms.Count)];
+        //    //Debug.Log("Attempting elevator");
+        //    if (!roomConnectionRules[currentRoom.Type].Contains(RoomType.Elevator))
+        //        continue;
+
+        //    bool addedElevatorThisCycle = false;
+
+        //    MinMaxInt sizeRange = roomSettings[RoomType.Elevator].sizeRange;
+
+        //    int width = Random.Range(sizeRange.min, sizeRange.max + 1);
+        //    int height = Random.Range(sizeRange.min, sizeRange.max + 1);
+
+        //    Vector2Int direction = GetRandomDirection();
+        //    Vector2Int offset = GetOffset(direction, width, height);
+        //    Vector2Int newPosition = currentRoom.Position + offset;
+
+        //    Room elevator = new Room(width, height, wallHeight, wallThickness, doorSize, newPosition, RoomType.Elevator);
+        //    if (IsRoomSpaceFree(elevator) && IsRoomConnected(elevator, direction))
+        //    {
+        //        AddRoom(elevator);
+        //        addedElevatorThisCycle = true;
+        //        Debug.Log("Created elevator");
+        //    }
+
+        //    if (!addedElevatorThisCycle)
+        //        failCount++;
+        //    else
+        //        failCount = 0; // Reset fails if successful
+        //}
     }
 
     private void GenerateFurnitureLayout()
@@ -277,64 +324,70 @@ public class RoomManager : MonoBehaviour
                 Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
                 Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
 
-                if (!selectedFurniture.repeating)
+                if (selectedFurniture.lookAlikeID != 0)
                 {
-                    if (room.FurnitureList.Any(f => f.Item1 == selectedFurniture))
+                    if (room.FurnitureList.Any(f => f.Item1.lookAlikeID == selectedFurniture.lookAlikeID))
                     {
                         failCount++;
                         continue;
-                    }
-                    foreach (Furniture furniture in selectedFurniture.lookAlikes)
-                    {
-                        if (room.FurnitureList.Any(f => f.Item1 == furniture))
-                        {
-                            failCount++;
-                            continue;
-                        }
                     }
                 }
 
                 List<Vector2Int> selectedFurnitureTiles = selectedFurniture.GetOccupiedTiles(spawnPos);
 
-                if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
+                //if (room.Type == RoomType.Elevator)
+                //{
+                //    if (TryPlaceFurniture(room, selectedFurniture, spawnPos, false, true))
+                //    {
+                //        Debug.Log("Placed Elevator: " + spawnPos);
+                //        addedFurnitureThisCycle = true;
+                //        AddFurniture(room, selectedFurniture, spawnPos);
+                //    }
+                //}
+                if (TryPlaceFurniture(room, selectedFurniture, spawnPos))
                 {
-                    selectedFurniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
-
-                    float rayLength = 0.5f;
-
-                    bool isClear = true;
-                    foreach (Vector2Int dir in selectedFurniture.frontDirections)
-                    {
-                        Debug.Log("Amount furniture tiles: " + occupiedFurniturePositions.Count);
-
-                        bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
-                        bool isFurniture = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, occupiedFurniturePositions.ToList());
-
-                        Debug.Log($"Is dir {dir} a room tile {isRoom} or a furniture tile {isFurniture}");
-
-                        if (!isRoom || isFurniture)
-                            isClear = false;
-                    }
-
-                    bool isNextToWall = true;
-                    foreach (Vector2Int dir in selectedFurniture.wallDirections)
-                    {
-                        if (CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles))
-                            isNextToWall = false;
-                    }
-
-                    if (isClear && isNextToWall)
-                    {
-                        Debug.Log("Placed furniture: " + spawnPos);
-                        addedFurnitureThisCycle = true;
-                        AddFurniture(room, selectedFurniture, spawnPos);
-                    }
-                    else
-                    {
-                        Debug.Log("Failed placement");
-                        //AddFurniture(room, selectedFurniture, spawnPos);
-                    }
+                    //Debug.Log("Placed furniture: " + spawnPos);
+                    addedFurnitureThisCycle = true;
+                    AddFurniture(room, selectedFurniture, spawnPos);
                 }
+
+                //if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
+                //{
+                //    selectedFurniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
+
+                //    bool isClear = true;
+                //    foreach (Vector2Int dir in selectedFurniture.clearDirections)
+                //    {
+                //        //Debug.Log("Amount furniture tiles: " + occupiedFurniturePositions.Count);
+
+                //        bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
+                //        bool isFurniture = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, occupiedFurniturePositions.ToList());
+
+                //        //Debug.Log($"Is dir {dir} a room tile {isRoom} or a furniture tile {isFurniture}");
+
+                //        if (!isRoom || isFurniture)
+                //            isClear = false;
+                //    }
+
+                //    bool isNextToWall = true;
+                //    foreach (Vector2Int dir in selectedFurniture.wallDirections)
+                //    {
+                //        if (CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles))
+                //            isNextToWall = false;
+                //    }
+
+                //    if (isClear && isNextToWall)
+                //    {
+                //        Debug.Log("Placed furniture: " + spawnPos);
+                //        addedFurnitureThisCycle = true;
+                //        AddFurniture(room, selectedFurniture, spawnPos);
+                //    }
+                //    else
+                //    {
+                //        //Debug.Log("Failed placement");
+                //        //AddFurniture(room, selectedFurniture, spawnPos);
+                //    }
+                //}
 
                 if (!addedFurnitureThisCycle)
                     failCount++;
@@ -342,6 +395,97 @@ public class RoomManager : MonoBehaviour
                     failCount = 0; // Reset fails if successful
             }
         }
+    }
+
+    //Hårdkodad lösning för hissen. Just nu hamnar den alltid ovanför det första rummet i mitten och skapas mycket tidigare (för att kringå att det ska ha ett rum osv) men det bryter RoomManagerns struktur
+    void GenerateElevator(Room adjacentRoom)
+    {
+        Vector2Int size = new Vector2Int(2, 2);
+        Vector2Int roomMid = adjacentRoom.Position + new Vector2Int(adjacentRoom.Width, adjacentRoom.Height) / 2;
+        List<Vector2Int> elevatorTiles = new List<Vector2Int>();
+
+        for (int x = roomMid.x - size.x / 2; x < roomMid.x + size.x / 2; x++)
+        {
+            for (int y = adjacentRoom.Position.y + adjacentRoom.Height; y < adjacentRoom.Position.y + adjacentRoom.Height + size.y; y++)
+            {
+                Vector2Int tile = new Vector2Int(x, y);
+                elevatorTiles.Add(tile);
+                occupiedRoomPositions.Add(tile);
+                if (debugger)
+                    debugger.furnitureTiles.Add(tile);
+            }
+        }
+
+        List<Furniture> elevators = roomPrefabManager.GetFurniture(RoomType.Elevator);
+        Furniture elevator = elevators[Random.Range(0, elevators.Count())];
+        adjacentRoom.FurnitureList.Add((elevator, elevatorTiles[0]));
+
+        //MeshBuilder.CreateFurniture(null, elevator, new Vector3(elevatorTiles[0].x, 0, elevatorTiles[0].y));
+    }
+
+    bool TryPlaceFurniture(Room room, Furniture furniture, Vector2Int spawnPos, bool checkDoorTiles = true, bool checkFurnitureTiles = true)
+    {
+        //Tiles to check
+        List<Vector2Int> roomTiles = room.GetOccupiedTiles();
+        List<Vector2Int> doorTiles = room.GetDoorTiles(doorClearance);
+        List<Vector2Int> furnitureTiles = new List<Vector2Int>();
+        foreach ((Furniture f, Vector2Int v) furn in room.FurnitureList)
+            furnitureTiles.AddRange(furn.f.GetOccupiedTiles(furn.v));
+        
+        //TryFurniture tiles
+        List<Vector2Int> selectedFurnitureTiles = furniture.GetOccupiedTiles(spawnPos);
+
+
+        //Kollar så möbeln har utrymme i rummet. Dvs kollar så att den är inom roomTiles och att den inte kolliderar med doorTiles eller furnitureTiles (om inte annorlunda givet i parametrarna)
+        bool isSpaceFree = true;
+        foreach (Vector2Int tile in selectedFurnitureTiles)
+        {
+            bool isRoom = CheckCollidingTilesAtDir(Vector2Int.zero, selectedFurnitureTiles, true, roomTiles);
+            bool isDoor = checkDoorTiles ? CheckCollidingTilesAtDir(Vector2Int.zero, selectedFurnitureTiles, false, doorTiles) : false;
+            bool isFurniture = checkFurnitureTiles ? CheckCollidingTilesAtDir(Vector2Int.zero, selectedFurnitureTiles, false, furnitureTiles) : false;
+
+            if (!isRoom || isDoor || isFurniture)
+            {
+                isSpaceFree = false;
+                return false;
+            }
+        }
+
+        //Kollar möbelns clearDirections är helt lediga.
+        bool isClear = true;
+        foreach (Vector2Int dir in furniture.clearDirections)
+        {
+            //bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
+            //bool isFurniture = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, occupiedFurniturePositions.ToList());
+
+            bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
+            bool isFurniture = checkFurnitureTiles ? CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, furnitureTiles) : false;
+
+            if (!isRoom || isFurniture)
+            {
+                isClear = false;
+                return false;
+            }
+                
+        }
+
+        //Kollar möblens wallDirections har repsektive vägg
+        bool isNextToWall = true;
+        foreach (Vector2Int dir in furniture.wallDirections)
+        {
+            if (CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles))
+            {
+                isNextToWall = false;
+                return false;
+            }
+                
+        }
+
+        //extra koll (egentligen onödigt)
+        if (isSpaceFree && isClear && isNextToWall)
+            return true;
+        else
+            return false;
     }
 
     private void CheckNearbyRooms()
@@ -511,6 +655,35 @@ public class RoomManager : MonoBehaviour
         return connectedTiles >= minConnectedTiles;
     }
 
+    bool IsRoomConnected(Room previousRoom, Room newRoom)
+    {
+        int minOverlap = Mathf.Max(Mathf.CeilToInt(previousRoom.DoorSize), Mathf.CeilToInt(newRoom.DoorSize));
+
+        bool adjacentHorizontally =
+            newRoom.Position.x + newRoom.Width == previousRoom.Position.x ||
+            newRoom.Position.x - previousRoom.Width == previousRoom.Position.x;
+        if (adjacentHorizontally)
+        {
+            int top = Mathf.Min(newRoom.Position.y + newRoom.Height, previousRoom.Position.y + previousRoom.Height);
+            int bottom = Mathf.Max(newRoom.Position.y, previousRoom.Position.y);    
+            int overlapY = top - bottom;
+            return overlapY >= minOverlap;
+        }
+
+        bool adjacentVertically =
+            newRoom.Position.y + newRoom.Height == previousRoom.Position.y ||
+            newRoom.Position.y - previousRoom.Height == previousRoom.Position.y;
+        if (adjacentVertically)
+        {
+            int right = Mathf.Min(newRoom.Position.x + newRoom.Width, previousRoom.Position.x + previousRoom.Width);
+            int left = Mathf.Max(newRoom.Position.x, previousRoom.Position.x);
+            int overlapX = right - left;
+            return overlapX >= minOverlap;
+        }
+
+        return false;
+    }
+
     void AddRoom(Room room)
     {
         rooms.Add(room);
@@ -524,11 +697,7 @@ public class RoomManager : MonoBehaviour
 
     void AddFurniture(Room room, Furniture furniture, Vector2Int pos)
     {
-        //Vector2Int offset = pos - room.Position;
-        furniture.transform.position = new Vector3(pos.x, 0, pos.y);
-
         room.FurnitureList.Add((furniture, pos));
-        Debug.Log($"{furniture.gameObject.transform.position} with vector3: {new Vector3(pos.x, 0, pos.y)}");
 
         foreach (Vector2Int tile in furniture.GetOccupiedTiles())
         {
