@@ -2444,7 +2444,7 @@ MonoBehaviour:
   enemyShoot: {fileID: 86072208557635113}
   enemyWeaponInventory: {fileID: 4902952662063163408}
   hudHandler: {fileID: 0}
-  hitboxCollider: {fileID: 4271677926691105876}
+  hitboxObject: {fileID: 7620443000050773124}
 --- !u!114 &5738588817305396176
 MonoBehaviour:
   m_ObjectHideFlags: 0

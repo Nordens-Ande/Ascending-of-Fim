@@ -10,7 +10,7 @@ public class CheckIfEnemyDead : MonoBehaviour
     [SerializeField] EnemyWeaponInventory enemyWeaponInventory;
     [SerializeField] HUDHandler hudHandler;
 
-    [SerializeField] Collider hitboxCollider;
+    [SerializeField] GameObject hitboxObject;
     //references
 
     public void EnemyDead() // everything that happens when enemy dies here
@@ -21,29 +21,15 @@ public class CheckIfEnemyDead : MonoBehaviour
         enemyMove.StopMoving();
         enemyMove.enabled = false;
         enemyShoot.enabled = false;
-        DisablePlayerEnemyCollision();
+        ChangeHitboxLayer();
         ragDollController.BecomeRagDoll();
         StartCoroutine(DestroyGameObject());
     }
 
-    void DisablePlayerEnemyCollision()
+    void ChangeHitboxLayer() // changes the layer for the enemy hitbox object, the new layer gets ignored by all "bullets" and collision between other enemies and the player
+                             // just turning of hitbox caused issues with physics
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null) return;
-
-        Collider playerHitbox = null;
-        foreach(Collider collider in player.GetComponentsInChildren<Collider>())
-        {
-            if (collider.CompareTag("PlayerHitbox")) // makes sure its the hitbox collider and not a limb / ragdoll collider
-            {
-                playerHitbox = collider;
-                break;
-            }
-        }
-
-        if(playerHitbox == null) return;
-
-        Physics.IgnoreCollision(hitboxCollider, playerHitbox);
+        hitboxObject.layer = LayerMask.NameToLayer("EnemyIgnore");
     }
 
     IEnumerator DestroyGameObject()

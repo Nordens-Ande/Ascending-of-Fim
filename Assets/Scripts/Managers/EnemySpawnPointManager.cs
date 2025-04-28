@@ -29,13 +29,14 @@ public class EnemySpawnPointManager : MonoBehaviour
         List<Vector3> viableSpawns = new List<Vector3>();
         foreach(Vector3 spawnPoint in spawnPoints)
         {
-            int minDistance = 10;
+            int minDistance = 8;
             float distance = Vector3.Distance(player.transform.position, spawnPoint);
             if(distance > minDistance)
             {
                 viableSpawns.Add(spawnPoint);
             }
         }
+        Debug.Log("viable spawns "+ viableSpawns.Count);
         return viableSpawns;
     }
 

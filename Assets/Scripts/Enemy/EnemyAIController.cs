@@ -1,5 +1,3 @@
-using System;
-using Unity.Mathematics;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -18,8 +16,8 @@ public class EnemyAIController : MonoBehaviour
 
     GameObject player;
 
-    const float stoppingDistance = 3f;
-    const int shootingDistance = 5;
+    float stoppingDistance;
+    float shootingDistance = 3;
 
     LayerMask layerMask;
     [SerializeField] bool lineOfSight;
@@ -33,7 +31,8 @@ public class EnemyAIController : MonoBehaviour
 
     void Start()
     {
-        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon"));
+        stoppingDistance = SetStoppingDistance();
+        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs"));
         player = GameObject.FindWithTag("Player");
         previousEnemyState = EnemyState.searching;
         enemyState = EnemyState.searching;
@@ -42,6 +41,12 @@ public class EnemyAIController : MonoBehaviour
         lineOfSightLastUpdate = false;
         movingToPlayerLastKnownPos = false;
         forceUpdateBehaviour = true;
+    }
+
+    float SetStoppingDistance()
+    {
+        float random = Random.Range(2.5f, 3);
+        return random;
     }
 
     void DecideEnemyState()
@@ -131,7 +136,7 @@ public class EnemyAIController : MonoBehaviour
     {
         if(lineOfSightLastUpdate && !lineOfSight)
         {
-            playerLastKnownPosition = player.transform.position; //maybe not correct (y-axis)
+            playerLastKnownPosition = player.transform.position;
             movingToPlayerLastKnownPos = true;
         }
     }
@@ -188,6 +193,7 @@ public class EnemyAIController : MonoBehaviour
             UpdateEnemyBehaviour();
             forceUpdateBehaviour = false;
         }
+        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs"));
 
         lineOfSight = CheckForLineOfSight();
         float angle = CalculateRotationToPlayer();
