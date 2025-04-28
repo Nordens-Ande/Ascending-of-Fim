@@ -79,7 +79,7 @@ public class EnemyAIController : MonoBehaviour
     {
         if(enemyState == EnemyState.standingShooting)
         {
-            enemyVoicelines.SetEnemyVoicelines(3);
+            //enemyVoicelines.SetEnemyVoicelines(3);
 
             enemyMove.wandering = false;
             enemyShoot.IsShooting(true);
@@ -88,7 +88,7 @@ public class EnemyAIController : MonoBehaviour
         }
         else if(enemyState == EnemyState.runningShooting)
         {
-            enemyVoicelines.SetEnemyVoicelines(3);
+            //enemyVoicelines.SetEnemyVoicelines(3);
 
             enemyMove.wandering = false;
             enemyShoot.IsShooting(true);
@@ -97,7 +97,7 @@ public class EnemyAIController : MonoBehaviour
         }
         else if(enemyState == EnemyState.chasing)
         {
-            enemyVoicelines.SetEnemyVoicelines(3);
+            //enemyVoicelines.SetEnemyVoicelines(3);
 
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
@@ -106,7 +106,7 @@ public class EnemyAIController : MonoBehaviour
         }
         else if(enemyState == EnemyState.movingToPlayerLastKnown)
         {
-            enemyVoicelines.SetEnemyVoicelines(2);
+            //enemyVoicelines.SetEnemyVoicelines(2);
 
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
@@ -116,7 +116,7 @@ public class EnemyAIController : MonoBehaviour
         }
         else if(enemyState == EnemyState.searching)
         {
-            enemyVoicelines.SetEnemyVoicelines(1);
+            //enemyVoicelines.SetEnemyVoicelines(1);
 
             enemyShoot.IsShooting(false);
             soundEffectsEnemy.SetIsShooting(false);
