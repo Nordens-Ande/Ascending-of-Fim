@@ -8,11 +8,13 @@ public class TileDebugger : MonoBehaviour
     [SerializeField] Color doorColor = Color.red;
     [SerializeField] Color furnitureColor = Color.yellow;
     [SerializeField] Color checkedColor = Color.blue;
+    [SerializeField] Color holeColor = Color.gray;
 
     public HashSet<Vector2Int> roomTiles = new HashSet<Vector2Int>();
     public HashSet<Vector2Int> doorTiles = new HashSet<Vector2Int>();
     public HashSet<Vector2Int> furnitureTiles = new HashSet<Vector2Int>();
     public HashSet<Vector2Int> checkedTiles = new HashSet<Vector2Int>();
+    public HashSet<Vector2Int> holeTiles = new HashSet<Vector2Int>();
     
     private Vector3 tileSize = new Vector3(1, 0.1f, 1); // Flat cube on the XZ plane
 
@@ -22,6 +24,7 @@ public class TileDebugger : MonoBehaviour
         doorTiles.Clear();
         furnitureTiles.Clear();
         checkedTiles.Clear();
+        holeTiles.Clear();
     }
 
     private void OnDrawGizmos()
@@ -33,6 +36,7 @@ public class TileDebugger : MonoBehaviour
         DrawTileSet(doorTiles, doorColor);
         DrawTileSet(furnitureTiles, furnitureColor);
         DrawTileSet(checkedTiles, checkedColor);
+        DrawTileSet(holeTiles, holeColor);
     }
 
     void DrawTileSet(HashSet<Vector2Int> tiles, Color color)
