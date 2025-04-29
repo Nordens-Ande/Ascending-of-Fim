@@ -140,13 +140,14 @@ public class RoomManager : MonoBehaviour
         GenerateRoomLayout();
 
         //RoofGeneration();
-        foreach (List<Vector2Int> hole in FindHoles(occupiedRoomPositions))
-        {
-            foreach (Vector2Int tile in hole)
-            {
-                debugger.holeTiles.Add(tile);
-            }
-        }
+        FindHoles(occupiedRoomPositions);
+        //foreach (List<Vector2Int> hole in FindHoles(occupiedRoomPositions))
+        //{
+        //    foreach (Vector2Int tile in hole)
+        //    {
+        //        debugger.holeTiles.Add(tile);
+        //    }
+        //}
 
         CheckNearbyRooms();
 
@@ -626,7 +627,7 @@ public class RoomManager : MonoBehaviour
 
     //Om en grupp av tiles når bordern, då är det inte ett hål annars är det ett hål
     //Vi väljer en tile, förgrenar från den tills den stannar av border/rooms/av tidigare tiles.
-    public List<List<Vector2Int>> FindHoles(HashSet<Vector2Int> roomTiles)
+    public void/*List<List<Vector2Int>>*/ FindHoles(HashSet<Vector2Int> roomTiles)
     {
         //Width/Height definition
         MinMaxInt rangeX = new MinMaxInt(0, 0);
@@ -656,6 +657,8 @@ public class RoomManager : MonoBehaviour
             border.Add(new Vector2Int(rangeX.min, y));
             border.Add(new Vector2Int(rangeX.max, y));
         }
+        foreach (Vector2Int tile in border)
+            debugger.doorTiles.Add(tile);
 
 
         //Kollar varje tile ifall den kan förgrena sig utan att kollidera med bordern (ifall en tile har blivit förgrenad, då räknas den som en del av gruppen och blir skippad i for-loopen
@@ -663,9 +666,68 @@ public class RoomManager : MonoBehaviour
         {
             for (int y = rangeZ.min + 2; y <= rangeZ.max - 2; y++)
             {
+                Vector2Int initTile = new Vector2Int(x, y);
+                if (occupiedDoorPositions.Contains(initTile) || debugger.holeTiles.Contains(initTile))
+                    continue;
 
+                List<Vector2Int> grownTiles = new List<Vector2Int>() { initTile };
+                List<Vector2Int> latestTiles = new List<Vector2Int>() { initTile };
+                
+                int freeTile = 1;
+
+                bool hasTouchedBorder = false;
+
+                while (freeTile > 0)
+                {
+                    List<Vector2Int> copyLatestTiles = new List<Vector2Int>(latestTiles);
+                    latestTiles.Clear();
+                    freeTile = 0;
+
+                    foreach (Vector2Int tile in copyLatestTiles)
+                    {
+                        List<Vector2Int> grown = GrowTile(tile, grownTiles);
+
+                        foreach (Vector2Int grownTile in grown)
+                        {
+                            grownTiles.Add(grownTile);
+                            latestTiles.Add(grownTile);
+
+                            if (border.Contains(grownTile))
+                                hasTouchedBorder = true;
+                        }
+
+                        freeTile += grown.Count();
+                    }
+                }
+
+                if (!hasTouchedBorder)
+                {
+                    foreach (Vector2Int tile in grownTiles)
+                    {
+                        debugger.holeTiles.Add(tile);
+                    }
+                }
             }
         }
+    }
+
+    List<Vector2Int> GrowTile(Vector2Int tile, List<Vector2Int> grownTiles)
+    {
+        Vector2Int[] dirs = new[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
+        List<Vector2Int> result = new List<Vector2Int>();
+        if (grownTiles.Contains(tile))
+            return result;
+
+        foreach (Vector2Int dir in dirs)
+        {
+            Vector2Int newTile = tile + dir;
+            if (!occupiedRoomPositions.Contains(newTile) && !grownTiles.Contains(newTile))
+            {
+                result.Add(newTile);
+            }
+        }
+
+        return result;
     }
 
     //public List<List<Vector2Int>> FindHoles(HashSet<Vector2Int> roomTiles)
