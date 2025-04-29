@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class ExplodingBarrel : MonoBehaviour
 {
-    public float delay = 2f;
-    public float explosionRadius = 7f;
-    public float explosionForce = 750f;
-    public int damage = 15;
-    public GameObject explosionEffect;
+    [SerializeField] float delay = 2f;
+    [SerializeField] float explosionRadius = 7f;
+    [SerializeField] float explosionForce = 750f;
+    [SerializeField] float explosionSpeed = 20f;
+    [SerializeField] int damage = 15;
+    [SerializeField] ParticleSystem explosionEffect;
 
     private bool isTriggered = false;
 
@@ -24,7 +25,11 @@ public class ExplodingBarrel : MonoBehaviour
         // explosion particle
         if (explosionEffect)
         {
-            GameObject effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(explosionEffect.gameObject, transform.position, Quaternion.identity);
+            ParticleSystem effectPS = effect.GetComponent<ParticleSystem>();
+            var mainPS = effectPS.main;
+            mainPS.startSpeed = explosionSpeed;
+
             Destroy(effect, 2f);
         }
 
