@@ -15,6 +15,8 @@ public class TileDebugger : MonoBehaviour
     public HashSet<Vector2Int> furnitureTiles = new HashSet<Vector2Int>();
     public HashSet<Vector2Int> checkedTiles = new HashSet<Vector2Int>();
     public HashSet<Vector2Int> holeTiles = new HashSet<Vector2Int>();
+
+    public List<(HashSet<Vector2Int>, Color)> freeTiles = new List<(HashSet<Vector2Int>, Color)>(); 
     
     private Vector3 tileSize = new Vector3(1, 0.1f, 1); // Flat cube on the XZ plane
 
@@ -25,6 +27,8 @@ public class TileDebugger : MonoBehaviour
         furnitureTiles.Clear();
         checkedTiles.Clear();
         holeTiles.Clear();
+        foreach ((HashSet<Vector2Int>, Color) tiles in freeTiles)
+            tiles.Item1.Clear();
     }
 
     private void OnDrawGizmos()
@@ -37,6 +41,8 @@ public class TileDebugger : MonoBehaviour
         DrawTileSet(furnitureTiles, furnitureColor);
         DrawTileSet(checkedTiles, checkedColor);
         DrawTileSet(holeTiles, holeColor);
+        foreach ((HashSet<Vector2Int>, Color) tiles in freeTiles)
+            DrawTileSet(tiles.Item1, tiles.Item2);
     }
 
     void DrawTileSet(HashSet<Vector2Int> tiles, Color color)

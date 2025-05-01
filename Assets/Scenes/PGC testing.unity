@@ -959,6 +959,7 @@ MonoBehaviour:
   doorColor: {r: 1, g: 0, b: 0, a: 1}
   furnitureColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   checkedColor: {r: 0, g: 0, b: 1, a: 1}
+  holeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!4 &533181947 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1624709713478729187, guid: dc9e427d0b47dbf42bafc2c2a7ef7e86, type: 3}

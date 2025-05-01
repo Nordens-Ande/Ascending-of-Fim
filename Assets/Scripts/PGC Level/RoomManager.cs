@@ -140,7 +140,7 @@ public class RoomManager : MonoBehaviour
         GenerateRoomLayout();
 
         //RoofGeneration();
-        FindHoles(occupiedRoomPositions);
+        FindHoles();
         //foreach (List<Vector2Int> hole in FindHoles(occupiedRoomPositions))
         //{
         //    foreach (Vector2Int tile in hole)
@@ -627,8 +627,10 @@ public class RoomManager : MonoBehaviour
 
     //Om en grupp av tiles når bordern, då är det inte ett hål annars är det ett hål
     //Vi väljer en tile, förgrenar från den tills den stannar av border/rooms/av tidigare tiles.
-    public void/*List<List<Vector2Int>>*/ FindHoles(HashSet<Vector2Int> roomTiles)
+    public void/*List<List<Vector2Int>>*/ FindHoles()
     {
+        List<Vector2Int> roomTiles = new List<Vector2Int>();
+
         //Width/Height definition
         MinMaxInt rangeX = new MinMaxInt(0, 0);
         MinMaxInt rangeZ = new MinMaxInt(0, 0);
@@ -640,9 +642,13 @@ public class RoomManager : MonoBehaviour
 
             rangeZ.min = rangeZ.min > room.Position.y ? room.Position.y : rangeZ.min;
             rangeZ.max = rangeZ.max < room.Position.y + room.Height ? room.Position.y + room.Height : rangeZ.max;
+        
+            foreach (Vector2Int roomTile in room.GetOccupiedTiles())
+                roomTiles.Add(roomTile);
         }
 
-        Vector2Int[] dirs = new[]{ Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
+        //Vector2Int[] dirs = new[]{ Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
+
 
 
         //Definerar bordern
@@ -657,8 +663,10 @@ public class RoomManager : MonoBehaviour
             border.Add(new Vector2Int(rangeX.min, y));
             border.Add(new Vector2Int(rangeX.max, y));
         }
-        foreach (Vector2Int tile in border)
-            debugger.doorTiles.Add(tile);
+        //foreach (Vector2Int tile in border)
+        //    debugger.doorTiles.Add(tile);
+        if (debugger)
+            debugger.doorTiles = new HashSet<Vector2Int>(border);
 
 
         //Definerar tillgängliga tiles
@@ -668,7 +676,7 @@ public class RoomManager : MonoBehaviour
             for (int y = rangeZ.min + 2; y <= rangeZ.max - 2; y++)
             {
                 Vector2Int tile = new Vector2Int(x, y);
-                if (!occupiedRoomPositions.Contains(tile))
+                if (!roomTiles.Contains(tile))
                     freeTiles.Add(tile);
             }
         }
@@ -677,7 +685,7 @@ public class RoomManager : MonoBehaviour
         while (freeTilesIndex < freeTiles.Count())
         {
             Vector2Int origoTile = freeTiles[freeTilesIndex];
-            if (occupiedRoomPositions.Contains(origoTile) || debugger.holeTiles.Contains(origoTile))
+            if (roomTiles.Contains(origoTile) || debugger.holeTiles.Contains(origoTile))
             {
                 freeTilesIndex++;
                 continue;
@@ -698,7 +706,7 @@ public class RoomManager : MonoBehaviour
 
                 foreach (Vector2Int tile in copyLatestTiles)
                 {
-                    List<Vector2Int> grown = GrowTile(tile, grownTiles);
+                    List<Vector2Int> grown = GrowTile(tile, grownTiles, roomTiles.ToList());
                     freeTile += grown.Count();
 
                     foreach (Vector2Int grownTile in grown)
@@ -725,6 +733,12 @@ public class RoomManager : MonoBehaviour
                     Debug.Log(freeTilesIndex + " " + tile);
                     debugger.holeTiles.Add(tile);
                 }
+            }
+            else
+            {
+                Color randomColor = Random.ColorHSV();
+                HashSet<Vector2Int> tileSet = new HashSet<Vector2Int>(grownTiles);
+                debugger.freeTiles.Add((tileSet, randomColor));
             }
 
             freeTilesIndex++;
@@ -780,7 +794,7 @@ public class RoomManager : MonoBehaviour
         //}
     }
 
-    List<Vector2Int> GrowTile(Vector2Int tile, List<Vector2Int> grownTiles)
+    List<Vector2Int> GrowTile(Vector2Int tile, List<Vector2Int> grownTiles, List<Vector2Int> roomTiles)
     {
         Vector2Int[] dirs = new[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
         List<Vector2Int> result = new List<Vector2Int>();
@@ -790,11 +804,16 @@ public class RoomManager : MonoBehaviour
         foreach (Vector2Int dir in dirs)
         {
             Vector2Int newTile = tile + dir;
-            if (!occupiedRoomPositions.Contains(newTile) || !grownTiles.Contains(newTile))
+            bool isRoom = roomTiles.Contains(newTile);
+            bool isGrown = grownTiles.Contains(newTile);
+
+            if (!isRoom && !isGrown)
             {
                 //Debug.Log("Added grown tile: " + newTile);
                 result.Add(newTile);
             }
+            if (isRoom)
+                Debug.Log("Growing tile hit room: " + newTile);
         }
 
         return result;
