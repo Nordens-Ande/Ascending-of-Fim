@@ -79,21 +79,20 @@ public class EnemyWeaponInventory : MonoBehaviour
 
     void CreateWeapon(GameObject prefab)
     {
-        string weaponName = prefab.GetComponent<WeaponScript>().GetWeaponData().weaponName.ToLower();
-        if(weaponName == "pistol")
+        WeaponData.Type weaponType = prefab.GetComponent<WeaponScript>().GetWeaponData().weaponType;
+        if(weaponType == WeaponData.Type.Pistol)
         {
             WeaponPosition = pistolPos;
         }
-        else if (weaponName == "rifle")
+        else if (weaponType == WeaponData.Type.Rifle)
         {
             WeaponPosition = riflePos;
         }
-        else if (weaponName == "shotgun")
+        else if (weaponType == WeaponData.Type.Shotgun)
         {
             WeaponPosition = shotgunPos;
         }
         weapon = Instantiate(prefab, WeaponPosition.position, WeaponPosition.rotation, WeaponPosition);
-
     }
 
     void SetHandPos(WeaponScript weapon)

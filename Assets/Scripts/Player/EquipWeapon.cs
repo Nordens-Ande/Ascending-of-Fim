@@ -156,20 +156,20 @@ public class EquipWeapon : MonoBehaviour
 
     void SetWeaponPos()
     {
-        string weaponName = currentWeapon.GetWeaponData().weaponName.ToLower();
-        if (weaponName == "raygun")
+        WeaponData.Type weaponType = currentWeapon.GetWeaponData().weaponType;
+        if (weaponType == WeaponData.Type.RayGun)
         {
             WeaponPosition = raygunPos;
         }
-        else if (weaponName == "pistol")
+        else if (weaponType == WeaponData.Type.Pistol)
         {
             WeaponPosition = pistolPos;
         }
-        else if (weaponName == "rifle")
+        else if (weaponType == WeaponData.Type.Rifle)
         {
             WeaponPosition = riflePos;
         }
-        else if (weaponName == "shotgun")
+        else if (weaponType == WeaponData.Type.Shotgun)
         {
             WeaponPosition = shotgunPos;
         }

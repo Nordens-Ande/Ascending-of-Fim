@@ -2383,7 +2383,7 @@ MonoBehaviour:
   enemyShoot: {fileID: 86072208557635113}
   soundEffectsEnemy: {fileID: 6105615692381767275}
   enemyState: 0
-  RotationSpeed: 4
+  RotationSpeed: 6
   OrientationObject: {fileID: 654935106023632696}
   lineOfSight: 0
 --- !u!114 &2061650463669928461

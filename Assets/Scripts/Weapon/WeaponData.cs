@@ -5,9 +5,10 @@ public class WeaponData : ScriptableObject
 {
     public enum Type
     {
-        Primary,
-        Secondary,
-        Throwable,
+        RayGun,
+        Pistol,
+        Rifle,
+        Shotgun
     }
     public Type weaponType;
 
