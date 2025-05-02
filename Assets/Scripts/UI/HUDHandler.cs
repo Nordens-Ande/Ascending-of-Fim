@@ -2,36 +2,57 @@ using UnityEngine;
 
 public class HUDHandler : MonoBehaviour
 {
-    //private TimerUIScript timerUIScript;
-    //private Money moneyScript;
-    //private HealthBar healthBarScript;
-    //private Ammo ammoScript;
-    //private announcement announcementScript;
-    //private GameOverScore gameOverScore;
-    //private HighscoreHandler highscoreHandler;
-    //private ScoreScript scoreScript;
+    private TimerUIScript timerUIScript;
+    private Money moneyScript;
+    private HealthBar healthBarScript;
+    private Ammo ammoScript;
+    private announcement announcementScript;
+    private GameOverScore gameOverScore;
+    private HighscoreHandler highscoreHandler;
+    private ScoreScript scoreScript;
+    private HitUI hitUIscript;
 
-    [SerializeField] TimerUIScript timerUIScript;
-    [SerializeField] Money moneyScript;
-    [SerializeField] HealthBar healthBarScript;
-    [SerializeField] Ammo ammoScript;
-    [SerializeField] announcement announcementScript;
-    [SerializeField] GameOverScore gameOverScore;
-    [SerializeField] HighscoreHandler highscoreHandler;
-    [SerializeField] ScoreScript scoreScript;
-    [SerializeField] HitUI hitUIscript;
+    //[SerializeField] TimerUIScript timerUIScript;
+    //[SerializeField] Money moneyScript;
+    //[SerializeField] HealthBar healthBarScript;
+    //[SerializeField] Ammo ammoScript;
+    //[SerializeField] announcement announcementScript;
+    //[SerializeField] GameOverScore gameOverScore;
+    //[SerializeField] HighscoreHandler highscoreHandler;
+    //[SerializeField] ScoreScript scoreScript;
+    //[SerializeField] HitUI hitUIscript;
 
 
-    private void Start()
+    private void Awake()
     {
-        //timerUIScript = GetComponent<TimerUIScript>();
-        //moneyScript = GetComponent<Money>();
-        //healthBarScript = GetComponent<HealthBar>();
-        //ammoScript = GetComponent<Ammo>();
-        //announcementScript = GetComponent<announcement>();
-        //gameOverScore = GetComponent<GameOverScore>();
-        //highscoreHandler = GetComponent<HighscoreHandler>();
-        //scoreScript = GetComponent<ScoreScript>();
+        timerUIScript = GetComponentInChildren<TimerUIScript>();
+        moneyScript = GetComponentInChildren<Money>();
+        healthBarScript = GetComponentInChildren<HealthBar>();
+        ammoScript = GetComponentInChildren<Ammo>();
+        announcementScript = GetComponentInChildren<announcement>();
+        gameOverScore = GetComponentInChildren<GameOverScore>();
+        highscoreHandler = GetComponentInChildren<HighscoreHandler>();
+        scoreScript = GetComponentInChildren<ScoreScript>();
+        hitUIscript = GetComponentInChildren<HitUI>();
+
+        WarnIfNull(timerUIScript, nameof(timerUIScript));
+        WarnIfNull(moneyScript, nameof(moneyScript));
+        WarnIfNull(healthBarScript, nameof(healthBarScript));
+        WarnIfNull(ammoScript, nameof(ammoScript));
+        WarnIfNull(announcementScript, nameof(announcementScript));
+        WarnIfNull(gameOverScore, nameof(gameOverScore));
+        WarnIfNull(highscoreHandler, nameof(highscoreHandler));
+        WarnIfNull(scoreScript, nameof(scoreScript));
+        WarnIfNull(hitUIscript, nameof(hitUIscript));
+    }
+
+
+    private void WarnIfNull(Object obj, string name)
+    {
+        if (obj == null)
+        {
+            Debug.LogWarning($"{name} is missing from HUD hierarchy!", this);
+        }
     }
 
     //timer

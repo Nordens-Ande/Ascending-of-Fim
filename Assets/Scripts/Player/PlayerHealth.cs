@@ -21,9 +21,13 @@ public class PlayerHealth : MonoBehaviour
     {
         health -= damage/4;
         //effects
-        hudHandler.setHealth(health);
-        hudHandler.hitVisualUI(0.7f);
-        CameraShakerHandler.Shake(hitShake);
+        if (hudHandler != null)
+        {
+            hudHandler.setHealth(health);
+            hudHandler.hitVisualUI(0.7f);
+            CameraShakerHandler.Shake(hitShake);
+        }
+        
 
         if(health < 0)
         {
