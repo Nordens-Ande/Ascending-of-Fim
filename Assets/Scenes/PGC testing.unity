@@ -805,9 +805,9 @@ GameObject:
   m_Component:
   - component: {fileID: 501987924}
   - component: {fileID: 501987923}
+  - component: {fileID: 501987927}
   - component: {fileID: 501987925}
   - component: {fileID: 501987926}
-  - component: {fileID: 501987927}
   m_Layer: 0
   m_Name: ApartmentManager
   m_TagString: Untagged
@@ -875,7 +875,12 @@ MonoBehaviour:
   roomAmountRange:
     min: 10
     max: 15
+  floorLevel: 1
+  exteriorWallMaterial: {fileID: -5937134528182024341, guid: e545c4d187519be42b284e9a3aca0ba2, type: 3}
   doorClearance: 1
+  thickWallsEnabled: 1
+  thickWallMat: {fileID: 7806100501455280664, guid: d84aa048753dfb44a8850a129fdec572, type: 3}
+  thickWallHeightOffset: -0.1
   maxRoomFails: 1000
   maxFurnitureFails: 150
   hallwaySettings:
@@ -890,7 +895,7 @@ MonoBehaviour:
       min: 2
       max: 8
     wallMaterial: {fileID: 0}
-    floorMaterial: {fileID: 7806100501455280664, guid: d84aa048753dfb44a8850a129fdec572, type: 3}
+    floorMaterial: {fileID: 0}
     maxFurniture: 4
   livingRoomSettings:
     sizeRange:
@@ -925,7 +930,7 @@ MonoBehaviour:
       min: 2
       max: 3
     wallMaterial: {fileID: 0}
-    floorMaterial: {fileID: 0}
+    floorMaterial: {fileID: -7394202989295985249, guid: d84aa048753dfb44a8850a129fdec572, type: 3}
     maxFurniture: 6
   enemySpawnPointManager: {fileID: 0}
 --- !u!114 &501987926
@@ -960,6 +965,7 @@ MonoBehaviour:
   furnitureColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   checkedColor: {r: 0, g: 0, b: 1, a: 1}
   holeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  drawGrownTiles: 1
 --- !u!4 &533181947 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1624709713478729187, guid: dc9e427d0b47dbf42bafc2c2a7ef7e86, type: 3}

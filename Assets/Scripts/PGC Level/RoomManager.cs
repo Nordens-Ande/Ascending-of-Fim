@@ -58,8 +58,15 @@ public class RoomManager : MonoBehaviour
 
     [Header("Apartment Settings")]
     [SerializeField] MinMaxInt roomAmountRange;
-    //[SerializeField] int maxElevators;
-    [SerializeField] int doorClearance;
+    [SerializeField] int floorLevel = 1;
+    [SerializeField] Material exteriorWallMaterial;
+    [Space]
+    [SerializeField] int doorClearance = 1;
+    [Space]
+    [SerializeField] bool thickWallsEnabled = true;
+    [SerializeField] Material thickWallMat;
+    [SerializeField] float thickWallHeightOffset;
+    [Space]
     [SerializeField] int maxRoomFails = 1000;
     [SerializeField] int maxFurnitureFails = 100;
 
@@ -82,6 +89,7 @@ public class RoomManager : MonoBehaviour
     private List<GameObject> roomObjects;
     private Dictionary<Room, GameObject> roomDictionary; //koppla refernserna mellan rummen här och gör en metod, lik GenerateRoomLayout fastän för möbler och använd detta bibliotek för referenser, gör en coroutine på hela möbel metoden sen
     private GameObject thickWalls;
+    private GameObject exteriorWalls;
 
     private List<GameObject> furnitureObjects;
 
@@ -140,17 +148,19 @@ public class RoomManager : MonoBehaviour
         occupiedFurniturePositions = new HashSet<Vector2Int>();
         occupiedThickWalls = new HashSet<Vector2Int>();
 
-        GenerateRoomLayout();
 
-        ThickWallsGeneration();
-        //FindHoles(occupiedRoomPositions);
+        GenerateRoomLayout(); //Rooms
 
-        CheckNearbyRooms();
+        if (thickWallsEnabled) //Thick walls
+            ThickWallsGeneration();
 
-        GenerateFurnitureLayout();
+        CheckNearbyRooms(); //Doors
 
-        DebugGeneration();
+        GenerateFurnitureLayout(); //Furniture
 
+        DebugGeneration(); //Debug tiles
+
+        //Meshbuilder
         foreach (Room room in rooms)
         {
             Material wall = roomSettings[room.Type].wallMaterial ? roomSettings[room.Type].wallMaterial : wallMaterial;
@@ -163,13 +173,21 @@ public class RoomManager : MonoBehaviour
             //TryCreateFurniture(room);
             MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
         }
-        thickWalls = new GameObject();
-        thickWalls.name = "Thick Wall Tiles";
-        foreach (Vector2Int tile in occupiedThickWalls)
+        if (thickWallsEnabled)
         {
-            MeshBuilder.CreateThickWallTile(thickWalls.transform, tile, wallHeight, wallMaterial);
+            thickWalls = new GameObject();
+            thickWalls.name = "Thick Wall Tiles";
+            Material mat = thickWallMat ? thickWallMat : wallMaterial;
+            foreach (Vector2Int tile in occupiedThickWalls)
+            {
+                MeshBuilder.CreateThickWallTile(thickWalls.transform, tile, wallHeight + thickWallHeightOffset, mat);
+            }
         }
+        exteriorWalls = new GameObject();
+        exteriorWalls.name = "Exterior walls";
+        MeshBuilder.CreateExteriorWalls(exteriorWalls.transform, occupiedRoomPositions.Concat(occupiedThickWalls).ToHashSet(), wallHeight, wallHeight * floorLevel, wallThickness, exteriorWallMaterial);
 
+        //Enemies
         if(navMeshBaker != null)
         {
             StartCoroutine(navMeshBaker.BakeNavMesh());
@@ -489,9 +507,9 @@ public class RoomManager : MonoBehaviour
 
         //Definerar tillgängliga tiles
         List<Vector2Int> freeTiles = new List<Vector2Int>();
-        for (int x = rangeX.min + 2; x <= rangeX.max - 2; x++)
+        for (int x = rangeX.min; x <= rangeX.max; x++)
         {
-            for (int y = rangeZ.min + 2; y <= rangeZ.max - 2; y++)
+            for (int y = rangeZ.min; y <= rangeZ.max; y++)
             {
                 Vector2Int tile = new Vector2Int(x, y);
                 if (!occupiedRoomPositions.Contains(tile))
@@ -645,6 +663,11 @@ public class RoomManager : MonoBehaviour
         }
 
         return result;
+    }
+
+    void ExteriorWallGeneration()
+    {
+
     }
 
     bool IsThickWall(Vector2Int tile, List<Vector2Int> roomTiles)
@@ -875,6 +898,7 @@ public class RoomManager : MonoBehaviour
             foreach(GameObject room in roomObjects)
                 Destroy(room);
             Destroy(thickWalls);
+            Destroy(exteriorWalls);
             
             if (debugger)
                 debugger.ClearTiles();
