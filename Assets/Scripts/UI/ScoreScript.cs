@@ -4,6 +4,7 @@ using UnityEngine;
 public class ScoreScript : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
+    private int score;
 
 
     private void Start()
@@ -11,6 +12,7 @@ public class ScoreScript : MonoBehaviour
         if (scoreText != null)
         {
             scoreText.text = "0";
+            score = 0;
         }
         else
         {
@@ -22,6 +24,7 @@ public class ScoreScript : MonoBehaviour
     {
         if (scoreText != null)
         {
+            score = newScore;
             scoreText.text = newScore.ToString();
         }
         else
@@ -34,9 +37,10 @@ public class ScoreScript : MonoBehaviour
     {
         if (scoreText != null)
         {
-            int currentMoney = int.Parse(scoreText.text);
-            currentMoney = currentMoney + amountToAdd;
-            setScore(currentMoney);
+            int currentScore = int.Parse(scoreText.text);
+            currentScore = currentScore + amountToAdd;
+            setScore(currentScore);
+            score = currentScore;
         }
         else
         {
@@ -48,9 +52,10 @@ public class ScoreScript : MonoBehaviour
     {
         if (scoreText != null)
         {
-            int currentMoney = int.Parse(scoreText.text);
-            currentMoney = currentMoney - amountToAdd;
-            setScore(currentMoney);
+            int currentScore = int.Parse(scoreText.text);
+            currentScore = currentScore - amountToAdd;
+            setScore(currentScore);
+            score = currentScore;
         }
         else
         {

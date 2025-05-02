@@ -6,12 +6,14 @@ using UnityEngine.Rendering;
 public class Money : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI moneytext;
+    private int money;
 
 
     private void Start()
     {
         if (moneytext != null)
         {
+            money = 0;
             moneytext.text = "0";
         }
         else
@@ -38,6 +40,7 @@ public class Money : MonoBehaviour
     {
         if (moneytext != null)
         {
+            money = newMoney;
             moneytext.text = newMoney.ToString();
         }
         else
@@ -53,6 +56,7 @@ public class Money : MonoBehaviour
             int currentMoney = int.Parse(moneytext.text);
             currentMoney = currentMoney + amountToAdd;
             setNumber(currentMoney);
+            money = currentMoney;
         }
         else
         {
@@ -67,6 +71,7 @@ public class Money : MonoBehaviour
             int currentMoney = int.Parse(moneytext.text);
             currentMoney = currentMoney - amountToAdd;
             setNumber(currentMoney);
+            money = currentMoney;   
         }
         else
         {
