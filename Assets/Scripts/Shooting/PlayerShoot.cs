@@ -89,7 +89,12 @@ public class PlayerShoot : MonoBehaviour
         {
             hits = shootScript.ShootRay(1);
         }
-        
+
+        if (hudHandler != null)
+        {
+            hudHandler.FimShootingShake();
+        }
+
         CheckRay(hits);
         StartCoroutine(ResetIsReadyToShoot());
     }
