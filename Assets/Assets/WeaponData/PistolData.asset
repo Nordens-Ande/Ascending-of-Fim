@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62928d43415c0424b8417b90da5e5a21, type: 3}
   m_Name: PistolData
   m_EditorClassIdentifier: 
-  weaponType: 0
+  weaponType: 1
   weaponName: Pistol
   damage: 20
   fireRate: 120

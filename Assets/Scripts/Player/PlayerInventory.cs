@@ -39,19 +39,19 @@ public class PlayerInventory : MonoBehaviour, IInventory
 
         WeaponData data = weapon.GetWeaponData();
 
-        switch (data.weaponType)
-        {
-            case WeaponData.Type.Primary:
-                {
-                    primary[0] = item;
-                    break;
-                }
-            case WeaponData.Type.Secondary:
-                {
-                    secondary[0] = item;
-                    break;
-                }
-        }
+        //switch (data.weaponType)
+        //{
+        //    case WeaponData.Type.Primary:
+        //        {
+        //            primary[0] = item;
+        //            break;
+        //        }
+        //    case WeaponData.Type.Secondary:
+        //        {
+        //            secondary[0] = item;
+        //            break;
+        //        }
+        //}
     }
 
     //public void AddReplaceItem(GameObject item)
