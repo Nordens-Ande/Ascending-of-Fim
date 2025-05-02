@@ -11,6 +11,7 @@ public class HUDHandler : MonoBehaviour
     private HighscoreHandler highscoreHandler;
     private ScoreScript scoreScript;
     private HitUI hitUIscript;
+    private KeycardUIScript keycardUI;
 
     //[SerializeField] TimerUIScript timerUIScript;
     //[SerializeField] Money moneyScript;
@@ -34,6 +35,7 @@ public class HUDHandler : MonoBehaviour
         highscoreHandler = GetComponentInChildren<HighscoreHandler>();
         scoreScript = GetComponentInChildren<ScoreScript>();
         hitUIscript = GetComponentInChildren<HitUI>();
+        keycardUI = GetComponentInChildren<KeycardUIScript>();
 
         WarnIfNull(timerUIScript, nameof(timerUIScript));
         WarnIfNull(moneyScript, nameof(moneyScript));
@@ -44,6 +46,7 @@ public class HUDHandler : MonoBehaviour
         WarnIfNull(highscoreHandler, nameof(highscoreHandler));
         WarnIfNull(scoreScript, nameof(scoreScript));
         WarnIfNull(hitUIscript, nameof(hitUIscript));
+        WarnIfNull(keycardUI, nameof(keycardUI));
     }
 
 
@@ -187,4 +190,14 @@ public class HUDHandler : MonoBehaviour
     }
 
 
+    //keycard
+    public void hasKeycard()
+    {
+        keycardUI.playerHasKeycard();
+    }
+
+    public void DontHaveKeycard()
+    {
+        keycardUI.playerDoNotHaveKeycard();
+    }
 }
