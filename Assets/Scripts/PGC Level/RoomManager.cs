@@ -81,12 +81,14 @@ public class RoomManager : MonoBehaviour
     private List<Room> rooms;
     private List<GameObject> roomObjects;
     private Dictionary<Room, GameObject> roomDictionary; //koppla refernserna mellan rummen här och gör en metod, lik GenerateRoomLayout fastän för möbler och använd detta bibliotek för referenser, gör en coroutine på hela möbel metoden sen
+    private GameObject thickWalls;
 
     private List<GameObject> furnitureObjects;
 
     private HashSet<Vector2Int> occupiedRoomPositions;
     private HashSet<Vector2Int> occupiedDoorPositions;
     private HashSet<Vector2Int> occupiedFurniturePositions;
+    private HashSet<Vector2Int> occupiedThickWalls;
 
     private Dictionary<RoomType, MinMaxInt> roomSizes;
     private Dictionary<RoomType, RoomSettings> roomSettings;
@@ -136,22 +138,18 @@ public class RoomManager : MonoBehaviour
         occupiedRoomPositions = new HashSet<Vector2Int>();
         occupiedDoorPositions = new HashSet<Vector2Int>();
         occupiedFurniturePositions = new HashSet<Vector2Int>();
+        occupiedThickWalls = new HashSet<Vector2Int>();
 
         GenerateRoomLayout();
 
-        //RoofGeneration();
-        FindHoles();
-        //foreach (List<Vector2Int> hole in FindHoles(occupiedRoomPositions))
-        //{
-        //    foreach (Vector2Int tile in hole)
-        //    {
-        //        debugger.holeTiles.Add(tile);
-        //    }
-        //}
+        ThickWallsGeneration();
+        //FindHoles(occupiedRoomPositions);
 
         CheckNearbyRooms();
 
         GenerateFurnitureLayout();
+
+        DebugGeneration();
 
         foreach (Room room in rooms)
         {
@@ -164,6 +162,12 @@ public class RoomManager : MonoBehaviour
             //StartCoroutine(DelayedFurnitureCreation(room, roomMesh));
             //TryCreateFurniture(room);
             MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
+        }
+        thickWalls = new GameObject();
+        thickWalls.name = "Thick Wall Tiles";
+        foreach (Vector2Int tile in occupiedThickWalls)
+        {
+            MeshBuilder.CreateThickWallTile(thickWalls.transform, tile, wallHeight, wallMaterial);
         }
 
         if(navMeshBaker != null)
@@ -262,39 +266,6 @@ public class RoomManager : MonoBehaviour
             else
                 failCount = 0; // Reset fails if successful
         }
-        //Extra while-loop för att säkra att hissar skapas. SÄTT EN GRÄNS
-        //failCount = 0;
-        //while (elevatorsToGenerate > rooms.Count(r => r.Type == RoomType.Elevator) && failCount < maxFails)
-        //{
-        //    Room currentRoom = rooms[Random.Range(0, rooms.Count)];
-        //    //Debug.Log("Attempting elevator");
-        //    if (!roomConnectionRules[currentRoom.Type].Contains(RoomType.Elevator))
-        //        continue;
-
-        //    bool addedElevatorThisCycle = false;
-
-        //    MinMaxInt sizeRange = roomSettings[RoomType.Elevator].sizeRange;
-
-        //    int width = Random.Range(sizeRange.min, sizeRange.max + 1);
-        //    int height = Random.Range(sizeRange.min, sizeRange.max + 1);
-
-        //    Vector2Int direction = GetRandomDirection();
-        //    Vector2Int offset = GetOffset(direction, width, height);
-        //    Vector2Int newPosition = currentRoom.Position + offset;
-
-        //    Room elevator = new Room(width, height, wallHeight, wallThickness, doorSize, newPosition, RoomType.Elevator);
-        //    if (IsRoomSpaceFree(elevator) && IsRoomConnected(elevator, direction))
-        //    {
-        //        AddRoom(elevator);
-        //        addedElevatorThisCycle = true;
-        //        Debug.Log("Created elevator");
-        //    }
-
-        //    if (!addedElevatorThisCycle)
-        //        failCount++;
-        //    else
-        //        failCount = 0; // Reset fails if successful
-        //}
     }
 
     private void GenerateFurnitureLayout()
@@ -345,59 +316,12 @@ public class RoomManager : MonoBehaviour
 
                 List<Vector2Int> selectedFurnitureTiles = selectedFurniture.GetOccupiedTiles(spawnPos);
 
-                //if (room.Type == RoomType.Elevator)
-                //{
-                //    if (TryPlaceFurniture(room, selectedFurniture, spawnPos, false, true))
-                //    {
-                //        Debug.Log("Placed Elevator: " + spawnPos);
-                //        addedFurnitureThisCycle = true;
-                //        AddFurniture(room, selectedFurniture, spawnPos);
-                //    }
-                //}
                 if (TryPlaceFurniture(room, selectedFurniture, spawnPos))
                 {
                     //Debug.Log("Placed furniture: " + spawnPos);
                     addedFurnitureThisCycle = true;
                     AddFurniture(room, selectedFurniture, spawnPos);
                 }
-
-                //if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
-                //{
-                //    selectedFurniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
-
-                //    bool isClear = true;
-                //    foreach (Vector2Int dir in selectedFurniture.clearDirections)
-                //    {
-                //        //Debug.Log("Amount furniture tiles: " + occupiedFurniturePositions.Count);
-
-                //        bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
-                //        bool isFurniture = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, occupiedFurniturePositions.ToList());
-
-                //        //Debug.Log($"Is dir {dir} a room tile {isRoom} or a furniture tile {isFurniture}");
-
-                //        if (!isRoom || isFurniture)
-                //            isClear = false;
-                //    }
-
-                //    bool isNextToWall = true;
-                //    foreach (Vector2Int dir in selectedFurniture.wallDirections)
-                //    {
-                //        if (CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles))
-                //            isNextToWall = false;
-                //    }
-
-                //    if (isClear && isNextToWall)
-                //    {
-                //        Debug.Log("Placed furniture: " + spawnPos);
-                //        addedFurnitureThisCycle = true;
-                //        AddFurniture(room, selectedFurniture, spawnPos);
-                //    }
-                //    else
-                //    {
-                //        //Debug.Log("Failed placement");
-                //        //AddFurniture(room, selectedFurniture, spawnPos);
-                //    }
-                //}
 
                 if (!addedFurnitureThisCycle)
                     failCount++;
@@ -465,9 +389,6 @@ public class RoomManager : MonoBehaviour
         bool isClear = true;
         foreach (Vector2Int dir in furniture.clearDirections)
         {
-            //bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
-            //bool isFurniture = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, occupiedFurniturePositions.ToList());
-
             bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
             bool isFurniture = checkFurnitureTiles ? CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, furnitureTiles) : false;
 
@@ -551,85 +472,50 @@ public class RoomManager : MonoBehaviour
         AddDoorSpace(roomA);
     }
 
-    //void RoofGeneration()
-    //{
-    //    MinMaxInt rangeX = new MinMaxInt(0, 0);
-    //    MinMaxInt rangeZ = new MinMaxInt(0, 0);
+    void ThickWallsGeneration()
+    {
+        //Width/Height definition
+        MinMaxInt rangeX = new MinMaxInt(0, 0);
+        MinMaxInt rangeZ = new MinMaxInt(0, 0);
 
-    //    foreach (Room room in rooms)
-    //    {
-    //        rangeX.min = rangeX.min > room.Position.x ? room.Position.x : rangeX.min;
-    //        rangeX.max = rangeX.max < room.Position.x + room.Width ? room.Position.x + room.Width : rangeX.max;
+        foreach (Room room in rooms)
+        {
+            rangeX.min = rangeX.min > room.Position.x ? room.Position.x : rangeX.min;
+            rangeX.max = rangeX.max < room.Position.x + room.Width ? room.Position.x + room.Width : rangeX.max;
 
-    //        rangeZ.min = rangeZ.min > room.Position.y ? room.Position.y : rangeZ.min;
-    //        rangeZ.max = rangeZ.max < room.Position.y + room.Height ? room.Position.y + room.Height : rangeZ.max;
-    //    }
-    //    Debug.Log(rangeX.min);
-    //    Debug.Log(rangeX.max);
-    //    Debug.Log(rangeZ.min);
-    //    Debug.Log(rangeZ.max);
+            rangeZ.min = rangeZ.min > room.Position.y ? room.Position.y : rangeZ.min;
+            rangeZ.max = rangeZ.max < room.Position.y + room.Height ? room.Position.y + room.Height : rangeZ.max;
+        }
 
-    //    for (int x = rangeX.min; x <= rangeX.max; x++)
-    //    {
-    //        for (int z = rangeZ.min; z <= rangeZ.max; z++)
-    //        {
-    //            Vector2Int tile = new Vector2Int(x, z);
-    //            if (occupiedRoomPositions.Contains(tile))
-    //                return;
+        //Definerar tillgängliga tiles
+        List<Vector2Int> freeTiles = new List<Vector2Int>();
+        for (int x = rangeX.min + 2; x <= rangeX.max - 2; x++)
+        {
+            for (int y = rangeZ.min + 2; y <= rangeZ.max - 2; y++)
+            {
+                Vector2Int tile = new Vector2Int(x, y);
+                if (!occupiedRoomPositions.Contains(tile))
+                    freeTiles.Add(tile);
+            }
+        }
 
-    //            int collidingWalls = 0;
+        foreach (Vector2Int tile in freeTiles)
+        {
+            if (IsThickWall(tile, occupiedRoomPositions.ToList()))
+                occupiedThickWalls.Add(tile);
+        }
 
-    //            //Right (positiv x)
-    //            for (int tileX = x; tileX <= rangeX.max; tileX++)
-    //            {
-    //                if (occupiedRoomPositions.Contains(new Vector2Int(tileX, tile.y)))
-    //                {
-    //                    collidingWalls++;
-    //                    break;
-    //                }
-    //            }
-    //            //left (negativ x)
-    //            for (int tileX = x; tileX >= rangeX.min; tileX--)
-    //            {
-    //                if (occupiedRoomPositions.Contains(new Vector2Int(tileX, tile.y)))
-    //                {
-    //                    collidingWalls++;
-    //                    break;
-    //                }
-    //            }
-    //            //up (positiv z)
-    //            for (int tileY = z; tileY <= rangeZ.max; tileY++)
-    //            {
-    //                if (occupiedRoomPositions.Contains(new Vector2Int(tile.x, tileY)))
-    //                {
-    //                    collidingWalls++;
-    //                    break;
-    //                }
-    //            }
-    //            //down (negativ z)
-    //            for (int tileY = z; tileY >= rangeZ.min; tileY--)
-    //            {
-    //                if (occupiedRoomPositions.Contains(new Vector2Int(tile.x, tileY)))
-    //                {
-    //                    collidingWalls++;
-    //                    break;
-    //                }
-    //            }
-    //            Debug.Log("Rooftop  amount collided walls: " + collidingWalls);
-    //            Debug.Log("Generating rooftop at pos: " + tile);
-    //            if (collidingWalls >= 4)
-    //            {
-
-    //            }
-    //        }
-    //    }
-    //}
+        foreach (Vector2Int tile in FindHoles(occupiedRoomPositions))
+        {
+            occupiedThickWalls.Add(tile);
+        }
+    }
 
     //Om en grupp av tiles når bordern, då är det inte ett hål annars är det ett hål
     //Vi väljer en tile, förgrenar från den tills den stannar av border/rooms/av tidigare tiles.
-    public void/*List<List<Vector2Int>>*/ FindHoles()
+    public List<Vector2Int> FindHoles(HashSet<Vector2Int> roomTiles)
     {
-        List<Vector2Int> roomTiles = new List<Vector2Int>();
+        List<Vector2Int> holeTiles = new List<Vector2Int>();
 
         //Width/Height definition
         MinMaxInt rangeX = new MinMaxInt(0, 0);
@@ -642,14 +528,7 @@ public class RoomManager : MonoBehaviour
 
             rangeZ.min = rangeZ.min > room.Position.y ? room.Position.y : rangeZ.min;
             rangeZ.max = rangeZ.max < room.Position.y + room.Height ? room.Position.y + room.Height : rangeZ.max;
-        
-            foreach (Vector2Int roomTile in room.GetOccupiedTiles())
-                roomTiles.Add(roomTile);
         }
-
-        //Vector2Int[] dirs = new[]{ Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
-
-
 
         //Definerar bordern
         HashSet<Vector2Int> border = new HashSet<Vector2Int>();
@@ -666,7 +545,7 @@ public class RoomManager : MonoBehaviour
         //foreach (Vector2Int tile in border)
         //    debugger.doorTiles.Add(tile);
         if (debugger)
-            debugger.doorTiles = new HashSet<Vector2Int>(border);
+            debugger.freeTiles.Add((border, Color.red));
 
 
         //Definerar tillgängliga tiles
@@ -676,7 +555,7 @@ public class RoomManager : MonoBehaviour
             for (int y = rangeZ.min + 2; y <= rangeZ.max - 2; y++)
             {
                 Vector2Int tile = new Vector2Int(x, y);
-                if (!roomTiles.Contains(tile))
+                if (!roomTiles.Contains(tile) || !occupiedThickWalls.Contains(tile))
                     freeTiles.Add(tile);
             }
         }
@@ -718,8 +597,6 @@ public class RoomManager : MonoBehaviour
                         if (border.Contains(grownTile))
                             hasTouchedBorder = true;
                     }
-                    
-                    //Debug.Log("Amount of free tiles this gen: " + freeTile);
                 }
 
                 if (hasTouchedBorder)
@@ -731,7 +608,8 @@ public class RoomManager : MonoBehaviour
                 foreach (Vector2Int tile in grownTiles)
                 {
                     Debug.Log(freeTilesIndex + " " + tile);
-                    debugger.holeTiles.Add(tile);
+                    holeTiles.Add(tile);
+                    //debugger.holeTiles.Add(tile);
                 }
             }
             else
@@ -744,178 +622,64 @@ public class RoomManager : MonoBehaviour
             freeTilesIndex++;
         }
 
-        ////Kollar varje tile ifall den kan förgrena sig utan att kollidera med bordern (ifall en tile har blivit förgrenad, då räknas den som en del av gruppen och blir skippad i for-loopen
-        //for (int x = rangeX.min + 2; x <= rangeX.max - 2; x++)
-        //{
-        //    for (int y = rangeZ.min + 2; y <= rangeZ.max - 2; y++)
-        //    {
-        //        Vector2Int initTile = new Vector2Int(x, y);
-        //        if (occupiedRoomPositions.Contains(initTile) || debugger.holeTiles.Contains(initTile))
-        //            continue;
-
-        //        List<Vector2Int> grownTiles = new List<Vector2Int>() { initTile };
-        //        List<Vector2Int> latestTiles = new List<Vector2Int>() { initTile };
-
-        //        int freeTile = 1;
-
-        //        bool hasTouchedBorder = false;
-
-        //        while (freeTile > 0)
-        //        {
-        //            List<Vector2Int> copyLatestTiles = new List<Vector2Int>(latestTiles);
-        //            latestTiles.Clear();
-        //            freeTile = 0;
-
-        //            foreach (Vector2Int tile in copyLatestTiles)
-        //            {
-        //                List<Vector2Int> grown = GrowTile(tile, grownTiles);
-
-        //                foreach (Vector2Int grownTile in grown)
-        //                {
-        //                    grownTiles.Add(grownTile);
-        //                    latestTiles.Add(grownTile);
-
-        //                    if (border.Contains(grownTile))
-        //                        hasTouchedBorder = true;
-        //                }
-
-        //                freeTile += grown.Count();
-        //            }
-        //        }
-
-        //        if (!hasTouchedBorder)
-        //        {
-        //            foreach (Vector2Int tile in grownTiles)
-        //            {
-        //                debugger.holeTiles.Add(tile);
-        //            }
-        //        }
-        //    }
-        //}
+        return holeTiles;
     }
 
     List<Vector2Int> GrowTile(Vector2Int tile, List<Vector2Int> grownTiles, List<Vector2Int> roomTiles)
     {
         Vector2Int[] dirs = new[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
         List<Vector2Int> result = new List<Vector2Int>();
-        //if (grownTiles.Contains(tile))
-        //    return result;
 
         foreach (Vector2Int dir in dirs)
         {
             Vector2Int newTile = tile + dir;
             bool isRoom = roomTiles.Contains(newTile);
             bool isGrown = grownTiles.Contains(newTile);
+            bool isThickWall = occupiedThickWalls.Contains(newTile);
 
-            if (!isRoom && !isGrown)
+            if (!isRoom && !isGrown && !isThickWall)
             {
                 //Debug.Log("Added grown tile: " + newTile);
                 result.Add(newTile);
             }
-            if (isRoom)
-                Debug.Log("Growing tile hit room: " + newTile);
         }
 
         return result;
     }
 
-    //public List<List<Vector2Int>> FindHoles(HashSet<Vector2Int> roomTiles)
-    //{
-    //    //Width/Height definition
-    //    MinMaxInt rangeX = new MinMaxInt(0, 0);
-    //    MinMaxInt rangeZ = new MinMaxInt(0, 0);
+    bool IsThickWall(Vector2Int tile, List<Vector2Int> roomTiles)
+    {
+        Vector2Int[] vertical = new[] { Vector2Int.up, Vector2Int.down };
+        Vector2Int[] horizontal = new[] { Vector2Int.right, Vector2Int.left };
 
-    //    foreach (Room room in rooms)
-    //    {
-    //        rangeX.min = rangeX.min > room.Position.x ? room.Position.x : rangeX.min;
-    //        rangeX.max = rangeX.max < room.Position.x + room.Width ? room.Position.x + room.Width : rangeX.max;
+        bool isVertical = true;
+        foreach (Vector2Int dir in vertical)
+        {
+            if (!roomTiles.Contains(tile + dir)) 
+                isVertical = false;
+        }
 
-    //        rangeZ.min = rangeZ.min > room.Position.y ? room.Position.y : rangeZ.min;
-    //        rangeZ.max = rangeZ.max < room.Position.y + room.Height ? room.Position.y + room.Height : rangeZ.max;
-    //    }
+        bool isHorizontal = true;
+        foreach(Vector2Int dir in horizontal)
+        {
+            if (!roomTiles.Contains(tile + dir))
+                isHorizontal = false;
+        }
 
-    //    int W = rangeX.max - rangeX.min + 2;
-    //    int H = rangeZ.max - rangeZ.min + 2;
+        return isVertical || isHorizontal;
+    }
 
-    //    // 1) occupied grid
-    //    bool[,] occupied = new bool[W, H];
-    //    foreach (Vector2Int tile in roomTiles)
-    //    {
-    //        Debug.Log("Global tile: " + tile);
-    //        Debug.Log("Local tile; " + new Vector2Int(tile.x - rangeX.min, tile.y - rangeZ.min));
-    //        Debug.Log($"Width {W}, Height {H}");
-    //        Debug.Log("");
-    //        occupied[tile.x - rangeX.min, tile.y - rangeZ.min] = true;
-    //    }
+    void DebugGeneration()
+    {
+        if (!debugger)
+            return;
 
-    //    // 2) exterior flood
-    //    bool[,] exterior = new bool[W, H];
-    //    Queue<Vector2Int> queue = new Queue<Vector2Int>();
-    //    void TryEnqueue(int x, int y)
-    //    {
-    //        if (x < 0 || x >= W || y < 0 || y >= H) return;
-    //        if (occupied[x, y] || exterior[x, y]) return;
+        debugger.roomTiles = new HashSet<Vector2Int>(occupiedRoomPositions);
+        debugger.doorTiles = new HashSet<Vector2Int>(occupiedDoorPositions);
+        debugger.furnitureTiles = new HashSet<Vector2Int>(occupiedFurniturePositions);
+        debugger.holeTiles = new HashSet<Vector2Int>(occupiedThickWalls);
+    }
 
-    //        exterior[x, y] = true;
-    //        queue.Enqueue(new Vector2Int(x + rangeX.min, y + rangeZ.min));
-    //    }
-    //    // seed borders
-    //    for (int x = 0; x < W; x++)
-    //    {
-    //        TryEnqueue(x, 0); 
-    //        TryEnqueue(x, H - 1);
-    //    }
-    //    for (int y = 0; y < H; y++)
-    //    {
-    //        TryEnqueue(0, y); 
-    //        TryEnqueue(W - 1, y);
-    //    }
-    //    // BFS
-    //    Vector2Int[] dirs = new[]{ Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
-    //    while (queue.Count > 0)
-    //    {
-    //        Vector2Int vector = queue.Dequeue();
-    //        foreach (Vector2Int dir in dirs) TryEnqueue(vector.x + dir.x, vector.y + dir.y);
-    //    }
-
-    //    // 3) collect hole‐tiles
-    //    bool[,] used = new bool[W, H];
-    //    List<List<Vector2Int>> holes = new List<List<Vector2Int>>();
-    //    for (int x = 0; x < W; x++)
-    //    {
-    //        for (int y = 0; y < H; y++)
-    //        {
-    //            if (occupied[x, y] || exterior[x, y] || used[x, y]) continue;
-    //            // new hole region!
-    //            List<Vector2Int> region = new List<Vector2Int>();
-    //            Queue<Vector2Int> rq = new Queue<Vector2Int>();
-
-    //            used[x, y] = true;
-
-    //            rq.Enqueue(new Vector2Int(x + rangeX.min, y + rangeZ.min));
-
-    //            while (rq.Count > 0)
-    //            {
-    //                Vector2Int vector = rq.Dequeue();
-    //                region.Add(vector);
-    //                foreach (Vector2Int dir in dirs)
-    //                {
-    //                    Vector2Int newHole = vector + dir;
-
-    //                    if (newHole.x < 0 || newHole.x >= W || newHole.y < 0 || newHole.y >= H) continue;
-    //                    if (occupied[newHole.x, newHole.y] || exterior[newHole.x, newHole.y] || used[newHole.x, newHole.y]) continue;
-
-    //                    used[newHole.x, newHole.y] = true;
-    //                    rq.Enqueue(newHole + new Vector2Int(rangeX.min, rangeZ.min));
-    //                }
-    //            }
-
-    //            holes.Add(region);
-    //        }
-    //    }
-
-    //    return holes;
-    //}
 
     //REFERNS
     //void TryCreateFurniture(Room room)
@@ -1017,20 +781,6 @@ public class RoomManager : MonoBehaviour
         return true;
     }
 
-    //Kontrollerar att rummet inte ?r f?r l?ngt bort och att en d?rr kan kopplas mellan dem. Lite d?lig gjord d? vi kollar alla tiles i det nya rummet, men det borde inte beh?vas att optimeras.
-    bool IsRoomConnected(Room room, Vector2Int dir)
-    {
-        int minConnectedTiles = Mathf.CeilToInt(room.DoorSize);
-        int connectedTiles = 0;
-
-        foreach (Vector2Int tile in room.GetOccupiedTiles())
-        {
-            if (occupiedRoomPositions.Contains(tile + (dir * -1)))
-                connectedTiles++;
-        }
-        return connectedTiles >= minConnectedTiles;
-    }
-
     bool IsRoomConnected(Room previousRoom, Room newRoom)
     {
         int minOverlap = Mathf.Max(Mathf.CeilToInt(previousRoom.DoorSize), Mathf.CeilToInt(newRoom.DoorSize));
@@ -1066,8 +816,6 @@ public class RoomManager : MonoBehaviour
         foreach (Vector2Int tile in room.GetOccupiedTiles())
         {
             occupiedRoomPositions.Add(tile);
-            if (debugger)
-                debugger.roomTiles.Add(tile);
         }
     }
 
@@ -1077,9 +825,7 @@ public class RoomManager : MonoBehaviour
 
         foreach (Vector2Int tile in furniture.GetOccupiedTiles())
         {
-            occupiedFurniturePositions.Add(tile);
-            if (debugger)
-                debugger.furnitureTiles.Add(tile);
+            occupiedFurniturePositions.Add(pos + tile);
         }
     }
 
@@ -1088,8 +834,6 @@ public class RoomManager : MonoBehaviour
         foreach (Vector2Int tile in room.GetDoorTiles(doorClearance))
         {
             occupiedRoomPositions.Add(tile);
-            if (debugger)
-                debugger.doorTiles.Add(tile);
         }
     }
 
@@ -1130,6 +874,7 @@ public class RoomManager : MonoBehaviour
 
             foreach(GameObject room in roomObjects)
                 Destroy(room);
+            Destroy(thickWalls);
             
             if (debugger)
                 debugger.ClearTiles();

@@ -9,6 +9,7 @@ public class TileDebugger : MonoBehaviour
     [SerializeField] Color furnitureColor = Color.yellow;
     [SerializeField] Color checkedColor = Color.blue;
     [SerializeField] Color holeColor = Color.gray;
+    [SerializeField] bool drawGrownTiles = true;
 
     public HashSet<Vector2Int> roomTiles = new HashSet<Vector2Int>();
     public HashSet<Vector2Int> doorTiles = new HashSet<Vector2Int>();
@@ -41,8 +42,11 @@ public class TileDebugger : MonoBehaviour
         DrawTileSet(furnitureTiles, furnitureColor);
         DrawTileSet(checkedTiles, checkedColor);
         DrawTileSet(holeTiles, holeColor);
-        foreach ((HashSet<Vector2Int>, Color) tiles in freeTiles)
+        if (drawGrownTiles)
+        {
+            foreach ((HashSet<Vector2Int>, Color) tiles in freeTiles)
             DrawTileSet(tiles.Item1, tiles.Item2);
+        }
     }
 
     void DrawTileSet(HashSet<Vector2Int> tiles, Color color)

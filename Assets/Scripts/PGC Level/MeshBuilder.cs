@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public interface ITileable
 {
@@ -123,6 +124,16 @@ public static class MeshBuilder
         }
     }
 
+    public static void CreateThickWallTile(Transform parent, Vector2Int pos, float height, Material mat)
+    {
+        GameObject thickWallTile = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        thickWallTile.name = "Thick wall tile" + pos;
+        thickWallTile.transform.parent = parent;
+        thickWallTile.transform.position = new Vector3(pos.x + 1 / 2f, height - 0.1f / 2f, pos.y + 1 / 2f);
+        thickWallTile.transform.localScale = new Vector3(1, 0.1f, 1);
+        thickWallTile.GetComponent<Renderer>().material = mat;
+    }
+
     private static void CreateWall(Transform parent, Vector3 pos, Vector3 scale, Material mat)
     {
         GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -133,7 +144,7 @@ public static class MeshBuilder
         wall.GetComponent<Renderer>().material = mat;
     }
 
-    public static void CreateFurniture(Transform parent, Furniture prefab, Vector3 pos)
+    private static void CreateFurniture(Transform parent, Furniture prefab, Vector3 pos)
     {
         GameObject furnitureObject = GameObject.Instantiate(prefab.gameObject);
 
