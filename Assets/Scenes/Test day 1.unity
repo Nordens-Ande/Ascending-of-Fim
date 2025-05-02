@@ -1188,6 +1188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68a354a14af0fe46ba7cb4c51984ed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitShake: {fileID: 11400000, guid: 5e51b6b4f38e9b04897e3886fe3c44f3, type: 2}
+  shootShake: {fileID: 11400000, guid: 455ca9e4abe5bf04695e1cf81a52c4fc, type: 2}
 --- !u!1001 &787820516
 PrefabInstance:
   m_ObjectHideFlags: 0

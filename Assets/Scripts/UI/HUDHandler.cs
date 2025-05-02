@@ -1,4 +1,5 @@
 using UnityEngine;
+using FirstGearGames.SmoothCameraShaker;
 
 public class HUDHandler : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class HUDHandler : MonoBehaviour
     private ScoreScript scoreScript;
     private HitUI hitUIscript;
     private KeycardUIScript keycardUI;
+
+    [SerializeField] ShakeData hitShake;
+    [SerializeField] ShakeData shootShake;
 
     //[SerializeField] TimerUIScript timerUIScript;
     //[SerializeField] Money moneyScript;
@@ -199,5 +203,17 @@ public class HUDHandler : MonoBehaviour
     public void DontHaveKeycard()
     {
         keycardUI.playerDoNotHaveKeycard();
+    }
+
+
+    //camera shake
+    public void FimShotShake()
+    {
+        CameraShakerHandler.Shake(hitShake);
+    }
+
+    public void FimShootingShake()
+    {
+        CameraShakerHandler.Shake(shootShake);
     }
 }

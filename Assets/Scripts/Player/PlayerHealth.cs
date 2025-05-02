@@ -8,7 +8,6 @@ public class PlayerHealth : MonoBehaviour
     int maxHealth = 100;
     [SerializeField] HUDHandler hudHandler;
     [SerializeField] PlayerDeathController playerDeathController;
-    [SerializeField] ShakeData hitShake;
 
     void Start()
     {
@@ -20,12 +19,13 @@ public class PlayerHealth : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         health -= damage/4;
+        
         //effects
         if (hudHandler != null)
         {
             hudHandler.setHealth(health);
             hudHandler.hitVisualUI(0.7f);
-            CameraShakerHandler.Shake(hitShake);
+            hudHandler.FimShotShake();
         }
         
 
