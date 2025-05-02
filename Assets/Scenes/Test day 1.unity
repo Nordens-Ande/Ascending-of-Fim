@@ -1512,6 +1512,8 @@ MonoBehaviour:
   doorColor: {r: 1, g: 0, b: 0, a: 1}
   furnitureColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   checkedColor: {r: 0, g: 0, b: 1, a: 1}
+  holeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  drawGrownTiles: 1
 --- !u!114 &906973923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1537,7 +1539,12 @@ MonoBehaviour:
   roomAmountRange:
     min: 10
     max: 15
+  floorLevel: 2
+  exteriorWallMaterial: {fileID: -5937134528182024341, guid: e545c4d187519be42b284e9a3aca0ba2, type: 3}
   doorClearance: 1
+  thickWallsEnabled: 1
+  thickWallMat: {fileID: -5937134528182024341, guid: e545c4d187519be42b284e9a3aca0ba2, type: 3}
+  thickWallHeightOffset: -0.1
   maxRoomFails: 1000
   maxFurnitureFails: 150
   hallwaySettings:
@@ -1552,7 +1559,7 @@ MonoBehaviour:
       min: 2
       max: 8
     wallMaterial: {fileID: 0}
-    floorMaterial: {fileID: 7806100501455280664, guid: d84aa048753dfb44a8850a129fdec572, type: 3}
+    floorMaterial: {fileID: 0}
     maxFurniture: 4
   livingRoomSettings:
     sizeRange:
@@ -1587,7 +1594,7 @@ MonoBehaviour:
       min: 2
       max: 3
     wallMaterial: {fileID: 0}
-    floorMaterial: {fileID: 0}
+    floorMaterial: {fileID: -5423730058349959353, guid: d84aa048753dfb44a8850a129fdec572, type: 3}
     maxFurniture: 6
   enemySpawnPointManager: {fileID: 193646585}
 --- !u!114 &906973924
