@@ -46,6 +46,7 @@ public class EquipWeapon : MonoBehaviour
     void Start()
     {
         IsEquipped = false;
+        //weaponMask = LayerMask.NameToLayer("Weapon") | LayerMask.NameToLayer("Shield");
     }
 
     private void Update()
