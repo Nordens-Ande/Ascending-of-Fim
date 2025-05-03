@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class EnemyShoot : MonoBehaviour
 {
     [SerializeField] Shoot shootScript;
+    GameObject player;
 
     WeaponData weaponData;//retrieve from enemyWeaponInventory script
     WeaponScript weaponScript;//retrieve from enemyWeaponInventory script
@@ -22,6 +23,7 @@ public class EnemyShoot : MonoBehaviour
 
     private void Start()
     {
+        player = GameObject.FindWithTag("Player");
         isShooting = false;
         isReadyToFire = true;
         isReloading = false;
@@ -99,6 +101,14 @@ public class EnemyShoot : MonoBehaviour
                 if (health != null)
                 {
                     health.ApplyDamage(weaponData.damage);
+                }
+            }
+            else if (hit.transform.CompareTag("Shield"))
+            {
+                ShieldScript playerShield = hit.transform.GetComponent<ShieldScript>();
+                if(playerShield != null && playerShield.owner == player)
+                {
+                    playerShield.DecreaseHealth(weaponData.damage / 4);
                 }
             }
         }

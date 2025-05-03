@@ -43,9 +43,9 @@ GameObject:
   - component: {fileID: 2878285029103292609}
   - component: {fileID: 8313345827574279521}
   - component: {fileID: -4694862504650333140}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ShieldPrefab
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

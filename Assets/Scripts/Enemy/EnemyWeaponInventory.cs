@@ -169,6 +169,7 @@ public class EnemyWeaponInventory : MonoBehaviour
             shieldScript = shield.GetComponentInChildren<ShieldScript>();
             shieldScript.CheckIfShieldBodyNull();
             shieldScript.Equip();
+            shieldScript.SetOwner(this.gameObject);
         }
     }
 
@@ -180,6 +181,7 @@ public class EnemyWeaponInventory : MonoBehaviour
             {
                 shield.transform.parent = null;
                 shieldScript.Unequip(true);
+                shieldScript.SetOwner(null);
                 hasShield = false;
                 shield = null;
                 shieldScript = null;
@@ -220,15 +222,27 @@ public class EnemyWeaponInventory : MonoBehaviour
         }
         else
         {
-            if(weapon != null)
+            if (weapon != null)
             {
                 weaponScript.Equip();
                 IsEquiped = true;
             }
-            if(shield != null)
+            if (shield != null)
             {
                 shieldScript.Equip();
                 hasShield = true;
+            }
+        }
+        if (hasShield)
+        {
+            if(shieldScript.GetHealth() <= 0)
+            {
+                shield.transform.parent = null;
+                shieldScript.Unequip(true);
+                shieldScript.SetOwner(null);
+                hasShield = false;
+                shield = null;
+                shieldScript = null;
             }
         }
     }

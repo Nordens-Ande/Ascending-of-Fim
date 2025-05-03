@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ShieldScript : MonoBehaviour
 {
+    public GameObject owner { get; private set; } // used by the enemy or player when shooting to make the raycast ignore this shield collider :)
+
     [SerializeField] public Transform HandPos;
     Rigidbody rigidBody;
 
@@ -17,6 +19,7 @@ public class ShieldScript : MonoBehaviour
     {
         health = 50;
         isRotating = true;
+        rotationSpeed = 10;
 
         rigidBody = GetComponent<Rigidbody>();
         if(rigidBody != null)
@@ -33,6 +36,11 @@ public class ShieldScript : MonoBehaviour
         }
     }
 
+    public void SetOwner(GameObject owner)
+    {
+        this.owner = owner;
+    }
+
     public void Equip()
     {
         if (destroyCoroutine != null)
@@ -40,14 +48,9 @@ public class ShieldScript : MonoBehaviour
             StopCoroutine(destroyCoroutine);
             destroyCoroutine = null;
         }
-        if (GetComponent<Collider>())
-        {
-            GetComponent<Collider>().enabled = false;
-        }
         rigidBody.constraints = RigidbodyConstraints.None;
         rigidBody.isKinematic = true;
         isRotating = false;
-        //gameObject.layer = layer;
     }
 
     public void Unequip(bool enemyDropped)
@@ -55,7 +58,7 @@ public class ShieldScript : MonoBehaviour
         if (enemyDropped)
         {
             int value = Random.Range(1, 101);
-            if (value > 20)
+            if (value > 100)
             {
                 Destroy(gameObject);
             }

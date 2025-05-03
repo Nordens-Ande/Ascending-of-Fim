@@ -9,6 +9,7 @@ TagManager:
   - EnemySpawn
   - PlayerHitbox
   - FxTemporaire
+  - Shield
   layers:
   - Default
   - TransparentFX
