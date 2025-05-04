@@ -38,14 +38,16 @@ public class ExplodingBarrel : MonoBehaviour
         foreach (Collider nearby in colliders)
         {
             // Damage enemies
-            if (nearby.TryGetComponent(out EnemyHealth enemy))
+            EnemyHealth enemy = nearby.GetComponentInParent<EnemyHealth>();
+            if (enemy != null)
             {
                 enemy.ApplyDamage(damage);
                 Debug.Log("Explosion damaged enemy: " + nearby.name);
             }
 
             // Damage player
-            if (nearby.CompareTag("Player") && nearby.TryGetComponent(out PlayerHealth player))
+            PlayerHealth player = nearby.GetComponentInParent<PlayerHealth>();
+            if (player != null)
             {
                 player.ApplyDamage(damage);
                 Debug.Log("Explosion damaged player: " + nearby.name);
