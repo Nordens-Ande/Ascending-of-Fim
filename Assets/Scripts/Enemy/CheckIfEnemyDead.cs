@@ -8,7 +8,9 @@ public class CheckIfEnemyDead : MonoBehaviour
     [SerializeField] EnemyMove enemyMove;
     [SerializeField] EnemyShoot enemyShoot;
     [SerializeField] EnemyWeaponInventory enemyWeaponInventory;
+    
     private HUDHandler hudHandler; 
+    private bool scoreOnce = false;
 
     [SerializeField] GameObject hitboxObject;
     //references
@@ -30,8 +32,9 @@ public class CheckIfEnemyDead : MonoBehaviour
         ragDollController.BecomeRagDoll();
         StartCoroutine(DestroyGameObject());
 
-        if (hudHandler != null)
+        if (hudHandler != null && !scoreOnce)
         {
+            scoreOnce = true;
             hudHandler.addMoney(3);
             hudHandler.addScore(150);
         }

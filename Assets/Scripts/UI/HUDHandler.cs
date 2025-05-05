@@ -3,6 +3,8 @@ using FirstGearGames.SmoothCameraShaker;
 
 public class HUDHandler : MonoBehaviour
 {
+    [SerializeField] UIHandler UIHandler;
+
     private TimerUIScript timerUIScript;
     private Money moneyScript;
     private HealthBar healthBarScript;
@@ -113,7 +115,9 @@ public class HUDHandler : MonoBehaviour
 
     public void setMaxHealth(float health)
     {
+        UIHandler.ToggleHUD();
         healthBarScript.setMaxHealth(health);
+        UIHandler.ToggleHUD();
     }
 
     public void addHealth(float addHealth)
@@ -215,5 +219,11 @@ public class HUDHandler : MonoBehaviour
     public void FimShootingShake()
     {
         CameraShakerHandler.Shake(shootShake);
+    }
+
+    //menu bool
+    public bool isMenuActive()
+    {
+        return UIHandler.isMenuActive();
     }
 }
