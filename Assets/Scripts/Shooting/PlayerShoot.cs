@@ -9,6 +9,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] Shoot shootScript;
     [SerializeField] EquipWeapon equipWeapon;
     [SerializeField] HUDHandler hudHandler;
+    //SoundEffectsPlayer SEP;
 
     WeaponData weaponData;
     WeaponScript weaponScript;
@@ -147,9 +148,11 @@ public class PlayerShoot : MonoBehaviour
         if (isShooting && isReadyToShoot && !isReloading && weaponScript.bulletsLeft > 0)
         {
             Shoot();
-            if(!weaponData.allowButtonHold)
+            
+            if (!weaponData.allowButtonHold)
             {
                 isShooting = false;
+                //SEP.getShooting();
             }
         }
     }

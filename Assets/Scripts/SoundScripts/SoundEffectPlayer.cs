@@ -33,6 +33,11 @@ public class SoundEffectsPlayer : MonoBehaviour
         
 
     }
+    public void getShooting() 
+    {
+        shooting();
+    
+    }
 
     public void talking() 
     {

@@ -79,48 +79,52 @@ public class EnemyAIController : MonoBehaviour
     {
         if(enemyState == EnemyState.standingShooting)
         {
-            //enemyVoicelines.SetEnemyVoicelines(3);
 
             enemyMove.wandering = false;
             enemyShoot.IsShooting(true);
             soundEffectsEnemy.SetIsShooting(true);
             enemyMove.StopMoving();
+
+            //enemyVoicelines.SetEnemyVoicelines(3);
         }
         else if(enemyState == EnemyState.runningShooting)
         {
-            //enemyVoicelines.SetEnemyVoicelines(3);
 
             enemyMove.wandering = false;
             enemyShoot.IsShooting(true);
             soundEffectsEnemy.SetIsShooting(true);
             enemyMove.StartMoving();
+
+            //enemyVoicelines.SetEnemyVoicelines(3);
         }
         else if(enemyState == EnemyState.chasing)
         {
-            //enemyVoicelines.SetEnemyVoicelines(3);
-
+ 
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
             soundEffectsEnemy.SetIsShooting(false);
             enemyMove.StartMoving();
+
+            //enemyVoicelines.SetEnemyVoicelines(3);
         }
         else if(enemyState == EnemyState.movingToPlayerLastKnown)
         {
-            //enemyVoicelines.SetEnemyVoicelines(2);
 
             enemyMove.wandering = false;
             enemyShoot.IsShooting(false);
             soundEffectsEnemy.SetIsShooting(false);
             enemyMove.SetDestination(playerLastKnownPosition);
             enemyMove.StartMoving();
+
+            //enemyVoicelines.SetEnemyVoicelines(2);
         }
         else if(enemyState == EnemyState.searching)
         {
-            //enemyVoicelines.SetEnemyVoicelines(1);
-
             enemyShoot.IsShooting(false);
             soundEffectsEnemy.SetIsShooting(false);
             enemyMove.wandering = true;
+
+            //enemyVoicelines.SetEnemyVoicelines(1);
         }
     }
 

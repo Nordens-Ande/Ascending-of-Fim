@@ -2338,6 +2338,7 @@ Transform:
   - {fileID: 2169877020387489047}
   - {fileID: 4313074781761847843}
   - {fileID: 654935106023632696}
+  - {fileID: 5517078009802975967}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2356555365348114405
@@ -2443,7 +2444,6 @@ MonoBehaviour:
   enemyMove: {fileID: 2061650463669928461}
   enemyShoot: {fileID: 86072208557635113}
   enemyWeaponInventory: {fileID: 4902952662063163408}
-  hudHandler: {fileID: 0}
   hitboxObject: {fileID: 7620443000050773124}
 --- !u!114 &5738588817305396176
 MonoBehaviour:
@@ -3565,3 +3565,185 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc0bfe56f4255b0489da2c0a6bdf1e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &3750864306857016158
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4351544648027497571}
+    m_Modifications:
+    - target: {fileID: 3700144014145559100, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_Name
+      value: EnemyVoiceLines
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: EnemyIdleVoicelines.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: EnemyAttackVoicelines.Array.size
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: EnemySearchVoicelines.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyIdleVoicelines.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: dab31fffa47f03046bd3e174fdf2a8bb, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyIdleVoicelines.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 2476d074558d5084fa03f13fc0a1e603, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyIdleVoicelines.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 4828f6acbbd38444dbe41059864de3b7, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyIdleVoicelines.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: d7f5991ef61dd79418be1ed53feef161, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f8aedd9da6705924487ac03826c5fbd9, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 6e1f5fedf14f0f141acab3e16c029958, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: fb887f88a1296b74ebae685bac25fb10, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 62fe9533a60f1d34fa2d77f5d9df7203, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: a663f182fb62cc545985428f38ea6432, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[5]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 3c0c7c9ce8488b0409d954208ed7f446, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[6]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f8375b85b81e0c1448a81f3eed14ab3b, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[7]'
+      value: 
+      objectReference: {fileID: 8300000, guid: a7daa77aafd2fa04d90641872cb057dc, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[8]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7a7543a8fcd166749968cfcf60cb9efe, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[9]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 011f5c734de23b7458162da908605027, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemySearchVoicelines.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 46e1ee7c750cb5f49a68ae334754a9d8, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemySearchVoicelines.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: b6a810e8aecde5b49a8995567793727f, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemySearchVoicelines.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: b136572f6488e6645b1f68bb79b4b6b9, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemySearchVoicelines.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: f8ca1c7ee9bd6ee43826e3d3c141f62b, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemySearchVoicelines.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 89fd3367fdff5ca4eb62af3e8a80c053, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[10]'
+      value: 
+      objectReference: {fileID: 8300000, guid: b30f1312cab616a479cf08496c5fd544, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[11]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 94996723bf5dc9f419c925b055cd6d12, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[12]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 95771ba02360f744f9ba3b79fb9dee04, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[13]'
+      value: 
+      objectReference: {fileID: 8300000, guid: ea65770d034d0be4f97d42c67e8eb386, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[14]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c660cf6aadb46b44994c19e705321bd, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[15]'
+      value: 
+      objectReference: {fileID: 8300000, guid: b94001a97fa0605418553e5768d6fc71, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[16]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 306ab87ca9bccd1499b4948abb0033f2, type: 3}
+    - target: {fileID: 4370977005322110672, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: 'EnemyAttackVoicelines.Array.data[17]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 00f7579d1beb0864aa252ec736290dc6, type: 3}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+--- !u!4 &5517078009802975967 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8691144700931576193, guid: fd82add79439d404ba0de0f3196c8664, type: 3}
+  m_PrefabInstance: {fileID: 3750864306857016158}
+  m_PrefabAsset: {fileID: 0}

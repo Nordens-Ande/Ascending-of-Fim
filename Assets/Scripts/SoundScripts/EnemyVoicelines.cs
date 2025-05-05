@@ -51,24 +51,34 @@ public class EnemyVoicelines : MonoBehaviour
     {
         if (which == 1) //Idle voicelines
         {
-            SetIdleEnemyVoiceline(true);
-            SetAttackEnemyVoiceline(false);
-            SetSearchEnemyVoiceline(false);
+            //SetIdleEnemyVoiceline(true);
+            //SetAttackEnemyVoiceline(false);
+            //SetSearchEnemyVoiceline(false);
+
+            isEnemyIdle = true;
+            isEnemySearching = false;
+            isEnemyAttacking = false;
 
         }
         else if (which == 2) //searchvoicelines
         { 
-            SetIdleEnemyVoiceline(false);
-            SetAttackEnemyVoiceline(false);
-            SetSearchEnemyVoiceline(true);
-        
+            //SetIdleEnemyVoiceline(false);
+            //SetAttackEnemyVoiceline(false);
+            //SetSearchEnemyVoiceline(true);
+            isEnemyIdle = false;
+            isEnemySearching = true;
+            isEnemyAttacking = false;
+
         }
         else if(which == 3) //Attck voicelines
-        { 
-            SetIdleEnemyVoiceline(false);
-            SetAttackEnemyVoiceline(true);
-            SetSearchEnemyVoiceline(false);
-        
+        {
+            //SetIdleEnemyVoiceline(false);
+            //SetAttackEnemyVoiceline(true);
+            //SetSearchEnemyVoiceline(false);
+            isEnemyIdle = false;
+            isEnemySearching = false;
+            isEnemyAttacking = true;
+
         }
     
     }
