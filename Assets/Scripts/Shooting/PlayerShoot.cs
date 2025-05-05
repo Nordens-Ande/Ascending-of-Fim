@@ -8,7 +8,9 @@ public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] Shoot shootScript;
     [SerializeField] EquipWeapon equipWeapon;
+
     [SerializeField] HUDHandler hudHandler;
+    private bool reloadMessageShown = false;
     //SoundEffectsPlayer SEP;
 
     WeaponData weaponData;
@@ -74,6 +76,7 @@ public class PlayerShoot : MonoBehaviour
         weaponScript.ReloadBullets();
         isReloading = false;
         isReadyToShoot = true;
+        reloadMessageShown = false;
     }
 
     void Shoot()
@@ -154,6 +157,12 @@ public class PlayerShoot : MonoBehaviour
                 isShooting = false;
                 //SEP.getShooting();
             }
+        }
+
+        if (weaponScript.bulletsLeft == 0 && !reloadMessageShown)
+        {
+            reloadMessageShown = true;
+            hudHandler.setAnnounchment("Reload with R", 3);
         }
     }
 }

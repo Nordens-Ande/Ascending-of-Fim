@@ -16,6 +16,7 @@ public class PlayerHealth : MonoBehaviour
         hudHandler.setHealth(health);
     }
 
+
     public void ApplyDamage(int damage)
     {
         health -= damage/4;

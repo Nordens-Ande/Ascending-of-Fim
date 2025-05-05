@@ -9,7 +9,15 @@ public class ExplodingBarrel : MonoBehaviour
     [SerializeField] int damage = 15;
     [SerializeField] ParticleSystem explosionEffect;
 
+    private HUDHandler hudHandler;
+    private bool scoreOnce = false;
+
     private bool isTriggered = false;
+
+    private void Awake()
+    {
+        hudHandler = FindFirstObjectByType<HUDHandler>();
+    }
 
     public void TakeDamage()
     {
@@ -18,6 +26,8 @@ public class ExplodingBarrel : MonoBehaviour
             isTriggered = true;
             Invoke(nameof(Explode), delay);
         }
+
+      
     }
 
     void Explode()
@@ -64,10 +74,16 @@ public class ExplodingBarrel : MonoBehaviour
             if (nearby.TryGetComponent(out ExplodingBarrel otherBarrel) && otherBarrel != this)
             {
                 otherBarrel.TakeDamage();
-            }
+            } 
         }
 
-
         Destroy(gameObject);
+
+        //give score to hud
+        if (hudHandler != null && !scoreOnce)
+        {
+            scoreOnce = true;
+            hudHandler.addScore(500);
+        }
     }
 }

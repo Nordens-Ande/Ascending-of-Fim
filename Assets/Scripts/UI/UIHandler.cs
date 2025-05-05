@@ -141,4 +141,9 @@ public class UIHandler : MonoBehaviour
     {
         Time.timeScale = 1f;
     }
+
+    public bool isMenuActive()
+    {
+        return UI.activeSelf;
+    }
 }
