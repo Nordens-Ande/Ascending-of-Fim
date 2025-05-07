@@ -5,6 +5,10 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] EnemyManager enemyManager;
     [SerializeField] NavMeshBaker navMeshBaker;
+    [SerializeField] RoomManager roomManager;
+
+    private HUDHandler hudHandler;
+    private PlayerHealth playerHealth;
 
     enum GameState { MainMenu, Playing, Elevator, GameOver}
     GameState gameState;
@@ -15,6 +19,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        hudHandler = FindFirstObjectByType<HUDHandler>();
+        playerHealth = FindFirstObjectByType<PlayerHealth>();
+
         gameState = GameState.MainMenu;
         level = 0;
         hasKeycard = false;
@@ -32,6 +39,12 @@ public class GameManager : MonoBehaviour
         //generate apartment
         navMeshBaker.StartCoroutine(navMeshBaker.BakeNavMesh());
         //reset player position
+    }
+
+    public void RestartGame()
+    {
+        roomManager.reroll = true;
+        playerHealth.resetHealth();
     }
 
     public void StartLevel() // start enemy spawning, playing input etc, maybe reload weapon
