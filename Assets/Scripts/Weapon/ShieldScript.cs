@@ -51,6 +51,7 @@ public class ShieldScript : MonoBehaviour
         rigidBody.constraints = RigidbodyConstraints.None;
         rigidBody.isKinematic = true;
         isRotating = false;
+        gameObject.layer = LayerMask.GetMask("Shield");
     }
 
     public void Unequip(bool enemyDropped)
@@ -70,6 +71,7 @@ public class ShieldScript : MonoBehaviour
         rigidBody.linearVelocity = Vector3.zero;
         rigidBody.angularVelocity = Vector3.zero;
         isRotating = true;
+        gameObject.layer = LayerMask.GetMask("ShieldIgnore");
         destroyCoroutine = StartCoroutine(DestroyOnGround());
     }
 

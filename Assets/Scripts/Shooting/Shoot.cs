@@ -12,7 +12,7 @@ public class Shoot : MonoBehaviour
     void Start()
     {
         rayLength = 10000;
-        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("PlayerLimbs"));
+        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("PlayerLimbs") | LayerMask.GetMask("ShieldLimbs"));
     }
 
     Vector3 GetDirection()
@@ -71,6 +71,6 @@ public class Shoot : MonoBehaviour
 
     void Update()
     {
-        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("PlayerLimbs"));
+        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("PlayerLimbs") | LayerMask.GetMask("ShieldLimbs"));
     }
 }
