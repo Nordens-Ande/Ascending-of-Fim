@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - EnemySpawn
   - PlayerHitbox
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - PlayerLimbs
   - Player
   - EnemyIgnore
-  - 
+  - Keycard
   - 
   - 
   - 

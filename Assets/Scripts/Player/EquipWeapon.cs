@@ -48,18 +48,21 @@ public class EquipWeapon : MonoBehaviour
         IsEquipped = false;
     }
 
+    public void OnInteract(InputValue inputValue)
+    {
+        Equip();
+        Debug.Log("pressed E");
+    }
+
+    public void OnDrop(InputValue inputValue)
+    {
+        UnEquip();
+        Debug.Log("Pressed Q");
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Equip();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            UnEquip();
-        } 
-
+        
         if (currentWeapon != null)
         {
             //FUnkar ej med denna
