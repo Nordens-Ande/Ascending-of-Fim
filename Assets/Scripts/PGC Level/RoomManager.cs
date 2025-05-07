@@ -625,7 +625,7 @@ public class RoomManager : MonoBehaviour
             {
                 foreach (Vector2Int tile in grownTiles)
                 {
-                    Debug.Log(freeTilesIndex + " " + tile);
+                    //Debug.Log(freeTilesIndex + " " + tile);
                     holeTiles.Add(tile);
                     //debugger.holeTiles.Add(tile);
                 }

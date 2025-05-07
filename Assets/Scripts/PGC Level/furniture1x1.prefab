@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8457823149309233202}
   - component: {fileID: 7217056665347449587}
+  - component: {fileID: -9079457424777559448}
   m_Layer: 0
   m_Name: furniture1x1
   m_TagString: Untagged
@@ -47,12 +48,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomType: 0
   size: {x: 1, y: 2}
-  frontDirections: []
+  drawDebug: 1
+  clearDirections: []
   wallDirections:
   - {x: 0, y: 1}
   - {x: 1, y: 0}
+  variants: []
   lookAlikeID: 0
-  drawDebug: 1
+--- !u!114 &-9079457424777559448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968566208978899543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eea54360a047ba4a974ce84d19be774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyToSpawn: {fileID: 0}
+  spawnPositions: []
+  objectsToDelete: []
 --- !u!1 &8879522203589609387
 GameObject:
   m_ObjectHideFlags: 0
