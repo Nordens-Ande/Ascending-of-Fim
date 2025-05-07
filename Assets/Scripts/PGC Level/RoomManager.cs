@@ -36,7 +36,7 @@ public struct RoomSettings
 
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] bool reroll = false;
+    [SerializeField] public bool reroll = false;
 
     [SerializeField] GameObject player;
     //[SerializeField] bool debug = false;
