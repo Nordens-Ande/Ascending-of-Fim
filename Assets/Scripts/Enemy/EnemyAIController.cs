@@ -6,7 +6,7 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] EnemyMove enemyMove;
     [SerializeField] EnemyShoot enemyShoot;
     [SerializeField] SoundEffectsEnemy soundEffectsEnemy;
-    EnemyVoicelines enemyVoicelines;
+    [SerializeField]EnemyVoicelines enemyVoicelines;
 
     enum EnemyState {searching = 1, movingToPlayerLastKnown = 2, chasing = 3, standingShooting = 4, runningShooting = 5 }
     EnemyState previousEnemyState;
@@ -85,7 +85,7 @@ public class EnemyAIController : MonoBehaviour
             soundEffectsEnemy.SetIsShooting(true);
             enemyMove.StopMoving();
 
-            //enemyVoicelines.SetEnemyVoicelines(3);
+            enemyVoicelines.SetEnemyVoicelines(3);
         }
         else if(enemyState == EnemyState.runningShooting)
         {
@@ -95,7 +95,7 @@ public class EnemyAIController : MonoBehaviour
             soundEffectsEnemy.SetIsShooting(true);
             enemyMove.StartMoving();
 
-            //enemyVoicelines.SetEnemyVoicelines(3);
+            enemyVoicelines.SetEnemyVoicelines(3);
         }
         else if(enemyState == EnemyState.chasing)
         {
@@ -105,7 +105,7 @@ public class EnemyAIController : MonoBehaviour
             soundEffectsEnemy.SetIsShooting(false);
             enemyMove.StartMoving();
 
-            //enemyVoicelines.SetEnemyVoicelines(3);
+            enemyVoicelines.SetEnemyVoicelines(3);
         }
         else if(enemyState == EnemyState.movingToPlayerLastKnown)
         {
@@ -116,7 +116,7 @@ public class EnemyAIController : MonoBehaviour
             enemyMove.SetDestination(playerLastKnownPosition);
             enemyMove.StartMoving();
 
-            //enemyVoicelines.SetEnemyVoicelines(2);
+            enemyVoicelines.SetEnemyVoicelines(2);
         }
         else if(enemyState == EnemyState.searching)
         {
@@ -124,7 +124,7 @@ public class EnemyAIController : MonoBehaviour
             soundEffectsEnemy.SetIsShooting(false);
             enemyMove.wandering = true;
 
-            //enemyVoicelines.SetEnemyVoicelines(1);
+            enemyVoicelines.SetEnemyVoicelines(1);
         }
     }
 

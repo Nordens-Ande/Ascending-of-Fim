@@ -11,7 +11,7 @@ public class PlayerShoot : MonoBehaviour
 
     [SerializeField] HUDHandler hudHandler;
     private bool reloadMessageShown = false;
-    //SoundEffectsPlayer SEP;
+    [SerializeField]SoundEffectsPlayer SEP;
 
     WeaponData weaponData;
     WeaponScript weaponScript;
@@ -92,7 +92,10 @@ public class PlayerShoot : MonoBehaviour
         else
         {
             hits = shootScript.ShootRay(1);
+
+
         }
+        SEP.shooting();
 
         if (hudHandler != null)
         {

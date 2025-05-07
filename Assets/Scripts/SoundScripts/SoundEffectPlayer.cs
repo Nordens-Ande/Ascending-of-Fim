@@ -18,7 +18,7 @@ public class SoundEffectsPlayer : MonoBehaviour
     {
         rand = Random.Range(0, 10000);
 
-        isActivelyShooting();
+        //isActivelyShooting();
 
         beginToTalk();
     }
