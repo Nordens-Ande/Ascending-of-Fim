@@ -13,8 +13,8 @@ public class EquipKeycard : MonoBehaviour
     public GameObject Keycard;
     private KeycardScript keycardScript;
     
-
-    private bool hasKeycard;
+    public static EquipKeycard Instance { get; private set; } //Singleton pattern
+    public bool hasKeycard { get; private set; }
 
     private void Start()
     {
