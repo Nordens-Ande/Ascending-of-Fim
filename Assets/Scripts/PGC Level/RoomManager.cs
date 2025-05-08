@@ -137,7 +137,12 @@ public class RoomManager : MonoBehaviour
     {
         reroll = false;
         if (player)
+        {
+            player.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
+            player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
+        }
+            
 
         rooms = new List<Room>();
         roomObjects = new List<GameObject>();
