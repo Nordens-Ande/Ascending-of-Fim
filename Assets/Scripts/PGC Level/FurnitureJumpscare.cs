@@ -61,8 +61,11 @@ public class FurnitureJumpscare : MonoBehaviour
         foreach (Transform trans in spawnPositions)
         {
             GameObject newEnemy = Instantiate(enemyToSpawn.gameObject);
+
+            Debug.Log("Attempted spawn position for jumpscare: " + trans.position);
             newEnemy.transform.position = trans.position;
             newEnemy.transform.rotation = trans.rotation;
+            Debug.Log("Resulted spawn position for jumpscare: " + newEnemy.transform.position);
         }
         foreach (GameObject gameObject in objectsToDelete)
         {
