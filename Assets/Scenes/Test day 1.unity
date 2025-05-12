@@ -3458,6 +3458,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 104956087020240410, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: GroundDrag
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 808824040587272317, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -3497,6 +3501,18 @@ PrefabInstance:
     - target: {fileID: 808824040587272317, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596583435557250929, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596583435557250929, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: field of view
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2294375529461019956, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 2491116268775031841, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: ammoScript
