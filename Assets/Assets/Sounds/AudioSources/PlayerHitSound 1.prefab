@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2646888787187664541
+--- !u!1 &4701973026186355422
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,43 +8,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3410755323608779647}
-  - component: {fileID: 3324188447674230128}
-  - component: {fileID: 7114020624615704971}
+  - component: {fileID: 5900817726212529787}
+  - component: {fileID: 9633514239095785}
+  - component: {fileID: 2041832241760687212}
   m_Layer: 0
-  m_Name: EnemyHitSound
+  m_Name: PlayerHitSound 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3410755323608779647
+--- !u!4 &5900817726212529787
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2646888787187664541}
+  m_GameObject: {fileID: 4701973026186355422}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.7010002, y: 2.3400002, z: -0.7589998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &3324188447674230128
+--- !u!82 &9633514239095785
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2646888787187664541}
+  m_GameObject: {fileID: 4701973026186355422}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 4232273485107137044, guid: 33118a7a7de2f5f4cbbcc5f624316590, type: 2}
-  m_audioClip: {fileID: 8300000, guid: eb97c3884ae1d2849b9efaeeb0c7263c, type: 3}
-  m_Resource: {fileID: 8300000, guid: eb97c3884ae1d2849b9efaeeb0c7263c, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -130,21 +130,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7114020624615704971
+--- !u!114 &2041832241760687212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2646888787187664541}
+  m_GameObject: {fileID: 4701973026186355422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ae60bf6e806ff049990600f2beab625, type: 3}
+  m_Script: {fileID: 11500000, guid: 73ace55819982b54488592be0d3ccc2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHitAudiosource: {fileID: 3324188447674230128}
-  enemyHitAudioclip:
-  - {fileID: 8300000, guid: b905b971ec022c3419d0311fb65653d6, type: 3}
-  - {fileID: 8300000, guid: 3db0ed5c3c2cd114dbcfd87577b96aae, type: 3}
-  - {fileID: 8300000, guid: 91efbbc5ab943dd459503d95efde45d8, type: 3}
-  - {fileID: 8300000, guid: 7a1d2c87599f7d7429e371ea42aee7ba, type: 3}
+  playerHitaudioSource: {fileID: 9633514239095785}
+  playerHurtSoundEffect:
+  - {fileID: 8300000, guid: 6c97c56a0ff95884f8d366d85b744823, type: 3}
+  - {fileID: 8300000, guid: a638aaeda2a7b7d4eb2a59bc5da743b1, type: 3}

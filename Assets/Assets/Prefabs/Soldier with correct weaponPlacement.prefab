@@ -2498,6 +2498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootScript: {fileID: 5825206966136599359}
+  shootEffects: {fileID: 6105615692381767275}
 --- !u!114 &5825206966136599359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3545,6 +3546,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6690091150116874993, guid: f42c2d851beeb1c419d58b3e2b34aae4, type: 3}
+      propertyPath: soundEffectShot
+      value: 
+      objectReference: {fileID: 8300000, guid: f46fb19686986524eb32bd0d091db74d, type: 3}
+    - target: {fileID: 7219427402039299147, guid: f42c2d851beeb1c419d58b3e2b34aae4, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219427402039299147, guid: f42c2d851beeb1c419d58b3e2b34aae4, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: f46fb19686986524eb32bd0d091db74d, type: 3}
+    - target: {fileID: 7219427402039299147, guid: f42c2d851beeb1c419d58b3e2b34aae4, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f46fb19686986524eb32bd0d091db74d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -42,7 +42,7 @@ public class SoundEffectsPlayer : MonoBehaviour
     public void talking() 
     {
         CurrentSoundEffect.clip = playerVoicelines[Random.Range(0, playerVoicelines.Length)];
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 5);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 3);
     }
 
     public void isActivelyShooting() 

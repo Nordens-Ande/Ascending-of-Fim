@@ -31,7 +31,7 @@ public class SoundEffectsEnemy : MonoBehaviour
         
         voiceLine = Random.Range(0, 10000);
         
-        isActivelyShooting();
+        //isActivelyShooting();
         
         beginToTalk();
     }
@@ -39,6 +39,13 @@ public class SoundEffectsEnemy : MonoBehaviour
     {
         CurrentSoundEffect.clip = soundEffectShot;
         CurrentSoundEffect.Play();
+
+    }
+
+    public void PlayShootingSound() 
+    {
+        CurrentSoundEffect.clip = soundEffectShot;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 8f);
 
     }
     
