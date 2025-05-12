@@ -529,6 +529,7 @@ GameObject:
   - component: {fileID: 405174293}
   - component: {fileID: 405174297}
   - component: {fileID: 405174298}
+  - component: {fileID: 405174299}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -720,6 +721,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &405174299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405174292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 280e9d31ae33a1e488b3adb972bf3428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  main: Test day 1
+  elevator: Elevator
 --- !u!1001 &422274983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -809,6 +824,7 @@ MonoBehaviour:
   enemyManager: {fileID: 1446374432}
   navMeshBaker: {fileID: 906973924}
   roomManager: {fileID: 906973923}
+  sceneHandler: {fileID: 0}
 --- !u!4 &435173152
 Transform:
   m_ObjectHideFlags: 0
