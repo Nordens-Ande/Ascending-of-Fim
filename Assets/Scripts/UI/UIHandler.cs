@@ -27,6 +27,11 @@ public class UIHandler : MonoBehaviour
     void Start()
     {
         Time.timeScale = 0f;
+
+        //sound fix
+        ActivateSoundMenu();
+        ResetUI();
+        ActivateStartMenu();
     }
 
     public void ResetUI()

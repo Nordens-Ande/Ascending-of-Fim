@@ -15,11 +15,19 @@ public class soundSyncScript : MonoBehaviour
 
     [SerializeField] AudioMixer audioMixer;
 
-    void Start()
+    void Awake()
     {
-        main.SetValueWithoutNotify(75);
-        sfx.SetValueWithoutNotify(75);
-        music.SetValueWithoutNotify(75);
+        setMixerValues("MasterVolym", 30f);
+        setMixerValues("SoundEffectVolume", 100f);
+        setMixerValues("BackgroundVolume", 25f);
+        
+    }
+
+    private void Start()
+    {
+        main.SetValueWithoutNotify(30);
+        sfx.SetValueWithoutNotify(100);
+        music.SetValueWithoutNotify(25);
 
         UpdateSoundValues();
 
@@ -40,7 +48,7 @@ public class soundSyncScript : MonoBehaviour
         setMixerValues("BackgroundVolume", music.value);
         setMixerValues("SoundEffectVolume", sfx.value);
 
-        Debug.Log($"Master: {main.value}, SFX: {sfx.value}, Music: {music.value}");
+        //Debug.Log($"Master: {main.value}, SFX: {sfx.value}, Music: {music.value}");
 
     }
 
@@ -53,7 +61,7 @@ public class soundSyncScript : MonoBehaviour
         }
         else
         {
-            audioMixer.SetFloat(channelName, Mathf.Log10(value / 100f) * 20f);
+            audioMixer.SetFloat(channelName, Mathf.Log10(value / 100f) * 30f);
         }
     }
 
