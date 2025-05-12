@@ -7,6 +7,9 @@ public class EnemyShoot : MonoBehaviour
 {
     [SerializeField] Shoot shootScript;
     GameObject player;
+    
+    [SerializeField] SoundEffectsEnemy shootEffects;
+
 
     WeaponData weaponData;//retrieve from enemyWeaponInventory script
     WeaponScript weaponScript;//retrieve from enemyWeaponInventory script
@@ -53,6 +56,7 @@ public class EnemyShoot : MonoBehaviour
         {
             hits = shootScript.ShootRay(1);
         }
+        shootEffects.PlayShootingSound();
         CheckRay(hits);
         StartCoroutine(ResetIsReadyToFire());
     }

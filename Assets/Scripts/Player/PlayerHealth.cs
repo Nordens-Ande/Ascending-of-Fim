@@ -16,6 +16,7 @@ public class PlayerHealth : MonoBehaviour
         hudHandler.setHealth(health);
     }
 
+
     public void ApplyDamage(int damage)
     {
         health -= damage/4;
@@ -46,7 +47,28 @@ public class PlayerHealth : MonoBehaviour
             health += addHealth;
             hudHandler.addHealth(addHealth);
         }
-      
+    }
 
+
+
+    public void SetHealth(int newHealth)
+    {
+        health = newHealth;
+        playerDeathController.PlayerRevive();
+
+        if (hudHandler != null)
+        {
+            hudHandler.setHealth((int)newHealth);
+        }
+    }
+
+    public void resetHealth()
+    {
+        health = maxHealth;
+        playerDeathController.PlayerRevive();
+        if (hudHandler != null)
+        {
+            hudHandler.setHealth((int)maxHealth);
+        }
     }
 }

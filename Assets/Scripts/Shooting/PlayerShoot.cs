@@ -8,7 +8,10 @@ public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] Shoot shootScript;
     [SerializeField] EquipWeapon equipWeapon;
+
     [SerializeField] HUDHandler hudHandler;
+    private bool reloadMessageShown = false;
+    [SerializeField]SoundEffectsPlayer SEP;
 
     WeaponData weaponData;
     WeaponScript weaponScript;
@@ -73,6 +76,7 @@ public class PlayerShoot : MonoBehaviour
         weaponScript.ReloadBullets();
         isReloading = false;
         isReadyToShoot = true;
+        reloadMessageShown = false;
     }
 
     void Shoot()
@@ -88,7 +92,10 @@ public class PlayerShoot : MonoBehaviour
         else
         {
             hits = shootScript.ShootRay(1);
+
+
         }
+        SEP.shooting();
 
         if (hudHandler != null)
         {
@@ -152,10 +159,18 @@ public class PlayerShoot : MonoBehaviour
         if (isShooting && isReadyToShoot && !isReloading && weaponScript.bulletsLeft > 0)
         {
             Shoot();
-            if(!weaponData.allowButtonHold)
+            
+            if (!weaponData.allowButtonHold)
             {
                 isShooting = false;
+                //SEP.getShooting();
             }
+        }
+
+        if (weaponScript.bulletsLeft == 0 && !reloadMessageShown)
+        {
+            reloadMessageShown = true;
+            hudHandler.setAnnounchment("Reload with R", 3);
         }
     }
 }

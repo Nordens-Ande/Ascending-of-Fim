@@ -24,7 +24,7 @@ public class EnemyVoicelines : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RandomTime = Random.Range(0, 10000);
+        RandomTime = Random.Range(0, 15000);
         EnemyIdleVoice();
         EnemySearchVoice();
         EnemyAttackVoice();
@@ -51,24 +51,34 @@ public class EnemyVoicelines : MonoBehaviour
     {
         if (which == 1) //Idle voicelines
         {
-            SetIdleEnemyVoiceline(true);
-            SetAttackEnemyVoiceline(false);
-            SetSearchEnemyVoiceline(false);
+            //SetIdleEnemyVoiceline(true);
+            //SetAttackEnemyVoiceline(false);
+            //SetSearchEnemyVoiceline(false);
+
+            isEnemyIdle = true;
+            isEnemySearching = false;
+            isEnemyAttacking = false;
 
         }
         else if (which == 2) //searchvoicelines
         { 
-            SetIdleEnemyVoiceline(false);
-            SetAttackEnemyVoiceline(false);
-            SetSearchEnemyVoiceline(true);
-        
+            //SetIdleEnemyVoiceline(false);
+            //SetAttackEnemyVoiceline(false);
+            //SetSearchEnemyVoiceline(true);
+            isEnemyIdle = false;
+            isEnemySearching = true;
+            isEnemyAttacking = false;
+
         }
         else if(which == 3) //Attck voicelines
-        { 
-            SetIdleEnemyVoiceline(false);
-            SetAttackEnemyVoiceline(true);
-            SetSearchEnemyVoiceline(false);
-        
+        {
+            //SetIdleEnemyVoiceline(false);
+            //SetAttackEnemyVoiceline(true);
+            //SetSearchEnemyVoiceline(false);
+            isEnemyIdle = false;
+            isEnemySearching = false;
+            isEnemyAttacking = true;
+
         }
     
     }
@@ -110,19 +120,19 @@ public class EnemyVoicelines : MonoBehaviour
     void PlayIdleVoiceline() 
     { 
         currentSoundEffect.clip = EnemyIdleVoicelines[Random.Range(0, EnemyIdleVoicelines.Length)];
-        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 5);
+        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 2);
     
     }
     void PlaySearchVoiceline()
     {
         currentSoundEffect.clip = EnemySearchVoicelines[Random.Range(0, EnemySearchVoicelines.Length)];
-        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 5);
+        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 2);
 
     }
     void PlayAttackVoiceline()
     {
         currentSoundEffect.clip = EnemyAttackVoicelines[Random.Range(0, EnemyAttackVoicelines.Length)];
-        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 5);
+        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 2);
 
     }
 

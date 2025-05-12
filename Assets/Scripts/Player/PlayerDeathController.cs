@@ -20,4 +20,13 @@ public class PlayerDeathController : MonoBehaviour
         playerLook.enabled = false;
         ragDollController.BecomeRagDoll();
     }
+
+    public void PlayerRevive()
+    {
+        if(!isPlayerDead) return;
+        isPlayerDead=false;
+        playerMove.enabled = true;
+        playerLook.enabled = true;
+        ragDollController.NoLongerRagDoll();
+    }
 }
