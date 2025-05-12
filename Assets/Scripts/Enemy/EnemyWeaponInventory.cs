@@ -240,9 +240,15 @@ public class EnemyWeaponInventory : MonoBehaviour
                 shield.transform.parent = null;
                 shieldScript.Unequip(true);
                 shieldScript.SetOwner(null);
+                Destroy(shield);
                 hasShield = false;
                 shield = null;
                 shieldScript = null;
+                if(weaponScript != null)
+                {
+                    SetHandPos(weaponScript);
+                    WeaponPosition = pistolPos;
+                }
             }
         }
     }

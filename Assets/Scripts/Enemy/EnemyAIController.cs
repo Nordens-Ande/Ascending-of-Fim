@@ -193,7 +193,7 @@ public class EnemyAIController : MonoBehaviour
             UpdateEnemyBehaviour();
             forceUpdateBehaviour = false;
         }
-        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("ShieldIgnore"));
+        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("Shield") | LayerMask.GetMask("ShieldIgnore"));
 
         lineOfSight = CheckForLineOfSight();
         float angle = CalculateRotationToPlayer();

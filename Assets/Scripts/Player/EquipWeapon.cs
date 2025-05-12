@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -20,12 +21,18 @@ public class EquipWeapon : MonoBehaviour
     public GameObject currentWeaponObject;
     private WeaponScript currentWeapon;
 
+    GameObject shield;
+    ShieldScript shieldScript;
+
     [Header("AnimationPos")]
     [SerializeField] private float AnimationSpeed;
     [SerializeField] private Transform raygunPos;
+    [SerializeField] private Transform raygunPosShield;
     [SerializeField] private Transform pistolPos;
+    [SerializeField] private Transform pistolPosShield;
     [SerializeField] private Transform riflePos;
     [SerializeField] private Transform shotgunPos;
+    [SerializeField] private Transform shieldPos;
     Transform WeaponPosition;
 
     private bool isShooting;
@@ -42,11 +49,13 @@ public class EquipWeapon : MonoBehaviour
     [SerializeField] private Transform IKLeftHandPos; //Referens till v�nster handens position, gjort f�r att kunna s�tta vapnet i v�nster hand
 
     public bool IsEquipped;
+    bool hasShield;
 
     void Start()
     {
         IsEquipped = false;
-        //weaponMask = LayerMask.NameToLayer("Weapon") | LayerMask.NameToLayer("Shield");
+        hasShield = false;
+        //weaponMask = (LayerMask.GetMask("Weapon") | LayerMask.GetMask("ShieldIgnore"));
     }
 
     private void Update()
@@ -59,42 +68,53 @@ public class EquipWeapon : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             UnEquip();
-        } 
+        }
 
-        if (currentWeapon != null)
+        if (hasShield)
         {
-            //FUnkar ej med denna
-            //if (!isShooting)
-            //{
-            //    //currentWeapon.transform.parent = equipPos.transform;
-            //    //currentWeapon.transform.position = equipPos.position;
-            //    //currentWeapon.transform.rotation = equipPos.rotation;
-
-            //    currentWeapon.transform.parent = equipPos.transform; //h�r
-            //    currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, equipPos.position, Time.deltaTime * AnimationSpeed);
-            //    currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, equipPos.rotation, Time.deltaTime * AnimationSpeed);
-
-            //    leftHandIK.weight = 0f;
-            //}
-            if(IsEquipped)
+            if(shield != null)
             {
-                //currentWeapon.transform.parent = shootingPos.transform;
-                //currentWeapon.transform.position = shootingPos.position; //h�r
-                //currentWeapon.transform.rotation = shootingPos.rotation;
-                
+                shield.transform.parent = shieldPos.transform;
+                shield.transform.position = Vector3.Lerp(shield.transform.position, shieldPos.position, Time.deltaTime * AnimationSpeed);
+                shield.transform.rotation = Quaternion.Lerp(shield.transform.rotation, shieldPos.rotation, Time.deltaTime * AnimationSpeed);
+            }
+
+            if (shieldScript.GetHealth() <= 0)
+            {
+                shield.transform.parent = null;
+                shieldScript.Unequip(true);
+                shieldScript.SetOwner(null);
+                Destroy(shield);
+                hasShield = false;
+                shield = null;
+                shieldScript = null;
+                if (currentWeapon != null)
+                {
+                    SetHandPos(currentWeapon);
+                    SetWeaponPos();
+                }
+            }
+        }
+
+        if (IsEquipped)
+        {
+            if(currentWeapon != null)
+            {
                 currentWeapon.transform.parent = WeaponPosition.transform; //h�r
                 currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, WeaponPosition.position, Time.deltaTime * AnimationSpeed); //test
-                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, WeaponPosition.rotation, Time.deltaTime * AnimationSpeed); 
-
-                
-                leftHandIK.weight = 1f;
-                leftHandTarget.position = IKLeftHandPos.position;
-                leftHandTarget.rotation = IKLeftHandPos.rotation;
-
-                rightHandIK.weight = 1f;
-                rightHandTarget.position = IKRightHandPos.position; //h�r
-                rightHandTarget.rotation = IKRightHandPos.rotation;
+                currentWeapon.transform.rotation = Quaternion.Lerp(currentWeapon.transform.rotation, WeaponPosition.rotation, Time.deltaTime * AnimationSpeed);
             }
+        }
+
+        if(IsEquipped || hasShield)
+        {
+            leftHandIK.weight = 1f;
+            leftHandTarget.position = IKLeftHandPos.position;
+            leftHandTarget.rotation = IKLeftHandPos.rotation;
+
+            rightHandIK.weight = 1f;
+            rightHandTarget.position = IKRightHandPos.position; //h�r
+            rightHandTarget.rotation = IKRightHandPos.rotation;
         }
     }
 
@@ -125,6 +145,19 @@ public class EquipWeapon : MonoBehaviour
         IKLeftHandPos = weapon.LeftHand;
         IKRightHandPos = weapon.RightHand;
     }
+    void SetHandPos(WeaponScript weapon, ShieldScript shield) // with shield
+    {
+        if(weapon != null && shield != null)
+        {
+            IKRightHandPos = weapon.RightHand;
+            IKLeftHandPos = shield.HandPos;
+        }
+        else if(weapon == null)
+        {
+            IKRightHandPos = shield.HandPos;
+            IKLeftHandPos = shield.HandPos;
+        }
+    }
 
     private void Equip()
     {
@@ -132,53 +165,124 @@ public class EquipWeapon : MonoBehaviour
 
         if (topRayHitInfo.collider != null)
         {
-            if (topRayHitInfo.collider != null)
+            string[] acceptableWeapons; // what weapons can be picked up, based on if the player has shield or not
+            if (hasShield)
             {
-                if(IsEquipped)
+                acceptableWeapons = new string[] { "RayGun", "Pistol" };
+            }
+            else
+            {
+                acceptableWeapons = new string[] { "RayGun", "Pistol", "Rifle", "Shotgun" };
+            }
+
+            if (topRayHitInfo.collider.CompareTag("Weapon"))
+            {
+                if(acceptableWeapons.Contains(topRayHitInfo.collider.GetComponent<WeaponScript>().GetWeaponData().weaponName))
                 {
-                    UnEquip();
-                }
-                currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
-                currentWeaponObject = topRayHitInfo.collider.gameObject;
+                    if (IsEquipped)
+                    {
+                        UnEquip();
+                    }
+                    currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
+                    currentWeaponObject = topRayHitInfo.collider.gameObject;
+                    currentWeapon.Equip();
+                    IsEquipped = true;
+                } 
             }
-
-            if (currentWeapon == null) 
+            else if(topRayHitInfo.collider.CompareTag("Shield"))
             {
-                Debug.Log("currentWeapon null after equip for player");
-                return;
+                if(IsEquipped && currentWeapon != null)
+                {
+                    if(currentWeapon.GetWeaponData().weaponName == "Pistol" || currentWeapon.GetWeaponData().weaponName == "RayGun") // make sure we can only pick up shield if we have pistol or raygun
+                    {
+                        EquipShield(topRayHitInfo.collider.gameObject);
+                    }
+                }
+                else if(IsEquipped == false) // if we dont have weapon we can equip shield
+                {
+                    EquipShield(topRayHitInfo.collider.gameObject);
+                }
             }
 
-            SetHandPos(currentWeapon);
+            if(!hasShield)
+            {
+                SetHandPos(currentWeapon);
+            }
+            else
+            {
+                SetHandPos(currentWeapon, shieldScript);
+            }
             SetWeaponPos();
-            currentWeapon.Equip();
-            IsEquipped = true;
         }
+    }
+
+    void EquipShield(GameObject gameObject)
+    {
+        shield = gameObject;
+        shieldScript = shield.GetComponent<ShieldScript>();
+        shieldScript.SetOwner(this.gameObject);
+        shieldScript.Equip();
+        hasShield = true;
     }
 
     void SetWeaponPos()
     {
-        string weaponName = currentWeapon.GetWeaponData().weaponName.ToLower();
-        if (weaponName == "raygun")
+        if(currentWeapon != null)
         {
-            WeaponPosition = raygunPos;
-        }
-        else if (weaponName == "pistol")
-        {
-            WeaponPosition = pistolPos;
-        }
-        else if (weaponName == "rifle")
-        {
-            WeaponPosition = riflePos;
-        }
-        else if (weaponName == "shotgun")
-        {
-            WeaponPosition = shotgunPos;
+            string weaponName = currentWeapon.GetWeaponData().weaponName.ToLower();
+            if (hasShield)
+            {
+                if (weaponName == "raygun")
+                {
+                    WeaponPosition = raygunPosShield;
+                }
+                else if (weaponName == "pistol")
+                {
+                    WeaponPosition = pistolPosShield;
+                }
+            }
+            else
+            {
+                if (weaponName == "raygun")
+                {
+                    WeaponPosition = raygunPos;
+                }
+                else if (weaponName == "pistol")
+                {
+                    WeaponPosition = pistolPos;
+                }
+                else if (weaponName == "rifle")
+                {
+                    WeaponPosition = riflePos;
+                }
+                else if (weaponName == "shotgun")
+                {
+                    WeaponPosition = shotgunPos;
+                }
+            }
         }
     }
 
     public void UnEquip() 
     {
-        if (IsEquipped)
+        if(hasShield)
+        {
+            if (shield != null)
+            {
+                shield.transform.parent = null;
+                shieldScript.Unequip(false);
+                shieldScript.SetOwner(null);
+                hasShield = false;
+                shield = null;
+                shieldScript = null;
+                if(currentWeapon != null)
+                {
+                    SetHandPos(currentWeapon);
+                    SetWeaponPos();
+                }
+            }
+        }
+        else if (IsEquipped)
         {
             rightHandIK.weight = 0.0f;
 
@@ -195,6 +299,12 @@ public class EquipWeapon : MonoBehaviour
 
             currentWeapon = null;
             currentWeaponObject = null;
+        }
+
+        if (!IsEquipped && !hasShield)
+        {
+            rightHandIK.weight = 0.0f;
+            leftHandIK.weight = 0.0f;
         }
     }
 }
