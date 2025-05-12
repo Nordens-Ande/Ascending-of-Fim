@@ -123,6 +123,11 @@ public class PlayerShoot : MonoBehaviour
             {
                 hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
             }
+            else if(hit.transform.CompareTag("Shield"))
+            {
+                hit.transform.gameObject.GetComponent<ShieldScript>().DecreaseHealth(weaponData.damage);
+                Debug.Log("player hit enemy shield");
+            }
 
             //
             ExplodingBarrel barrel = hit.transform.GetComponent<ExplodingBarrel>();

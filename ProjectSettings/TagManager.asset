@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - EnemySpawn
   - PlayerHitbox
+  - FxTemporaire
+  - Shield
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -21,8 +24,8 @@ TagManager:
   - PlayerLimbs
   - Player
   - EnemyIgnore
-  - 
-  - 
+  - Shield
+  - ShieldIgnore
   - 
   - 
   - 
