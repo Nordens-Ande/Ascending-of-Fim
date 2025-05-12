@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] EnemyManager enemyManager;
     [SerializeField] NavMeshBaker navMeshBaker;
     [SerializeField] RoomManager roomManager;
+    [SerializeField] SceneHandler sceneHandler;
 
     private HUDHandler hudHandler;
     private PlayerHealth playerHealth;
@@ -30,10 +31,12 @@ public class GameManager : MonoBehaviour
     public void PlayerFoundKeycard() // call from player interact script
     {
         hasKeycard = true;
+        hudHandler?.hasKeycard(); //calls only if hudhandler is not null
     }
 
     public void LoadLevel() // load a new level
     {
+        hudHandler?.DontHaveKeycard();
         level += 1;
         //byt scene till playing
         //generate apartment
@@ -45,11 +48,15 @@ public class GameManager : MonoBehaviour
     {
         roomManager.reroll = true;
         playerHealth.resetHealth();
+        hudHandler?.DontHaveKeycard();
+
+
+        //sceneHandler?.LoadElevatorScene(); //något funkar inte här, vet inte varför
     }
 
     public void StartLevel() // start enemy spawning, playing input etc, maybe reload weapon
     {
-       
+        hudHandler?.DontHaveKeycard();
     }
 
     public void FinishedLevel() // enters elevator
