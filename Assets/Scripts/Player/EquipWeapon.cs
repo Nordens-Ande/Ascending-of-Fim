@@ -55,7 +55,6 @@ public class EquipWeapon : MonoBehaviour
     {
         IsEquipped = false;
         hasShield = false;
-        //weaponMask = (LayerMask.GetMask("Weapon") | LayerMask.GetMask("ShieldIgnore"));
     }
 
     private void Update()

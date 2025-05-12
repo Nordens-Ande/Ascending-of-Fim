@@ -59,7 +59,7 @@ public class ShieldScript : MonoBehaviour
         if (enemyDropped)
         {
             int value = Random.Range(1, 101);
-            if (value > 100)
+            if (value > 75)
             {
                 Destroy(gameObject);
             }
