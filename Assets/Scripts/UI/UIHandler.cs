@@ -26,6 +26,13 @@ public class UIHandler : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
+
+        //sound fix
+        ActivateSoundMenu();
+        ResetUI();
+        ActivateStartMenu();
+
         Time.timeScale = 0f;
     }
 
@@ -72,7 +79,7 @@ public class UIHandler : MonoBehaviour
 
     public void ActivateStartMenu()
     {
-        Time.timeScale = 1.0f;
+        //Time.timeScale = 1.0f;
         StartMenu.SetActive(true);
     }
 

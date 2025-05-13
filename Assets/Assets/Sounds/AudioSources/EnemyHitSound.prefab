@@ -143,4 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHitAudiosource: {fileID: 3324188447674230128}
-  enemyHitAudioclip: {fileID: 8300000, guid: eb97c3884ae1d2849b9efaeeb0c7263c, type: 3}
+  enemyHitAudioclip:
+  - {fileID: 8300000, guid: b905b971ec022c3419d0311fb65653d6, type: 3}
+  - {fileID: 8300000, guid: 3db0ed5c3c2cd114dbcfd87577b96aae, type: 3}
+  - {fileID: 8300000, guid: 91efbbc5ab943dd459503d95efde45d8, type: 3}
+  - {fileID: 8300000, guid: 7a1d2c87599f7d7429e371ea42aee7ba, type: 3}

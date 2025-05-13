@@ -16,13 +16,16 @@ public class DisplayHighscore : MonoBehaviour
 
     public void DisplayHighScores()
     {
-        List<int> scores = highscoreHandler.GetHighScores();
-
-        highScoreText.text = "Highscores:\n";
-
-        for (int i = 0; i < scores.Count; i++)
+        if (highscoreHandler != null)
         {
-            highScoreText.text += $"{i + 1}. {scores[i]}\n";
+            List<int> scores = highscoreHandler.GetHighScores();
+
+            highScoreText.text = "Highscores:\n";
+
+            for (int i = 0; i < scores.Count; i++)
+            {
+                highScoreText.text += $"{i + 1}. {scores[i]}\n";
+            }
         }
     }
 }

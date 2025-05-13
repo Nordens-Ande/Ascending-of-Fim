@@ -36,7 +36,7 @@ public struct RoomSettings
 
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] bool reroll = false;
+    [SerializeField] public bool reroll = false;
 
     [SerializeField] GameObject player;
     //[SerializeField] bool debug = false;
@@ -893,18 +893,17 @@ public class RoomManager : MonoBehaviour
         return Vector2Int.zero;
     }
 
-
-    void Update()
+    private void FixedUpdate()
     {
         if (reroll)
         {
             reroll = false;
 
-            foreach(GameObject room in roomObjects)
+            foreach (GameObject room in roomObjects)
                 Destroy(room);
             Destroy(thickWalls);
             Destroy(exteriorWalls);
-            
+
             if (debugger)
                 debugger.ClearTiles();
 
@@ -912,5 +911,25 @@ public class RoomManager : MonoBehaviour
 
             Start();
         }
+    }
+    void Update()
+    {
+        //Måste placeras i FixedUpdate för att lösa spelarens respawn (där dess fysik-uppdateringar förstör annars)
+        //if (reroll)
+        //{
+        //    reroll = false;
+
+        //    foreach(GameObject room in roomObjects)
+        //        Destroy(room);
+        //    Destroy(thickWalls);
+        //    Destroy(exteriorWalls);
+            
+        //    if (debugger)
+        //        debugger.ClearTiles();
+
+        //    Awake();
+
+        //    Start();
+        //}
     }
 }

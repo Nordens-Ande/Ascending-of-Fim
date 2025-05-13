@@ -24,7 +24,7 @@ public class EnemyVoicelines : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RandomTime = Random.Range(0, 10000);
+        RandomTime = Random.Range(0, 15000);
         EnemyIdleVoice();
         EnemySearchVoice();
         EnemyAttackVoice();
@@ -120,19 +120,19 @@ public class EnemyVoicelines : MonoBehaviour
     void PlayIdleVoiceline() 
     { 
         currentSoundEffect.clip = EnemyIdleVoicelines[Random.Range(0, EnemyIdleVoicelines.Length)];
-        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 5);
+        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 2);
     
     }
     void PlaySearchVoiceline()
     {
         currentSoundEffect.clip = EnemySearchVoicelines[Random.Range(0, EnemySearchVoicelines.Length)];
-        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 5);
+        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 2);
 
     }
     void PlayAttackVoiceline()
     {
         currentSoundEffect.clip = EnemyAttackVoicelines[Random.Range(0, EnemyAttackVoicelines.Length)];
-        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 5);
+        currentSoundEffect.PlayOneShot(currentSoundEffect.clip, 2);
 
     }
 

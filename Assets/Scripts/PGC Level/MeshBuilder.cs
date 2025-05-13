@@ -178,6 +178,7 @@ public static class MeshBuilder
         thickWallTile.transform.position = new Vector3(pos.x + 1 / 2f, height - 0.1f / 2f, pos.y + 1 / 2f);
         thickWallTile.transform.localScale = new Vector3(1, 0.1f, 1);
         thickWallTile.GetComponent<Renderer>().material = mat;
+        thickWallTile.layer = 3;
     }
 
     private static void CreateWall(Transform parent, Vector3 pos, Vector3 scale, Material mat)
