@@ -18,7 +18,8 @@ public class FurnitureJumpscare : MonoBehaviour
 
     [Header("Objects")]
     [SerializeField] private EnemyAIController enemyToSpawn;
-    [SerializeField] private List<Transform> spawnPositions = new List<Transform>();
+    //[SerializeField] private List<Transform> spawnPositions = new List<Transform>();
+    [SerializeField] private List<GameObject> objectsToSpawn = new List<GameObject>();
     [SerializeField] private List<GameObject> objectsToDelete = new List<GameObject>();
 
     private BoxCollider hitboxCollider;
@@ -39,6 +40,10 @@ public class FurnitureJumpscare : MonoBehaviour
     {
         CreateCollider();
         furniture = gameObject.GetComponent<Furniture>();
+        foreach (GameObject gameObject in objectsToSpawn) //Extra check to insure that no enemies were accidently left active
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void UpdateCollider(Vector3 position, Vector3 size, bool isCentered = false)
@@ -58,14 +63,9 @@ public class FurnitureJumpscare : MonoBehaviour
             return;
 
         activated = true;
-        foreach (Transform trans in spawnPositions)
+        foreach (GameObject gameObject in objectsToSpawn)
         {
-            GameObject newEnemy = Instantiate(enemyToSpawn.gameObject);
-
-            Debug.Log("Attempted spawn position for jumpscare: " + trans.position);
-            newEnemy.transform.position = trans.position;
-            newEnemy.transform.rotation = trans.rotation;
-            Debug.Log("Resulted spawn position for jumpscare: " + newEnemy.transform.position);
+            gameObject.SetActive(true);
         }
         foreach (GameObject gameObject in objectsToDelete)
         {
@@ -86,7 +86,6 @@ public class FurnitureJumpscare : MonoBehaviour
         }
     }
 
-    //DistanceCheck måste ske här/alternativt att ha en bool som låser upp en loop i update.
     private void OnTriggerStay(Collider other)
     {
         if (activationType != ActivationType.Distance)

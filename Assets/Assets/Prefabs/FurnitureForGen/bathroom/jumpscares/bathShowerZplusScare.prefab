@@ -66,6 +66,7 @@ Transform:
   - {fileID: 8140643352256100986}
   - {fileID: 2241440151580348700}
   - {fileID: 9104773853235968766}
+  - {fileID: 6511032173336586312}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7932850577633068403
@@ -105,8 +106,8 @@ MonoBehaviour:
   activationType: 0
   distanceToActivate: 0
   enemyToSpawn: {fileID: 2813333774874271191, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
-  spawnPositions:
-  - {fileID: 9104773853235968766}
+  objectsToSpawn:
+  - {fileID: 4156482956192796955}
   objectsToDelete:
   - {fileID: 5646272770253415451}
   - {fileID: 9066805795578565012}
@@ -1057,6 +1058,77 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4042427859692680568, guid: 51b1d0cb5883bb94ea37722f32707bd6, type: 3}
   m_PrefabInstance: {fileID: 4799428705630247242}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7365671887679228971
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1624709713478729187}
+    m_Modifications:
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.609
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.971
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887926552016051504, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_Name
+      value: Soldier with correct weaponPlacement
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887926552016051504, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+--- !u!1 &4156482956192796955 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6887926552016051504, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+  m_PrefabInstance: {fileID: 7365671887679228971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6511032173336586312 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4351544648027497571, guid: e12eb46eaed079044a71480ffec3165b, type: 3}
+  m_PrefabInstance: {fileID: 7365671887679228971}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9114806190144001531
 PrefabInstance:
