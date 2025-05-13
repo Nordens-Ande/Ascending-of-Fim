@@ -909,6 +909,7 @@ public class RoomManager : MonoBehaviour
     }
     void Update()
     {
+        //Måste placeras i FixedUpdate för att lösa spelarens respawn (där dess fysik-uppdateringar förstör annars)
         //if (reroll)
         //{
         //    reroll = false;
