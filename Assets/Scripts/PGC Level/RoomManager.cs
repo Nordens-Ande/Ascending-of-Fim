@@ -888,18 +888,17 @@ public class RoomManager : MonoBehaviour
         return Vector2Int.zero;
     }
 
-
-    void Update()
+    private void FixedUpdate()
     {
         if (reroll)
         {
             reroll = false;
 
-            foreach(GameObject room in roomObjects)
+            foreach (GameObject room in roomObjects)
                 Destroy(room);
             Destroy(thickWalls);
             Destroy(exteriorWalls);
-            
+
             if (debugger)
                 debugger.ClearTiles();
 
@@ -907,5 +906,24 @@ public class RoomManager : MonoBehaviour
 
             Start();
         }
+    }
+    void Update()
+    {
+        //if (reroll)
+        //{
+        //    reroll = false;
+
+        //    foreach(GameObject room in roomObjects)
+        //        Destroy(room);
+        //    Destroy(thickWalls);
+        //    Destroy(exteriorWalls);
+            
+        //    if (debugger)
+        //        debugger.ClearTiles();
+
+        //    Awake();
+
+        //    Start();
+        //}
     }
 }
