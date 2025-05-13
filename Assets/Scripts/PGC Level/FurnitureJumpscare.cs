@@ -114,14 +114,8 @@ public class FurnitureJumpscare : MonoBehaviour
         if (other.CompareTag("PlayerHitbox"))
         {
             Debug.Log("Player exited jumpscare hitbox");
-            
+
             ActivateJumpscare();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

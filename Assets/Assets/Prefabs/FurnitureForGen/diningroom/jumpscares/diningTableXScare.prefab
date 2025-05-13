@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 3656604237061380370}
   - component: {fileID: 3206480234641005828}
   m_Layer: 0
-  m_Name: diningTableX
+  m_Name: diningTableXScare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
