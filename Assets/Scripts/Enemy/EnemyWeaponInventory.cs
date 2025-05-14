@@ -130,6 +130,7 @@ public class EnemyWeaponInventory : MonoBehaviour
         }
 
         weapon = Instantiate(prefab, WeaponPosition.position, WeaponPosition.rotation, WeaponPosition);
+        weapon.GetComponent<WeaponScript>().Initialized();
     }
 
     void SetHandPos(WeaponScript weapon) // without shield

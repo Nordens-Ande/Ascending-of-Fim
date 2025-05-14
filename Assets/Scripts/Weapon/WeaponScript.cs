@@ -10,6 +10,8 @@ public interface IWeapon
 
 public class WeaponScript : MonoBehaviour, IWeapon
 {
+    bool initialized = false;
+
     [SerializeField] WeaponData WeaponData;
     [SerializeField] private float WeaponRotationSpeed;
 
@@ -29,6 +31,8 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     public void Start()
     {
+        if(initialized) return;
+
         bulletsLeft = WeaponData.ammoCapacity;
         weaponBody = GetComponent<Rigidbody>();
         IsRotating = true;
@@ -37,6 +41,22 @@ public class WeaponScript : MonoBehaviour, IWeapon
         {
             weaponBody.isKinematic = false;
         }
+        initialized = true;
+    }
+
+    public void Initialized() // use instead of start
+    {
+        if(initialized) return;
+        
+        bulletsLeft = WeaponData.ammoCapacity;
+        weaponBody = GetComponent<Rigidbody>();
+        IsRotating = true;
+
+        if (weaponBody)
+        {
+            weaponBody.isKinematic = false;
+        }
+        initialized = true;
     }
 
     public void DecreaseBullets(int amount)
@@ -79,6 +99,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
         {
             GetComponent<Collider>().enabled = false;
         }
+        CheckIfWeaponBodyNull();
         weaponBody.constraints = RigidbodyConstraints.None;
         weaponBody.isKinematic = true;
         IsRotating = false;
