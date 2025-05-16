@@ -20,7 +20,7 @@ public class PlayerHitSound : MonoBehaviour
     public void PlayerHitSoundActivate() 
     { 
         playerHitaudioSource.clip = playerHurtSoundEffect[Random.Range(0, playerHurtSoundEffect.Length)];
-        playerHitaudioSource.PlayOneShot(playerHitaudioSource.clip, 1);
+        playerHitaudioSource.PlayOneShot(playerHitaudioSource.clip, 3);
         
     }
 

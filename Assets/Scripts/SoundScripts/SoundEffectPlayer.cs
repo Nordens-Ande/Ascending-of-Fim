@@ -29,7 +29,7 @@ public class SoundEffectsPlayer : MonoBehaviour
     {
         
         CurrentSoundEffect.clip = soundEffectShot;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 5f);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 15f);
         
 
     }

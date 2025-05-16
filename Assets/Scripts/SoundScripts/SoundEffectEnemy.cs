@@ -33,7 +33,7 @@ public class SoundEffectsEnemy : MonoBehaviour
         
         //isActivelyShooting();
         
-        beginToTalk();
+        //beginToTalk();
     }
     public void shooting()
     {
@@ -45,7 +45,7 @@ public class SoundEffectsEnemy : MonoBehaviour
     public void PlayShootingSound() 
     {
         CurrentSoundEffect.clip = soundEffectShot;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 8f);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 15f);
 
     }
     

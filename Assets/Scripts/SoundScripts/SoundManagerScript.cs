@@ -6,7 +6,7 @@ public class SoundManagerScript : MonoBehaviour
     AudioSource elevatorMusic;
     bool isPaused;
     bool isPlaying;
-    private HUDHandler hudHandler;
+    [SerializeField] HUDHandler hudHandler;
 
     void Start()
     {

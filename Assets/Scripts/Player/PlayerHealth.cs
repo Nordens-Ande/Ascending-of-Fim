@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     int maxHealth = 100;
     [SerializeField] HUDHandler hudHandler;
     [SerializeField] PlayerDeathController playerDeathController;
+    [SerializeField] PlayerHitSound hitsound;
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         health -= damage/4;
+        hitsound.PlayerHitSoundActivate();
         
         //effects
         if (hudHandler != null)
