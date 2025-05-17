@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
     enum GameState { MainMenu, Playing, Elevator, GameOver}
     GameState gameState;
 
-    public int level { get; private set; }
-
     bool hasKeycard;
 
     void Start()
@@ -24,34 +22,37 @@ public class GameManager : MonoBehaviour
         playerHealth = FindFirstObjectByType<PlayerHealth>();
 
         gameState = GameState.MainMenu;
-        level = 0;
         hasKeycard = false;
     }
 
     public void PlayerFoundKeycard() // call from player interact script
     {
         hasKeycard = true;
-        hudHandler?.hasKeycard(); //calls only if hudhandler is not null
+        hudHandler?.hasKeycard();
     }
 
-    public void LoadLevel() // load a new level
+    public void LoadLevel() //KOPPLAD!
     {
         hudHandler?.DontHaveKeycard();
-        level += 1;
-        //byt scene till playing
-        //generate apartment
+        PlayerStats.currentLevel += 1;
+        
+        roomManager.reroll = true; // reroll the apartment
+        roomManager.floorLevel += 1; // increase the floor level
+
         navMeshBaker.StartCoroutine(navMeshBaker.BakeNavMesh());
-        //reset player position
+        
     }
 
-    public void RestartGame()
+    public void RestartGame()//KOPPLAD!
     {
-        roomManager.reroll = true;
-        playerHealth.resetHealth();
-        hudHandler?.DontHaveKeycard();
+        PlayerStats.playerHasDied = false;
+        //roomManager.reroll = true;
+        //PlayerStats.resetValues();
+        //playerHealth.resetHealth();
+        //hudHandler?.DontHaveKeycard();
 
 
-        //sceneHandler?.LoadElevatorScene(); //något funkar inte här, vet inte varför
+        
     }
 
     public void StartLevel() // start enemy spawning, playing input etc, maybe reload weapon

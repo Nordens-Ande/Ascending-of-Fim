@@ -4,22 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneHandler : MonoBehaviour
 {
-    [SerializeField] private string main;
-    [SerializeField] private string elevator;
-
-
-    //public void LoadSceneByName(string sceneName)
-    //{
-    //    if (Application.CanStreamedLevelBeLoaded(sceneName))
-    //    {
-    //        SceneManager.LoadScene(sceneName);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogWarning($"Scene '{sceneName}' not found!");
-    //    }
-    //}
-
     public void LoadMainScene()
     {
         if (Application.CanStreamedLevelBeLoaded(0))
@@ -35,9 +19,9 @@ public class SceneHandler : MonoBehaviour
 
     public void LoadElevatorScene()
     {
-        if (Application.CanStreamedLevelBeLoaded(1))
+        if (Application.CanStreamedLevelBeLoaded("Elevator"))
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("Elevator");
         }
         else
         {

@@ -4,50 +4,49 @@ using FirstGearGames.SmoothCameraShaker;
 
 public class PlayerHealth : MonoBehaviour
 {
-    int health;
-    int maxHealth = 100;
     [SerializeField] HUDHandler hudHandler;
     [SerializeField] PlayerDeathController playerDeathController;
     [SerializeField] PlayerHitSound hitsound;
 
     void Start()
     {
-        health = maxHealth;
-        hudHandler.setMaxHealth(health);
-        hudHandler.setHealth(health);
+        hudHandler.setMaxHealth(PlayerStats.maxHp);
+        hudHandler.setHealth(PlayerStats.hp);
     }
 
 
     public void ApplyDamage(int damage)
     {
-        health -= damage/4;
+        PlayerStats.hp -= damage/4;
         hitsound.PlayerHitSoundActivate();
-        
+
         //effects
         if (hudHandler != null)
         {
-            hudHandler.setHealth(health);
+            hudHandler.setHealth(PlayerStats.hp);
             hudHandler.hitVisualUI(0.7f);
             hudHandler.FimShotShake();
         }
         
 
-        if(health < 0)
+        if(PlayerStats.hp < 0)
         {
             playerDeathController.PlayerDead();
+            hudHandler.GameOver();
         }
     }
 
     public void AddHealth(int addHealth)
     {
-        if(health + addHealth > maxHealth)
+        if(PlayerStats.hp + addHealth > PlayerStats.maxHp)
         {
             //nothing happens cause you can't have more than max hp
         }
         else
         {
-            health += addHealth;
+            PlayerStats.hp += addHealth;
             hudHandler.addHealth(addHealth);
+            
         }
     }
 
@@ -55,7 +54,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void SetHealth(int newHealth)
     {
-        health = newHealth;
+        PlayerStats.hp = newHealth;
         playerDeathController.PlayerRevive();
 
         if (hudHandler != null)
@@ -66,11 +65,12 @@ public class PlayerHealth : MonoBehaviour
 
     public void resetHealth()
     {
-        health = maxHealth;
+        PlayerStats.hp = PlayerStats.maxHp;
         playerDeathController.PlayerRevive();
+
         if (hudHandler != null)
         {
-            hudHandler.setHealth((int)maxHealth);
+            hudHandler.setHealth((int)PlayerStats.maxHp);
         }
     }
 }
