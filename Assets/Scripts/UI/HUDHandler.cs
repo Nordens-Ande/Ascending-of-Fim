@@ -1,5 +1,6 @@
 using UnityEngine;
 using FirstGearGames.SmoothCameraShaker;
+using Unity.VisualScripting;
 
 public class HUDHandler : MonoBehaviour
 {
@@ -225,5 +226,23 @@ public class HUDHandler : MonoBehaviour
     public bool isMenuActive()
     {
         return UIHandler.isMenuActive();
+        
+    }
+
+    //gameover call
+    public void GameOver()
+    {
+        UIHandler.ActivateGameOverMenu();
+    }
+
+    //player death
+    public void playerisDead()
+    {
+        PlayerStats.playerHasDied = true;
+    }
+
+    public void playerisAlive()
+    {
+        PlayerStats.playerHasDied = false; 
     }
 }

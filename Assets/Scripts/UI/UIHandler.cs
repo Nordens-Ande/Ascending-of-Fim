@@ -1,10 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 public class UIHandler : MonoBehaviour
 {
-
+    private GameManager gameManager;
 
     [SerializeField] GameObject MenuList;
     [SerializeField] GameObject UI;
@@ -21,11 +22,13 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject SoundMenu;
     [SerializeField] GameObject BackStoryMenu;
     [SerializeField] GameObject CreditsMenu;
-    
-   
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gameManager = FindFirstObjectByType<GameManager>();
+
         //sound fix
         ActivateSoundMenu();
         ResetUI();
@@ -36,6 +39,10 @@ public class UIHandler : MonoBehaviour
         if (PlayerStats.gameHasStarted)
         {
             StartGame();
+            if (PlayerStats.currentLevel <= 0)
+            {
+                gameManager.LoadLevel();
+            }
         }
     }
 
@@ -55,10 +62,30 @@ public class UIHandler : MonoBehaviour
         UI.SetActive(!isUIActive);
     }
 
+    public void TurnOnUI()
+    {
+        UI.SetActive(true);
+    }
+
+    public void TurnOffUI()
+    {
+        UI.SetActive(false);
+    }
+
     public void ToggleHUD()
     {
         bool isHUDActive = HUD.activeSelf;
         HUD.SetActive(!isHUDActive);
+    }
+
+    public void TurnOnHUD()
+    {
+        HUD.SetActive(true);
+    }
+
+    public void TurnOffHUD()
+    {
+        HUD.SetActive(false);
     }
 
     public void ToggleMenu()
@@ -78,7 +105,13 @@ public class UIHandler : MonoBehaviour
         //normal time
         Time.timeScale = 1.0f;
         PlayerStats.gameHasStarted = true;
-        ToggleUI();
+        TurnOffUI();
+        TurnOnHUD();
+
+        if (PlayerStats.playerHasDied)
+        {
+            gameManager.RestartGame();
+        }
     }
 
     public void ActivateStartMenu()
@@ -110,7 +143,12 @@ public class UIHandler : MonoBehaviour
 
     public void ActivateGameOverMenu()
     {
+        TurnOnUI();
+        ResetUI();
+        TurnOffHUD();
+        Time.timeScale = 0f;
         GameOverMenu.SetActive(true);
+        
     }
 
     public void ActivateGraphicsMenu()

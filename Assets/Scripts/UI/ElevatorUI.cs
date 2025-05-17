@@ -31,6 +31,7 @@ public class ElevatorUI : MonoBehaviour
         healthBar.setMaxHealth(PlayerStats.maxHp);
         healthBar.SetHealth(PlayerStats.hp);
         moneyScript.setNumber(PlayerStats.money);
+        PlayerStats.gameHasStarted = true;
     }
 
     public void add10hp()

@@ -10,6 +10,7 @@ public class HealthBar : MonoBehaviour
     public void Start()
     {
         fill.color = Gradient.Evaluate(healthSlider.normalizedValue);
+        SetHealth(PlayerStats.hp);
     }
     public void SetHealth(float health)
     {
