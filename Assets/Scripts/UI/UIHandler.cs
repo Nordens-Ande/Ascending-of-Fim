@@ -26,14 +26,17 @@ public class UIHandler : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-
         //sound fix
         ActivateSoundMenu();
         ResetUI();
         ActivateStartMenu();
 
         Time.timeScale = 0f;
+
+        if (PlayerStats.gameHasStarted)
+        {
+            StartGame();
+        }
     }
 
     public void ResetUI()
@@ -74,6 +77,7 @@ public class UIHandler : MonoBehaviour
     {
         //normal time
         Time.timeScale = 1.0f;
+        PlayerStats.gameHasStarted = true;
         ToggleUI();
     }
 

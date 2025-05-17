@@ -14,48 +14,61 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI text5;
     [SerializeField] private TextMeshProUGUI text1;
 
+    [SerializeField] HealthBar healthBar;
+    [SerializeField] Money moneyScript;
+
     void Start()
     {
-        hudHandler = GetComponent<HUDHandler>();
+        //hudHandler = GetComponent<HUDHandler>();
 
         text10.text = price10.ToString();
         text5.text = price5.ToString();
         text1.text = price1.ToString();
+
+        //PlayerStats.hp = 30;
+        //PlayerStats.money = 10000;
+
+        healthBar.setMaxHealth(PlayerStats.maxHp);
+        healthBar.SetHealth(PlayerStats.hp);
+        moneyScript.setNumber(PlayerStats.money);
     }
 
     public void add10hp()
     {
         //kollar så spelaren har tillräckligt med pengar och tillräckligt lite hp
-        if(hudHandler.getMoney() >= price10 && hudHandler.getMaxHealth() - hudHandler.getHealth() >= 10f)
+        if(PlayerStats.money >= price10 && PlayerStats.hp + 10 <= PlayerStats.maxHp)
         {
-            hudHandler.addHealth(10f);
-            hudHandler.subtractMoney(price10);
+            PlayerStats.hp = PlayerStats.hp + 10;
+            PlayerStats.money -= price10;
+
+            healthBar.SetHealth(PlayerStats.hp);
+            moneyScript.setNumber(PlayerStats.money);
         }
     }
 
     public void add5hp()
     {
         //kollar så spelaren har tillräckligt med pengar och tillräckligt lite hp
-        if (hudHandler.getMoney() >= price5 && hudHandler.getMaxHealth() - hudHandler.getHealth() >= 5f)
+        if (PlayerStats.money >= price5 && PlayerStats.hp + 5 <= PlayerStats.maxHp)
         {
-            hudHandler.addHealth(5f);
-            hudHandler.subtractMoney(price5);
+            PlayerStats.hp = PlayerStats.hp + 5;
+            PlayerStats.money -= price5;
+
+            healthBar.SetHealth(PlayerStats.hp);
+            moneyScript.setNumber(PlayerStats.money);
         }
     }
 
     public void add1hp()
     {
         //kollar så spelaren har tillräckligt med pengar och tillräckligt lite hp
-        if (hudHandler.getMoney() >= price1 && hudHandler.getMaxHealth() - hudHandler.getHealth() >= 1f)
+        if (PlayerStats.money >= price1 && PlayerStats.hp + 1 <= PlayerStats.maxHp)
         {
-            hudHandler.addHealth(1f);
-            hudHandler.subtractMoney(price1);
+            PlayerStats.hp = PlayerStats.hp + 1;
+            PlayerStats.money -= price1;
+
+            healthBar.SetHealth(PlayerStats.hp);
+            moneyScript.setNumber(PlayerStats.money);
         }
-    }
-
-
-    void ChangeScence()
-    {
-
     }
 }

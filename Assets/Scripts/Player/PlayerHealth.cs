@@ -13,8 +13,10 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+        PlayerStats.maxHp = maxHealth;
         hudHandler.setMaxHealth(health);
         hudHandler.setHealth(health);
+        PlayerStats.hp = health;
     }
 
 
@@ -22,7 +24,8 @@ public class PlayerHealth : MonoBehaviour
     {
         health -= damage/4;
         hitsound.PlayerHitSoundActivate();
-        
+        PlayerStats.hp = health;
+
         //effects
         if (hudHandler != null)
         {
@@ -48,6 +51,7 @@ public class PlayerHealth : MonoBehaviour
         {
             health += addHealth;
             hudHandler.addHealth(addHealth);
+            PlayerStats.hp = health;
         }
     }
 
@@ -57,6 +61,7 @@ public class PlayerHealth : MonoBehaviour
     {
         health = newHealth;
         playerDeathController.PlayerRevive();
+        PlayerStats.hp = health;
 
         if (hudHandler != null)
         {
@@ -68,6 +73,8 @@ public class PlayerHealth : MonoBehaviour
     {
         health = maxHealth;
         playerDeathController.PlayerRevive();
+        PlayerStats.hp = health;
+
         if (hudHandler != null)
         {
             hudHandler.setHealth((int)maxHealth);
