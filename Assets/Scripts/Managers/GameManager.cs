@@ -45,14 +45,11 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()//KOPPLAD!
     {
-        PlayerStats.playerHasDied = false;
-        //roomManager.reroll = true;
-        //PlayerStats.resetValues();
-        //playerHealth.resetHealth();
-        //hudHandler?.DontHaveKeycard();
-
-
-        
+        if (PlayerStats.gameHasStarted)
+        {
+            sceneHandler.RestartScene();
+            PlayerStats.resetValues();
+        }
     }
 
     public void StartLevel() // start enemy spawning, playing input etc, maybe reload weapon

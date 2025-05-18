@@ -29,5 +29,29 @@ public class SceneHandler : MonoBehaviour
         }
     }
 
+    public void LoadRestartScene()
+    {
+        if (Application.CanStreamedLevelBeLoaded("RestartScene"))
+        {
+            SceneManager.LoadScene("RestartScene");
+        }
+        else
+        {
+            Debug.LogWarning("something is wrong and the RestartScene scene cannot be loaded");
+        }
+    }
 
+    public void RestartScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (Application.CanStreamedLevelBeLoaded(currentScene.name))
+        {
+            SceneManager.LoadScene(currentScene.name);
+        }
+        else
+        {
+            Debug.LogWarning("something is wrong and the current scene cannot be reloaded");
+        }
+
+    }
 }

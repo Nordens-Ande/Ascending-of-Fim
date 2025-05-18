@@ -5,7 +5,6 @@ public class TimerUIScript : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timer;
 
-    private float elapsedTime = 0f;
     private bool isRunning = true;
 
     // Update is called once per frame
@@ -13,10 +12,10 @@ public class TimerUIScript : MonoBehaviour
     {
         if (!isRunning) return;
 
-        elapsedTime += Time.deltaTime;
+        PlayerStats.elapsedTime += Time.deltaTime;
 
-        int minutes = Mathf.FloorToInt(elapsedTime / 60f);
-        int seconds = Mathf.FloorToInt(elapsedTime % 60f);
+        int minutes = Mathf.FloorToInt(PlayerStats.elapsedTime / 60f);
+        int seconds = Mathf.FloorToInt(PlayerStats.elapsedTime % 60f);
 
         timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
@@ -34,11 +33,11 @@ public class TimerUIScript : MonoBehaviour
 
     public void ResetTimer()
     {
-        elapsedTime = 0f;
+        PlayerStats.elapsedTime = 0f;
     }
 
     public float getTime()
     {
-        return elapsedTime;
+        return PlayerStats.elapsedTime;
     }
 }

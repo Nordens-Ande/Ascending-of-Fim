@@ -1,7 +1,5 @@
 using UnityEngine;
 
-
-
 public class PlayerStats : MonoBehaviour
 {
     public static int maxHp = 100; //max health
@@ -11,6 +9,7 @@ public class PlayerStats : MonoBehaviour
     public static int currentLevel = 0; //current level
     public static int score = 0; //score
     public static bool playerHasDied = false; //if the player has died
+    public static float elapsedTime = 0f; //time elapsed
 
 
     public static void resetValues()
@@ -21,6 +20,7 @@ public class PlayerStats : MonoBehaviour
         currentLevel = 0;
         score = 0;
         playerHasDied = false;
+        elapsedTime = 0f;
     }
 
 
