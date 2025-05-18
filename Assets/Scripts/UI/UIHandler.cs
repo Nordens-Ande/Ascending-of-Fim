@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,7 +13,7 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject UI;
     [SerializeField] GameObject HUD;
     [SerializeField] GameObject WholeMenu;
-
+    [Space]
     [SerializeField] GameObject StartMenu;
     [SerializeField] GameObject OptionsMenu;
     [SerializeField] GameObject PauseMenu;
@@ -23,6 +24,8 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject SoundMenu;
     [SerializeField] GameObject BackStoryMenu;
     [SerializeField] GameObject CreditsMenu;
+    [Space]
+    [SerializeField] private TextMeshProUGUI startbutton;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,7 +40,6 @@ public class UIHandler : MonoBehaviour
         ActivateStartMenu();
         hudHandler?.setScore(PlayerStats.score);
         
-
         Time.timeScale = 0f;
 
         if (PlayerStats.gameHasStarted)
@@ -48,6 +50,26 @@ public class UIHandler : MonoBehaviour
                 gameManager.LoadLevel();
             }
         }
+    }
+
+    public void StartGame()
+    {
+        startButtonUpdate();
+        //normal time
+        Time.timeScale = 1.0f;
+        PlayerStats.gameHasStarted = true;
+        TurnOffUI();
+        TurnOnHUD();
+
+        if (PlayerStats.playerHasDied)
+        {
+            gameManager.RestartGame();
+        }
+    }
+
+    public void startButtonUpdate()
+    {
+        startbutton.text = "Re-Start";
     }
 
     public void ResetUI()
@@ -104,19 +126,7 @@ public class UIHandler : MonoBehaviour
         Application.Quit();
     }
 
-    public void StartGame()
-    {
-        //normal time
-        Time.timeScale = 1.0f;
-        PlayerStats.gameHasStarted = true;
-        TurnOffUI();
-        TurnOnHUD();
-
-        if (PlayerStats.playerHasDied)
-        {
-            gameManager.RestartGame();
-        }
-    }
+    
 
     public void ActivateStartMenu()
     {

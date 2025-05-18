@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Elevator.unity
     guid: 7a3683f586288204eb8461316ee0545e
+  - enabled: 1
+    path: Assets/Scenes/RestartScene.unity
+    guid: af742b3d5ceb5524b80b4287e6e2551a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
