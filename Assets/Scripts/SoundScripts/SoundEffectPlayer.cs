@@ -4,6 +4,9 @@ public class SoundEffectsPlayer : MonoBehaviour
 {
     public AudioSource CurrentSoundEffect;  
     public AudioClip soundEffectShot;
+    public AudioClip soundEffectShotgunShot;
+    public AudioClip ReloadSound;
+    public AudioClip NeedToReloadSound;
     public AudioClip[] playerVoicelines;
     int rand;
     bool playershooting;
@@ -16,7 +19,7 @@ public class SoundEffectsPlayer : MonoBehaviour
     }
     public void Update()
     {
-        rand = Random.Range(0, 10000);
+        rand = Random.Range(0, 15000);
 
         //isActivelyShooting();
 
@@ -29,9 +32,27 @@ public class SoundEffectsPlayer : MonoBehaviour
     {
         
         CurrentSoundEffect.clip = soundEffectShot;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 15f);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
         
 
+    }
+    public void ShotgunShooting() 
+    {
+        CurrentSoundEffect.clip = soundEffectShotgunShot;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 0.5f);
+
+    }
+    public void ReloadSoundEffect() 
+    {
+        CurrentSoundEffect.clip = ReloadSound;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 2f);
+
+
+    }
+    public void NeedToRealoadsound() 
+    {
+        CurrentSoundEffect.clip = NeedToReloadSound;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 0.5f);
     }
     public void getShooting() 
     {

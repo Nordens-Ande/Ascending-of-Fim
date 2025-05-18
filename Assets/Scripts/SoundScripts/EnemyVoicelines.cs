@@ -24,7 +24,7 @@ public class EnemyVoicelines : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RandomTime = Random.Range(0, 5000);
+        RandomTime = Random.Range(0, 15000);
         EnemyIdleVoice();
         EnemySearchVoice();
         EnemyAttackVoice();

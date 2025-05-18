@@ -51,12 +51,14 @@ public class EnemyShoot : MonoBehaviour
         if (weaponData.weaponName.ToLower() == "shotgun")
         {
             hits = shootScript.ShootRay(8);
+            shootEffects.shotgunShoot();
         }
         else
         {
             hits = shootScript.ShootRay(1);
+            shootEffects.PlayShootingSound();
         }
-        shootEffects.PlayShootingSound();
+        
         CheckRay(hits);
         StartCoroutine(ResetIsReadyToFire());
     }

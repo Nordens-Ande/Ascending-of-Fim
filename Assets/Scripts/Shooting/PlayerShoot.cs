@@ -66,7 +66,9 @@ public class PlayerShoot : MonoBehaviour
         if(weaponScript.bulletsLeft < weaponData.ammoCapacity && !isReloading)
         {
             isReloading = true;
+            SEP.ReloadSoundEffect();
             StartCoroutine(FinishReload());
+           
         }
     }
 
@@ -88,14 +90,15 @@ public class PlayerShoot : MonoBehaviour
         if (weaponData.weaponName.ToLower() == "shotgun")
         {
             hits = shootScript.ShootRay(8);
+            SEP.ShotgunShooting();
         }
         else
         {
             hits = shootScript.ShootRay(1);
-
+            SEP.shooting();
 
         }
-        SEP.shooting();
+        
 
         if (hudHandler != null)
         {
@@ -169,6 +172,7 @@ public class PlayerShoot : MonoBehaviour
 
         if (weaponScript.bulletsLeft == 0 && !reloadMessageShown)
         {
+            SEP.NeedToRealoadsound();
             reloadMessageShown = true;
             hudHandler.setAnnounchment("Reload with R", 3);
         }

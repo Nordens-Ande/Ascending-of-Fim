@@ -1110,11 +1110,11 @@ PrefabInstance:
     - target: {fileID: 3538037209227960407, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
       propertyPath: m_Resource
       value: 
-      objectReference: {fileID: 8300000, guid: 4bf12f57899e5ff4184d472bb1bbd451, type: 3}
+      objectReference: {fileID: 8300000, guid: e48b6387f4f852841887559fbf6a4245, type: 3}
     - target: {fileID: 3538037209227960407, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 4bf12f57899e5ff4184d472bb1bbd451, type: 3}
+      objectReference: {fileID: 8300000, guid: e48b6387f4f852841887559fbf6a4245, type: 3}
     - target: {fileID: 7095094375233164103, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
       propertyPath: m_Name
       value: BackGroundMusic
@@ -4468,9 +4468,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 781473631}
     - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: ReloadSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 39735281930e87348841757a3eca23fa, type: 3}
+    - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: soundEffectShot
       value: 
-      objectReference: {fileID: 8300000, guid: f46fb19686986524eb32bd0d091db74d, type: 3}
+      objectReference: {fileID: 8300000, guid: 6f92f744e8bff374592d3fed10d2ed02, type: 3}
+    - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: NeedToReloadSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ab8302f4828681441be6ae507eb8c8b2, type: 3}
+    - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: soundEffectShotgunShot
+      value: 
+      objectReference: {fileID: 8300000, guid: cf3b417fbef6ada43976d41ab681e0c4, type: 3}
     - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: playerVoicelines.Array.size
       value: 4

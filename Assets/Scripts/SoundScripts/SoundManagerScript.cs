@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SoundManagerScript : MonoBehaviour
@@ -18,7 +19,7 @@ public class SoundManagerScript : MonoBehaviour
         isPaused = false;
     }
 
-    void Update()
+    void Update() 
     {
         
         //Ett system för att stanna bakgrundmusik när spelet är pausat
