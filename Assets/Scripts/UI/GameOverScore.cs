@@ -12,7 +12,7 @@ public class GameOverScore : MonoBehaviour
         HighscoreHandler = FindAnyObjectByType<HighscoreHandler>();
         hudHandler = FindFirstObjectByType<HUDHandler>();
 
-        if (gameOverScore != null)
+        if (gameOverScore != null && PlayerStats.playerHasDied)
         {
             gameOverScore.text = PlayerStats.score.ToString();
             HighscoreHandler.AddNewScore(PlayerStats.score);

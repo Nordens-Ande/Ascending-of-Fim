@@ -33,6 +33,7 @@ public class PlayerHealth : MonoBehaviour
         {
             playerDeathController.PlayerDead();
             hudHandler.GameOver();
+            PlayerStats.playerHasDied = true;
         }
     }
 
