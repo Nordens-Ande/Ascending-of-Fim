@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     {
         hudHandler?.DontHaveKeycard();
         PlayerStats.currentLevel += 1;
-        
+
         roomManager.reroll = true; // reroll the apartment
         roomManager.floorLevel += 1; // increase the floor level
 

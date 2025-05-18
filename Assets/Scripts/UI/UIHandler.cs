@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class UIHandler : MonoBehaviour
 {
     private GameManager gameManager;
+    private HUDHandler hudHandler;
 
     [SerializeField] GameObject MenuList;
     [SerializeField] GameObject UI;
@@ -28,11 +29,14 @@ public class UIHandler : MonoBehaviour
     void Start()
     {
         gameManager = FindFirstObjectByType<GameManager>();
+        hudHandler = FindFirstObjectByType<HUDHandler>();
 
         //sound fix
         ActivateSoundMenu();
         ResetUI();
         ActivateStartMenu();
+        hudHandler?.setScore(PlayerStats.score);
+        
 
         Time.timeScale = 0f;
 
