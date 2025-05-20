@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 1624709713478729187}
   - component: {fileID: 7932850577633068403}
   - component: {fileID: 3957469858623202302}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: bathShowerXminusScare
   m_TagString: Untagged
   m_Icon: {fileID: 0}

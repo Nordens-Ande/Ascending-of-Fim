@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7924069958955250055}
   - component: {fileID: 418420030445107081}
   - component: {fileID: 203980477304933748}
-  m_Layer: 14
+  m_Layer: 13
   m_Name: toiletZplusScare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
