@@ -12,7 +12,7 @@ public class Shoot : MonoBehaviour
     void Start()
     {
         rayLength = 10000;
-        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs"));
+        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("PlayerLimbs") | LayerMask.GetMask("ShieldIgnore") | LayerMask.GetMask("FurnitureJumpScare"));
     }
 
     Vector3 GetDirection()
@@ -28,7 +28,7 @@ public class Shoot : MonoBehaviour
 
         if(applyRandomness)
         {
-            float offset = Random.Range(-0.3f, 0.3f); //offset only applied in x of direction
+            float offset = Random.Range(-0.3f, 0.3f); //offset only applied in x of "direction"
             direction.x += offset;
         }
 
@@ -44,30 +44,33 @@ public class Shoot : MonoBehaviour
 
         for(int i = 0; i < amountOfBullets; i++)
         {
-            if (i > 0)
-            {
-                Ray ray = BuildRay(true); // applies a bit of randomness in direction
-                rays.Add(ray);
-            }
-            else
-            {
-                Ray ray = BuildRay(false); // doesnt apply randomness in direction, and makes atleast one shotgun pellet go straight
-                rays.Add(ray);
-            }
+            Ray ray = BuildRay(i > 0);
+            rays.Add(ray);
         }
 
         foreach(Ray ray in rays)
         {
-            RaycastHit hit;
-            Physics.Raycast(ray, out hit, rayLength, layerMask);
-            hits.Add(hit);
-        }
+            RaycastHit[] allHits;
+            allHits = Physics.RaycastAll(ray, rayLength, layerMask);
+            System.Array.Sort(allHits, (a, b) => a.distance.CompareTo(b.distance));
 
+            foreach(RaycastHit hit in allHits)
+            {
+                ShieldScript shield = hit.collider.GetComponent<ShieldScript>();
+                if(shield != null && shield.owner == this.gameObject) //sortera ut spelarens eller fiendens egna sköld, 
+                {
+                    continue;
+                }
+
+                hits.Add(hit);
+                break;
+            }
+        }
         return hits;
     }
 
     void Update()
     {
-        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs"));
+        layerMask = ~(LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("PlayerLimbs") | LayerMask.GetMask("ShieldIgnore") | LayerMask.GetMask("FurnitureJumpScare"));
     }
 }

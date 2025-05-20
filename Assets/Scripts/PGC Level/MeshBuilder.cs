@@ -43,8 +43,8 @@ public static class MeshBuilder
         {
             //Debug.Log("DecorateRoomMesh: " + furniture.f.gameObject.transform.position);
             Vector2Int pos2 = furniture.v;
-            CreateFurniture(root.transform.root, furniture.f, new Vector3(pos2.x, 0, pos2.y));
-        }       
+            CreateFurniture(root.transform.root, room, furniture.f, new Vector3(pos2.x, 0, pos2.y));
+        }
     }
 
     private static void CreateWallsWithDoorways(Transform parent, Vector3 origin, BoundsInt roomBounds, Room room, Material wallMat)
@@ -130,7 +130,7 @@ public static class MeshBuilder
     public static void CreateExteriorWalls(Transform parent, HashSet<Vector2Int> apartmentArea, int wallHeight, int height, float wallThickness, Material wallMat)
     {
         Vector2Int[] dirs = new Vector2Int[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
-        Debug.Log("Creating exterior walls");
+        //Debug.Log("Creating exterior walls");
 
         foreach (Vector2Int tile in apartmentArea)
         {
@@ -140,7 +140,7 @@ public static class MeshBuilder
                 if (apartmentArea.Contains(newTile))
                     continue;
 
-                Debug.Log("Building exterior wall: " + newTile);
+                //Debug.Log("Building exterior wall: " + newTile);
 
                 // Wall position and direction
                 Vector3 baseOffset = Vector3.zero;
@@ -178,6 +178,7 @@ public static class MeshBuilder
         thickWallTile.transform.position = new Vector3(pos.x + 1 / 2f, height - 0.1f / 2f, pos.y + 1 / 2f);
         thickWallTile.transform.localScale = new Vector3(1, 0.1f, 1);
         thickWallTile.GetComponent<Renderer>().material = mat;
+        thickWallTile.layer = 3;
     }
 
     private static void CreateWall(Transform parent, Vector3 pos, Vector3 scale, Material mat)
@@ -190,7 +191,7 @@ public static class MeshBuilder
         wall.GetComponent<Renderer>().material = mat;
     }
 
-    private static void CreateFurniture(Transform parent, Furniture prefab, Vector3 pos)
+    private static void CreateFurniture(Transform parent, Room room, Furniture prefab, Vector3 pos)
     {
         GameObject furnitureObject = GameObject.Instantiate(prefab.gameObject);
 
@@ -203,13 +204,17 @@ public static class MeshBuilder
                 if (variant != selectedVariant)
                     GameObject.Destroy(variant);
             }
-
-            //foreach (GameObject child in prefab.variants)
-            //    child.SetActive(false);
         }
 
         furnitureObject.transform.parent = parent;
         furnitureObject.transform.position = pos;
         furnitureObject.name = furnitureObject.name + pos;
+
+        //FurnitureJumpscare jumpscare = furnitureObject.GetComponent<FurnitureJumpscare>();
+        if (furnitureObject.GetComponent<FurnitureJumpscare>() != null)
+        {
+            FurnitureJumpscare jumpscare = furnitureObject.GetComponent<FurnitureJumpscare>();
+            jumpscare.UpdateCollider(-(pos - new Vector3(room.Position.x, 0, room.Position.y)), new Vector3(room.Width, room.WallHeight, room.Height));
+        }
     }
 }

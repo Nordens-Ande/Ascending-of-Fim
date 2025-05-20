@@ -36,7 +36,7 @@ public struct RoomSettings
 
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] bool reroll = false;
+    [SerializeField] public bool reroll = false;
 
     [SerializeField] GameObject player;
     //[SerializeField] bool debug = false;
@@ -58,7 +58,7 @@ public class RoomManager : MonoBehaviour
 
     [Header("Apartment Settings")]
     [SerializeField] MinMaxInt roomAmountRange;
-    [SerializeField] int floorLevel = 1;
+    [SerializeField] public int floorLevel = 1;
     [SerializeField] Material exteriorWallMaterial;
     [Space]
     [SerializeField] int doorClearance = 1;
@@ -69,6 +69,13 @@ public class RoomManager : MonoBehaviour
     [Space]
     [SerializeField] int maxRoomFails = 1000;
     [SerializeField] int maxFurnitureFails = 100;
+
+    [Header("Keycard Spawn Settings")]
+    [SerializeField] Furniture keycard;
+    [Space]
+    [SerializeField] int maxKeycards;
+    [SerializeField] int maxKeycardsPerRoom;
+    [SerializeField] List<RoomType> roomsToExcludeKeycard;
 
     [Header("Specific Room Sizes")]
     [SerializeField] RoomSettings hallwaySettings;
@@ -137,7 +144,12 @@ public class RoomManager : MonoBehaviour
     {
         reroll = false;
         if (player)
+        {
+            player.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
+            player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
+        }
+            
 
         rooms = new List<Room>();
         roomObjects = new List<GameObject>();
@@ -157,6 +169,8 @@ public class RoomManager : MonoBehaviour
         CheckNearbyRooms(); //Doors
 
         GenerateFurnitureLayout(); //Furniture
+        if (keycard != null)
+            MustPlaceFurniture(keycard, maxKeycards, maxKeycardsPerRoom, roomsToExcludeKeycard.ToArray()); //Keycard
 
         DebugGeneration(); //Debug tiles
 
@@ -373,6 +387,47 @@ public class RoomManager : MonoBehaviour
         adjacentRoom.FurnitureList.Add((elevator, elevatorTiles[0]));
 
         //MeshBuilder.CreateFurniture(null, elevator, new Vector3(elevatorTiles[0].x, 0, elevatorTiles[0].y));
+    }
+
+    //Must som innebär att den måste placera den angivna möbeln oavsett vad - här så ignorerar den vilket rum det är och bryr sig enbart om max mängd i lägenheten/rummen och ifall den ska undvika att placeras i specifika rum.
+    void MustPlaceFurniture(Furniture furniture, int maxAmount, int maxPerRoom = 1, params RoomType[] excludedRooms)
+    {
+        int placedFurniture = 0;
+        while (placedFurniture < maxAmount)
+        {
+            Room room = rooms[Random.Range(0, rooms.Count)];
+
+            //Kollar ifall det är ett rum vi ska ignorera (exkludera)
+            bool isExcluded = false;
+            foreach (RoomType roomType in excludedRooms)
+            {
+                if (room.Type == roomType)
+                {
+                    isExcluded = true;
+                    break;
+                }
+            }
+            if (isExcluded) continue;
+
+            //Kollar ifall rummet vi har valt har för många möbler
+            int placedFurniturePerRoom = 0;
+            foreach ((Furniture f, Vector2Int v) checkFurniture in room.FurnitureList)
+            {
+                if (furniture == checkFurniture.f)
+                    placedFurniturePerRoom++;
+            }
+            if (placedFurniturePerRoom >= maxPerRoom) continue;
+
+
+            List<Vector2Int> roomTiles = room.GetOccupiedTiles();
+            Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
+
+            if (TryPlaceFurniture(room, furniture, spawnPos))
+            {
+                room.FurnitureList.Add((furniture, spawnPos));
+                placedFurniture++;
+            }
+        }
     }
 
     bool TryPlaceFurniture(Room room, Furniture furniture, Vector2Int spawnPos, bool checkDoorTiles = true, bool checkFurnitureTiles = true)
@@ -625,7 +680,7 @@ public class RoomManager : MonoBehaviour
             {
                 foreach (Vector2Int tile in grownTiles)
                 {
-                    Debug.Log(freeTilesIndex + " " + tile);
+                    //Debug.Log(freeTilesIndex + " " + tile);
                     holeTiles.Add(tile);
                     //debugger.holeTiles.Add(tile);
                 }
@@ -888,18 +943,17 @@ public class RoomManager : MonoBehaviour
         return Vector2Int.zero;
     }
 
-
-    void Update()
+    private void FixedUpdate()
     {
         if (reroll)
         {
             reroll = false;
 
-            foreach(GameObject room in roomObjects)
+            foreach (GameObject room in roomObjects)
                 Destroy(room);
             Destroy(thickWalls);
             Destroy(exteriorWalls);
-            
+
             if (debugger)
                 debugger.ClearTiles();
 
@@ -907,5 +961,25 @@ public class RoomManager : MonoBehaviour
 
             Start();
         }
+    }
+    void Update()
+    {
+        //Måste placeras i FixedUpdate för att lösa spelarens respawn (där dess fysik-uppdateringar förstör annars)
+        //if (reroll)
+        //{
+        //    reroll = false;
+
+        //    foreach(GameObject room in roomObjects)
+        //        Destroy(room);
+        //    Destroy(thickWalls);
+        //    Destroy(exteriorWalls);
+            
+        //    if (debugger)
+        //        debugger.ClearTiles();
+
+        //    Awake();
+
+        //    Start();
+        //}
     }
 }

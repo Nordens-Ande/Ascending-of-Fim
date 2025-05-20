@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 8884903919033383491}
   m_Layer: 6
   m_Name: RiflePrefab
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

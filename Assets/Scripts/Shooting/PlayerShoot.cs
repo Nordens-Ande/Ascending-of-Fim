@@ -11,7 +11,7 @@ public class PlayerShoot : MonoBehaviour
 
     [SerializeField] HUDHandler hudHandler;
     private bool reloadMessageShown = false;
-    //SoundEffectsPlayer SEP;
+    [SerializeField]SoundEffectsPlayer SEP;
 
     WeaponData weaponData;
     WeaponScript weaponScript;
@@ -66,7 +66,9 @@ public class PlayerShoot : MonoBehaviour
         if(weaponScript.bulletsLeft < weaponData.ammoCapacity && !isReloading)
         {
             isReloading = true;
+            SEP.ReloadSoundEffect();
             StartCoroutine(FinishReload());
+           
         }
     }
 
@@ -88,11 +90,15 @@ public class PlayerShoot : MonoBehaviour
         if (weaponData.weaponName.ToLower() == "shotgun")
         {
             hits = shootScript.ShootRay(8);
+            SEP.ShotgunShooting();
         }
         else
         {
             hits = shootScript.ShootRay(1);
+            SEP.shooting();
+
         }
+        
 
         if (hudHandler != null)
         {
@@ -119,6 +125,11 @@ public class PlayerShoot : MonoBehaviour
             if (hit.transform.CompareTag("Enemy"))
             {
                 hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
+            }
+            else if(hit.transform.CompareTag("Shield"))
+            {
+                hit.transform.gameObject.GetComponent<ShieldScript>().DecreaseHealth(weaponData.damage);
+                Debug.Log("player hit enemy shield");
             }
 
             //
@@ -161,6 +172,7 @@ public class PlayerShoot : MonoBehaviour
 
         if (weaponScript.bulletsLeft == 0 && !reloadMessageShown)
         {
+            SEP.NeedToRealoadsound();
             reloadMessageShown = true;
             hudHandler.setAnnounchment("Reload with R", 3);
         }

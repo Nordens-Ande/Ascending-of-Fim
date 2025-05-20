@@ -31,4 +31,13 @@ public class RagDollController : MonoBehaviour
         }
         animator.enabled = false;
     }
+
+    public void NoLongerRagDoll()
+    {
+        foreach (var rigidbody in rigidbodies)
+        {
+            rigidbody.isKinematic = true;
+        }
+        animator.enabled = true;
+    }
 }

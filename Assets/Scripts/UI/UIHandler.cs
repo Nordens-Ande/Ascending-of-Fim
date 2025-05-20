@@ -1,16 +1,19 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 public class UIHandler : MonoBehaviour
 {
-
+    private GameManager gameManager;
+    private HUDHandler hudHandler;
 
     [SerializeField] GameObject MenuList;
     [SerializeField] GameObject UI;
     [SerializeField] GameObject HUD;
     [SerializeField] GameObject WholeMenu;
-
+    [Space]
     [SerializeField] GameObject StartMenu;
     [SerializeField] GameObject OptionsMenu;
     [SerializeField] GameObject PauseMenu;
@@ -21,12 +24,52 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject SoundMenu;
     [SerializeField] GameObject BackStoryMenu;
     [SerializeField] GameObject CreditsMenu;
-    
-   
+    [Space]
+    [SerializeField] private TextMeshProUGUI startbutton;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gameManager = FindFirstObjectByType<GameManager>();
+        hudHandler = FindFirstObjectByType<HUDHandler>();
+
+        //sound fix
+        ActivateSoundMenu();
+        ResetUI();
+        ActivateStartMenu();
+        hudHandler?.setScore(PlayerStats.score);
+        
         Time.timeScale = 0f;
+
+        if (PlayerStats.gameHasStarted)
+        {
+            StartGame();
+            if (PlayerStats.currentLevel >= 0)
+            {
+                gameManager.LoadLevel();
+            }
+        }
+    }
+
+    public void StartGame()
+    {
+        startButtonUpdate();
+        //normal time
+        Time.timeScale = 1.0f;
+        PlayerStats.gameHasStarted = true;
+        TurnOffUI();
+        TurnOnHUD();
+
+        if (PlayerStats.playerHasDied)
+        {
+            gameManager.RestartGame();
+        }
+    }
+
+    public void startButtonUpdate()
+    {
+        startbutton.text = "Re-Start";
     }
 
     public void ResetUI()
@@ -45,10 +88,30 @@ public class UIHandler : MonoBehaviour
         UI.SetActive(!isUIActive);
     }
 
+    public void TurnOnUI()
+    {
+        UI.SetActive(true);
+    }
+
+    public void TurnOffUI()
+    {
+        UI.SetActive(false);
+    }
+
     public void ToggleHUD()
     {
         bool isHUDActive = HUD.activeSelf;
         HUD.SetActive(!isHUDActive);
+    }
+
+    public void TurnOnHUD()
+    {
+        HUD.SetActive(true);
+    }
+
+    public void TurnOffHUD()
+    {
+        HUD.SetActive(false);
     }
 
     public void ToggleMenu()
@@ -63,16 +126,11 @@ public class UIHandler : MonoBehaviour
         Application.Quit();
     }
 
-    public void StartGame()
-    {
-        //normal time
-        Time.timeScale = 1.0f;
-        ToggleUI();
-    }
+    
 
     public void ActivateStartMenu()
     {
-        Time.timeScale = 1.0f;
+        //Time.timeScale = 1.0f;
         StartMenu.SetActive(true);
     }
 
@@ -99,7 +157,12 @@ public class UIHandler : MonoBehaviour
 
     public void ActivateGameOverMenu()
     {
+        TurnOnUI();
+        ResetUI();
+        TurnOffHUD();
+        Time.timeScale = 0f;
         GameOverMenu.SetActive(true);
+        
     }
 
     public void ActivateGraphicsMenu()
