@@ -5537,7 +5537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7524932653922730320, guid: 77c280a2788495c48a266b2a90dfce48, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 7652627905498265151, guid: 77c280a2788495c48a266b2a90dfce48, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -5993,6 +5993,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1920823958}
     m_Modifications:
+    - target: {fileID: 4281263851495815165, guid: fb4b71a212de8204cb0735ab5b2d1f9b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 79756a37d5ac1c843b915418f99aa9c0, type: 3}
     - target: {fileID: 8949247067783874372, guid: fb4b71a212de8204cb0735ab5b2d1f9b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
