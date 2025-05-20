@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7924069958955250055}
   - component: {fileID: 418420030445107081}
   - component: {fileID: -369850133370711058}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: toiletXminusScare
   m_TagString: Untagged
   m_Icon: {fileID: 0}

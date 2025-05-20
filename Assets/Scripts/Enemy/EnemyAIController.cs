@@ -32,7 +32,7 @@ public class EnemyAIController : MonoBehaviour
     void Start()
     {
         stoppingDistance = SetStoppingDistance();
-        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("Shield") | LayerMask.GetMask("ShieldIgnore"));
+        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("Shield") | LayerMask.GetMask("ShieldIgnore") | LayerMask.GetMask("FurnitureJumpScare"));
         player = GameObject.FindWithTag("Player");
         previousEnemyState = EnemyState.searching;
         enemyState = EnemyState.searching;
@@ -197,7 +197,7 @@ public class EnemyAIController : MonoBehaviour
             UpdateEnemyBehaviour();
             forceUpdateBehaviour = false;
         }
-        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("Shield") | LayerMask.GetMask("ShieldIgnore"));
+        layerMask = ~(LayerMask.GetMask("Enemy") | LayerMask.GetMask("Weapon") | LayerMask.GetMask("EnemyIgnore") | LayerMask.GetMask("EnemyLimbs") | LayerMask.GetMask("Shield") | LayerMask.GetMask("ShieldIgnore") | LayerMask.GetMask("FurnitureJumpScare"));
 
         lineOfSight = CheckForLineOfSight();
         float angle = CalculateRotationToPlayer();
