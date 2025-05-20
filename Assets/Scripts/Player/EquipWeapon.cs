@@ -57,23 +57,12 @@ public class EquipWeapon : MonoBehaviour
         hasShield = false;
     }
 
-    public void OnInteract(InputValue inputValue)
-    {
-        Equip();
-        Debug.Log("pressed E");
-    }
-
-
-    public void OnDrop(InputValue inputValue)
-    {
-        UnEquip();
-        Debug.Log("Pressed Q");
-    }
-
     private void Update()
     {
-        
-        if (currentWeapon != null)
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Equip();
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
