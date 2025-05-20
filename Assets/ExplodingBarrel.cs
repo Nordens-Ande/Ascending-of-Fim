@@ -91,6 +91,7 @@ public class ExplodingBarrel : MonoBehaviour
         {
             scoreOnce = true;
             hudHandler.addScore(500);
+
         }
     }
 }

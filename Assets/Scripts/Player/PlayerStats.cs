@@ -10,6 +10,7 @@ public class PlayerStats : MonoBehaviour
     public static int score = 0; //score
     public static bool playerHasDied = false; //if the player has died
     public static float elapsedTime = 0f; //time elapsed
+    public static float elapsedTimePerLevel = 0f; //time per level
 
 
     public static void resetValues()

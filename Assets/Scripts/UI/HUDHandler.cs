@@ -16,6 +16,7 @@ public class HUDHandler : MonoBehaviour
     private ScoreScript scoreScript;
     private HitUI hitUIscript;
     private KeycardUIScript keycardUI;
+    private LevelIndicatorUIScript levelIndicatorUIscript;
 
     [SerializeField] ShakeData hitShake;
     [SerializeField] ShakeData shootShake;
@@ -43,6 +44,7 @@ public class HUDHandler : MonoBehaviour
         scoreScript = GetComponentInChildren<ScoreScript>();
         hitUIscript = GetComponentInChildren<HitUI>();
         keycardUI = GetComponentInChildren<KeycardUIScript>();
+        levelIndicatorUIscript = GetComponentInChildren<LevelIndicatorUIScript>();
 
         WarnIfNull(timerUIScript, nameof(timerUIScript));
         WarnIfNull(moneyScript, nameof(moneyScript));
@@ -54,6 +56,7 @@ public class HUDHandler : MonoBehaviour
         WarnIfNull(scoreScript, nameof(scoreScript));
         WarnIfNull(hitUIscript, nameof(hitUIscript));
         WarnIfNull(keycardUI, nameof(keycardUI));
+        WarnIfNull(levelIndicatorUIscript, nameof(levelIndicatorUIscript));
     }
 
 
@@ -245,4 +248,21 @@ public class HUDHandler : MonoBehaviour
     {
         PlayerStats.playerHasDied = false; 
     }
+
+    //Level indicator functions
+    public void setLevel(int level)
+    {
+        levelIndicatorUIscript.setNumber(level);
+    }
+
+    public void addLevel(int amountToAdd)
+    {
+        levelIndicatorUIscript.addLevel(amountToAdd);
+    }
+
+    public void subtractLevel(int amountToSubtract)
+    {
+        levelIndicatorUIscript.subtractLevel(amountToSubtract);
+    }
+
 }
