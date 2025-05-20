@@ -2229,6 +2229,10 @@ MonoBehaviour:
   thickWallHeightOffset: -0.1
   maxRoomFails: 1000
   maxFurnitureFails: 150
+  keycard: {fileID: 0}
+  maxKeycards: 1
+  maxKeycardsPerRoom: 1
+  roomsToExcludeKeycard: 000000000100000007000000
   hallwaySettings:
     sizeRange:
       min: 4
