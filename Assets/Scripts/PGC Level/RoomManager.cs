@@ -70,6 +70,13 @@ public class RoomManager : MonoBehaviour
     [SerializeField] int maxRoomFails = 1000;
     [SerializeField] int maxFurnitureFails = 100;
 
+    [Header("Keycard Spawn Settings")]
+    [SerializeField] Furniture keycard;
+    [Space]
+    [SerializeField] int maxKeycards;
+    [SerializeField] int maxKeycardsPerRoom;
+    [SerializeField] List<RoomType> roomsToExcludeKeycard;
+
     [Header("Specific Room Sizes")]
     [SerializeField] RoomSettings hallwaySettings;
     [SerializeField] RoomSettings corridorSettings;
@@ -162,6 +169,8 @@ public class RoomManager : MonoBehaviour
         CheckNearbyRooms(); //Doors
 
         GenerateFurnitureLayout(); //Furniture
+        if (keycard != null)
+            MustPlaceFurniture(keycard, maxKeycards, maxKeycardsPerRoom, roomsToExcludeKeycard.ToArray()); //Keycard
 
         DebugGeneration(); //Debug tiles
 
@@ -378,6 +387,47 @@ public class RoomManager : MonoBehaviour
         adjacentRoom.FurnitureList.Add((elevator, elevatorTiles[0]));
 
         //MeshBuilder.CreateFurniture(null, elevator, new Vector3(elevatorTiles[0].x, 0, elevatorTiles[0].y));
+    }
+
+    //Must som innebär att den måste placera den angivna möbeln oavsett vad - här så ignorerar den vilket rum det är och bryr sig enbart om max mängd i lägenheten/rummen och ifall den ska undvika att placeras i specifika rum.
+    void MustPlaceFurniture(Furniture furniture, int maxAmount, int maxPerRoom = 1, params RoomType[] excludedRooms)
+    {
+        int placedFurniture = 0;
+        while (placedFurniture < maxAmount)
+        {
+            Room room = rooms[Random.Range(0, rooms.Count)];
+
+            //Kollar ifall det är ett rum vi ska ignorera (exkludera)
+            bool isExcluded = false;
+            foreach (RoomType roomType in excludedRooms)
+            {
+                if (room.Type == roomType)
+                {
+                    isExcluded = true;
+                    break;
+                }
+            }
+            if (isExcluded) continue;
+
+            //Kollar ifall rummet vi har valt har för många möbler
+            int placedFurniturePerRoom = 0;
+            foreach ((Furniture f, Vector2Int v) checkFurniture in room.FurnitureList)
+            {
+                if (furniture == checkFurniture.f)
+                    placedFurniturePerRoom++;
+            }
+            if (placedFurniturePerRoom >= maxPerRoom) continue;
+
+
+            List<Vector2Int> roomTiles = room.GetOccupiedTiles();
+            Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
+
+            if (TryPlaceFurniture(room, furniture, spawnPos))
+            {
+                room.FurnitureList.Add((furniture, spawnPos));
+                placedFurniture++;
+            }
+        }
     }
 
     bool TryPlaceFurniture(Room room, Furniture furniture, Vector2Int spawnPos, bool checkDoorTiles = true, bool checkFurnitureTiles = true)
