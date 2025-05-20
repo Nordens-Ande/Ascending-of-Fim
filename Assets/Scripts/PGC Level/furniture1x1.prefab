@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a04a367acf2c84aa895cab5bf7a8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomType: 0
+  roomType: 8
   size: {x: 1, y: 2}
   drawDebug: 1
   clearDirections: []
@@ -67,8 +67,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eea54360a047ba4a974ce84d19be774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activated: 0
+  activationType: 0
+  distanceToActivate: 0
   enemyToSpawn: {fileID: 0}
-  spawnPositions: []
+  objectsToSpawn: []
   objectsToDelete: []
 --- !u!1 &8879522203589609387
 GameObject:
