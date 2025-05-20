@@ -45,7 +45,7 @@ public class UIHandler : MonoBehaviour
         if (PlayerStats.gameHasStarted)
         {
             StartGame();
-            if (PlayerStats.currentLevel <= 0)
+            if (PlayerStats.currentLevel >= 0)
             {
                 gameManager.LoadLevel();
             }

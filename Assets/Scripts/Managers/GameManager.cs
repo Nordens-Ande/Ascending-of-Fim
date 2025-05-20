@@ -25,16 +25,19 @@ public class GameManager : MonoBehaviour
         hasKeycard = false;
     }
 
-    public void PlayerFoundKeycard() // call from player interact script
-    {
-        hasKeycard = true;
-        hudHandler?.hasKeycard();
-    }
+    //public void PlayerFoundKeycard() // call from player interact script
+    //{
+    //    hasKeycard = true;
+    //    hudHandler?.hasKeycard();
+    //}
 
     public void LoadLevel() //KOPPLAD!
     {
         hudHandler?.DontHaveKeycard();
-        PlayerStats.currentLevel += 1;
+        PlayerStats.currentLevel = PlayerStats.currentLevel + 1;
+        Debug.LogWarning(PlayerStats.currentLevel + "level");
+        hudHandler.setLevel(PlayerStats.currentLevel);
+        PlayerStats.elapsedTimePerLevel = 0f;
 
         roomManager.reroll = true; // reroll the apartment
         roomManager.floorLevel += 1; // increase the floor level
@@ -52,25 +55,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartLevel() // start enemy spawning, playing input etc, maybe reload weapon
-    {
-        hudHandler?.DontHaveKeycard();
-    }
+    //public void StartLevel() // start enemy spawning, playing input etc, maybe reload weapon
+    //{
+    //    hudHandler?.DontHaveKeycard();
+    //}
 
-    public void FinishedLevel() // enters elevator
-    {
-        //change scene? till hissen
-        hasKeycard = false;
-    }
+    //public void FinishedLevel() // enters elevator
+    //{
+    //    //change scene? till hissen
+    //    hasKeycard = false;
+    //}
 
-    public void StopLevel() // stop enemy spawning, player input etc
-    {
+    //public void StopLevel() // stop enemy spawning, player input etc
+    //{
        
-    }
+    //}
 
-    public void GameOver() // player dies, save highscore, go to game over screen or main menu, etc
-    {
-        gameState = GameState.GameOver;
-        hasKeycard = false;
-    }
+    //public void GameOver() // player dies, save highscore, go to game over screen or main menu, etc
+    //{
+    //    gameState = GameState.GameOver;
+    //    hasKeycard = false;
+    //}
 }

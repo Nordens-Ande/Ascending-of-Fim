@@ -12,7 +12,10 @@ public class TimerUIScript : MonoBehaviour
     {
         if (!isRunning) return;
 
-        PlayerStats.elapsedTime += Time.deltaTime;
+        
+
+        PlayerStats.elapsedTime += Time.deltaTime / 2;
+        PlayerStats.elapsedTimePerLevel += Time.deltaTime / 2;
 
         int minutes = Mathf.FloorToInt(PlayerStats.elapsedTime / 60f);
         int seconds = Mathf.FloorToInt(PlayerStats.elapsedTime % 60f);
