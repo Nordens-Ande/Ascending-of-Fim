@@ -275,6 +275,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentSoundEffect: {fileID: 4548143035747909626}
   soundEffectShot: {fileID: 8300000, guid: 2497b31d6d4b3c8439a7c61e7e50a334, type: 3}
+  soundEffectShotgunShot: {fileID: 0}
+  ReloadSound: {fileID: 0}
+  NeedToReloadSound: {fileID: 0}
   playerVoicelines: []
 --- !u!1 &2570567280906134979
 GameObject:
@@ -1060,7 +1063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5110412596330204062, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5119913136755701160, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer
@@ -1920,6 +1923,7 @@ MonoBehaviour:
   shootScript: {fileID: 2918148999697168180}
   equipWeapon: {fileID: 4154157438480588966}
   hudHandler: {fileID: 0}
+  SEP: {fileID: 0}
   isShooting: 0
 --- !u!114 &2859507241806587065
 MonoBehaviour:
@@ -1935,6 +1939,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hudHandler: {fileID: 0}
   playerDeathController: {fileID: 4820235581011145620}
+  hitsound: {fileID: 0}
 --- !u!114 &4820235581011145620
 MonoBehaviour:
   m_ObjectHideFlags: 0

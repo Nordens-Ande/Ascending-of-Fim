@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 2878285029103292609}
   - component: {fileID: 8313345827574279521}
   - component: {fileID: -4694862504650333140}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: ShieldPrefab
   m_TagString: Shield
   m_Icon: {fileID: 0}
