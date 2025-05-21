@@ -285,7 +285,7 @@ MonoBehaviour:
   rayOffset: {x: 0, y: -0.75, z: 0}
   keycardMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 16384
   orientationObject: {fileID: 320137737}
   Keycard: {fileID: 0}
 --- !u!4 &127349861 stripped

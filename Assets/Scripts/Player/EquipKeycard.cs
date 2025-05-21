@@ -44,13 +44,17 @@ public class EquipKeycard : MonoBehaviour
     {
         RayCastHandler();
 
-        if (topRayHitInfo.collider != null)
+        if (topRayHitInfo.collider != null && topRayHitInfo.collider.CompareTag("Keycard"))
         {
             keycardScript = topRayHitInfo.collider.GetComponent<KeycardScript>();
             Keycard = topRayHitInfo.collider.gameObject;
         }
-        keycardScript.Equip();
-        hasKeycard=true;
+        if(keycardScript != null)
+        {
+            keycardScript.Equip();
+            hasKeycard = true;
+        }
+        
 
         Debug.Log("isequipped");
     }

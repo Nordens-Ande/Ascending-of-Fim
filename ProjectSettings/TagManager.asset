@@ -12,6 +12,7 @@ TagManager:
   - Shield
   - Weapon
   - PlayerStats
+  - Keycard
   layers:
   - Default
   - TransparentFX
