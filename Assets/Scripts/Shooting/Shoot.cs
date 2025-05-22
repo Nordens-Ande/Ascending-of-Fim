@@ -7,6 +7,7 @@ public class Shoot : MonoBehaviour
 {
     int rayLength;
     [SerializeField] GameObject bulletOrigin; //placera child objectet som vapnet ska ha här, skottets/rayens origin.
+    [SerializeField] GameObject orientationObject; //placera child objectet som vapnet ska ha här, skottets/rayens origin.
     LayerMask layerMask;
 
     void Start()
@@ -28,8 +29,8 @@ public class Shoot : MonoBehaviour
 
         if(applyRandomness)
         {
-            float offset = Random.Range(-0.3f, 0.3f); //offset only applied in x of "direction"
-            direction.x += offset;
+            float offset = Random.Range(-0.18f, 0.18f); //offset only applied in x of "direction"
+            direction += bulletOrigin.transform.right * offset;
         }
 
         Ray ray = new Ray(bulletOrigin.transform.position, direction);

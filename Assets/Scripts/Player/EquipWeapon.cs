@@ -55,6 +55,7 @@ public class EquipWeapon : MonoBehaviour
     {
         IsEquipped = false;
         hasShield = false;
+        weaponMask = (LayerMask.GetMask("ShieldIgnore") | LayerMask.GetMask("Weapon"));
     }
 
     public void OnInteract(InputValue inputValue)
@@ -72,14 +73,6 @@ public class EquipWeapon : MonoBehaviour
 
     private void Update()
     {
-        
-        if (currentWeapon != null)
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            UnEquip();
-        }
-
         if (hasShield)
         {
             if(shield != null)
@@ -126,6 +119,7 @@ public class EquipWeapon : MonoBehaviour
             rightHandTarget.position = IKRightHandPos.position; //h�r
             rightHandTarget.rotation = IKRightHandPos.rotation;
         }
+        weaponMask = (LayerMask.GetMask("ShieldIgnore") | LayerMask.GetMask("Weapon"));
     }
 
     private void OnAttack(InputValue inputValue)
