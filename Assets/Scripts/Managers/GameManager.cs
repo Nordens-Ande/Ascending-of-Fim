@@ -25,11 +25,12 @@ public class GameManager : MonoBehaviour
         hasKeycard = false;
     }
 
-    //public void PlayerFoundKeycard() // call from player interact script
-    //{
-    //    hasKeycard = true;
-    //    hudHandler?.hasKeycard();
-    //}
+    public void PlayerFoundKeycard() // call from player interact script
+    {
+        hasKeycard = true;
+        hudHandler?.hasKeycard();
+        Debug.LogWarning("Keycard found");
+    }
 
     public void LoadLevel() //KOPPLAD!
     {

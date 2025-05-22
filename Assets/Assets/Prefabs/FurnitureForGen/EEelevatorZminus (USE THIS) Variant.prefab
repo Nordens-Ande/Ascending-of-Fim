@@ -50,13 +50,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4529479552517462786, guid: 1657a48c4d025944ebfcb6207a18b747, type: 3}
       propertyPath: m_Name
-      value: elevatorZminus (USE THIS) Variant
+      value: EEelevatorZminus (USE THIS) Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5665440711838830690, guid: 1657a48c4d025944ebfcb6207a18b747, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.974
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1716816470306161703, guid: 1657a48c4d025944ebfcb6207a18b747, type: 3}
+    - {fileID: -7677106008630467985, guid: 1657a48c4d025944ebfcb6207a18b747, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

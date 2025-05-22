@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1173964894911578896}
   - component: {fileID: 8848551827068776849}
+  - component: {fileID: 1716816470306161703}
+  - component: {fileID: -7677106008630467985}
   m_Layer: 0
   m_Name: elevatorZminus (USE THIS)
   m_TagString: Untagged
@@ -56,6 +58,39 @@ MonoBehaviour:
   - {x: 0, y: 1}
   variants: []
   lookAlikeID: 0
+--- !u!65 &1716816470306161703
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4529479552517462786}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: -2.67, y: 1.6, z: 0.52}
+  m_Center: {x: 0.94, y: 1.23, z: -0.32}
+--- !u!114 &-7677106008630467985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4529479552517462786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d112308aa7a5be740886eaa64f2b3f49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4764001611338540215
 GameObject:
   m_ObjectHideFlags: 0

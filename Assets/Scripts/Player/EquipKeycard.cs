@@ -12,6 +12,7 @@ public class EquipKeycard : MonoBehaviour
 
     public GameObject Keycard;
     private KeycardScript keycardScript;
+    private GameManager gameManager;
     
     public static EquipKeycard Instance { get; private set; } //Singleton pattern
     public bool hasKeycard { get; private set; }
@@ -19,6 +20,7 @@ public class EquipKeycard : MonoBehaviour
     private void Start()
     {
         hasKeycard = false;
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     private void Update()
@@ -53,6 +55,7 @@ public class EquipKeycard : MonoBehaviour
         {
             keycardScript.Equip();
             hasKeycard = true;
+            gameManager.PlayerFoundKeycard(); //KOPPLAD!
         }
         
 
