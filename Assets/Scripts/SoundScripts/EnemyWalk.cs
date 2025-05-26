@@ -6,7 +6,7 @@ public class EnemyWalk : MonoBehaviour
     public AudioSource enemyWalkSound;
     public AudioClip enemyWalkingClip;
     bool deadMansSwitch;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent { get; private set; }
 
     void Start()
     {
@@ -32,7 +32,7 @@ public class EnemyWalk : MonoBehaviour
             walking();
             deadMansSwitch=true;
         }
-        if(agent.isStopped == true)
+        if(agent.isStopped == true && deadMansSwitch == true)
         { 
             enemyWalkSound.Stop();
             deadMansSwitch=false;

@@ -33,13 +33,12 @@ public class SoundEffectsPlayer : MonoBehaviour
         
         CurrentSoundEffect.clip = soundEffectShot;
         CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
-        
-
     }
+
     public void ShotgunShooting() 
     {
         CurrentSoundEffect.clip = soundEffectShotgunShot;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 0.5f);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 0.2f);
 
     }
     public void ReloadSoundEffect() 

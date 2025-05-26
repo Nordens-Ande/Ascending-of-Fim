@@ -9,6 +9,7 @@ public class ExplodingBarrel : MonoBehaviour
     [SerializeField] float explosionSpeed = 20f;
     [SerializeField] int damage = 25;
     [SerializeField] ParticleSystem explosionEffect;
+    [SerializeField] ExplosionSound exSound;
 
     private HUDHandler hudHandler;
     private bool scoreOnce = false;
@@ -26,6 +27,7 @@ public class ExplodingBarrel : MonoBehaviour
         {
             isTriggered = true;
             Invoke(nameof(Explode), delay);
+            AudioSource.PlayClipAtPoint(exSound.explosionSound, transform.position, 5);
         }
     }
 
@@ -81,9 +83,10 @@ public class ExplodingBarrel : MonoBehaviour
             if (nearby.TryGetComponent(out ExplodingBarrel otherBarrel) && otherBarrel != this)
             {
                 otherBarrel.TakeDamage();
-            } 
+            }
+            
         }
-
+        
         Destroy(gameObject);
 
         //give score to hud

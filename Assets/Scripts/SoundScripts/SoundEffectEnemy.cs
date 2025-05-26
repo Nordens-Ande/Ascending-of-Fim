@@ -45,7 +45,7 @@ public class SoundEffectsEnemy : MonoBehaviour
     public void shotgunShoot() 
     {
         CurrentSoundEffect.clip = soundEffectShotgun;
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 0.5f);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 0.2f);
 
     }
 
@@ -59,7 +59,7 @@ public class SoundEffectsEnemy : MonoBehaviour
     public void talking()
     {
         CurrentSoundEffect.clip = enemyVoicelines[Random.Range(0, enemyVoicelines.Length)];
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 10f);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
        
     }
 
