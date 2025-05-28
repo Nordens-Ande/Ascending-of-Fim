@@ -31,6 +31,11 @@ public class EquipKeycard : MonoBehaviour
     public void OnInteract(InputValue inputValue)
     {
         Equip();
+        ElevatorInteractZone elevator = GameObject.FindFirstObjectByType<ElevatorInteractZone>();
+        if (elevator != null)
+        {
+            elevator.CheckInteraction();
+        }
     }
 
     private void RayCastHandler()
@@ -50,16 +55,12 @@ public class EquipKeycard : MonoBehaviour
         {
             keycardScript = topRayHitInfo.collider.GetComponent<KeycardScript>();
             Keycard = topRayHitInfo.collider.gameObject;
+            if (keycardScript != null)
+            {
+                keycardScript.Equip();
+                hasKeycard = true;
+                gameManager.PlayerFoundKeycard(); //KOPPLAD!
+            }
         }
-        if(keycardScript != null)
-        {
-            keycardScript.Equip();
-            hasKeycard = true;
-            gameManager.PlayerFoundKeycard(); //KOPPLAD!
-        }
-        
-
-        Debug.Log("isequipped");
     }
-
 }

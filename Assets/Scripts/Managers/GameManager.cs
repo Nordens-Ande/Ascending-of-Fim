@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     GameState gameState;
 
     bool hasKeycard;
+    public bool HasKeycard { get { return hasKeycard; } }
+
 
     void Start()
     {
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     public void LoadLevel() //KOPPLAD!
     {
         hudHandler?.DontHaveKeycard();
+        hasKeycard = false;
         PlayerStats.currentLevel = PlayerStats.currentLevel + 1;
         Debug.LogWarning(PlayerStats.currentLevel + "level");
         hudHandler.setLevel(PlayerStats.currentLevel);

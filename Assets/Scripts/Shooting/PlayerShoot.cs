@@ -129,7 +129,6 @@ public class PlayerShoot : MonoBehaviour
             else if(hit.transform.CompareTag("Shield"))
             {
                 hit.transform.gameObject.GetComponent<ShieldScript>().DecreaseHealth(weaponData.damage);
-                Debug.Log("player hit enemy shield");
             }
 
             //
@@ -138,15 +137,6 @@ public class PlayerShoot : MonoBehaviour
             {
                 barrel.TakeDamage();
             }
-
-            //if (hit.transform.CompareTag("ExplodingBarrel"))  detta kanske är ett bättre sätt
-            //{
-            //    ExplodingBarrel barrel = hit.transform.GetComponent<ExplodingBarrel>();
-            //    if (barrel != null)
-            //    {
-            //        barrel.TakeDamage();
-            //    }
-            //}
         }
     }
 

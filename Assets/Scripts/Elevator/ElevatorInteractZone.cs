@@ -4,15 +4,16 @@ using UnityEngine.InputSystem;
 public class ElevatorInteractZone : MonoBehaviour
 {
     private bool isPlayerInZone = false;
+    GameManager gameManager;
 
-    public void InteractWrapper()
+    private void Start()
     {
-        OnInteract(new InputValue()); // Du kan ignorera värdet eller kopiera logiken till denna metod
+        gameManager = GameObject.FindFirstObjectByType<GameManager>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("PlayerHitbox"))
         {
             isPlayerInZone = true;
             Debug.Log("Player entered the elevator interact zone.");
@@ -21,30 +22,33 @@ public class ElevatorInteractZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("PlayerHitbox"))
         {
             isPlayerInZone = false;
             Debug.Log("Player exited the elevator interact zone.");
         }
     }
 
-    public void OnInteract(InputValue inputValue)
+    public void CheckInteraction()
     {
-        if(!isPlayerInZone)
+        if (!isPlayerInZone)
         {
+            
             return;
         }
 
-        if(EquipKeycard.Instance.hasKeycard)
+        if (gameManager.HasKeycard)
         {
-            Debug.Log("Interacting with the elevator.");
-            // Add your elevator interaction logic here
+            SceneHandler sceneHandler = GameObject.FindAnyObjectByType<SceneHandler>();
+            if(sceneHandler != null)
+            {
+                sceneHandler.LoadElevatorScene();
+            }
         }
         else
         {
-            Debug.Log("You need a keycard to interact with the elevator.");
+            
         }
-
     }
 }
 

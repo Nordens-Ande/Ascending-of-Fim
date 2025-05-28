@@ -61,14 +61,12 @@ public class EquipWeapon : MonoBehaviour
     public void OnInteract(InputValue inputValue)
     {
         Equip();
-        Debug.Log("pressed E");
     }
 
 
     public void OnDrop(InputValue inputValue)
     {
         UnEquip();
-        Debug.Log("Pressed Q");
     }
 
     private void Update()
