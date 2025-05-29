@@ -7,7 +7,6 @@ public class Shoot : MonoBehaviour
 {
     int rayLength;
     [SerializeField] GameObject bulletOrigin; //placera child objectet som vapnet ska ha här, skottets/rayens origin.
-    [SerializeField] GameObject orientationObject; //placera child objectet som vapnet ska ha här, skottets/rayens origin.
     LayerMask layerMask;
 
     void Start()

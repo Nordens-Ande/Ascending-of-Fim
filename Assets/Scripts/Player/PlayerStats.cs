@@ -11,6 +11,8 @@ public class PlayerStats : MonoBehaviour
     public static bool playerHasDied = false; //if the player has died
     public static float elapsedTime = 0f; //time elapsed
     public static float elapsedTimePerLevel = 0f; //time per level
+    public static string weapon;
+    public static bool hasShield;
 
 
     public static void resetValues()
@@ -22,6 +24,8 @@ public class PlayerStats : MonoBehaviour
         score = 0;
         playerHasDied = false;
         elapsedTime = 0f;
+        weapon = null;
+        hasShield = false;
     }
 
 

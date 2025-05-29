@@ -22,10 +22,6 @@ public class ShieldScript : MonoBehaviour
         rotationSpeed = 10;
 
         rigidBody = GetComponent<Rigidbody>();
-        if(rigidBody != null)
-        {
-            rigidBody.isKinematic = false;
-        }
     }
 
     public void CheckIfShieldBodyNull() // used to fix issue with enemy spawn nullreferences

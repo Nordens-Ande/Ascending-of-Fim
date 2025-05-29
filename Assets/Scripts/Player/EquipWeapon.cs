@@ -1,4 +1,5 @@
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -23,6 +24,14 @@ public class EquipWeapon : MonoBehaviour
 
     GameObject shield;
     ShieldScript shieldScript;
+
+    [Header("Prefab References")]
+    [SerializeField] GameObject pistolPrefab;
+    [SerializeField] GameObject raygunPrefab;
+    [SerializeField] GameObject riflePrefab;
+    [SerializeField] GameObject shotgunPrefab;
+
+    [SerializeField] GameObject shieldPrefab;
 
     [Header("AnimationPos")]
     [SerializeField] private float AnimationSpeed;
@@ -56,6 +65,92 @@ public class EquipWeapon : MonoBehaviour
         IsEquipped = false;
         hasShield = false;
         weaponMask = (LayerMask.GetMask("ShieldIgnore") | LayerMask.GetMask("Weapon"));
+        CheckForWeaponOnSpawn();
+    }
+
+    public void CheckForWeaponOnSpawn()
+    {
+        bool spawnShield = false;
+        bool spawnWeapon = false;
+        if (PlayerStats.hasShield == true)
+        {
+            spawnShield = true;
+        }
+        if (!string.IsNullOrEmpty(PlayerStats.weapon))
+        {
+            spawnWeapon = true;
+        }
+        
+        CreateSpawnWeapon(spawnShield, spawnWeapon);
+    }
+
+    void CreateSpawnWeapon(bool shield, bool weapon)
+    {
+        if (shield == true)
+        {
+            this.shield = Instantiate(shieldPrefab, shieldPos.position, shieldPos.rotation, shieldPos);
+            shieldScript = this.shield.GetComponent<ShieldScript>();
+            shieldScript.SetOwner(this.gameObject);
+            shieldScript.CheckIfShieldBodyNull();
+            shieldScript.Equip();
+            hasShield = true;
+        }
+        if (weapon == true)
+        {
+            GameObject prefabToSpawn = null;
+            string weaponName = PlayerStats.weapon;
+            if(hasShield == true)
+            {
+                if (weaponName == "pistol")
+                {
+                    prefabToSpawn = pistolPrefab;
+                    WeaponPosition = pistolPosShield;
+                }
+                else if (weaponName == "raygun")
+                {
+                    prefabToSpawn = raygunPrefab;
+                    WeaponPosition = raygunPosShield;
+                }
+            }
+            else
+            {
+                if (weaponName == "pistol")
+                {
+                    prefabToSpawn = pistolPrefab;
+                    WeaponPosition = pistolPos;
+                }
+                else if (weaponName == "raygun")
+                {
+                    prefabToSpawn = raygunPrefab;
+                    WeaponPosition = raygunPos;
+                }
+                else if (weaponName == "rifle")
+                {
+                    prefabToSpawn = riflePrefab;
+                    WeaponPosition = riflePos;
+                }
+                else if (weaponName == "shotgun")
+                {
+                    prefabToSpawn = shotgunPrefab;
+                    WeaponPosition = shotgunPos;
+                }
+            }
+
+            currentWeaponObject = Instantiate(prefabToSpawn, WeaponPosition.position, WeaponPosition.rotation, WeaponPosition);
+            currentWeapon = currentWeaponObject.GetComponent<WeaponScript>();
+            currentWeapon.Initialized();
+            currentWeapon.CheckIfWeaponBodyNull();
+            currentWeapon.Equip();
+            IsEquipped = true;
+        }
+        if (shieldScript != null)
+        {
+            SetHandPos(currentWeapon, shieldScript);
+        }
+        else if(currentWeapon != null && shieldScript == null)
+        {
+            SetHandPos(currentWeapon);
+        }
     }
 
     public void OnInteract(InputValue inputValue)
@@ -82,6 +177,7 @@ public class EquipWeapon : MonoBehaviour
 
             if (shieldScript.GetHealth() <= 0)
             {
+                PlayerStats.hasShield = false;
                 shield.transform.parent = null;
                 shieldScript.Unequip(true);
                 shieldScript.SetOwner(null);
@@ -188,6 +284,7 @@ public class EquipWeapon : MonoBehaviour
                     currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
                     currentWeaponObject = topRayHitInfo.collider.gameObject;
                     currentWeapon.Equip();
+                    PlayerStats.weapon = currentWeapon.GetWeaponData().weaponName.ToLower();
                     IsEquipped = true;
                 } 
             }
@@ -225,6 +322,7 @@ public class EquipWeapon : MonoBehaviour
         shieldScript.SetOwner(this.gameObject);
         shieldScript.Equip();
         hasShield = true;
+        PlayerStats.hasShield = true;
     }
 
     void SetWeaponPos()
@@ -275,6 +373,7 @@ public class EquipWeapon : MonoBehaviour
                 shieldScript.Unequip(false);
                 shieldScript.SetOwner(null);
                 hasShield = false;
+                PlayerStats.hasShield = false;
                 shield = null;
                 shieldScript = null;
                 if(currentWeapon != null)
@@ -293,6 +392,7 @@ public class EquipWeapon : MonoBehaviour
                 leftHandIK.weight = 0.0f;
             }
 
+            PlayerStats.weapon = null;
             IsEquipped = false;
 
             currentWeapon.transform.parent = null;
