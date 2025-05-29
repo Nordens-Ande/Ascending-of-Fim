@@ -43,8 +43,8 @@ public class GameManager : MonoBehaviour
         hudHandler.setLevel(PlayerStats.currentLevel);
         PlayerStats.elapsedTimePerLevel = 0f;
 
-        roomManager.reroll = true; // reroll the apartment
         roomManager.floorLevel += 1; // increase the floor level
+        roomManager.reroll = true; // reroll the apartment
 
         navMeshBaker.StartCoroutine(navMeshBaker.BakeNavMesh());
         

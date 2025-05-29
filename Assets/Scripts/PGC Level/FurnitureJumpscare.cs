@@ -17,7 +17,6 @@ public class FurnitureJumpscare : MonoBehaviour
     [SerializeField] private float distanceToActivate;
 
     [Header("Objects")]
-    [SerializeField] private EnemyAIController enemyToSpawn;
     //[SerializeField] private List<Transform> spawnPositions = new List<Transform>();
     [SerializeField] private List<GameObject> objectsToSpawn = new List<GameObject>();
     [SerializeField] private List<GameObject> objectsToDelete = new List<GameObject>();
@@ -50,7 +49,7 @@ public class FurnitureJumpscare : MonoBehaviour
     {
         if (hitboxCollider == null)
         {
-            Debug.Log("No hitbox?");
+            //Debug.Log("No hitbox?");
             CreateCollider();
         }
         hitboxCollider.center = isCentered ? position : position + size / 2f;

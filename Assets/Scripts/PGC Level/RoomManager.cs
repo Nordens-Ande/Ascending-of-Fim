@@ -425,6 +425,7 @@ public class RoomManager : MonoBehaviour
             if (TryPlaceFurniture(room, furniture, spawnPos))
             {
                 room.FurnitureList.Add((furniture, spawnPos));
+                Debug.Log("Spawned keycard at: " + spawnPos);
                 placedFurniture++;
             }
         }
