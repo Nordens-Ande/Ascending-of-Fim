@@ -1,18 +1,20 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class KeycardUIScript : MonoBehaviour
 {
 
-    [SerializeField] GameObject backgroundRed;
-    [SerializeField] GameObject backgroundGreen;
+    [SerializeField] UnityEngine.UI.Image backgroundRed;
+    [SerializeField] UnityEngine.UI.Image backgroundGreen;
 
 
     void Start()
     {
         if (backgroundGreen != null && backgroundRed != null)
         {
-            backgroundGreen.SetActive(false);
-            backgroundRed.SetActive(true);
+            backgroundGreen.gameObject.SetActive(false);
+            backgroundRed.gameObject.SetActive(true);
         } 
     }
 
@@ -21,8 +23,10 @@ public class KeycardUIScript : MonoBehaviour
     {
         if (backgroundGreen != null && backgroundRed != null)
         {
-            backgroundGreen.SetActive(true);
-            backgroundRed.SetActive(false);
+            backgroundGreen.gameObject.SetActive(true);
+            backgroundRed.gameObject.SetActive(false);
+
+            Debug.LogWarning("Keycard found, UI updated to green background");
         }
     }
 
@@ -30,8 +34,8 @@ public class KeycardUIScript : MonoBehaviour
     {
         if (backgroundGreen != null && backgroundRed != null)
         {
-            backgroundGreen.SetActive(false);
-            backgroundRed.SetActive(true);
+            backgroundGreen.gameObject.SetActive(false);
+            backgroundRed.gameObject.SetActive(true);
         }
     }
 

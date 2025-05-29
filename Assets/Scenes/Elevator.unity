@@ -3007,8 +3007,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d11d957add8d64e995635b82a87c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price10: 10
-  price5: 5
+  price10: 13
+  price5: 6
   price1: 1
   health10: 10
   health5: 5
@@ -3016,8 +3016,8 @@ MonoBehaviour:
   text10: {fileID: 1501539135}
   text5: {fileID: 1512101416}
   text1: {fileID: 812502038}
-  priceText10: {fileID: 1283612636}
-  priceText5: {fileID: 1852712530}
+  priceText10: {fileID: 1852712530}
+  priceText5: {fileID: 1283612636}
   priceText1: {fileID: 1048956042}
   healthBar: {fileID: 331357672}
   moneyScript: {fileID: 1015608813}

@@ -26,6 +26,7 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject CreditsMenu;
     [Space]
     [SerializeField] private TextMeshProUGUI startbutton;
+    [SerializeField] private GameObject resumebutton;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,7 +40,7 @@ public class UIHandler : MonoBehaviour
         ResetUI();
         ActivateStartMenu();
         hudHandler?.setScore(PlayerStats.score);
-        
+
         Time.timeScale = 0f;
 
         if (PlayerStats.gameHasStarted)
@@ -60,6 +61,7 @@ public class UIHandler : MonoBehaviour
         PlayerStats.gameHasStarted = true;
         TurnOffUI();
         TurnOnHUD();
+        resumebutton.SetActive(true);
 
         if (PlayerStats.playerHasDied)
         {

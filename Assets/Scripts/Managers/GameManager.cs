@@ -7,8 +7,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] NavMeshBaker navMeshBaker;
     [SerializeField] RoomManager roomManager;
     [SerializeField] SceneHandler sceneHandler;
+    [SerializeField] HUDHandler hudHandler;
 
-    private HUDHandler hudHandler;
+    //private HUDHandler hudHandler;
     private PlayerHealth playerHealth;
 
     enum GameState { MainMenu, Playing, Elevator, GameOver}
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        hudHandler = FindFirstObjectByType<HUDHandler>();
+        //hudHandler = FindFirstObjectByType<HUDHandler>();
         playerHealth = FindFirstObjectByType<PlayerHealth>();
 
         gameState = GameState.MainMenu;
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
     {
         hasKeycard = true;
         hudHandler?.hasKeycard();
-        Debug.LogWarning("Keycard found");
+        hudHandler?.setAnnounchment("Keycard found!", 2);
     }
 
     public void LoadLevel() //KOPPLAD!
