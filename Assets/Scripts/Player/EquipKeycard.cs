@@ -60,6 +60,7 @@ public class EquipKeycard : MonoBehaviour
                 keycardScript.Equip();
                 hasKeycard = true;
                 gameManager.PlayerFoundKeycard(); //KOPPLAD!
+                Debug.LogWarning("Keycard equipped");
             }
         }
     }

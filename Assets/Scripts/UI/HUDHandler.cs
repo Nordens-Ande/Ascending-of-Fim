@@ -206,6 +206,7 @@ public class HUDHandler : MonoBehaviour
     public void hasKeycard()
     {
         keycardUI.playerHasKeycard();
+        Debug.LogWarning("Player has keycard now UI");
     }
 
     public void DontHaveKeycard()

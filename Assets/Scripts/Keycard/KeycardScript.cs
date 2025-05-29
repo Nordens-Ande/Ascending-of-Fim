@@ -4,12 +4,13 @@ using System.Collections;
 public class KeycardScript : MonoBehaviour
 {
     [SerializeField] private float keycardRotationSpeed;
+    private GameManager gameManager;
 
     public bool isRotating { get; set; }
 
     void Start()
     {
-        
+        gameManager = FindFirstObjectByType<GameManager>();
         isRotating = true;
     }
 
@@ -28,6 +29,9 @@ public class KeycardScript : MonoBehaviour
             GetComponent<Collider>().enabled = false;
         }
         isRotating = false;
-        gameObject.SetActive(false); 
+        gameObject.SetActive(false);
+
+        Debug.LogWarning("Keycard equipped");
+        gameManager.PlayerFoundKeycard();
     }
 }

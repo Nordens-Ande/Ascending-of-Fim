@@ -19,7 +19,7 @@ public class GameOverScore : MonoBehaviour
             PlayerStats.score = 0;
             hudHandler.playerisDead();
         }
-        else
+        else if(gameOverScore = null)
         {
             Debug.LogWarning("TextMeshProUGUI reference is not assigned");
         }
