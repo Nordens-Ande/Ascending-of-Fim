@@ -4,6 +4,7 @@
     {
         _CurveAmount ("Curve Strength", Float) = 0.0005
         _MainTex      ("Albedo (RGB)", 2D)    = "white" {}
+        _Color ("Tint Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -18,6 +19,7 @@
             #include "UnityCG.cginc"
 
             sampler2D _MainTex;
+            fixed4 _Color;
             float      _CurveAmount;
 
             struct appdata
@@ -48,7 +50,9 @@
 
             fixed4 frag(v2f i) : SV_Target
             {
-                return tex2D(_MainTex, i.uv);
+                fixed4 tex = tex2D(_MainTex, i.uv);
+                return tex * _Color;
+                // return _Color;
             }
             ENDCG
         }
