@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] EnemyManager enemyManager;
     [SerializeField] NavMeshBaker navMeshBaker;
     [SerializeField] RoomManager roomManager;
+    [SerializeField] BackgroundHandler backgroundHandler;
     [SerializeField] SceneHandler sceneHandler;
     [SerializeField] HUDHandler hudHandler;
 
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
     bool hasKeycard;
     public bool HasKeycard { get { return hasKeycard; } }
 
+    //VALUES FOR RESTART
+    MinMaxInt roomAmountRangeInit;
 
     void Start()
     {
@@ -26,6 +29,11 @@ public class GameManager : MonoBehaviour
 
         gameState = GameState.MainMenu;
         hasKeycard = false;
+
+        backgroundHandler.currentFloor = roomManager.floorLevel;
+
+        //VALUES FOR RESTART
+        MinMaxInt roomAmountRangeInit = roomManager.roomAmountRange;
     }
 
     public void PlayerFoundKeycard() // call from player interact script
@@ -45,16 +53,22 @@ public class GameManager : MonoBehaviour
         PlayerStats.elapsedTimePerLevel = 0f;
 
         roomManager.floorLevel += 1; // increase the floor level
+        roomManager.roomAmountRange = new MinMaxInt(roomManager.roomAmountRange.min + 1, roomManager.roomAmountRange.max + 2);
         roomManager.reroll = true; // reroll the apartment
 
+        backgroundHandler.currentFloor = roomManager.floorLevel;
+
         navMeshBaker.StartCoroutine(navMeshBaker.BakeNavMesh());
-        
     }
 
     public void RestartGame()//KOPPLAD!
     {
         if (PlayerStats.gameHasStarted)
         {
+            roomManager.floorLevel = 1;
+            roomManager.roomAmountRange = roomAmountRangeInit;
+            backgroundHandler.currentFloor = roomManager.floorLevel;
+
             sceneHandler.RestartScene();
             PlayerStats.resetValues();
         }
@@ -73,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     //public void StopLevel() // stop enemy spawning, player input etc
     //{
-       
+
     //}
 
     //public void GameOver() // player dies, save highscore, go to game over screen or main menu, etc

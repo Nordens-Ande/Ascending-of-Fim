@@ -57,7 +57,7 @@ public class RoomManager : MonoBehaviour
     //[SerializeField] Vector2Int initPosition;
 
     [Header("Apartment Settings")]
-    [SerializeField] MinMaxInt roomAmountRange;
+    [SerializeField] public MinMaxInt roomAmountRange;
     [SerializeField] public int floorLevel = 1;
     [SerializeField] Material exteriorWallMaterial;
     [Space]

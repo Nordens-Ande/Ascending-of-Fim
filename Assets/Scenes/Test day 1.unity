@@ -1078,6 +1078,7 @@ MonoBehaviour:
   enemyManager: {fileID: 1446374432}
   navMeshBaker: {fileID: 906973924}
   roomManager: {fileID: 906973923}
+  backgroundHandler: {fileID: 632874304}
   sceneHandler: {fileID: 405174299}
   hudHandler: {fileID: 781473631}
 --- !u!4 &435173152
@@ -1500,6 +1501,134 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 68182763018079591, guid: c41c64fbf394c7649a588e5e75c74893, type: 3}
   m_PrefabInstance: {fileID: 371932991}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &632874303
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1747585964363706483, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: planeColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1747585964363706483, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: planeColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1747585964363706483, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: planeColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1747585964363706483, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: planeColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019007587597730319, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_Layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2752036603812556898, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102328629385080142, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116401033954199655, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116401033954199655, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 26a95c4c6b7e80e43a612b12b2982094, type: 2}
+    - target: {fileID: 6128976425990015147, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: heightFloor
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281303913962237241, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_Name
+      value: BackgroundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654883471816574451, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654883471816574451, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654883471816574451, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654883471816574451, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654883471816574451, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7654883471816574451, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+--- !u!114 &632874304 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6128976425990015147, guid: 9f157c4043cde1c44a62e7078ff44d6e, type: 3}
+  m_PrefabInstance: {fileID: 632874303}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a96b230e9b36a4f9ead1d97313d98a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &651433109
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2474,7 +2603,7 @@ MonoBehaviour:
   roomAmountRange:
     min: 10
     max: 15
-  floorLevel: 2
+  floorLevel: 1
   exteriorWallMaterial: {fileID: -5937134528182024341, guid: e545c4d187519be42b284e9a3aca0ba2, type: 3}
   doorClearance: 1
   thickWallsEnabled: 1
@@ -2567,7 +2696,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8217
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -6327,6 +6456,7 @@ SceneRoots:
   - {fileID: 134528687}
   - {fileID: 435173152}
   - {fileID: 906973920}
+  - {fileID: 632874303}
   - {fileID: 1446374431}
   - {fileID: 193646584}
   - {fileID: 405174296}
