@@ -12,6 +12,7 @@ public class Grenade : MonoBehaviour
     [SerializeField] ExplosionSound exSound;
 
     private HUDHandler hudHandler;
+    private bool scoreOnce = false;
     private bool isTriggered = false;
 
     void Start()
@@ -77,11 +78,12 @@ public class Grenade : MonoBehaviour
             }
         }
 
-        if (hudHandler != null)
-        {
-            hudHandler.addScore(500);
-        }
-
         Destroy(gameObject);
+
+        if (hudHandler != null && !scoreOnce)
+        {
+            scoreOnce = true;
+            hudHandler.addScore(100);
+        }
     }
 }
