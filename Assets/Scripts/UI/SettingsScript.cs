@@ -11,6 +11,7 @@ public class SettingsScript : MonoBehaviour
     [SerializeField] Toggle toggleHUDHealthpoints;
     [SerializeField] Toggle toggleHUDKeycard;
     [SerializeField] Toggle toggleHudLevelIndicator;
+    [SerializeField] Toggle toggleHudGrenades;
 
     [Space]
     [Header("HUD Elements")]
@@ -21,6 +22,7 @@ public class SettingsScript : MonoBehaviour
     [SerializeField] GameObject HUDHealthpoints;
     [SerializeField] GameObject HUDKeycard;
     [SerializeField] GameObject HUDLevelIndicator;
+    [SerializeField] GameObject HUDGrendaes;
 
 
 
@@ -34,6 +36,7 @@ public class SettingsScript : MonoBehaviour
         toggleHUDHealthpoints.onValueChanged.AddListener(OnHUDHealthpointsToggled);
         toggleHUDKeycard.onValueChanged.AddListener(OnHUDAnnouncementToggled);
         toggleHudLevelIndicator.onValueChanged.AddListener(OnHUDLevelIndicatorToggled);
+        toggleHudGrenades.onValueChanged.AddListener(OnHUDGrenadesToggled);
 
         // Initialize HUD visibility based on current toggle states
         OnHUDTimeToggled(toggleHUDTime.isOn);
@@ -43,6 +46,7 @@ public class SettingsScript : MonoBehaviour
         OnHUDHealthpointsToggled(toggleHUDHealthpoints.isOn);
         OnHUDAnnouncementToggled(toggleHUDKeycard.isOn);
         OnHUDLevelIndicatorToggled(toggleHudLevelIndicator.isOn);
+        OnHUDGrenadesToggled(toggleHudGrenades.isOn);
     }
 
     void OnHUDTimeToggled(bool isOn) => HUDTime.SetActive(isOn);
@@ -52,4 +56,5 @@ public class SettingsScript : MonoBehaviour
     void OnHUDHealthpointsToggled(bool isOn) => HUDHealthpoints.SetActive(isOn);
     void OnHUDAnnouncementToggled(bool isOn) => HUDKeycard.SetActive(isOn);
     void OnHUDLevelIndicatorToggled(bool isOn) => HUDLevelIndicator.SetActive(isOn);
+    void OnHUDGrenadesToggled(bool isOn) => HUDGrendaes.SetActive(isOn);
 }

@@ -17,6 +17,7 @@ public class HUDHandler : MonoBehaviour
     private HitUI hitUIscript;
     private KeycardUIScript keycardUI;
     private LevelIndicatorUIScript levelIndicatorUIscript;
+    private GrenadeUIScript grenadeUIScript;
 
     [SerializeField] ShakeData hitShake;
     [SerializeField] ShakeData shootShake;
@@ -45,6 +46,7 @@ public class HUDHandler : MonoBehaviour
         hitUIscript = GetComponentInChildren<HitUI>();
         keycardUI = GetComponentInChildren<KeycardUIScript>();
         levelIndicatorUIscript = GetComponentInChildren<LevelIndicatorUIScript>();
+        grenadeUIScript = GetComponentInChildren<GrenadeUIScript>();
 
         WarnIfNull(timerUIScript, nameof(timerUIScript));
         WarnIfNull(moneyScript, nameof(moneyScript));
@@ -57,6 +59,7 @@ public class HUDHandler : MonoBehaviour
         WarnIfNull(hitUIscript, nameof(hitUIscript));
         WarnIfNull(keycardUI, nameof(keycardUI));
         WarnIfNull(levelIndicatorUIscript, nameof(levelIndicatorUIscript));
+        WarnIfNull(grenadeUIScript, nameof(grenadeUIScript));
     }
 
 
@@ -266,4 +269,19 @@ public class HUDHandler : MonoBehaviour
         levelIndicatorUIscript.subtractLevel(amountToSubtract);
     }
 
+    //grenade functions
+    public void setGrenadeCount(int grenades)
+    {
+        grenadeUIScript.setGrenades(grenades);
+    }
+
+    public void addGrenades(int amountToAdd)
+    {
+        grenadeUIScript.addGrenades(amountToAdd);
+    }
+
+    public void subtractGrenades(int amountToSubtract)
+    { 
+        grenadeUIScript.addGrenades(amountToSubtract);
+    }
 }

@@ -4866,14 +4866,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 104956087020240410, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
-      propertyPath: GroundDrag
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 617260996052543269, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
-      propertyPath: m_Layer
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 808824040587272317, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -4926,6 +4918,10 @@ PrefabInstance:
       propertyPath: rayLengt
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2245919611127769776, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: maxGrenades
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2294375529461019956, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: m_LocalPosition.z
       value: -17
@@ -4974,10 +4970,6 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: f46fb19686986524eb32bd0d091db74d, type: 3}
-    - target: {fileID: 7374265567498303239, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: f2a39b8d99517124da4b9a16a0082f41, type: 2}
     - target: {fileID: 8810053529756146234, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: SEP
       value: 

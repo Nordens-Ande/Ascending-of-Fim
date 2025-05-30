@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour
     public static float elapsedTimePerLevel = 0f; //time per level
     public static string weapon;
     public static bool hasShield;
+    public static int grenades = 3; //number of grenades
 
 
     public static void resetValues()
@@ -26,6 +27,7 @@ public class PlayerStats : MonoBehaviour
         elapsedTime = 0f;
         weapon = null;
         hasShield = false;
+        grenades = 3;
     }
 
 
