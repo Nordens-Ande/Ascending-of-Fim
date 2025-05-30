@@ -1086,10 +1086,6 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.4
       objectReference: {fileID: 0}
-    - target: {fileID: 1087508255791953301, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: f2a39b8d99517124da4b9a16a0082f41, type: 2}
     - target: {fileID: 1147520176836613223, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1243,10 +1239,6 @@ PrefabInstance:
       value: PlayerHitbox
       objectReference: {fileID: 0}
     - target: {fileID: 7048641471226029495, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
-      propertyPath: m_Layer
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7048641471226029495, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_TagString
       value: PlayerHitbox
       objectReference: {fileID: 0}
@@ -1310,10 +1302,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 7509150434296265864, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
-      propertyPath: GroundDrag
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 7756046547137426466, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1337,6 +1325,10 @@ PrefabInstance:
     - target: {fileID: 8276214249619498440, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532674728055498786, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
+      propertyPath: maxGrenades
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8545157989944178598, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2023,6 +2015,11 @@ MonoBehaviour:
     m_Bits: 2112
   orientationObject: {fileID: 2354248769304841735}
   currentWeaponObject: {fileID: 0}
+  pistolPrefab: {fileID: 0}
+  raygunPrefab: {fileID: 0}
+  riflePrefab: {fileID: 0}
+  shotgunPrefab: {fileID: 0}
+  shieldPrefab: {fileID: 0}
   AnimationSpeed: 5
   raygunPos: {fileID: 7509762624787418039}
   raygunPosShield: {fileID: 4467866409763068080}
@@ -2067,7 +2064,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletOrigin: {fileID: 7029269258049168669}
-  orientationObject: {fileID: 0}
 --- !u!114 &8810053529756146234
 MonoBehaviour:
   m_ObjectHideFlags: 0
