@@ -10,7 +10,7 @@ public class ScoreScript : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "0";
+            scoreText.text = PlayerStats.score.ToString();
         }
         else
         {
@@ -22,6 +22,7 @@ public class ScoreScript : MonoBehaviour
     {
         if (scoreText != null)
         {
+            PlayerStats.score = newScore;
             scoreText.text = newScore.ToString();
         }
         else
@@ -34,9 +35,8 @@ public class ScoreScript : MonoBehaviour
     {
         if (scoreText != null)
         {
-            int currentMoney = int.Parse(scoreText.text);
-            currentMoney = currentMoney + amountToAdd;
-            setScore(currentMoney);
+            PlayerStats.score += amountToAdd;
+            setScore(PlayerStats.score);
         }
         else
         {
@@ -48,9 +48,8 @@ public class ScoreScript : MonoBehaviour
     {
         if (scoreText != null)
         {
-            int currentMoney = int.Parse(scoreText.text);
-            currentMoney = currentMoney - amountToAdd;
-            setScore(currentMoney);
+            PlayerStats.score -= amountToAdd;
+            setScore(PlayerStats.score);
         }
         else
         {

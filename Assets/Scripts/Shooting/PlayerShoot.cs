@@ -8,7 +8,10 @@ public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] Shoot shootScript;
     [SerializeField] EquipWeapon equipWeapon;
+
     [SerializeField] HUDHandler hudHandler;
+    private bool reloadMessageShown = false;
+    [SerializeField]SoundEffectsPlayer SEP;
 
     WeaponData weaponData;
     WeaponScript weaponScript;
@@ -28,8 +31,12 @@ public class PlayerShoot : MonoBehaviour
     {
         weaponData = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().GetWeaponData();
         weaponScript = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>();
+
         //basically uptpade funktionen, ui ammo kollas varje frame och skriver ut hur mycket ammo man har
-        hudHandler.setAmmo(weaponScript.bulletsLeft);
+        if (hudHandler != null)
+        {
+            hudHandler.setAmmo(weaponScript.bulletsLeft);
+        }
     }
 
     void OnAttack(InputValue input)
@@ -59,7 +66,9 @@ public class PlayerShoot : MonoBehaviour
         if(weaponScript.bulletsLeft < weaponData.ammoCapacity && !isReloading)
         {
             isReloading = true;
+            SEP.ReloadSoundEffect();
             StartCoroutine(FinishReload());
+           
         }
     }
 
@@ -69,6 +78,7 @@ public class PlayerShoot : MonoBehaviour
         weaponScript.ReloadBullets();
         isReloading = false;
         isReadyToShoot = true;
+        reloadMessageShown = false;
     }
 
     void Shoot()
@@ -80,12 +90,21 @@ public class PlayerShoot : MonoBehaviour
         if (weaponData.weaponName.ToLower() == "shotgun")
         {
             hits = shootScript.ShootRay(8);
+            SEP.ShotgunShooting();
         }
         else
         {
             hits = shootScript.ShootRay(1);
+            SEP.shooting();
+
         }
         
+
+        if (hudHandler != null)
+        {
+            hudHandler.FimShootingShake();
+        }
+
         CheckRay(hits);
         StartCoroutine(ResetIsReadyToShoot());
     }
@@ -107,6 +126,10 @@ public class PlayerShoot : MonoBehaviour
             {
                 hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
             }
+            else if(hit.transform.CompareTag("Shield"))
+            {
+                hit.transform.gameObject.GetComponent<ShieldScript>().DecreaseHealth(weaponData.damage);
+            }
 
             //
             ExplodingBarrel barrel = hit.transform.GetComponent<ExplodingBarrel>();
@@ -114,15 +137,6 @@ public class PlayerShoot : MonoBehaviour
             {
                 barrel.TakeDamage();
             }
-
-            //if (hit.transform.CompareTag("ExplodingBarrel"))  detta kanske är ett bättre sätt
-            //{
-            //    ExplodingBarrel barrel = hit.transform.GetComponent<ExplodingBarrel>();
-            //    if (barrel != null)
-            //    {
-            //        barrel.TakeDamage();
-            //    }
-            //}
         }
     }
 
@@ -138,10 +152,19 @@ public class PlayerShoot : MonoBehaviour
         if (isShooting && isReadyToShoot && !isReloading && weaponScript.bulletsLeft > 0)
         {
             Shoot();
-            if(!weaponData.allowButtonHold)
+            
+            if (!weaponData.allowButtonHold)
             {
                 isShooting = false;
+                //SEP.getShooting();
             }
+        }
+
+        if (weaponScript.bulletsLeft == 0 && !reloadMessageShown)
+        {
+            SEP.NeedToRealoadsound();
+            reloadMessageShown = true;
+            hudHandler.setAnnounchment("Reload with R", 3);
         }
     }
 }

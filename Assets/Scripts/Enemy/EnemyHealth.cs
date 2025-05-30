@@ -5,6 +5,7 @@ public class EnemyHealth : MonoBehaviour
     int health;
 
     [SerializeField] CheckIfEnemyDead enemyDeathScript;
+    [SerializeField] EnemyHitSound enemyHitSound;
 
     void Start()
     {
@@ -14,6 +15,7 @@ public class EnemyHealth : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         health -= damage;
+        enemyHitSound.EnemyHurtSound();
         if(health <= 0)
         {
             enemyDeathScript.EnemyDead();

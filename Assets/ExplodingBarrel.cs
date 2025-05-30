@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ExplodingBarrel : MonoBehaviour
@@ -6,10 +7,19 @@ public class ExplodingBarrel : MonoBehaviour
     [SerializeField] float explosionRadius = 7f;
     [SerializeField] float explosionForce = 750f;
     [SerializeField] float explosionSpeed = 20f;
-    [SerializeField] int damage = 15;
+    [SerializeField] int damage = 25;
     [SerializeField] ParticleSystem explosionEffect;
+    [SerializeField] ExplosionSound exSound;
+
+    private HUDHandler hudHandler;
+    private bool scoreOnce = false;
 
     private bool isTriggered = false;
+
+    private void Awake()
+    {
+        hudHandler = FindFirstObjectByType<HUDHandler>();
+    }
 
     public void TakeDamage()
     {
@@ -17,6 +27,7 @@ public class ExplodingBarrel : MonoBehaviour
         {
             isTriggered = true;
             Invoke(nameof(Explode), delay);
+            AudioSource.PlayClipAtPoint(exSound.explosionSound, transform.position, 5);
         }
     }
 
@@ -35,27 +46,37 @@ public class ExplodingBarrel : MonoBehaviour
 
         // do damage and knockback to nearby objects
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+
+        // using hashset to track if player/enemy has already been damaged
+        HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
+        HashSet<GameObject> damagedPlayers = new HashSet<GameObject>();
+
         foreach (Collider nearby in colliders)
         {
             // Damage enemies
-            if (nearby.TryGetComponent(out EnemyHealth enemy))
+            EnemyHealth enemy = nearby.GetComponentInParent<EnemyHealth>();
+            if (enemy != null && !damagedEnemies.Contains(enemy.gameObject))
             {
                 enemy.ApplyDamage(damage);
+                damagedEnemies.Add(enemy.gameObject);
                 Debug.Log("Explosion damaged enemy: " + nearby.name);
             }
 
             // Damage player
-            if (nearby.CompareTag("Player") && nearby.TryGetComponent(out PlayerHealth player))
+            PlayerHealth player = nearby.GetComponentInParent<PlayerHealth>();
+            if (player != null && !damagedPlayers.Contains(player.gameObject))
             {
                 player.ApplyDamage(damage);
+                damagedPlayers.Add(player.gameObject);
                 Debug.Log("Explosion damaged player: " + nearby.name);
             }
 
             // Knockback
-            if (nearby.attachedRigidbody != null)
+            Rigidbody rb = nearby.GetComponentInParent<Rigidbody>();
+            if (rb != null)
             {
-                nearby.attachedRigidbody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
-                Debug.Log("Knockback applied to: " + nearby.name);
+                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                Debug.Log("Knockback applied to: " + rb.gameObject.name);
             }
 
             // Trigger other barrels
@@ -63,9 +84,17 @@ public class ExplodingBarrel : MonoBehaviour
             {
                 otherBarrel.TakeDamage();
             }
+            
         }
-
-
+        
         Destroy(gameObject);
+
+        //give score to hud
+        if (hudHandler != null && !scoreOnce)
+        {
+            scoreOnce = true;
+            hudHandler.addScore(500);
+
+        }
     }
 }

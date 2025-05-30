@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SoundManagerScript : MonoBehaviour
@@ -6,36 +7,34 @@ public class SoundManagerScript : MonoBehaviour
     AudioSource elevatorMusic;
     bool isPaused;
     bool isPlaying;
+    [SerializeField] HUDHandler hudHandler;
 
     void Start()
     {
 
         backgroundMusic = GetComponent<AudioSource>();
         elevatorMusic = GetComponent<AudioSource>();
+        hudHandler = FindAnyObjectByType<HUDHandler>();
         isPlaying = true;
         isPaused = false;
     }
 
-    void Update()
+    void Update() 
     {
+        
         //Ett system för att stanna bakgrundmusik när spelet är pausat
         //Genom att använda bools
-        if (isPlaying && !isPaused) 
-        { 
-            backgroundMusic.Play();
-        }
-        if (isPaused && !isPlaying)   
-        { 
-            backgroundMusic.Stop();
-        }
+        
 
-        if (Input.GetKeyDown(KeyCode.Escape) && isPlaying == true) 
-        { 
+        if (Input.GetKeyDown(KeyCode.Escape) && isPlaying == true && !isPaused && hudHandler.isMenuActive() == false) 
+        {
+            backgroundMusic.Stop();
             isPlaying = false;
             isPaused = true;
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && isPaused == true) 
-        { 
+        if (Input.GetKeyDown(KeyCode.Escape) && isPaused == true && !isPlaying && hudHandler.isMenuActive() == true) 
+        {
+            backgroundMusic.Play();
             isPlaying = true;
             isPaused = false;
         }

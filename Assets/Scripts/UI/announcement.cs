@@ -24,14 +24,14 @@ public class announcement : MonoBehaviour
             Debug.LogWarning("TextMeshProUGUI reference is not assigned");
         }
 
-        if(announchmentObject != null)
-        {
-            announchmentObject.SetActive(false);
-        }
-        else
-        {
-            Debug.LogWarning("announcement object is missing");
-        }
+        //if(announchmentObject != null)
+        //{
+        //    announchmentObject.SetActive(false);
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("announcement object is missing");
+        //}
     }
 
    

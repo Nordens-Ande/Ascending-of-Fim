@@ -6,13 +6,15 @@ using UnityEngine.Rendering;
 public class Money : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI moneytext;
+    //private int money;
 
 
     private void Start()
     {
         if (moneytext != null)
         {
-            moneytext.text = "0";
+            //money = 0;
+            moneytext.text = PlayerStats.money.ToString();
         }
         else
         {
@@ -22,16 +24,18 @@ public class Money : MonoBehaviour
 
     public int readMoney()
     {
-        if(moneytext != null)
-        {
-            return int.Parse(moneytext.text);
-            
-        }
-        else
-        {
-            Debug.LogWarning("money is null");
-            return 0;
-        }
+        return PlayerStats.money;
+
+        //if(moneytext != null)
+        //{
+        //    return int.Parse(moneytext.text);
+
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("money is null");
+        //    return 0;
+        //}
     }
 
     public void setNumber(int newMoney)
@@ -50,9 +54,9 @@ public class Money : MonoBehaviour
     {
         if(moneytext != null)
         {
-            int currentMoney = int.Parse(moneytext.text);
-            currentMoney = currentMoney + amountToAdd;
-            setNumber(currentMoney);
+            PlayerStats.money += amountToAdd;
+            setNumber(PlayerStats.money);
+            
         }
         else
         {
@@ -64,9 +68,8 @@ public class Money : MonoBehaviour
     {
         if (moneytext != null)
         {
-            int currentMoney = int.Parse(moneytext.text);
-            currentMoney = currentMoney - amountToAdd;
-            setNumber(currentMoney);
+            PlayerStats.money -= amountToAdd;
+            setNumber(PlayerStats.money);
         }
         else
         {

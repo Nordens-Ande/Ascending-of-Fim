@@ -5,6 +5,7 @@ public class SoundEffectsEnemy : MonoBehaviour
 {
     public AudioSource CurrentSoundEffect;
     public AudioClip soundEffectShot;
+    public AudioClip soundEffectShotgun;
     public AudioClip[] enemyVoicelines;
     int voiceLine;
 
@@ -29,11 +30,11 @@ public class SoundEffectsEnemy : MonoBehaviour
     public void Update()
     {
         
-        voiceLine = Random.Range(0, 10000);
+        voiceLine = Random.Range(0, 15000);
         
-        isActivelyShooting();
+        //isActivelyShooting();
         
-        beginToTalk();
+        //beginToTalk();
     }
     public void shooting()
     {
@@ -41,11 +42,24 @@ public class SoundEffectsEnemy : MonoBehaviour
         CurrentSoundEffect.Play();
 
     }
+    public void shotgunShoot() 
+    {
+        CurrentSoundEffect.clip = soundEffectShotgun;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 0.2f);
+
+    }
+
+    public void PlayShootingSound() 
+    {
+        CurrentSoundEffect.clip = soundEffectShot;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
+
+    }
     
     public void talking()
     {
         CurrentSoundEffect.clip = enemyVoicelines[Random.Range(0, enemyVoicelines.Length)];
-        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 10f);
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
        
     }
 

@@ -10,7 +10,8 @@ public enum RoomType
     LivingRoom,
     DiningRoom,
     Bathroom,
-    Closet
+    Closet,
+    Unspecific
 }
 
 public class Room : ITileable

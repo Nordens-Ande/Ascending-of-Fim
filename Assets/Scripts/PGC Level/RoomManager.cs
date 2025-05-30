@@ -36,7 +36,7 @@ public struct RoomSettings
 
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] bool reroll = false;
+    [SerializeField] public bool reroll = false;
 
     [SerializeField] GameObject player;
     //[SerializeField] bool debug = false;
@@ -58,10 +58,24 @@ public class RoomManager : MonoBehaviour
 
     [Header("Apartment Settings")]
     [SerializeField] MinMaxInt roomAmountRange;
-    //[SerializeField] int maxElevators;
-    [SerializeField] int doorClearance;
+    [SerializeField] public int floorLevel = 1;
+    [SerializeField] Material exteriorWallMaterial;
+    [Space]
+    [SerializeField] int doorClearance = 1;
+    [Space]
+    [SerializeField] bool thickWallsEnabled = true;
+    [SerializeField] Material thickWallMat;
+    [SerializeField] float thickWallHeightOffset;
+    [Space]
     [SerializeField] int maxRoomFails = 1000;
     [SerializeField] int maxFurnitureFails = 100;
+
+    [Header("Keycard Spawn Settings")]
+    [SerializeField] Furniture keycard;
+    [Space]
+    [SerializeField] int maxKeycards;
+    [SerializeField] int maxKeycardsPerRoom;
+    [SerializeField] List<RoomType> roomsToExcludeKeycard;
 
     [Header("Specific Room Sizes")]
     [SerializeField] RoomSettings hallwaySettings;
@@ -81,12 +95,15 @@ public class RoomManager : MonoBehaviour
     private List<Room> rooms;
     private List<GameObject> roomObjects;
     private Dictionary<Room, GameObject> roomDictionary; //koppla refernserna mellan rummen här och gör en metod, lik GenerateRoomLayout fastän för möbler och använd detta bibliotek för referenser, gör en coroutine på hela möbel metoden sen
+    private GameObject thickWalls;
+    private GameObject exteriorWalls;
 
     private List<GameObject> furnitureObjects;
 
     private HashSet<Vector2Int> occupiedRoomPositions;
     private HashSet<Vector2Int> occupiedDoorPositions;
     private HashSet<Vector2Int> occupiedFurniturePositions;
+    private HashSet<Vector2Int> occupiedThickWalls;
 
     private Dictionary<RoomType, MinMaxInt> roomSizes;
     private Dictionary<RoomType, RoomSettings> roomSettings;
@@ -127,7 +144,12 @@ public class RoomManager : MonoBehaviour
     {
         reroll = false;
         if (player)
+        {
+            player.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
+            player.transform.position = new Vector3(initWidth / 2f, 3, initHeight / 2f);
+        }
+            
 
         rooms = new List<Room>();
         roomObjects = new List<GameObject>();
@@ -136,13 +158,23 @@ public class RoomManager : MonoBehaviour
         occupiedRoomPositions = new HashSet<Vector2Int>();
         occupiedDoorPositions = new HashSet<Vector2Int>();
         occupiedFurniturePositions = new HashSet<Vector2Int>();
+        occupiedThickWalls = new HashSet<Vector2Int>();
 
-        GenerateRoomLayout();
 
-        CheckNearbyRooms();
+        GenerateRoomLayout(); //Rooms
 
-        GenerateFurnitureLayout();
+        if (thickWallsEnabled) //Thick walls
+            ThickWallsGeneration();
 
+        CheckNearbyRooms(); //Doors
+
+        GenerateFurnitureLayout(); //Furniture
+        if (keycard != null)
+            MustPlaceFurniture(keycard, maxKeycards, maxKeycardsPerRoom, roomsToExcludeKeycard.ToArray()); //Keycard
+
+        DebugGeneration(); //Debug tiles
+
+        //Meshbuilder
         foreach (Room room in rooms)
         {
             Material wall = roomSettings[room.Type].wallMaterial ? roomSettings[room.Type].wallMaterial : wallMaterial;
@@ -155,7 +187,21 @@ public class RoomManager : MonoBehaviour
             //TryCreateFurniture(room);
             MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
         }
+        if (thickWallsEnabled)
+        {
+            thickWalls = new GameObject();
+            thickWalls.name = "Thick Wall Tiles";
+            Material mat = thickWallMat ? thickWallMat : wallMaterial;
+            foreach (Vector2Int tile in occupiedThickWalls)
+            {
+                MeshBuilder.CreateThickWallTile(thickWalls.transform, tile, wallHeight + thickWallHeightOffset, mat);
+            }
+        }
+        exteriorWalls = new GameObject();
+        exteriorWalls.name = "Exterior walls";
+        MeshBuilder.CreateExteriorWalls(exteriorWalls.transform, occupiedRoomPositions.Concat(occupiedThickWalls).ToHashSet(), wallHeight, wallHeight * floorLevel, wallThickness, exteriorWallMaterial);
 
+        //Enemies
         if(navMeshBaker != null)
         {
             StartCoroutine(navMeshBaker.BakeNavMesh());
@@ -252,39 +298,6 @@ public class RoomManager : MonoBehaviour
             else
                 failCount = 0; // Reset fails if successful
         }
-        //Extra while-loop för att säkra att hissar skapas. SÄTT EN GRÄNS
-        //failCount = 0;
-        //while (elevatorsToGenerate > rooms.Count(r => r.Type == RoomType.Elevator) && failCount < maxFails)
-        //{
-        //    Room currentRoom = rooms[Random.Range(0, rooms.Count)];
-        //    //Debug.Log("Attempting elevator");
-        //    if (!roomConnectionRules[currentRoom.Type].Contains(RoomType.Elevator))
-        //        continue;
-
-        //    bool addedElevatorThisCycle = false;
-
-        //    MinMaxInt sizeRange = roomSettings[RoomType.Elevator].sizeRange;
-
-        //    int width = Random.Range(sizeRange.min, sizeRange.max + 1);
-        //    int height = Random.Range(sizeRange.min, sizeRange.max + 1);
-
-        //    Vector2Int direction = GetRandomDirection();
-        //    Vector2Int offset = GetOffset(direction, width, height);
-        //    Vector2Int newPosition = currentRoom.Position + offset;
-
-        //    Room elevator = new Room(width, height, wallHeight, wallThickness, doorSize, newPosition, RoomType.Elevator);
-        //    if (IsRoomSpaceFree(elevator) && IsRoomConnected(elevator, direction))
-        //    {
-        //        AddRoom(elevator);
-        //        addedElevatorThisCycle = true;
-        //        Debug.Log("Created elevator");
-        //    }
-
-        //    if (!addedElevatorThisCycle)
-        //        failCount++;
-        //    else
-        //        failCount = 0; // Reset fails if successful
-        //}
     }
 
     private void GenerateFurnitureLayout()
@@ -335,59 +348,12 @@ public class RoomManager : MonoBehaviour
 
                 List<Vector2Int> selectedFurnitureTiles = selectedFurniture.GetOccupiedTiles(spawnPos);
 
-                //if (room.Type == RoomType.Elevator)
-                //{
-                //    if (TryPlaceFurniture(room, selectedFurniture, spawnPos, false, true))
-                //    {
-                //        Debug.Log("Placed Elevator: " + spawnPos);
-                //        addedFurnitureThisCycle = true;
-                //        AddFurniture(room, selectedFurniture, spawnPos);
-                //    }
-                //}
                 if (TryPlaceFurniture(room, selectedFurniture, spawnPos))
                 {
                     //Debug.Log("Placed furniture: " + spawnPos);
                     addedFurnitureThisCycle = true;
                     AddFurniture(room, selectedFurniture, spawnPos);
                 }
-
-                //if (IsFurnitureSpaceFree(room, selectedFurniture, spawnPos))
-                //{
-                //    selectedFurniture.transform.position = new Vector3(spawnPos.x, 0, spawnPos.y);
-
-                //    bool isClear = true;
-                //    foreach (Vector2Int dir in selectedFurniture.clearDirections)
-                //    {
-                //        //Debug.Log("Amount furniture tiles: " + occupiedFurniturePositions.Count);
-
-                //        bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
-                //        bool isFurniture = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, occupiedFurniturePositions.ToList());
-
-                //        //Debug.Log($"Is dir {dir} a room tile {isRoom} or a furniture tile {isFurniture}");
-
-                //        if (!isRoom || isFurniture)
-                //            isClear = false;
-                //    }
-
-                //    bool isNextToWall = true;
-                //    foreach (Vector2Int dir in selectedFurniture.wallDirections)
-                //    {
-                //        if (CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles))
-                //            isNextToWall = false;
-                //    }
-
-                //    if (isClear && isNextToWall)
-                //    {
-                //        Debug.Log("Placed furniture: " + spawnPos);
-                //        addedFurnitureThisCycle = true;
-                //        AddFurniture(room, selectedFurniture, spawnPos);
-                //    }
-                //    else
-                //    {
-                //        //Debug.Log("Failed placement");
-                //        //AddFurniture(room, selectedFurniture, spawnPos);
-                //    }
-                //}
 
                 if (!addedFurnitureThisCycle)
                     failCount++;
@@ -423,6 +389,48 @@ public class RoomManager : MonoBehaviour
         //MeshBuilder.CreateFurniture(null, elevator, new Vector3(elevatorTiles[0].x, 0, elevatorTiles[0].y));
     }
 
+    //Must som innebär att den måste placera den angivna möbeln oavsett vad - här så ignorerar den vilket rum det är och bryr sig enbart om max mängd i lägenheten/rummen och ifall den ska undvika att placeras i specifika rum.
+    void MustPlaceFurniture(Furniture furniture, int maxAmount, int maxPerRoom = 1, params RoomType[] excludedRooms)
+    {
+        int placedFurniture = 0;
+        while (placedFurniture < maxAmount)
+        {
+            Room room = rooms[Random.Range(0, rooms.Count)];
+
+            //Kollar ifall det är ett rum vi ska ignorera (exkludera)
+            bool isExcluded = false;
+            foreach (RoomType roomType in excludedRooms)
+            {
+                if (room.Type == roomType)
+                {
+                    isExcluded = true;
+                    break;
+                }
+            }
+            if (isExcluded) continue;
+
+            //Kollar ifall rummet vi har valt har för många möbler
+            int placedFurniturePerRoom = 0;
+            foreach ((Furniture f, Vector2Int v) checkFurniture in room.FurnitureList)
+            {
+                if (furniture == checkFurniture.f)
+                    placedFurniturePerRoom++;
+            }
+            if (placedFurniturePerRoom >= maxPerRoom) continue;
+
+
+            List<Vector2Int> roomTiles = room.GetOccupiedTiles();
+            Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
+
+            if (TryPlaceFurniture(room, furniture, spawnPos))
+            {
+                room.FurnitureList.Add((furniture, spawnPos));
+                Debug.Log("Spawned keycard at: " + spawnPos);
+                placedFurniture++;
+            }
+        }
+    }
+
     bool TryPlaceFurniture(Room room, Furniture furniture, Vector2Int spawnPos, bool checkDoorTiles = true, bool checkFurnitureTiles = true)
     {
         //Tiles to check
@@ -455,9 +463,6 @@ public class RoomManager : MonoBehaviour
         bool isClear = true;
         foreach (Vector2Int dir in furniture.clearDirections)
         {
-            //bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
-            //bool isFurniture = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, occupiedFurniturePositions.ToList());
-
             bool isRoom = CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, true, roomTiles);
             bool isFurniture = checkFurnitureTiles ? CheckCollidingTilesAtDir(dir, selectedFurnitureTiles, false, furnitureTiles) : false;
 
@@ -540,6 +545,220 @@ public class RoomManager : MonoBehaviour
 
         AddDoorSpace(roomA);
     }
+
+    void ThickWallsGeneration()
+    {
+        //Width/Height definition
+        MinMaxInt rangeX = new MinMaxInt(0, 0);
+        MinMaxInt rangeZ = new MinMaxInt(0, 0);
+
+        foreach (Room room in rooms)
+        {
+            rangeX.min = rangeX.min > room.Position.x ? room.Position.x : rangeX.min;
+            rangeX.max = rangeX.max < room.Position.x + room.Width ? room.Position.x + room.Width : rangeX.max;
+
+            rangeZ.min = rangeZ.min > room.Position.y ? room.Position.y : rangeZ.min;
+            rangeZ.max = rangeZ.max < room.Position.y + room.Height ? room.Position.y + room.Height : rangeZ.max;
+        }
+
+        //Definerar tillgängliga tiles
+        List<Vector2Int> freeTiles = new List<Vector2Int>();
+        for (int x = rangeX.min; x <= rangeX.max; x++)
+        {
+            for (int y = rangeZ.min; y <= rangeZ.max; y++)
+            {
+                Vector2Int tile = new Vector2Int(x, y);
+                if (!occupiedRoomPositions.Contains(tile))
+                    freeTiles.Add(tile);
+            }
+        }
+
+        foreach (Vector2Int tile in freeTiles)
+        {
+            if (IsThickWall(tile, occupiedRoomPositions.ToList()))
+                occupiedThickWalls.Add(tile);
+        }
+
+        foreach (Vector2Int tile in FindHoles(occupiedRoomPositions))
+        {
+            occupiedThickWalls.Add(tile);
+        }
+    }
+
+    //Om en grupp av tiles når bordern, då är det inte ett hål annars är det ett hål
+    //Vi väljer en tile, förgrenar från den tills den stannar av border/rooms/av tidigare tiles.
+    public List<Vector2Int> FindHoles(HashSet<Vector2Int> roomTiles)
+    {
+        List<Vector2Int> holeTiles = new List<Vector2Int>();
+
+        //Width/Height definition
+        MinMaxInt rangeX = new MinMaxInt(0, 0);
+        MinMaxInt rangeZ = new MinMaxInt(0, 0);
+
+        foreach (Room room in rooms)
+        {
+            rangeX.min = rangeX.min > room.Position.x ? room.Position.x : rangeX.min;
+            rangeX.max = rangeX.max < room.Position.x + room.Width ? room.Position.x + room.Width : rangeX.max;
+
+            rangeZ.min = rangeZ.min > room.Position.y ? room.Position.y : rangeZ.min;
+            rangeZ.max = rangeZ.max < room.Position.y + room.Height ? room.Position.y + room.Height : rangeZ.max;
+        }
+
+        //Definerar bordern
+        HashSet<Vector2Int> border = new HashSet<Vector2Int>();
+        for (int x = rangeX.min; x <= rangeX.max; x++) //Top/bottom
+        {
+            border.Add(new Vector2Int(x, rangeZ.min));
+            border.Add(new Vector2Int(x, rangeZ.max));
+        }
+        for (int y = rangeZ.min; y <= rangeZ.max; y++) //Right/Left
+        {
+            border.Add(new Vector2Int(rangeX.min, y));
+            border.Add(new Vector2Int(rangeX.max, y));
+        }
+        //foreach (Vector2Int tile in border)
+        //    debugger.doorTiles.Add(tile);
+        if (debugger)
+            debugger.freeTiles.Add((border, Color.red));
+
+
+        //Definerar tillgängliga tiles
+        List<Vector2Int> freeTiles = new List<Vector2Int>();
+        for (int x = rangeX.min + 2; x <= rangeX.max - 2; x++)
+        {
+            for (int y = rangeZ.min + 2; y <= rangeZ.max - 2; y++)
+            {
+                Vector2Int tile = new Vector2Int(x, y);
+                if (!roomTiles.Contains(tile) || !occupiedThickWalls.Contains(tile))
+                    freeTiles.Add(tile);
+            }
+        }
+
+        int freeTilesIndex = 0;
+        while (freeTilesIndex < freeTiles.Count())
+        {
+            Vector2Int origoTile = freeTiles[freeTilesIndex];
+            if (roomTiles.Contains(origoTile) || debugger.holeTiles.Contains(origoTile))
+            {
+                freeTilesIndex++;
+                continue;
+            }
+
+            int freeTile = 1;
+
+            List<Vector2Int> grownTiles = new List<Vector2Int>() { origoTile };
+            List<Vector2Int> latestTiles = new List<Vector2Int>() { origoTile };
+
+            bool hasTouchedBorder = false;
+
+            while (freeTile > 0)
+            {
+                List<Vector2Int> copyLatestTiles = new List<Vector2Int>(latestTiles);
+                latestTiles.Clear();
+                freeTile = 0;
+
+                foreach (Vector2Int tile in copyLatestTiles)
+                {
+                    List<Vector2Int> grown = GrowTile(tile, grownTiles, roomTiles.ToList());
+                    freeTile += grown.Count();
+
+                    foreach (Vector2Int grownTile in grown)
+                    {
+                        grownTiles.Add(grownTile);
+                        latestTiles.Add(grownTile);
+                        freeTiles.Remove(grownTile);
+
+                        if (border.Contains(grownTile))
+                            hasTouchedBorder = true;
+                    }
+                }
+
+                if (hasTouchedBorder)
+                    break;
+            }
+
+            if (!hasTouchedBorder)
+            {
+                foreach (Vector2Int tile in grownTiles)
+                {
+                    //Debug.Log(freeTilesIndex + " " + tile);
+                    holeTiles.Add(tile);
+                    //debugger.holeTiles.Add(tile);
+                }
+            }
+            else
+            {
+                Color randomColor = Random.ColorHSV();
+                HashSet<Vector2Int> tileSet = new HashSet<Vector2Int>(grownTiles);
+                debugger.freeTiles.Add((tileSet, randomColor));
+            }
+
+            freeTilesIndex++;
+        }
+
+        return holeTiles;
+    }
+
+    List<Vector2Int> GrowTile(Vector2Int tile, List<Vector2Int> grownTiles, List<Vector2Int> roomTiles)
+    {
+        Vector2Int[] dirs = new[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
+        List<Vector2Int> result = new List<Vector2Int>();
+
+        foreach (Vector2Int dir in dirs)
+        {
+            Vector2Int newTile = tile + dir;
+            bool isRoom = roomTiles.Contains(newTile);
+            bool isGrown = grownTiles.Contains(newTile);
+            bool isThickWall = occupiedThickWalls.Contains(newTile);
+
+            if (!isRoom && !isGrown && !isThickWall)
+            {
+                //Debug.Log("Added grown tile: " + newTile);
+                result.Add(newTile);
+            }
+        }
+
+        return result;
+    }
+
+    void ExteriorWallGeneration()
+    {
+
+    }
+
+    bool IsThickWall(Vector2Int tile, List<Vector2Int> roomTiles)
+    {
+        Vector2Int[] vertical = new[] { Vector2Int.up, Vector2Int.down };
+        Vector2Int[] horizontal = new[] { Vector2Int.right, Vector2Int.left };
+
+        bool isVertical = true;
+        foreach (Vector2Int dir in vertical)
+        {
+            if (!roomTiles.Contains(tile + dir)) 
+                isVertical = false;
+        }
+
+        bool isHorizontal = true;
+        foreach(Vector2Int dir in horizontal)
+        {
+            if (!roomTiles.Contains(tile + dir))
+                isHorizontal = false;
+        }
+
+        return isVertical || isHorizontal;
+    }
+
+    void DebugGeneration()
+    {
+        if (!debugger)
+            return;
+
+        debugger.roomTiles = new HashSet<Vector2Int>(occupiedRoomPositions);
+        debugger.doorTiles = new HashSet<Vector2Int>(occupiedDoorPositions);
+        debugger.furnitureTiles = new HashSet<Vector2Int>(occupiedFurniturePositions);
+        debugger.holeTiles = new HashSet<Vector2Int>(occupiedThickWalls);
+    }
+
 
     //REFERNS
     //void TryCreateFurniture(Room room)
@@ -641,20 +860,6 @@ public class RoomManager : MonoBehaviour
         return true;
     }
 
-    //Kontrollerar att rummet inte ?r f?r l?ngt bort och att en d?rr kan kopplas mellan dem. Lite d?lig gjord d? vi kollar alla tiles i det nya rummet, men det borde inte beh?vas att optimeras.
-    bool IsRoomConnected(Room room, Vector2Int dir)
-    {
-        int minConnectedTiles = Mathf.CeilToInt(room.DoorSize);
-        int connectedTiles = 0;
-
-        foreach (Vector2Int tile in room.GetOccupiedTiles())
-        {
-            if (occupiedRoomPositions.Contains(tile + (dir * -1)))
-                connectedTiles++;
-        }
-        return connectedTiles >= minConnectedTiles;
-    }
-
     bool IsRoomConnected(Room previousRoom, Room newRoom)
     {
         int minOverlap = Mathf.Max(Mathf.CeilToInt(previousRoom.DoorSize), Mathf.CeilToInt(newRoom.DoorSize));
@@ -690,8 +895,6 @@ public class RoomManager : MonoBehaviour
         foreach (Vector2Int tile in room.GetOccupiedTiles())
         {
             occupiedRoomPositions.Add(tile);
-            if (debugger)
-                debugger.roomTiles.Add(tile);
         }
     }
 
@@ -701,9 +904,7 @@ public class RoomManager : MonoBehaviour
 
         foreach (Vector2Int tile in furniture.GetOccupiedTiles())
         {
-            occupiedFurniturePositions.Add(tile);
-            if (debugger)
-                debugger.furnitureTiles.Add(tile);
+            occupiedFurniturePositions.Add(pos + tile);
         }
     }
 
@@ -712,8 +913,6 @@ public class RoomManager : MonoBehaviour
         foreach (Vector2Int tile in room.GetDoorTiles(doorClearance))
         {
             occupiedRoomPositions.Add(tile);
-            if (debugger)
-                debugger.doorTiles.Add(tile);
         }
     }
 
@@ -745,16 +944,17 @@ public class RoomManager : MonoBehaviour
         return Vector2Int.zero;
     }
 
-
-    void Update()
+    private void FixedUpdate()
     {
         if (reroll)
         {
             reroll = false;
 
-            foreach(GameObject room in roomObjects)
+            foreach (GameObject room in roomObjects)
                 Destroy(room);
-            
+            Destroy(thickWalls);
+            Destroy(exteriorWalls);
+
             if (debugger)
                 debugger.ClearTiles();
 
@@ -762,5 +962,25 @@ public class RoomManager : MonoBehaviour
 
             Start();
         }
+    }
+    void Update()
+    {
+        //Måste placeras i FixedUpdate för att lösa spelarens respawn (där dess fysik-uppdateringar förstör annars)
+        //if (reroll)
+        //{
+        //    reroll = false;
+
+        //    foreach(GameObject room in roomObjects)
+        //        Destroy(room);
+        //    Destroy(thickWalls);
+        //    Destroy(exteriorWalls);
+            
+        //    if (debugger)
+        //        debugger.ClearTiles();
+
+        //    Awake();
+
+        //    Start();
+        //}
     }
 }

@@ -14,24 +14,13 @@ public class UiButtonSound : MonoBehaviour
 
     void Update()
     {
-        IsButtonClicked();
+
     }
 
-    public void SetUIButtonClick(bool b) 
-    { 
-        isButtonInUse = b;
-    }
-
-    public void IsButtonClicked() 
+    public void playButtonSound() 
     {
-        
-        playButtonSound();
-        
-    }
 
-    void playButtonSound() 
-    { 
-        currentAudio.clip = buttonSound;
-        currentAudio.PlayOneShot(currentAudio.clip, 5);
+       currentAudio.clip = buttonSound;
+       currentAudio.PlayOneShot(currentAudio.clip, 3);
     }
 }

@@ -143,4 +143,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyWalkSound: {fileID: 8307676029745231762}
-  enemyWalkingClip: {fileID: 0}
+  enemyWalkingClip: {fileID: 8300000, guid: 934d0ee1c813e9b4d957f8b4af157c88, type: 3}
