@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
         gameState = GameState.MainMenu;
         hasKeycard = false;
 
+        backgroundHandler.currentFloor = roomManager.floorLevel;
+
         //VALUES FOR RESTART
         MinMaxInt roomAmountRangeInit = roomManager.roomAmountRange;
     }
@@ -57,7 +59,6 @@ public class GameManager : MonoBehaviour
         backgroundHandler.currentFloor = roomManager.floorLevel;
 
         navMeshBaker.StartCoroutine(navMeshBaker.BakeNavMesh());
-        
     }
 
     public void RestartGame()//KOPPLAD!

@@ -15,22 +15,19 @@ public class BackgroundHandler : MonoBehaviour
 
     void Start()
     {
+        UpdateValues();
+    }
+
+    public void UpdateValues()
+    {
         curvatureController.curvature = currentFloor * curvatureMagnitude;
         colorLerp.height = currentFloor * colorMagnitude;
 
-        transform.position = new Vector3 (0, -heightFloor * Mathf.Abs(currentFloor - 1), 0);
-        //Vector3 groundPos = curvatureController.gameObject.transform.position;
-        //groundPos = new Vector3(groundPos.x, currentFloor * heightFloor, groundPos.y);
+        transform.position = new Vector3(0, -heightFloor * Mathf.Abs(currentFloor - 1), 0);
     }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    curvatureController.curvature = currentFloor * curvatureMagnitude;
-    //    colorLerp.height = currentFloor * colorMagnitude;
-
-    //    transform.position = new Vector3(0, -heightFloor * Mathf.Abs(currentFloor - 1), 0);
-    //    //Vector3 groundPos = curvatureController.gameObject.transform.position;
-    //    //groundPos = new Vector3(groundPos.x, currentFloor * heightFloor, groundPos.y);
-    //}
+    void Update()
+    {
+        UpdateValues();
+    }
 }
