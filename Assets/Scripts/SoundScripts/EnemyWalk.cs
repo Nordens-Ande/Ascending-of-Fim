@@ -23,7 +23,7 @@ public class EnemyWalk : MonoBehaviour
 
     }
     //Deadmanswitch triggar loopen av ljudet 
-    //Sedan om enemy slutar skjuta så återställs deadmanswitc
+    //Sedan om enemy slutar gå så återställs deadmanswitc
     //Och metoden kan sättas igång igen
     public void playSoundOnWalk()
     {

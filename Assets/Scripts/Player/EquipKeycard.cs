@@ -8,6 +8,7 @@ public class EquipKeycard : MonoBehaviour
     [SerializeField] private Vector3 rayOffset; //f�r att flytta Ray upp�t s� att den hamnar r�tt med Fim
     [SerializeField] private LayerMask keycardMask;
     [SerializeField] public Transform orientationObject;
+    [SerializeField] SoundEffectsPlayer SEB;
     private RaycastHit topRayHitInfo;
 
     public GameObject Keycard;
@@ -59,7 +60,8 @@ public class EquipKeycard : MonoBehaviour
             {
                 keycardScript.Equip();
                 hasKeycard = true;
-                
+                SEB.GotTheKeyCard();
+
             }
         }
     }

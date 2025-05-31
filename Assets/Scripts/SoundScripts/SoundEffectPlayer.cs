@@ -7,21 +7,20 @@ public class SoundEffectsPlayer : MonoBehaviour
     public AudioClip soundEffectShotgunShot;
     public AudioClip ReloadSound;
     public AudioClip NeedToReloadSound;
+    public AudioClip GrenadeExplosion;
+    public AudioClip GunJammed;
+    public AudioClip GotKeyCard;
     public AudioClip[] playerVoicelines;
     int rand;
-    bool playershooting;
-    PlayerShoot playershoot;
 
     public void Start()
     {
         CurrentSoundEffect = GetComponent<AudioSource>();
-        playershooting = GetComponent<PlayerShoot>().isShooting;
+        
     }
     public void Update()
     {
         rand = Random.Range(0, 15000);
-
-        //isActivelyShooting();
 
         beginToTalk();
     }
@@ -53,6 +52,25 @@ public class SoundEffectsPlayer : MonoBehaviour
         CurrentSoundEffect.clip = NeedToReloadSound;
         CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 0.5f);
     }
+
+    public void GrenadeSound() 
+    {
+        CurrentSoundEffect.clip = GrenadeExplosion;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
+
+    }
+
+    public void GunClick() 
+    {
+        CurrentSoundEffect.clip = GunJammed;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 1f);
+    }
+    public void GotTheKeyCard() 
+    {
+        CurrentSoundEffect.clip = GotKeyCard;
+        CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 0.5f);
+
+    }
     public void getShooting() 
     {
         shooting();
@@ -63,15 +81,6 @@ public class SoundEffectsPlayer : MonoBehaviour
     {
         CurrentSoundEffect.clip = playerVoicelines[Random.Range(0, playerVoicelines.Length)];
         CurrentSoundEffect.PlayOneShot(CurrentSoundEffect.clip, 3);
-    }
-
-    public void isActivelyShooting() 
-    { 
-        if (Input.GetMouseButtonDown(0)) 
-        { 
-            shooting();
-        }
-        
     }
     public void beginToTalk() 
     {
