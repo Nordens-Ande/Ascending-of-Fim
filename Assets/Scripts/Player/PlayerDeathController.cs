@@ -15,7 +15,8 @@ public class PlayerDeathController : MonoBehaviour
         if(isPlayerDead) return;
         isPlayerDead = true;
         //equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().Unequip();
-        equipWeapon.UnEquip();
+        equipWeapon.UnEquip(true);
+        equipWeapon.UnEquip(false);
         playerMove.enabled = false;
         playerLook.enabled = false;
         ragDollController.BecomeRagDoll();

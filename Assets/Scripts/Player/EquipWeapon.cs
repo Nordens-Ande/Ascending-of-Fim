@@ -161,7 +161,7 @@ public class EquipWeapon : MonoBehaviour
 
     public void OnDrop(InputValue inputValue)
     {
-        UnEquip();
+        UnEquip(true);
     }
 
     private void Update()
@@ -279,7 +279,7 @@ public class EquipWeapon : MonoBehaviour
                 {
                     if (IsEquipped)
                     {
-                        UnEquip();
+                        UnEquip(false);
                     }
                     currentWeapon = topRayHitInfo.transform.GetComponent<WeaponScript>();
                     currentWeaponObject = topRayHitInfo.collider.gameObject;
@@ -363,9 +363,9 @@ public class EquipWeapon : MonoBehaviour
         }
     }
 
-    public void UnEquip() 
+    public void UnEquip(bool dropShield) 
     {
-        if(hasShield)
+        if(dropShield && hasShield)
         {
             if (shield != null)
             {

@@ -274,10 +274,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentSoundEffect: {fileID: 4548143035747909626}
-  soundEffectShot: {fileID: 8300000, guid: 6f92f744e8bff374592d3fed10d2ed02, type: 3}
+  soundEffectShot: {fileID: 8300000, guid: eb0173c0f127e2a48bc05cbada518b24, type: 3}
   soundEffectShotgunShot: {fileID: 8300000, guid: cf3b417fbef6ada43976d41ab681e0c4, type: 3}
-  ReloadSound: {fileID: 8300000, guid: 39735281930e87348841757a3eca23fa, type: 3}
+  ReloadSound: {fileID: 8300000, guid: 0ccda9deaac02fa4ca67ef272e8afa9f, type: 3}
   NeedToReloadSound: {fileID: 8300000, guid: ab8302f4828681441be6ae507eb8c8b2, type: 3}
+  GrenadeExplosion: {fileID: 8300000, guid: d1fb0168c12c64c43b5f4663f22ca171, type: 3}
+  GunJammed: {fileID: 8300000, guid: 6f0858c546bf9f84480ddffbe6738f78, type: 3}
+  GotKeyCard: {fileID: 8300000, guid: 667a222aead2ba740918a98e8b3f9c3a, type: 3}
   playerVoicelines:
   - {fileID: 8300000, guid: 72b6bfb7a1765f149ba64f2a739b28b7, type: 3}
   - {fileID: 8300000, guid: 830a8fca250b66b4f9d138a918253891, type: 3}
@@ -418,13 +421,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3829968954199509640}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.5735764, z: 0, w: 0.8191521}
   m_LocalPosition: {x: 0.4, y: 0.038, z: 0.211}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3090375822540932950}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 70, z: 0}
 --- !u!1 &4007063241398617313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,6 +1330,10 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8532674728055498786, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
+      propertyPath: SEB
+      value: 
+      objectReference: {fileID: 8947956679993246550}
+    - target: {fileID: 8532674728055498786, guid: ca61a7db427d60d49a5af803650e40ac, type: 3}
       propertyPath: maxGrenades
       value: 3
       objectReference: {fileID: 0}
@@ -2015,11 +2022,11 @@ MonoBehaviour:
     m_Bits: 2112
   orientationObject: {fileID: 2354248769304841735}
   currentWeaponObject: {fileID: 0}
-  pistolPrefab: {fileID: 0}
-  raygunPrefab: {fileID: 0}
-  riflePrefab: {fileID: 0}
-  shotgunPrefab: {fileID: 0}
-  shieldPrefab: {fileID: 0}
+  pistolPrefab: {fileID: 6873994398363739417, guid: bb63a250ea7f584458457b2e8329c75d, type: 3}
+  raygunPrefab: {fileID: 612259915127624226, guid: a0597f1f3882148408df519e9ee88dc3, type: 3}
+  riflePrefab: {fileID: 6946584997913953624, guid: d883638b0abdc0b459f8a064eb04f20a, type: 3}
+  shotgunPrefab: {fileID: 7015118108697569513, guid: cab1a5a84eb34f1478063bca3f752177, type: 3}
+  shieldPrefab: {fileID: 5520554402124008986, guid: 94b6ae957da075547aa5586f2e696ab9, type: 3}
   AnimationSpeed: 5
   raygunPos: {fileID: 7509762624787418039}
   raygunPosShield: {fileID: 4467866409763068080}
@@ -2124,12 +2131,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59255c87ad53604499d5030a8fa98c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayLengt: 1.19
+  rayLengt: 2
   rayOffset: {x: 0, y: -0.75, z: 0}
   keycardMask:
     serializedVersion: 2
     m_Bits: 16384
   orientationObject: {fileID: 2354248769304841735}
+  SEB: {fileID: 8947956679993246550}
   Keycard: {fileID: 0}
 --- !u!4 &3803307150921183139 stripped
 Transform:

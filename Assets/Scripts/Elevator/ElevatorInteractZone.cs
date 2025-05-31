@@ -37,7 +37,7 @@ public class ElevatorInteractZone : MonoBehaviour
             return;
         }
 
-        if (gameManager.HasKeycard)
+        if (gameManager != null && gameManager.HasKeycard)
         {
             SceneHandler sceneHandler = GameObject.FindAnyObjectByType<SceneHandler>();
             if(sceneHandler != null)
@@ -45,9 +45,14 @@ public class ElevatorInteractZone : MonoBehaviour
                 sceneHandler.LoadElevatorScene();
             }
         }
-        else
+        else if(gameManager == null)
         {
-            
+            SceneHandler sceneHandler = GameObject.FindAnyObjectByType<SceneHandler>();
+            if (sceneHandler != null)
+            {
+                PlayerStats.resetValues();
+                sceneHandler.LoadMainScene();
+            }
         }
     }
 }
