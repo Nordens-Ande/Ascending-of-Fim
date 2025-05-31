@@ -38,6 +38,7 @@ public class ElevatorUI : MonoBehaviour
         healthBar.setMaxHealth(PlayerStats.maxHp);
         healthBar.SetHealth(PlayerStats.hp);
         moneyScript.setNumber(PlayerStats.money);
+        GrenadeUIScript.setGrenades(PlayerStats.grenades);
         PlayerStats.gameHasStarted = true;
     }
 
