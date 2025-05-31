@@ -15,7 +15,6 @@ public class SceneHandler : MonoBehaviour
             Debug.LogWarning("something is wrong and the Main scene cannot be loaded");
         }
     }
-    //dadadwqefd
 
     public void LoadElevatorScene()
     {
@@ -38,6 +37,18 @@ public class SceneHandler : MonoBehaviour
         else
         {
             Debug.LogWarning("something is wrong and the RestartScene scene cannot be loaded");
+        }
+    }
+
+    public void LoadTutorialScene()
+    {
+        if (Application.CanStreamedLevelBeLoaded(3))
+        {
+            SceneManager.LoadScene(3);
+        }
+        else
+        {
+            Debug.LogWarning("something is wrong and the tutorial scene cannot be loaded");
         }
     }
 

@@ -17,17 +17,17 @@ public class soundSyncScript : MonoBehaviour
 
     void Awake()
     {
-        setMixerValues("MasterVolym", 30f);
-        setMixerValues("SoundEffectVolume", 100f);
-        setMixerValues("BackgroundVolume", 25f);
+        setMixerValues("MasterVolym", PlayerStats.mainVolume);
+        setMixerValues("SoundEffectVolume", PlayerStats.sfxVolume);
+        setMixerValues("BackgroundVolume", PlayerStats.musicVolume);
         
     }
 
     private void Start()
     {
-        main.SetValueWithoutNotify(30);
-        sfx.SetValueWithoutNotify(100);
-        music.SetValueWithoutNotify(25);
+        main.SetValueWithoutNotify(PlayerStats.mainVolume);
+        sfx.SetValueWithoutNotify(PlayerStats.sfxVolume);
+        music.SetValueWithoutNotify(PlayerStats.musicVolume);
 
         UpdateSoundValues();
 
@@ -48,8 +48,9 @@ public class soundSyncScript : MonoBehaviour
         setMixerValues("BackgroundVolume", music.value);
         setMixerValues("SoundEffectVolume", sfx.value);
 
-        //Debug.Log($"Master: {main.value}, SFX: {sfx.value}, Music: {music.value}");
-
+        PlayerStats.mainVolume = main.value;
+        PlayerStats.sfxVolume = sfx.value;
+        PlayerStats.musicVolume = music.value;
     }
 
 
