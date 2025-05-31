@@ -1,5 +1,7 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ElevatorUI : MonoBehaviour
 {
@@ -20,14 +22,18 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI TextBTN3;
     [SerializeField] private TextMeshProUGUI TextBTN4;
     [Space]
-
-
+    [SerializeField] private Button BTN1;
+    [SerializeField] private Button BTN2;
+    [SerializeField] private Button BTN3;
+    [SerializeField] private Button BTN4;
+    [Space]
     [SerializeField] HealthBar healthBar;
     [SerializeField] Money moneyScript;
     [SerializeField] GrenadeUIScript GrenadeUIScript;
 
     void Start()
     {
+        EnableButtons();
         announcement = FindFirstObjectByType<announcement>();
 
         TextBTN1.text = $"{health10} HP: {price10hp}$";
@@ -147,6 +153,28 @@ public class ElevatorUI : MonoBehaviour
         }
     }
 
+    private IEnumerator DisableButtonsWithDelay()
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        BTN1.interactable = false;
+        BTN2.interactable = false;
+        BTN3.interactable = false;
+        BTN4.interactable = false;
+    }
+
+    public void DisableButtons()
+    {
+        StartCoroutine(DisableButtonsWithDelay());
+    }
+
+    private void EnableButtons()
+    {
+        BTN1.interactable = true;
+        BTN2.interactable = true;
+        BTN3.interactable = true;
+        BTN4.interactable = true;
+    }
 }
 
 
