@@ -151,5 +151,6 @@ MonoBehaviour:
   explosionRadius: 7
   explosionForce: 750
   explosionSpeed: 20
-  damage: 100
+  damage: 25
   explosionEffect: {fileID: 198738731738625552, guid: 21461e6c060baf044ac3e717ed4170cb, type: 3}
+  exSound: {fileID: 0}
