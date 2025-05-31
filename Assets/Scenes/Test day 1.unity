@@ -2861,14 +2861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b695fdc9f64b28740b2c626c2d9f1b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  furnitures:
-  - {fileID: 5775261574356613840, guid: 55298a929a46dc3408b57856af3f844c, type: 3}
-  - {fileID: 7103510874591384617, guid: dcdd7a37b963c93408085149e52aa549, type: 3}
-  - {fileID: 3359536032133502979, guid: 1868e74631aa8f6418efff60380b6533, type: 3}
-  - {fileID: 3583233625710121317, guid: 6be61e9cadc147f4ab337899085a20da, type: 3}
-  - {fileID: 2386455776887175273, guid: f26f11930f754a848aa48561fd2fcd33, type: 3}
-  - {fileID: 426630748312288972, guid: c26352036d12c4b4b8bdbdf432c5d6f4, type: 3}
-  - {fileID: 6037545177259298641, guid: b454eb78697adff40aa9dcddaca490ef, type: 3}
+  furnitures: []
   prefabHolder: {fileID: 1635113341}
 --- !u!114 &906973922
 MonoBehaviour:
@@ -2926,6 +2919,10 @@ MonoBehaviour:
   maxKeycards: 1
   maxKeycardsPerRoom: 1
   roomsToExcludeKeycard: 000000000100000007000000
+  enemySpawnPoint: {fileID: 5775261574356613840, guid: 0d8e8cfee3734bb439fad04087b08346, type: 3}
+  maxEnemySpawnpoints: 10
+  maxEnemySpawnpointsPerRoom: 2
+  roomsToExcludeEnemies: 0000000007000000
   hallwaySettings:
     sizeRange:
       min: 4
