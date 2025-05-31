@@ -35,11 +35,10 @@ public class ElevatorInteractZone : MonoBehaviour
     {
         if (!isPlayerInZone)
         {
-            
             return;
         }
 
-        if (gameManager.HasKeycard)
+        if (gameManager != null && gameManager.HasKeycard)
         {
             SceneHandler sceneHandler = GameObject.FindAnyObjectByType<SceneHandler>();
             if(sceneHandler != null)
@@ -50,6 +49,16 @@ public class ElevatorInteractZone : MonoBehaviour
         else
         {
             hudHandler.setAnnounchment("You need a keycard to use the elevator!", 2);
+        }
+        
+        if(gameManager == null)
+        {
+            SceneHandler sceneHandler = GameObject.FindAnyObjectByType<SceneHandler>();
+            if (sceneHandler != null)
+            {
+                PlayerStats.resetValues();
+                sceneHandler.LoadMainScene();
+            }
         }
     }
 }

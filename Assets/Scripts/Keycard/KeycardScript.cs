@@ -32,6 +32,8 @@ public class KeycardScript : MonoBehaviour
         gameObject.SetActive(false);
 
         Debug.LogWarning("Keycard equipped");
-        gameManager.PlayerFoundKeycard();
+
+        if(gameManager != null)
+            gameManager.PlayerFoundKeycard();
     }
 }

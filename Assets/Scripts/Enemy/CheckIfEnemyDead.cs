@@ -25,8 +25,11 @@ public class CheckIfEnemyDead : MonoBehaviour
         enemyWeaponInventory.EnemyDead(false, true);
         enemyWeaponInventory.UnEquip();
         enemyAiController.enabled = false;
-        enemyMove.StopMoving();
-        enemyMove.enabled = false;
+        if (enemyMove.enabled == true)
+        {
+            enemyMove.StopMoving();
+            enemyMove.enabled = false;
+        }
         enemyShoot.enabled = false;
         ChangeHitboxLayer();
         ragDollController.BecomeRagDoll();

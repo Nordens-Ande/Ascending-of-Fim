@@ -17,7 +17,7 @@ public class GameOverScore : MonoBehaviour
             gameOverScore.text = PlayerStats.score.ToString();
             HighscoreHandler.AddNewScore(PlayerStats.score);
             PlayerStats.score = 0;
-            hudHandler.playerisDead();
+            hudHandler?.playerisDead();
         }
         else if(gameOverScore = null)
         {
