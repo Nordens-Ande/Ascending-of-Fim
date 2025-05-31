@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    [SerializeField] float explosionDelay = 2f;
-    [SerializeField] float explosionRadius = 3f;
+    [SerializeField] float explosionDelay = 1.5f;
+    [SerializeField] float explosionRadius = 3.5f;
     [SerializeField] float explosionForce = 750f;
     [SerializeField] float explosionSpeed = 20f;
-    [SerializeField] int damage = 25;
+    [SerializeField] int damage = 30;
     [SerializeField] ParticleSystem explosionEffect;
     [SerializeField] ExplosionSound exSound;
 
