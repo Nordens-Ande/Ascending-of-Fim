@@ -5,10 +5,12 @@ public class ElevatorInteractZone : MonoBehaviour
 {
     private bool isPlayerInZone = false;
     GameManager gameManager;
+    HUDHandler hudHandler;
 
     private void Start()
     {
         gameManager = GameObject.FindFirstObjectByType<GameManager>();
+        hudHandler = GameObject.FindAnyObjectByType<HUDHandler>(UnityEngine.FindObjectsInactive.Include);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,7 +49,7 @@ public class ElevatorInteractZone : MonoBehaviour
         }
         else
         {
-            
+            hudHandler.setAnnounchment("You need a keycard to use the elevator!", 2);
         }
     }
 }
