@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 1739366309334430692}
   - component: {fileID: 904493487644971210}
   m_Layer: 13
-  m_Name: SingleBedXneg
+  m_Name: SingleBedXnegScare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
