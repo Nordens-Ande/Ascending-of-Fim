@@ -16,6 +16,7 @@ public class ExplosionSound : MonoBehaviour
     {
         
     }
+    //Explosion när en barrel blir skjuten
     public void PlayExplosion() 
     { 
         audiosource.clip = explosionSound;

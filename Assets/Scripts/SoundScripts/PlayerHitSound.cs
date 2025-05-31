@@ -17,14 +17,14 @@ public class PlayerHitSound : MonoBehaviour
 
     }
 
+    //Denna metod utgår ifrån att arrayn är fylld med ljud för skada och några voicelines
+    //Där alla ljuden ranomiseras och ibland väljs en voiceline
+    //Detta ger intrycket att en voiceline randomly spelas när spelaren blir skjuten
     public void PlayerHitSoundActivate() 
     { 
         playerHitaudioSource.clip = playerHurtSoundEffect[Random.Range(0, playerHurtSoundEffect.Length)];
         playerHitaudioSource.PlayOneShot(playerHitaudioSource.clip, 3);
         
     }
-
-    //Denna metod ger ett hurtsound vid varje fjärdedel av livet som har tagit borts
-    //Deadmansswitch används för att hela tiden göra så att ljudet kan användas igen
     
 }

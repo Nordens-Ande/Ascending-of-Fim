@@ -2584,7 +2584,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletOrigin: {fileID: 7121035041535839589}
-  orientationObject: {fileID: 0}
 --- !u!195 &6367222961931969424
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3733,7 +3732,7 @@ PrefabInstance:
     - target: {fileID: 6690091150116874993, guid: f42c2d851beeb1c419d58b3e2b34aae4, type: 3}
       propertyPath: soundEffectShot
       value: 
-      objectReference: {fileID: 8300000, guid: 6f92f744e8bff374592d3fed10d2ed02, type: 3}
+      objectReference: {fileID: 8300000, guid: eb0173c0f127e2a48bc05cbada518b24, type: 3}
     - target: {fileID: 6690091150116874993, guid: f42c2d851beeb1c419d58b3e2b34aae4, type: 3}
       propertyPath: soundEffectShotgun
       value: 

@@ -159,6 +159,11 @@ public class PlayerShoot : MonoBehaviour
                 //SEP.getShooting();
             }
         }
+        if (weaponScript.bulletsLeft == 0 && Input.GetMouseButtonDown(0))
+        {
+            SEP.GunClick();
+
+        }
 
         if (weaponScript.bulletsLeft == 0 && !reloadMessageShown)
         {

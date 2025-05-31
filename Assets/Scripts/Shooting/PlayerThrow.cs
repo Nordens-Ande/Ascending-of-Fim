@@ -9,6 +9,7 @@ public class PlayerThrow : MonoBehaviour
     [SerializeField] private int maxGrenades = 3;
 
     [SerializeField] HUDHandler hudHandler; // Reference to HUDHandler to update grenade count
+    [SerializeField] SoundEffectsPlayer SEB;
 
     private int grenadesLeft;
 
@@ -31,6 +32,7 @@ public class PlayerThrow : MonoBehaviour
             ThrowGrenade();
             grenadesLeft--;
             Debug.Log("Grenades left: " + grenadesLeft);
+            AudioSource.PlayClipAtPoint(SEB.GrenadeExplosion, transform.position);
         }
         else
         {

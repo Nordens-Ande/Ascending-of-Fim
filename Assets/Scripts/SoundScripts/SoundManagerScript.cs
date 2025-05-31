@@ -4,6 +4,8 @@ using UnityEngine;
 public class SoundManagerScript : MonoBehaviour
 {
     AudioSource backgroundMusic;
+    public AudioClip UIbackgroundMusic;
+    public AudioClip mainBackgroundMusic;
     AudioSource elevatorMusic;
     bool isPaused;
     bool isPlaying;
@@ -14,42 +16,45 @@ public class SoundManagerScript : MonoBehaviour
 
         backgroundMusic = GetComponent<AudioSource>();
         elevatorMusic = GetComponent<AudioSource>();
-        hudHandler = FindAnyObjectByType<HUDHandler>();
-        isPlaying = true;
-        isPaused = false;
+        //hudHandler = FindAnyObjectByType<HUDHandler>();
+        isPlaying = false;
+        isPaused = true;
     }
 
     void Update() 
     {
         
         //Ett system för att stanna bakgrundmusik när spelet är pausat
-        //Genom att använda bools
-        
+        //Genom att använda bools och HUDhandlern för att navigera vilken musik
 
-        if (Input.GetKeyDown(KeyCode.Escape) && isPlaying == true && !isPaused && hudHandler.isMenuActive() == false) 
+        if (!hudHandler.isMenuActive() && isPlaying == true && !isPaused) //&& hudHandler.isMenuActive() == false) 
         {
-            backgroundMusic.Stop();
-            isPlaying = false;
-            isPaused = true;
+            IsBackInTheGame();
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && isPaused == true && !isPlaying && hudHandler.isMenuActive() == true) 
+        if (hudHandler.isMenuActive() && isPaused == true && !isPlaying) //&& hudHandler.isMenuActive() == true) 
         {
-            backgroundMusic.Play();
-            isPlaying = true;
-            isPaused = false;
+            IsInUI();
         }
         
     }
 
-    void IsInTheElevator() 
+    void IsInUI() 
     {
         backgroundMusic.Stop();
-        elevatorMusic.Play();
+        backgroundMusic.clip = UIbackgroundMusic;
+        backgroundMusic.Play();
+        isPlaying = true;
+        isPaused = false;
+
     }
     void IsBackInTheGame() 
-    { 
+    {
+        backgroundMusic.Stop();
+        backgroundMusic.clip = mainBackgroundMusic;
         backgroundMusic.Play();
-        elevatorMusic.Stop();
+        isPlaying = false;
+        isPaused = true;
+
     }
 
 }

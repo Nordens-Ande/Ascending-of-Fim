@@ -539,7 +539,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audiosource: {fileID: 241562570}
-  explosionSound: {fileID: 8300000, guid: 4b01cf56e90dae94c82dd42cce26e329, type: 3}
+  explosionSound: {fileID: 8300000, guid: 3854eedb55081aa46b4b84ab7afb2157, type: 3}
 --- !u!82 &241562570
 AudioSource:
   m_ObjectHideFlags: 0
@@ -761,6 +761,26 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c41c64fbf394c7649a588e5e75c74893, type: 3}
+--- !u!1 &386710524 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7095094375233164103, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
+  m_PrefabInstance: {fileID: 457850890}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &386710527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386710524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8062ee2eeea25e4ebffe9bc52290895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIbackgroundMusic: {fileID: 8300000, guid: bf31c2953e8f22a44bca7d86943d84c1, type: 3}
+  mainBackgroundMusic: {fileID: 8300000, guid: e48b6387f4f852841887559fbf6a4245, type: 3}
+  hudHandler: {fileID: 781473631}
 --- !u!1 &405174292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,6 +1265,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: e48b6387f4f852841887559fbf6a4245, type: 3}
+    - target: {fileID: 3538037209227960407, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7095094375233164103, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
       propertyPath: m_Name
       value: BackGroundMusic
@@ -1292,7 +1316,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7095094375233164103, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 386710527}
   m_SourcePrefab: {fileID: 100100000, guid: 2457987b62dc23e4196c37bb91b9c0a4, type: 3}
 --- !u!114 &467144455 stripped
 MonoBehaviour:
@@ -3251,7 +3278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audiosource: {fileID: 1119013005}
-  explosionSound: {fileID: 8300000, guid: 4b01cf56e90dae94c82dd42cce26e329, type: 3}
+  explosionSound: {fileID: 8300000, guid: 3854eedb55081aa46b4b84ab7afb2157, type: 3}
 --- !u!82 &1119013005
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5067,9 +5094,17 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1744539807020387206, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: SEB
+      value: 
+      objectReference: {fileID: 159616279}
+    - target: {fileID: 1744539807020387206, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: rayLengt
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2245919611127769776, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: SEB
+      value: 
+      objectReference: {fileID: 159616279}
     - target: {fileID: 2245919611127769776, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: hudHandler
       value: 
@@ -5135,17 +5170,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 781473631}
     - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: GunJammed
+      value: 
+      objectReference: {fileID: 8300000, guid: 6f0858c546bf9f84480ddffbe6738f78, type: 3}
+    - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: GotKeyCard
+      value: 
+      objectReference: {fileID: 8300000, guid: 667a222aead2ba740918a98e8b3f9c3a, type: 3}
+    - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: ReloadSound
       value: 
-      objectReference: {fileID: 8300000, guid: 39735281930e87348841757a3eca23fa, type: 3}
+      objectReference: {fileID: 8300000, guid: 0ccda9deaac02fa4ca67ef272e8afa9f, type: 3}
     - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: soundEffectShot
       value: 
-      objectReference: {fileID: 8300000, guid: 6f92f744e8bff374592d3fed10d2ed02, type: 3}
+      objectReference: {fileID: 8300000, guid: eb0173c0f127e2a48bc05cbada518b24, type: 3}
+    - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: GrenadeExplosion
+      value: 
+      objectReference: {fileID: 8300000, guid: d1fb0168c12c64c43b5f4663f22ca171, type: 3}
     - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: NeedToReloadSound
       value: 
       objectReference: {fileID: 8300000, guid: ab8302f4828681441be6ae507eb8c8b2, type: 3}
+    - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
+      propertyPath: WeaponPickUpSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 683cbf1d677e1e24eb60ed9557b313be, type: 3}
     - target: {fileID: 8947956679993246550, guid: ae65bda39fbcfea428f61a0fac2a8d56, type: 3}
       propertyPath: soundEffectShotgunShot
       value: 
