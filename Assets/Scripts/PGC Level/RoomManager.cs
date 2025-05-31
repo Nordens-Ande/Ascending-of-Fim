@@ -77,6 +77,13 @@ public class RoomManager : MonoBehaviour
     [SerializeField] int maxKeycardsPerRoom;
     [SerializeField] List<RoomType> roomsToExcludeKeycard;
 
+    [Header("Enemy Spawnpoint Settings")]
+    [SerializeField] Furniture enemySpawnPoint;
+    [Space]
+    [SerializeField] int maxEnemySpawnpoints;
+    [SerializeField] int maxEnemySpawnpointsPerRoom;
+    [SerializeField] List<RoomType> roomsToExcludeEnemies;
+
     [Header("Specific Room Sizes")]
     [SerializeField] RoomSettings hallwaySettings;
     [SerializeField] RoomSettings corridorSettings;
@@ -169,8 +176,10 @@ public class RoomManager : MonoBehaviour
         CheckNearbyRooms(); //Doors
 
         GenerateFurnitureLayout(); //Furniture
-        if (keycard != null)
-            MustPlaceFurniture(keycard, maxKeycards, maxKeycardsPerRoom, roomsToExcludeKeycard.ToArray()); //Keycard
+        MustPlaceFurniture(keycard, maxKeycards, maxKeycardsPerRoom, roomsToExcludeKeycard.ToArray()); //Keycard
+
+        maxEnemySpawnpoints = roomAmountRange.min;
+        MustPlaceFurniture(enemySpawnPoint, maxEnemySpawnpoints, maxEnemySpawnpointsPerRoom, roomsToExcludeKeycard.ToArray()); //Enemy spawnpoints
 
         DebugGeneration(); //Debug tiles
 
@@ -392,6 +401,8 @@ public class RoomManager : MonoBehaviour
     //Must som innebär att den måste placera den angivna möbeln oavsett vad - här så ignorerar den vilket rum det är och bryr sig enbart om max mängd i lägenheten/rummen och ifall den ska undvika att placeras i specifika rum.
     void MustPlaceFurniture(Furniture furniture, int maxAmount, int maxPerRoom = 1, params RoomType[] excludedRooms)
     {
+        if (furniture == null) return;
+
         int placedFurniture = 0;
         while (placedFurniture < maxAmount)
         {
