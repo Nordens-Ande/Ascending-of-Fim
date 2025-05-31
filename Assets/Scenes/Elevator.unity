@@ -2784,7 +2784,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3350924627778720829, guid: e23174f3515206949b2717f569efc9f7, type: 3}
       propertyPath: startTime
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3350924627778720829, guid: e23174f3515206949b2717f569efc9f7, type: 3}
       propertyPath: onTimerEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2837,6 +2837,18 @@ PrefabInstance:
     - target: {fileID: 4367157946974315792, guid: e23174f3515206949b2717f569efc9f7, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319064084772368013, guid: e23174f3515206949b2717f569efc9f7, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b4f98c9bd889c847945a995c99ad6d0, type: 2}
+    - target: {fileID: 6319064084772368013, guid: e23174f3515206949b2717f569efc9f7, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 5932206736228327449, guid: 0b4f98c9bd889c847945a995c99ad6d0, type: 2}
+    - target: {fileID: 6319064084772368013, guid: e23174f3515206949b2717f569efc9f7, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
