@@ -33,13 +33,6 @@ public static class MeshBuilder
         floor.GetComponent<Renderer>().material = floorMat;
         floor.layer = 3;
 
-        MeshFilter meshFilter = floor.GetComponent<MeshFilter>();
-        Mesh originalMesh = meshFilter.sharedMesh;
-        Mesh clonedMesh = Object.Instantiate(originalMesh);
-        clonedMesh.name = originalMesh.name + "_clone";
-
-        meshFilter.mesh = clonedMesh;
-
         CreateWallsWithDoorways(root.transform, origin, room.GetBounds(), room, wallMat);
 
         return root;
@@ -186,13 +179,6 @@ public static class MeshBuilder
         thickWallTile.transform.localScale = new Vector3(1, 0.1f, 1);
         thickWallTile.GetComponent<Renderer>().material = mat;
         thickWallTile.layer = 3;
-
-        MeshFilter meshFilter = thickWallTile.GetComponent<MeshFilter>();
-        Mesh originalMesh = meshFilter.sharedMesh;
-        Mesh clonedMesh = Object.Instantiate(originalMesh);
-        clonedMesh.name = originalMesh.name + "_clone";
-
-        meshFilter.mesh = clonedMesh;
     }
 
     private static void CreateWall(Transform parent, Vector3 pos, Vector3 scale, Material mat)
@@ -203,13 +189,6 @@ public static class MeshBuilder
         wall.transform.position = pos;
         wall.transform.localScale = scale;
         wall.GetComponent<Renderer>().material = mat;
-
-        MeshFilter meshFilter = wall.GetComponent<MeshFilter>();
-        Mesh originalMesh = meshFilter.sharedMesh;
-        Mesh clonedMesh = Object.Instantiate(originalMesh);
-        clonedMesh.name = originalMesh.name + "_clone";
-
-        meshFilter.mesh = clonedMesh;
     }
 
     private static void CreateFurniture(Transform parent, Room room, Furniture prefab, Vector3 pos)
