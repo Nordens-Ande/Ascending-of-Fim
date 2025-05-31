@@ -6,7 +6,7 @@ public class PlayerThrow : MonoBehaviour
     [SerializeField] private GameObject grenadePrefab;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private float throwForce = 3;
-    [SerializeField] private int maxGrenades = 3;
+    //[SerializeField] private int maxGrenades = 3;
 
     [SerializeField] HUDHandler hudHandler; // Reference to HUDHandler to update grenade count
     [SerializeField] SoundEffectsPlayer SEB;
@@ -15,23 +15,22 @@ public class PlayerThrow : MonoBehaviour
 
     private void Start()
     {
-        //grenadesLeft = maxGrenades;
-        grenadesLeft = PlayerStats.grenades; // Initialize grenades from PlayerStats
+
     }
 
 
     private void Update()
     {
-        hudHandler?.setGrenadeCount(grenadesLeft);
+        hudHandler?.setGrenadeCount(PlayerStats.grenades);
     }
 
     private void OnThrow(InputValue value)
     {
-        if (grenadesLeft > 0)
+        if (PlayerStats.grenades > 0)
         {
             ThrowGrenade();
-            grenadesLeft--;
-            Debug.Log("Grenades left: " + grenadesLeft);
+            PlayerStats.grenades--;
+            Debug.Log("Grenades left: " + PlayerStats.grenades);
             AudioSource.PlayClipAtPoint(SEB.GrenadeExplosion, transform.position);
         }
         else

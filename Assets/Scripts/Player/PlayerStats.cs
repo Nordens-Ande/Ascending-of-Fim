@@ -15,6 +15,9 @@ public class PlayerStats : MonoBehaviour
     public static bool hasShield;
     public static int grenades = 3; //number of grenades
 
+    public static float mainVolume = 30f; //main volume
+    public static float sfxVolume = 100f; //sound effects volume
+    public static float musicVolume = 25f; //music volume
 
     public static void resetValues()
     {
