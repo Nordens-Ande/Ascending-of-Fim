@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void ApplyDamage(int damage)
     {
-        PlayerStats.hp -= damage/4;
+        PlayerStats.hp -= damage;
         hitsound.PlayerHitSoundActivate();
 
         //effects

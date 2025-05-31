@@ -106,7 +106,7 @@ public class EnemyShoot : MonoBehaviour
                 PlayerHealth health = hit.transform.GetComponent<PlayerHealth>();
                 if (health != null)
                 {
-                    health.ApplyDamage(weaponData.damage);
+                    health.ApplyDamage(weaponData.damage / 4);
                 }
             }
             else if (hit.transform.CompareTag("Shield"))

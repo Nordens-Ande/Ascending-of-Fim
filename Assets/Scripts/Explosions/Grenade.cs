@@ -46,6 +46,7 @@ public class Grenade : MonoBehaviour
         HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
         HashSet<GameObject> damagedPlayers = new HashSet<GameObject>();
 
+        Debug.Log("Grenade explosion at: " + transform.position + " with radius: " + explosionRadius);
         foreach (Collider nearby in colliders)
         {
             EnemyHealth enemy = nearby.GetComponentInParent<EnemyHealth>();
@@ -59,6 +60,7 @@ public class Grenade : MonoBehaviour
             PlayerHealth player = nearby.GetComponentInParent<PlayerHealth>();
             if (player != null && !damagedPlayers.Contains(player.gameObject))
             {
+                Debug.Log("Found player: " + player.name + "Damage dealt: " + damage);
                 player.ApplyDamage(damage);
                 damagedPlayers.Add(player.gameObject);
                 Debug.Log("Grenade damaged player: " + nearby.name);
