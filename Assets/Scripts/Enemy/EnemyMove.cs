@@ -32,12 +32,14 @@ public class EnemyMove : MonoBehaviour
 
     public void StartMoving()
     {
-        agent.isStopped = false;
+        if(agent.isOnNavMesh)
+            agent.isStopped = false;
     }
 
     public void StopMoving()
     {
-        agent.isStopped = true;
+        if(agent.isOnNavMesh)
+            agent.isStopped = true;
     }
 
     void WanderController()

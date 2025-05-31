@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -38,7 +39,24 @@ public class EnemyManager : MonoBehaviour
 
     void CreateEnemy(Vector3 spawnPos)
     {
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        bool check = ValidateSpawnPos(spawnPos).Item1;
+        Vector3 validatedSpawnPos = ValidateSpawnPos(spawnPos).Item2;
+
+        if(check)
+            Instantiate(enemyPrefab, validatedSpawnPos, Quaternion.identity);
+    }
+
+    (bool, Vector3) ValidateSpawnPos(Vector3 spawnPos)
+    {
+        NavMeshHit hit;
+        if(NavMesh.SamplePosition(spawnPos, out hit, 1, NavMesh.AllAreas))
+        {
+            return (true, hit.position);
+        }
+        else
+        {
+            return (false, Vector3.zero);
+        }
     }
 
     List<Vector3> GetRandomUniqueSpawnPoints(int amount)
@@ -83,7 +101,8 @@ public class EnemyManager : MonoBehaviour
         }
         else
         {
-            return Vector3.zero;
+            Vector3 spawnPointPos = new Vector3(2, 1.5f, 3); // safe spot in front of elevator incase no spawnpoints where found
+            return spawnPointPos;
         }
     }
 }

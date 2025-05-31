@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5400994764316056656}
   - component: {fileID: 6440657165998599612}
   - component: {fileID: 7562670801102520148}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5339642561535155052}
   - component: {fileID: 231095633526150201}
   - component: {fileID: 161356905218911504}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: WPN_GR_Mk-2_Low 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
