@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
 
         roomManager.floorLevel += 1; // increase the floor level
         roomManager.roomAmountRange = new MinMaxInt(roomManager.roomAmountRange.min + 1, roomManager.roomAmountRange.max + 2);
-        roomManager.reroll = true; // reroll the apartment
+        //roomManager.reroll = true; // reroll the apartment //DO NOT USE THIS, IT WILL BREAK THE GAME
 
         backgroundHandler.currentFloor = roomManager.floorLevel;
 

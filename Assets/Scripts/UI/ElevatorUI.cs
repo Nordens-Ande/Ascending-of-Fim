@@ -126,7 +126,7 @@ public class ElevatorUI : MonoBehaviour
             notEnoughFunds(price1grenade);
         }
 
-        if (PlayerStats.money > price1grenade)
+        if (PlayerStats.money >= price1grenade)
         {
             PlayerStats.grenades = PlayerStats.grenades + grenadeAmount;
             PlayerStats.money -= price1grenade;
@@ -155,7 +155,7 @@ public class ElevatorUI : MonoBehaviour
 
     private IEnumerator DisableButtonsWithDelay()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(1f);
 
         BTN1.interactable = false;
         BTN2.interactable = false;
