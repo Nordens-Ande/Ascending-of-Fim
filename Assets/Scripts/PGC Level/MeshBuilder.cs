@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
-using static UnityEngine.UI.Image;
+//using static UnityEditor.PlayerSettings;
+//using static UnityEditor.Searcher.SearcherWindow.Alignment;
+//using static UnityEngine.UI.Image;
 
 public interface ITileable
 {

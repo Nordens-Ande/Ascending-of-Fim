@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 public class EquipWeapon : MonoBehaviour
 {

@@ -1,6 +1,5 @@
 using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
-using FirstGearGames.SmoothCameraShaker;
 
 public class PlayerHealth : MonoBehaviour
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
-using static UnityEditor.PlayerSettings;
+//using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
 public struct MinMaxInt

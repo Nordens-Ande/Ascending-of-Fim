@@ -30,10 +30,16 @@ public class ElevatorUI : MonoBehaviour
     [SerializeField] HealthBar healthBar;
     [SerializeField] Money moneyScript;
     [SerializeField] GrenadeUIScript GrenadeUIScript;
+    [SerializeField] GameObject countDown;
+    [SerializeField] GameObject healthbar;
+    [SerializeField] GameObject money;
+    [SerializeField] GameObject annoucnement;
+    [SerializeField] GameObject grenadeUI;
 
     void Start()
     {
         EnableButtons();
+        activateAllHUDObjects();
         announcement = FindFirstObjectByType<announcement>();
 
         TextBTN1.text = $"{health10} HP: {price10hp}$";
@@ -174,6 +180,15 @@ public class ElevatorUI : MonoBehaviour
         BTN2.interactable = true;
         BTN3.interactable = true;
         BTN4.interactable = true;
+    }
+
+    private void activateAllHUDObjects()
+    {
+        countDown.SetActive(true);
+        healthbar.SetActive(true);
+        money.SetActive(true);
+        annoucnement.SetActive(true);
+        grenadeUI.SetActive(true);
     }
 }
 
