@@ -35,6 +35,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
         bulletsLeft = WeaponData.ammoCapacity;
         weaponBody = GetComponent<Rigidbody>();
+        CheckIfWeaponBodyNull();
         IsRotating = true;
 
         if (weaponBody)
@@ -50,6 +51,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
         
         bulletsLeft = WeaponData.ammoCapacity;
         weaponBody = GetComponent<Rigidbody>();
+        CheckIfWeaponBodyNull();
         IsRotating = true;
 
         if (weaponBody)
