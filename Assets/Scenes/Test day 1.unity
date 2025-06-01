@@ -505,7 +505,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4398398509217038873, guid: bbc1dadc025914646964cd067091788b, type: 3}
       propertyPath: damage
-      value: 25
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4398398509217038873, guid: bbc1dadc025914646964cd067091788b, type: 3}
       propertyPath: exSound
@@ -2894,7 +2894,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4398398509217038873, guid: 7d18c8998552bfc46af35e600a59ff6b, type: 3}
       propertyPath: damage
-      value: 25
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4398398509217038873, guid: 7d18c8998552bfc46af35e600a59ff6b, type: 3}
       propertyPath: exSound

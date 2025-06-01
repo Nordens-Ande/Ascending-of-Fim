@@ -6,11 +6,13 @@ public class PlayerThrow : MonoBehaviour
     [SerializeField] private GameObject grenadePrefab;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private float throwForce = 3;
+    [SerializeField] private float throwCooldown = 2;
     //[SerializeField] private int maxGrenades = 3;
 
     [SerializeField] HUDHandler hudHandler; // Reference to HUDHandler to update grenade count
     [SerializeField] SoundEffectsPlayer SEB;
 
+    private float cooldownTimer = 0;
     private int grenadesLeft;
 
     private void Start()
@@ -22,14 +24,25 @@ public class PlayerThrow : MonoBehaviour
     private void Update()
     {
         hudHandler?.setGrenadeCount(PlayerStats.grenades);
+        if (cooldownTimer > 0)
+        {
+            cooldownTimer -= Time.deltaTime;
+        }
     }
 
     private void OnThrow(InputValue value)
     {
+        if (cooldownTimer > 0)
+        {
+            Debug.Log("Grenade cooldown not over. Time left: " +  cooldownTimer);
+            return;
+        }
+
         if (PlayerStats.grenades > 0)
         {
             ThrowGrenade();
             PlayerStats.grenades--;
+            cooldownTimer = throwCooldown;
             Debug.Log("Grenades left: " + PlayerStats.grenades);
             AudioSource.PlayClipAtPoint(SEB.GrenadeExplosion, transform.position);
         }

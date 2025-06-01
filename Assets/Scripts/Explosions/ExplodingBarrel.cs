@@ -57,7 +57,7 @@ public class ExplodingBarrel : MonoBehaviour
             EnemyHealth enemy = nearby.GetComponentInParent<EnemyHealth>();
             if (enemy != null && !damagedEnemies.Contains(enemy.gameObject))
             {
-                enemy.ApplyDamage(damage);
+                enemy.ApplyDamage(damage * 3);
                 damagedEnemies.Add(enemy.gameObject);
                 Debug.Log("Explosion damaged enemy: " + nearby.name);
             }
