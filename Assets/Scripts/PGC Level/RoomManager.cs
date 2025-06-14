@@ -82,6 +82,7 @@ public class RoomManager : MonoBehaviour
     [Space]
     [SerializeField] int maxEnemySpawnpoints;
     [SerializeField] int maxEnemySpawnpointsPerRoom;
+    [SerializeField] int maxEnemySpawnpointsFails = 1500;
     [SerializeField] List<RoomType> roomsToExcludeEnemies;
 
     [Header("Specific Room Sizes")]
@@ -179,7 +180,7 @@ public class RoomManager : MonoBehaviour
         MustPlaceFurniture(keycard, maxKeycards, maxKeycardsPerRoom, roomsToExcludeKeycard.ToArray()); //Keycard
 
         maxEnemySpawnpoints = roomAmountRange.min;
-        MustPlaceFurniture(enemySpawnPoint, maxEnemySpawnpoints, maxEnemySpawnpointsPerRoom, roomsToExcludeKeycard.ToArray()); //Enemy spawnpoints
+        MustPlaceFurniture(enemySpawnPoint, maxEnemySpawnpoints, maxEnemySpawnpointsPerRoom, maxEnemySpawnpointsFails, roomsToExcludeKeycard.ToArray()); //Enemy spawnpoints
 
         DebugGeneration(); //Debug tiles
 
@@ -437,6 +438,51 @@ public class RoomManager : MonoBehaviour
             {
                 room.FurnitureList.Add((furniture, spawnPos));
                 Debug.Log("Spawned keycard at: " + spawnPos);
+                placedFurniture++;
+            }
+        }
+    }
+
+    void MustPlaceFurniture(Furniture furniture, int maxAmount, int maxPerRoom, int maxFails, params RoomType[] excludedRooms)
+    {
+        if (furniture == null) return;
+
+        int placedFurniture = 0;
+        int failCount = 0;
+        while (placedFurniture < maxAmount && failCount < maxFails)
+        {
+            Room room = rooms[Random.Range(0, rooms.Count)];
+
+            //Kollar ifall det är ett rum vi ska ignorera (exkludera)
+            bool isExcluded = false;
+            foreach (RoomType roomType in excludedRooms)
+            {
+                if (room.Type == roomType)
+                {
+                    isExcluded = true;
+                    break;
+                }
+            }
+            if (isExcluded) continue;
+
+            //Kollar ifall rummet vi har valt har för många möbler
+            int placedFurniturePerRoom = 0;
+            foreach ((Furniture f, Vector2Int v) checkFurniture in room.FurnitureList)
+            {
+                if (furniture == checkFurniture.f)
+                    placedFurniturePerRoom++;
+            }
+            if (placedFurniturePerRoom >= maxPerRoom) continue;
+
+
+            List<Vector2Int> roomTiles = room.GetOccupiedTiles();
+            Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
+
+            if (TryPlaceFurniture(room, furniture, spawnPos))
+            {
+                room.FurnitureList.Add((furniture, spawnPos));
+                //Debug.Log("Spawned keycard at: " + spawnPos);
+                failCount = 0;
                 placedFurniture++;
             }
         }
