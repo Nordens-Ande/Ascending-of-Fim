@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Olika typer av rum
 public enum RoomType
 {
     Elevator,
@@ -14,6 +15,8 @@ public enum RoomType
     Unspecific
 }
 
+//Denna klass fungerar mest som en data container. Den lagrar all information kring rummet osv och används för att hämta/lagra rummets inställningar, dörrar och möbler.
+//Denna klassen är inte en monobehaviour då jag hade mycket problem att få hela systemet att fungera med det - därför används den som en "anchor" av information
 public class Room : ITileable
 {
     public int Width, Height;
@@ -23,6 +26,7 @@ public class Room : ITileable
     public HashSet<Vector2> Doorways = new HashSet<Vector2>();
     public RoomType Type;
 
+    //Denna tuple-n innehåller information på vilken möbel som har vilken position. Detta krävdes då jag tidigare ändrade orginall prefab-ens position som orsakde mycket problem
     public List<(Furniture furniture, Vector2Int position)> FurnitureList = new List<(Furniture furniture, Vector2Int position)>();
     //public GameObject RoomObject { get; set; }
 
@@ -37,6 +41,7 @@ public class Room : ITileable
         Type = type;
     }
 
+    //Hämtar alla dörringångar
     public List<float> GetDoorways(Vector2 dir)
     {
         List<float> result = new List<float>();
@@ -61,11 +66,13 @@ public class Room : ITileable
         return result;
     }
 
+    //Området kring rummet
     public BoundsInt GetBounds()
     {
         return new BoundsInt(Position.x, Position.y, 0, Width, Height, 1);
     }
 
+    //Tiles som rummet ockuperar
     public List<Vector2Int> GetOccupiedTiles()
     {
         List<Vector2Int> tiles = new List<Vector2Int>();
@@ -79,6 +86,7 @@ public class Room : ITileable
         return tiles;
     }
 
+    //Hämtar tilsen som dörrarna ockuperar, doorClearance syftar på utrymmet som måste vara ledigt framför dörren.
     public List<Vector2Int> GetDoorTiles(int doorClearance)
     {
         List<Vector2Int> tiles = new List<Vector2Int>();
@@ -112,6 +120,7 @@ public class Room : ITileable
         return tiles;
     }
 
+    //Hjälp metod för att jämföra ifall rummen är samma
     public bool Equals(Room other)
     {
         if (this == other) return true;
@@ -128,7 +137,6 @@ public class Room : ITileable
             WallThickness != other.WallThickness;
         return changedRoom;
     }
-
     public bool Equals(int width, int height, float wallHeight, float wallThickness, Vector2Int pos, HashSet<Vector2> doorways)
     {
         if (Doorways.Count != doorways.Count) return false;

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Denna klass hanterar hela bakgrunds milön på spelet. Här uppdaterar och hanterar vi värdena på SkyboxColorLerp och CurvatureController.
 public class BackgroundHandler : MonoBehaviour
 {
     [SerializeField] SkyboxColorLerp colorLerp;
@@ -18,6 +19,7 @@ public class BackgroundHandler : MonoBehaviour
         UpdateValues();
     }
 
+    //En metod som uppdaterar värdena hos Skybox och marken.
     public void UpdateValues()
     {
         curvatureController.curvature = currentFloor * curvatureMagnitude;

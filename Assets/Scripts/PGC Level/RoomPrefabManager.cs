@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+//En manager som adderar alla möbler prefabs som är children på prefabHolder, används ifall man vill slippa lägga in alla möbler i listorna - denna gör det automatiskt.
 public class RoomPrefabManager : MonoBehaviour
 {
     [SerializeField] List<Furniture> furnitures;
@@ -37,6 +38,7 @@ public class RoomPrefabManager : MonoBehaviour
         }
     }
 
+    //Olika metoder för att hämta en lista av möbler
     public List<Furniture> GetFurniture(RoomType type)
     {
         List<Furniture> result = new List<Furniture>();

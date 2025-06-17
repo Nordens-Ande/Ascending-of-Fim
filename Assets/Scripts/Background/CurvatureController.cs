@@ -1,6 +1,6 @@
 using UnityEngine;
 
-
+//Denna klass hanterar shadern som kurvar marken. Denna controllerna är till för att kunna ändra värdena på shadern.
 [RequireComponent(typeof(Renderer))]
 public class CurvatureController : MonoBehaviour
 {
@@ -15,8 +15,7 @@ public class CurvatureController : MonoBehaviour
 
     void Update()
     {
-        // e.g. make it pulse over time
-        //float dynamicCurv = curvature + 0.05f * Mathf.Sin(Time.time * 2);
+        //Uppdaterar värderna på shader materialet.
         mat.SetFloat("_CurveAmount", Mathf.Clamp(curvature, -1, 1));
         mat.SetColor("_Color", planeColor);
     }
