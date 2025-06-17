@@ -25,7 +25,7 @@ public class GameOverScore : MonoBehaviour
         }
     }
 
-    public void setGameOverScore(int score)
+    public void setGameOverScore(int score)//setting the score at gameover screen to the user what thier score was before they died
     {
         if (gameOverScore != null)
         {
