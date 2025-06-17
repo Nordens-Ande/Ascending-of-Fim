@@ -8,7 +8,8 @@ public class Ammo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ammoText;
 
 
-    private void Start()
+    // This class is only for the visual aspect of the ammo
+    private void Start() // Setting ammo to 0 at the start
     {
         if (ammoText != null)
         {
@@ -20,7 +21,7 @@ public class Ammo : MonoBehaviour
         }
     }
 
-    public void setAmmo(int newAmmo)
+    public void setAmmo(int newAmmo) // Method to set ammo amount to x amount
     {
         if (ammoText != null)
         {
@@ -32,7 +33,7 @@ public class Ammo : MonoBehaviour
         }
     }
 
-    public void addAmmo(int ammoToAdd)
+    public void addAmmo(int ammoToAdd) // Method to add x amount to ammo
     {
         if(ammoText != null)
         {
@@ -46,7 +47,7 @@ public class Ammo : MonoBehaviour
         }
     }
 
-    public void subtractAmmo(int ammoToSubtract)
+    public void subtractAmmo(int ammoToSubtract) // Method to subtract from current ammo
     {
         if (ammoText != null)
         {

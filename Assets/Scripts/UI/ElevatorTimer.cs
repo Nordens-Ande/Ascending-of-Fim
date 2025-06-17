@@ -11,7 +11,7 @@ public class ElevatorTimer : MonoBehaviour
     private float remainingTime;
     private bool isRunning = false;
 
-    void Start()
+    void Start() // When switched to elevator scene you get a new timer that starts.
     {
         ResetTimer();
         StartTimer();
@@ -28,7 +28,8 @@ public class ElevatorTimer : MonoBehaviour
         {
             remainingTime = 0f;
             isRunning = false;
-            onTimerEnd?.Invoke();
+            onTimerEnd?.Invoke(); // When time reaches 0, this event is triggered.
+            // An event is added in the unity editor that happens
         }
 
         int minutes = Mathf.FloorToInt(remainingTime / 60f);

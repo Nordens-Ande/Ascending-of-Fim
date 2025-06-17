@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
 
+// This script is for the hover effect on the buttons in the menu
 public class Hover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Button button;

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+// This script handles highscores
 public class HighscoreHandler : MonoBehaviour
 {
 
@@ -43,7 +44,7 @@ public class HighscoreHandler : MonoBehaviour
     }
 
 
-    public void AddNewScore(int score)
+    public void AddNewScore(int score) // Add new highscore if it's high enough
     {
         highScores.Add(score);
         highScores.Sort((a, b) => b.CompareTo(a));

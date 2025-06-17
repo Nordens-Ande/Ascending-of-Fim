@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+// This script is for changing the level of the sound to correspond with the sliders in the sound menu
 public class soundSyncScript : MonoBehaviour
 {
     [SerializeField] Slider main;

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+// This script is to change the visual value of the score in the hud
 public class ScoreScript : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;

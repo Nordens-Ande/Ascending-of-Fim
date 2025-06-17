@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// This script is for editing the values of the healthbar of the player.
+// Depending on the health the player has, the visual bar will change to correspond with the number
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] Slider healthSlider;

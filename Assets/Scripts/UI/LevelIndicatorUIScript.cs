@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+// This script is to change the number in the level indicator in the hud
 public class LevelIndicatorUIScript : MonoBehaviour
 {
 

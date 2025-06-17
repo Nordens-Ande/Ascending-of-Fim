@@ -14,7 +14,7 @@ public class DisplayHighscore : MonoBehaviour
         DisplayHighScores();
     }
 
-    public void DisplayHighScores()
+    public void DisplayHighScores() // Method to display highscores on the main menu. 
     {
         if (highscoreHandler != null)
         {

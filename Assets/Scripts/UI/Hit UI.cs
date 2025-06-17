@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+// This script is for the red flash effect that plays when the player gets hit
 public class HitUI : MonoBehaviour
 {
     [SerializeField] Image hitImage;
@@ -13,7 +14,7 @@ public class HitUI : MonoBehaviour
         hitImage.enabled = false;
     }
 
-    public void Show(float duration)
+    public void Show(float duration) // Call this method when the player is being hit
     {
         // If it’s already showing, restart the timer
         if (showCoroutine != null)

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
+// This script is to make it easy to know what scene you are loading
 public class SceneHandler : MonoBehaviour
 {
     private bool isLoading = false;

@@ -11,7 +11,7 @@ public class ElevatorLight : MonoBehaviour
         pointLight = GetComponent<Light>();
     }
 
-    void Update()
+    void Update() // Automatically changing the color of the lights in the elevator.
     {
         float hue = Mathf.Repeat(Time.time * colorChangeSpeed, 1f);
         pointLight.color = Color.HSVToRGB(hue, 1f, 1f);

@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
+//this script is to be able to activate and deactivate gameobjects in the menu to navigate it, it also makes sure you have the right time
 public class UIHandler : MonoBehaviour
 {
     private GameManager gameManager;

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
+// This script is for the keycard indicator in the HUD, so it changes color when the player has picked up the keycard
 public class KeycardUIScript : MonoBehaviour
 {
 

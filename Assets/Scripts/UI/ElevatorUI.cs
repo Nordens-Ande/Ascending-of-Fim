@@ -7,26 +7,27 @@ public class ElevatorUI : MonoBehaviour
 {
     private announcement announcement;
 
+    // Prices for the different options in the elevator
     [SerializeField] int price10hp;
     [SerializeField] int price5hp;
     [SerializeField] int price1hp;
     [SerializeField] int price1grenade;
-    [Space]
+    [Space] // The amount you get by purchasing
     [SerializeField] int health10;
     [SerializeField] int health5;
     [SerializeField] int health1;
     [SerializeField] int grenadeAmount;
-    [Space]
+    [Space] // The text on the corresponding buttons
     [SerializeField] private TextMeshProUGUI TextBTN1;
     [SerializeField] private TextMeshProUGUI TextBTN2;
     [SerializeField] private TextMeshProUGUI TextBTN3;
     [SerializeField] private TextMeshProUGUI TextBTN4;
-    [Space]
+    [Space] // The buttons
     [SerializeField] private Button BTN1;
     [SerializeField] private Button BTN2;
     [SerializeField] private Button BTN3;
     [SerializeField] private Button BTN4;
-    [Space]
+    [Space] // Scripts needed to interact with these buttons
     [SerializeField] HealthBar healthBar;
     [SerializeField] Money moneyScript;
     [SerializeField] GrenadeUIScript GrenadeUIScript;
@@ -38,7 +39,7 @@ public class ElevatorUI : MonoBehaviour
 
     void Start()
     {
-        EnableButtons();
+        EnableButtons(); // For a bug where game crashed when you tried to buy stuff at scene change
         activateAllHUDObjects();
         announcement = FindFirstObjectByType<announcement>();
 
@@ -47,6 +48,7 @@ public class ElevatorUI : MonoBehaviour
         TextBTN3.text = $"{health1} HP: {price1hp}$";
         TextBTN4.text = $"{grenadeAmount} Grenades: {price1grenade}$";
 
+        // Updating visual values in the new scene
         healthBar.setMaxHealth(PlayerStats.maxHp);
         healthBar.SetHealth(PlayerStats.hp);
         moneyScript.setNumber(PlayerStats.money);
@@ -54,7 +56,7 @@ public class ElevatorUI : MonoBehaviour
         PlayerStats.gameHasStarted = true;
     }
 
-    public void add10hp()
+    public void add10hp() // The first hp button that gives the most
     {
 
         if (PlayerStats.money < price10hp)
@@ -77,7 +79,7 @@ public class ElevatorUI : MonoBehaviour
         }
     }
 
-    public void add5hp()
+    public void add5hp() // Second hp button with less hp but better value
     {
 
         if (PlayerStats.money < price5hp)
@@ -101,7 +103,7 @@ public class ElevatorUI : MonoBehaviour
         }
     }
 
-    public void add1hp()
+    public void add1hp() // Last hp button with even less hp but best value
     {
 
         if (PlayerStats.money < price1hp)
@@ -125,7 +127,7 @@ public class ElevatorUI : MonoBehaviour
         }
     }
 
-    public void addGrenade()
+    public void addGrenade() // Button to buy grenades
     {
         if (PlayerStats.money < price1grenade)
         {
@@ -143,7 +145,7 @@ public class ElevatorUI : MonoBehaviour
     }
 
 
-    private void notEnoughFunds(int price)
+    private void notEnoughFunds(int price) // This method is called if the player doesn't have the funds required.
     {
         if (PlayerStats.money < price)
         {
@@ -151,7 +153,7 @@ public class ElevatorUI : MonoBehaviour
         }
     }
 
-    private void tooMuchHealth(int health)
+    private void tooMuchHealth(int health) // This method is called if the player is trying to purchase more hp than max
     {
         if (PlayerStats.hp + health > PlayerStats.maxHp)
         {
@@ -169,7 +171,7 @@ public class ElevatorUI : MonoBehaviour
         BTN4.interactable = false;
     }
 
-    public void DisableButtons()
+    public void DisableButtons() // Disable buttons as a bugfix for scene crashing
     {
         StartCoroutine(DisableButtonsWithDelay());
     }

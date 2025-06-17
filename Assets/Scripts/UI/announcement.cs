@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
+// This script is making it possible to easily add a helping comment on the hud for the player as an announcement
+// This is used several times, for example when the player picks up the keycard or runs out of ammo.
 public class announcement : MonoBehaviour
 {
 
