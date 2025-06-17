@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 
 public class EquipWeapon : MonoBehaviour
 {
+    // This script handles the equipping and unequipping of weapons and shields for the player.
+    // It allows the player to pick up weapons and shields, manage their inventory, and position the weapons and shields correctly in the player's hands.
     [Header("Inventory")]
     [SerializeField] public PlayerInventory InventoryReference;
 
@@ -61,10 +63,10 @@ public class EquipWeapon : MonoBehaviour
     bool hasShield;
 
     void Start()
-    {
+    { 
         IsEquipped = false;
         hasShield = false;
-        weaponMask = (LayerMask.GetMask("ShieldIgnore") | LayerMask.GetMask("Weapon"));
+        weaponMask = (LayerMask.GetMask("ShieldIgnore") | LayerMask.GetMask("Weapon")); // this is used to ignore the shield collider when raycasting for weapons, so that the player can pick up weapons while carrying a shield.
         CheckForWeaponOnSpawn();
     }
 
@@ -192,8 +194,8 @@ public class EquipWeapon : MonoBehaviour
                 }
             }
         }
-
-        if (IsEquipped)
+        
+        if (IsEquipped) // check if the player has a weapon equipped and lerp it to the correct position
         {
             if(currentWeapon != null)
             {
@@ -203,7 +205,7 @@ public class EquipWeapon : MonoBehaviour
             }
         }
 
-        if(IsEquipped || hasShield)
+        if(IsEquipped || hasShield) 
         {
             leftHandIK.weight = 1f;
             leftHandTarget.position = IKLeftHandPos.position;

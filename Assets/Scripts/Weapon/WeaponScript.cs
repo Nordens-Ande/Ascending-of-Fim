@@ -10,6 +10,8 @@ public interface IWeapon
 
 public class WeaponScript : MonoBehaviour, IWeapon
 {
+    // This script handles the weapon's behavior, including its rotation, bullet management, and equipping/unequipping functionality.
+    // It implements the IWeapon interface, which defines methods for getting weapon data and equipping the weapon.
     bool initialized = false;
 
     [SerializeField] WeaponData WeaponData;
@@ -29,7 +31,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     Coroutine destroyCoroutine;// used to cancel and check if DestroyOnGround coroutine is running
 
-    public void Start()
+    public void Start() 
     {
         if(initialized) return;
 
@@ -45,9 +47,11 @@ public class WeaponScript : MonoBehaviour, IWeapon
         initialized = true;
     }
 
+    
     public void Initialized() // use instead of start
+                              // Initializes the weapon's properties and checks if it has already been initialized to avoid redundant setup.
     {
-        if(initialized) return;
+        if (initialized) return;
         
         bulletsLeft = WeaponData.ammoCapacity;
         weaponBody = GetComponent<Rigidbody>();
@@ -61,27 +65,33 @@ public class WeaponScript : MonoBehaviour, IWeapon
         initialized = true;
     }
 
+
+    
     public void DecreaseBullets(int amount) //used when the player or enemy shoots the weapon, reduces amount of bullet by 1
     {
         bulletsLeft -= amount;
     }
 
+    
     public void ReloadBullets() //reloads the weapons bullets
     {
         bulletsLeft = WeaponData.ammoCapacity;
     }
 
+    // This method is called every frame to update the weapon's rotation if it is set to rotate.
     public void Update()
     {
         if (IsRotating)
             transform.Rotate(Vector3.up * WeaponRotationSpeed * (1 - Mathf.Exp(-WeaponRotationSpeed * Time.deltaTime)));
     }
 
+    // This method returns the weapon's data, which includes its type, name, damage, fire rate, ammo capacity, and reload time.
     public WeaponData GetWeaponData()
     {
         return WeaponData;
     }
 
+    // This method checks if the weapon's Rigidbody component is null and assigns it if necessary.
     public void CheckIfWeaponBodyNull() // used to fix issue with enemy spawn nullreferences
     {
         if (weaponBody == null)
@@ -90,6 +100,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
         }
     }
 
+    
     public void Equip() // weapon has been equipped, change weapon behaviour.
     {
         if(destroyCoroutine != null)
