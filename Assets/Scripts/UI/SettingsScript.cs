@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+//this script is for the settings tab in the manu, so you can disable certain hud elements
 public class SettingsScript : MonoBehaviour
 {
     [Header("Toggles")]
