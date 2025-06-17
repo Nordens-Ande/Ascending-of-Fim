@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+//this script is for the number in the hud showing the player the amount of money they have
 public class Money : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI moneytext;
