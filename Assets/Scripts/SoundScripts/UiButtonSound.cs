@@ -16,7 +16,7 @@ public class UiButtonSound : MonoBehaviour
     {
 
     }
-
+    //Metod som hämtas till UI när knapptryck ska ha en ljudeffekt
     public void playButtonSound() 
     {
 

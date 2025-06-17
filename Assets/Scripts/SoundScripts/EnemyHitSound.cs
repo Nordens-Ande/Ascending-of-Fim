@@ -17,6 +17,8 @@ public class EnemyHitSound : MonoBehaviour
         
     }
 
+    //Metod som kommer hämtas och spela en random voiceline eller ljud 
+    //När en fiende blir träffad
     public void EnemyHurtSound() 
     {
         enemyHitAudiosource.clip = enemyHitAudioclip[Random.Range(0, enemyHitAudioclip.Length)];

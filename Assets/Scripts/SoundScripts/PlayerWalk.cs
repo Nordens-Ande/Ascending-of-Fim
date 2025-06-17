@@ -21,6 +21,9 @@ public class PlayerWalk : MonoBehaviour
         WalkingSoundEffect.clip = WalkingClip;
         WalkingSoundEffect.Play();
     }
+
+    //När spelaren använder tangenterna ska det komma ett ljud 
+    //Detta ljudet loppar tills spelaren sluta använda tangenterna
     public void playSoundOnWalk()
     {
         if (Input.GetKeyDown(KeyCode.W))

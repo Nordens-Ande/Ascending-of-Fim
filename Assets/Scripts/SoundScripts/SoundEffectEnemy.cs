@@ -15,6 +15,7 @@ public class SoundEffectsEnemy : MonoBehaviour
     {
         CurrentSoundEffect = GetComponent<AudioSource>();
     }
+
     public void SetIsShooting(bool b)
     { 
         EnemyIsShooting = b;

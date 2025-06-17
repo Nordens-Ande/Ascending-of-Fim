@@ -38,6 +38,8 @@ public class SoundManagerScript : MonoBehaviour
         
     }
 
+    //Metod för när spelaren är inne i UI
+    //Då stoppas bakgrundsmusiken och UI musiken spelas
     void IsInUI() 
     {
         backgroundMusic.Stop();
@@ -47,6 +49,9 @@ public class SoundManagerScript : MonoBehaviour
         isPaused = false;
 
     }
+
+    //Metod för när spelaren ska tillbaka i spelet från UI
+    //Då stoppas UI musiken och bakgrundmusiken börjar spelas igen
     void IsBackInTheGame() 
     {
         backgroundMusic.Stop();

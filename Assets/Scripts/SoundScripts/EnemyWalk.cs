@@ -22,8 +22,9 @@ public class EnemyWalk : MonoBehaviour
         playSoundOnWalk();
 
     }
+    //Denna metod är för att sätta igång ljud när fiender rör sig
     //Deadmanswitch triggar loopen av ljudet 
-    //Sedan om enemy slutar gå så återställs deadmanswitc
+    //Sedan om enemy slutar gå så återställs deadmanswitch
     //Och metoden kan sättas igång igen
     public void playSoundOnWalk()
     {
@@ -39,7 +40,8 @@ public class EnemyWalk : MonoBehaviour
         
         }
     }
-    public void walking()
+    //Metoden för att spela ljudet när fiender går
+    public void walking() 
     {
         enemyWalkSound.clip = enemyWalkingClip;
         enemyWalkSound.Play();
