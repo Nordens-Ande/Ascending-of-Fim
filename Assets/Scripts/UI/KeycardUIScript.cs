@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
+//this script is for the keycard indicator in the hud, so it changes color when the olayer has the keycard
 public class KeycardUIScript : MonoBehaviour
 {
 
