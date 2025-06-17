@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+//this script is handling highscores
 public class HighscoreHandler : MonoBehaviour
 {
 
@@ -36,14 +37,14 @@ public class HighscoreHandler : MonoBehaviour
         else
         {
             Debug.Log("No highscore file found, starting fresh." + filePath);
-            //gör den nya highscore filen och stänger streamreadern
+            //gÃ¶r den nya highscore filen och stÃ¤nger streamreadern
             File.Create(filePath).Close();
         }
 
     }
 
 
-    public void AddNewScore(int score)
+    public void AddNewScore(int score)//nytt score
     {
         highScores.Add(score);
         highScores.Sort((a, b) => b.CompareTo(a));
@@ -56,14 +57,14 @@ public class HighscoreHandler : MonoBehaviour
         SaveHighScores();
     }
 
-    public void SaveHighScores()
+    public void SaveHighScores()//save
     {
-        //gör om alla ints till string och sparar i textfilen
+        //gÃ¶r om alla ints till string och sparar i textfilen
         File.WriteAllLines(filePath, highScores.ConvertAll(score => score.ToString()));
         Debug.Log("highscores saved");
     }
 
-    public List<int> GetHighScores()
+    public List<int> GetHighScores()//get list of highscores
     {
         return new List<int>(highScores);
     }
