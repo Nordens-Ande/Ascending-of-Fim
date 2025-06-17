@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+//this script is for changing the level of the sound to correspond with the sliders in the sound menu
 public class soundSyncScript : MonoBehaviour
 {
     [SerializeField] Slider main;
@@ -31,7 +32,7 @@ public class soundSyncScript : MonoBehaviour
 
         UpdateSoundValues();
 
-        //lägger till lyssnare som lyssnar på om ifall slidersen ändras och om de gör det uppdatera
+        //lÃ¤gger till lyssnare som lyssnar pÃ¥ om ifall slidersen Ã¤ndras och om de gÃ¶r det uppdatera
         main.onValueChanged.AddListener(delegate { UpdateSoundValues(); });
         sfx.onValueChanged.AddListener(delegate { UpdateSoundValues(); });
         music.onValueChanged.AddListener(delegate { UpdateSoundValues(); });
@@ -39,7 +40,7 @@ public class soundSyncScript : MonoBehaviour
 
     void UpdateSoundValues()
     {
-        //tar nummert från sliders, rundar till en int ch displayar på nummert brevid
+        //tar nummert frÃ¥n sliders, rundar till en int ch displayar pÃ¥ nummert brevid
         numberMain.text = Mathf.RoundToInt(main.value).ToString();
         numberSFX.text = Mathf.RoundToInt(sfx.value).ToString();
         numberMusic.text = Mathf.RoundToInt(music.value).ToString();
