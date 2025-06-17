@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+//this script is for editing UI grenade numbers, names are self explanatory 
 public class GrenadeUIScript : MonoBehaviour
 {
 
