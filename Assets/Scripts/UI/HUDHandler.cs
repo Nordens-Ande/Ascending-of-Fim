@@ -2,6 +2,8 @@ using UnityEngine;
 using FirstGearGames.SmoothCameraShaker;
 using Unity.VisualScripting;
 
+//this script is a collecting of all scripts needed in the HUD
+//you obly need to call this script if you need to change the hud, names are self explanatory 
 public class HUDHandler : MonoBehaviour
 {
     [SerializeField] UIHandler UIHandler;
