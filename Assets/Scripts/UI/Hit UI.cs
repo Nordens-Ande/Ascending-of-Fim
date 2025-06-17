@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+//this script is for the red flahs effect when the okayer gets hit
 public class HitUI : MonoBehaviour
 {
     [SerializeField] Image hitImage;
@@ -13,9 +14,9 @@ public class HitUI : MonoBehaviour
         hitImage.enabled = false;
     }
 
-    public void Show(float duration)
+    public void Show(float duration)//call this one when they are being hit
     {
-        // If it’s already showing, restart the timer
+        // If itâ€™s already showing, restart the timer
         if (showCoroutine != null)
         {
             StopCoroutine(showCoroutine);
