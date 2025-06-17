@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
-//using static UnityEditor.PlayerSettings;
 
+//En helper struct, som ger en minimum och maximum integer värden, denna struct blir användbar då det används ofta genom denna klassen.
 [System.Serializable]
 public struct MinMaxInt
 {
@@ -17,6 +17,8 @@ public struct MinMaxInt
         this.max = max;
     }
 }
+
+//En struct vars syfte är att underlätta konfigurationen av lägenheter, RoomSettings innehåller alla relevanta rum specifika parametrar och gör det snyggare i inspectorn
 [System.Serializable]
 public struct RoomSettings
 {
@@ -34,9 +36,11 @@ public struct RoomSettings
     }
 }
 
+//Denna klassen är ansvarig för att generera lägenheterna och hela dess interiör, dvs dörrar, möbler, mesh, spawnpoints mm.
+//För att skapa allting så använder jag mig av ett tile system för att kolla ifall området är redan ockuperat. Dvs alla möbler, dörrar och rum är int stora och kan bara följa int rutnätet.
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] public bool reroll = false;
+    [SerializeField] public bool reroll = false; //Denna bool används för att snabbt kunna generera en ny lägenhet
 
     [SerializeField] GameObject player;
     //[SerializeField] bool debug = false;
@@ -102,12 +106,13 @@ public class RoomManager : MonoBehaviour
 
     private List<Room> rooms;
     private List<GameObject> roomObjects;
-    private Dictionary<Room, GameObject> roomDictionary; //koppla refernserna mellan rummen här och gör en metod, lik GenerateRoomLayout fastän för möbler och använd detta bibliotek för referenser, gör en coroutine på hela möbel metoden sen
+    private Dictionary<Room, GameObject> roomDictionary;
     private GameObject thickWalls;
     private GameObject exteriorWalls;
 
     private List<GameObject> furnitureObjects;
 
+    //tiles för olika typer i lägenhetern, room, door, furniture, walls
     private HashSet<Vector2Int> occupiedRoomPositions;
     private HashSet<Vector2Int> occupiedDoorPositions;
     private HashSet<Vector2Int> occupiedFurniturePositions;
@@ -116,6 +121,7 @@ public class RoomManager : MonoBehaviour
     private Dictionary<RoomType, MinMaxInt> roomSizes;
     private Dictionary<RoomType, RoomSettings> roomSettings;
 
+    //Här definerar vi reglerna för vilka rum som kan kopplas ihop
     private Dictionary<RoomType, List<RoomType>> roomConnectionRules = new Dictionary<RoomType, List<RoomType>>()
     {
         { RoomType.Elevator, new List<RoomType>() { } },
@@ -130,6 +136,7 @@ public class RoomManager : MonoBehaviour
 
     private void Awake()
     {
+        //Bestämmer room settings
         roomSettings = new Dictionary<RoomType, RoomSettings>()
         {
             { RoomType.Elevator, elevatorSettings },
@@ -148,6 +155,9 @@ public class RoomManager : MonoBehaviour
         navMeshBaker = GetComponent<NavMeshBaker>();
     }
 
+    //Start metoden generar en helt ny lägenhet. Den skapar då alla meshes, rum, möbler, spawnpoints osv. När vi gör en reroll, dvs genererar om då kallas start igen - eftersom att den innehåller allt nödvändigt för att skapa en lägenhet
+    //Konstruktionen av lägenheten fungerar så att vi generar först all information, var rummen är, dörrar, möbler, spawnpoints osv och när det är färdigt då börjar vi bygga upp alla meshes
+    //Detta görs delvis för att koden är gjord att vara snabb och effektiv, vi behöver inte skapa meshen på rummen för att skapa dörrar eller möbler vilket drastiskt gör kosntruktionen av lägenheter snabbare
     void Start()
     {
         reroll = false;
@@ -223,17 +233,12 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    //private IEnumerator DelayedFurnitureLayout()
-    //{
-    //    //yield return null; //en frame
-    //    yield return new WaitForSeconds(0.1f);
-    //    //TryCreateFurniture(room);
-    //    //MeshBuilder.DecorateRoomMesh(roomMesh.transform.root, room);
-    //    //StartCoroutine(GenerateFurnitureLayout());
-    //}
-
+    //Denna metod skapar en while loop som försöker generera angivna talet på rum. Här finns det säkerhets spärrar så den inte fastnar i en evig while- loop
+    //Denna metoden fungerar genom att skapa ett rum och sen skapa ett nytt rum från det rummet och växer vidare så. Om den stannar (kan inte göra fler rum) då väljer den ett nytt rum som den ska växa ifrån
+    //Då lyder dessa rum våra tidigare angivna krav/regler/inställningar, dvs vilket rum som kan kopplas, hur stort det är osv.
     private void GenerateRoomLayout()
     {
+        //Skapar det första rummet och hissen som alla andra rum kommer utgå från.
         Room initialRoom = new Room(initWidth, initHeight, wallHeight, wallThickness, doorSize, Vector2Int.zero, initType);
         AddRoom(initialRoom);
         GenerateElevator(initialRoom);
@@ -264,15 +269,17 @@ public class RoomManager : MonoBehaviour
 
             bool addedRoomThisCycle = false;
 
+            //Här går vi genom alla rum som kan skapas och som inte bryter reglerna i possibleConnections
             foreach (RoomType type in possibleConnections)
             {
+                //Kontroll ifall vi har uppnåt max rum eller om det är en hiss som vi försöker skapa
                 if (rooms.Count >= amountToGenerate)
                     break;
                 if (type == RoomType.Elevator)
                     continue;
 
+                //Storleken på rummet
                 MinMaxInt sizeRange = roomSettings[type].sizeRange;
-
                 int width = Random.Range(sizeRange.min, sizeRange.max + 1);
                 int height = Random.Range(sizeRange.min, sizeRange.max + 1);
 
@@ -289,12 +296,15 @@ public class RoomManager : MonoBehaviour
                         : Random.Range(sizeRange.min, sizeRange.min + 2);
                 }
 
+                //Position för det nya rummet
                 Vector2Int direction = GetRandomDirection();
                 Vector2Int offset = GetOffset(direction, width, height);
                 Vector2Int newPosition = currentRoom.Position + offset;
 
+                //Skapar nya rummet
                 Room newRoom = new Room(width, height, wallHeight, wallThickness, doorSize, newPosition, type);
 
+                //Kontrollerar så att vårt nya rum ej kolliderar med andra rum och att det är dessutom kopplat till vårt tidigare rum som vi bygger ifrån
                 if (IsRoomSpaceFree(newRoom) && IsRoomConnected(currentRoom, newRoom))
                 {
                     AddRoom(newRoom);
@@ -304,16 +314,19 @@ public class RoomManager : MonoBehaviour
             }
 
             if (!addedRoomThisCycle)
-                failCount++;
+                failCount++; //Adder på vår fail-safe int
             else
-                failCount = 0; // Reset fails if successful
+                failCount = 0; //Resetar ifall den lyckates skapa ett rum
         }
     }
 
+    //Denna metoden genrerar alla möbler för alla rum - och kallas då efter vi har skapat alla rummen (inte nödvändigtvis meshen)
+    //Denna metoden är också en while-loop och har även säkerhetsspärrar för att hindra att programmet fryser
     private void GenerateFurnitureLayout()
     {
         Queue<Furniture> furnitureQueue = new Queue<Furniture>();
 
+        //Går igenom alla rummen och skapar möbler
         foreach (Room room in rooms)
         {
             //furnitureQueue.Enqueue();
@@ -321,13 +334,14 @@ public class RoomManager : MonoBehaviour
             RoomType type = room.Type;
             int failCount = 0;
             int maxFails = maxFurnitureFails;
-            int amountToGenerate = Random.Range(1, roomSettings[type].maxFurniture + 1);
+            int amountToGenerate = Random.Range(1, roomSettings[type].maxFurniture + 1); //bestämmer antalet möbler
 
             while (failCount < maxFails && room.FurnitureList.Count <= roomSettings[type].maxFurniture)
             {
-                if (room.FurnitureList.Count >= amountToGenerate)
+                if (room.FurnitureList.Count >= amountToGenerate) //Extra check ifall vi har uppnått max möbler redan
                     break;
 
+                //Hämtar och kontrollerar att möblerna finns och fungerar - annars fortsätter den tills den misslyckas (failCount uppnås)
                 List<Furniture> availableFurnitures = roomPrefabManager.GetFurniture(room.Type);
                 if (availableFurnitures == null || availableFurnitures.Count == 0)
                 {
@@ -335,18 +349,20 @@ public class RoomManager : MonoBehaviour
                     continue;
                 }
                     
-
                 bool addedFurnitureThisCycle = false;
 
+                //Hämtar tiles för dörrar och rum
                 List<Vector2Int> roomTiles = room.GetOccupiedTiles();
                 List<Vector2Int> doorTiles = room.GetDoorTiles(doorClearance);
                 //List<Vector2Int> furnitureTiles = new List<Vector2Int>();
                 //foreach (Furniture furniture in room.FurnitureList.Keys)
                 //    furnitureTiles.AddRange(furniture.GetOccupiedTiles(room.FurnitureList[furniture]));
 
+                //väljer en slumpmässig plats i rummet som vi sedan testar ifall vi kan generara en slumpmässig möbel på
                 Vector2Int spawnPos = roomTiles[Random.Range(0, roomTiles.Count)];
                 Furniture selectedFurniture = availableFurnitures[Random.Range(0, availableFurnitures.Count)];
 
+                //Kontroll för att kolla så samma möbel (eller snarklik med ID) redan finns i rummet
                 if (selectedFurniture.lookAlikeID != 0)
                 {
                     if (room.FurnitureList.Any(f => f.Item1.lookAlikeID == selectedFurniture.lookAlikeID))
@@ -356,8 +372,10 @@ public class RoomManager : MonoBehaviour
                     }
                 }
 
+                //Hämtar tiles var möblen ockuperar
                 List<Vector2Int> selectedFurnitureTiles = selectedFurniture.GetOccupiedTiles(spawnPos);
 
+                //Försöker att placera möbeln 
                 if (TryPlaceFurniture(room, selectedFurniture, spawnPos))
                 {
                     //Debug.Log("Placed furniture: " + spawnPos);
@@ -368,12 +386,13 @@ public class RoomManager : MonoBehaviour
                 if (!addedFurnitureThisCycle)
                     failCount++;
                 else
-                    failCount = 0; // Reset fails if successful
+                    failCount = 0;
             }
         }
     }
 
-    //Hårdkodad lösning för hissen. Just nu hamnar den alltid ovanför det första rummet i mitten och skapas mycket tidigare (för att kringå att det ska ha ett rum osv) men det bryter RoomManagerns struktur
+    //Hårdkodad lösning för hissen. Just nu hamnar den alltid ovanför det första rummet i mitten och skapas mycket tidigare (för att kringå att det ska ha ett rum osv) men det bryter RoomManagerns struktur.
+    //Detta fungerar tillräckligt bra för spelet och gör hissen kännas mer rimlig då den alltid befinner sig på samma plats i lägenheten
     void GenerateElevator(Room adjacentRoom)
     {
         Vector2Int size = new Vector2Int(2, 2);
@@ -400,6 +419,7 @@ public class RoomManager : MonoBehaviour
     }
 
     //Must som innebär att den måste placera den angivna möbeln oavsett vad - här så ignorerar den vilket rum det är och bryr sig enbart om max mängd i lägenheten/rummen och ifall den ska undvika att placeras i specifika rum.
+    //Denna används primärt för keycard
     void MustPlaceFurniture(Furniture furniture, int maxAmount, int maxPerRoom = 1, params RoomType[] excludedRooms)
     {
         if (furniture == null) return;
@@ -443,6 +463,8 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    //Samma som förra metod fast här har den en övregräns (maxFails) för att undvika så att den inte fastnar i en while-loop
+    //Denna används primärt för fienderna så att spawnpoints hamnar i alla rum
     void MustPlaceFurniture(Furniture furniture, int maxAmount, int maxPerRoom, int maxFails, params RoomType[] excludedRooms)
     {
         if (furniture == null) return;
@@ -488,6 +510,7 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    //Metoden som kollar ifall den givna möbeln får plats i rummet utan att vara utanför, i dörren eller i en annan möbel. Vi kan ange också ifall vi vill kontrollera doorTiles och funritureTiles
     bool TryPlaceFurniture(Room room, Furniture furniture, Vector2Int spawnPos, bool checkDoorTiles = true, bool checkFurnitureTiles = true)
     {
         //Tiles to check
@@ -550,6 +573,7 @@ public class RoomManager : MonoBehaviour
             return false;
     }
 
+    //Metod för att skapa dörrar mellan alla rum
     private void CheckNearbyRooms()
     {
         if (rooms == null) return;
@@ -563,6 +587,7 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    //Försöker skapa en dörr mellan rum A och B. Väljer sedan en slumpmässig plats där den placerar dörren på vägen
     void TryCreateDoorsBetween(Room roomA, Room roomB)
     {
         BoundsInt boundsA = roomA.GetBounds();
@@ -570,18 +595,19 @@ public class RoomManager : MonoBehaviour
 
         float doorSize = roomA.DoorSize;
 
-        // FRONT/DOWN & BACK/UP (A ?r ?ver B)
+        // FRONT/DOWN & BACK/UP (A är äver B)
         if (boundsA.yMin == boundsB.yMax)
         {
             int overlapMinX = Mathf.Max(boundsA.xMin, boundsB.xMin);
             int overlapMaxX = Mathf.Min(boundsA.xMax, boundsB.xMax);
             float overlap = overlapMaxX - overlapMinX;
 
+            //Här kontrollerar vi att dörren faktikt får plats
             if (overlap >= doorSize)
             {
                 int doorX = Mathf.RoundToInt(Random.Range(overlapMinX + doorSize / 2f, overlapMaxX - doorSize / 2f));
-                roomA.Doorways.Add(new Vector2(doorX - boundsA.xMin, 0)); // Front v?gg (A)
-                roomB.Doorways.Add(new Vector2(doorX - boundsB.xMin, roomB.Height)); // Back v?gg (B)
+                roomA.Doorways.Add(new Vector2(doorX - boundsA.xMin, 0)); // Front vägg (A)
+                roomB.Doorways.Add(new Vector2(doorX - boundsB.xMin, roomB.Height)); // Back vägg (B)
             }
         }
 
@@ -592,6 +618,7 @@ public class RoomManager : MonoBehaviour
             int overlapMaxY = Mathf.Min(boundsA.yMax, boundsB.yMax);
             float overlap = overlapMaxY - overlapMinY;
 
+            //Här kontrollerar vi att dörren faktikt får plats
             if (overlap >= doorSize)
             {
                 int doorZ = Mathf.RoundToInt(Random.Range(overlapMinY + doorSize / 2f, overlapMaxY - doorSize / 2f));
@@ -642,6 +669,7 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    //Denna metoden används för att fylla ut hål (donut hål) som bildas i lägenheten. Detta är enbart kosmetiskt men koden/logiken är ändå ganska komplex
     //Om en grupp av tiles når bordern, då är det inte ett hål annars är det ett hål
     //Vi väljer en tile, förgrenar från den tills den stannar av border/rooms/av tidigare tiles.
     public List<Vector2Int> FindHoles(HashSet<Vector2Int> roomTiles)
@@ -708,6 +736,7 @@ public class RoomManager : MonoBehaviour
 
             bool hasTouchedBorder = false;
 
+            //Free tile syftar på antalet nya tiles den kan/har genererat. När den slutar växa når noll då kollar vi ifall den har nuddat gränsen
             while (freeTile > 0)
             {
                 List<Vector2Int> copyLatestTiles = new List<Vector2Int>(latestTiles);
@@ -734,6 +763,7 @@ public class RoomManager : MonoBehaviour
                     break;
             }
 
+            //Ifall växten av tilesen aldrig lyckas nudda gränsen av lägenheten då måste det vara ett slutet hål som kan fyllas ut
             if (!hasTouchedBorder)
             {
                 foreach (Vector2Int tile in grownTiles)
@@ -756,6 +786,7 @@ public class RoomManager : MonoBehaviour
         return holeTiles;
     }
 
+    //Metod som ger tiles kring området av tile.
     List<Vector2Int> GrowTile(Vector2Int tile, List<Vector2Int> grownTiles, List<Vector2Int> roomTiles)
     {
         Vector2Int[] dirs = new[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
@@ -778,11 +809,7 @@ public class RoomManager : MonoBehaviour
         return result;
     }
 
-    void ExteriorWallGeneration()
-    {
-
-    }
-
+    
     bool IsThickWall(Vector2Int tile, List<Vector2Int> roomTiles)
     {
         Vector2Int[] vertical = new[] { Vector2Int.up, Vector2Int.down };
@@ -805,6 +832,7 @@ public class RoomManager : MonoBehaviour
         return isVertical || isHorizontal;
     }
 
+    //Genererar all debug information
     void DebugGeneration()
     {
         if (!debugger)
@@ -817,7 +845,7 @@ public class RoomManager : MonoBehaviour
     }
 
 
-    //REFERNS
+    //REFERNS (FÖRSTA FÖRSÖK PÅ FURNITURE, IGNORERA DETTA)
     //void TryCreateFurniture(Room room)
     //{
     //    List<Furniture> availableFurnitures = roomPrefabManager.GetFurniture(room.Type);
@@ -863,6 +891,7 @@ public class RoomManager : MonoBehaviour
     //    }
     //}
 
+    //Kollar ifall tiles kolliderar med tiles åt en given riktning. Här kan vi bestämma ifall alla tiles eller bara en måste kollidera ifall det ska bli true (allMustCollide)
     bool CheckCollidingTilesAtDir(Vector2Int dir, List<Vector2Int> compareTiles, bool allMustCollide, params List<Vector2Int>[] tileLists)
     {
         bool allCollided = true;
@@ -890,6 +919,8 @@ public class RoomManager : MonoBehaviour
         if (allMustCollide) return allCollided;
         else return false;
     }
+
+    //Metod för att kolla så att rum utrymmet är ledigt
     bool IsRoomSpaceFree(Room room)
     {
         foreach (Vector2Int tile in room.GetOccupiedTiles())
@@ -899,6 +930,8 @@ public class RoomManager : MonoBehaviour
         }
         return true;
     }
+
+    //Metod för att kolla så möbeln får plats - denna används inte längre
     bool IsFurnitureSpaceFree(Room room, Furniture furniture, Vector2Int position)
     {
         //tiles för det specifika rummet
@@ -917,6 +950,7 @@ public class RoomManager : MonoBehaviour
         return true;
     }
 
+    //Kollar så att rummet har placerats rätt och är kopplat ihop med rummet (var en okänd bug som gjorde att rum hamnade längre bort - denna metoden löser det)
     bool IsRoomConnected(Room previousRoom, Room newRoom)
     {
         int minOverlap = Mathf.Max(Mathf.CeilToInt(previousRoom.DoorSize), Mathf.CeilToInt(newRoom.DoorSize));
@@ -946,6 +980,7 @@ public class RoomManager : MonoBehaviour
         return false;
     }
 
+    //Lägger till rummet och dess tiles
     void AddRoom(Room room)
     {
         rooms.Add(room);
@@ -955,6 +990,7 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    //Lägger till möbeln och dess tiles
     void AddFurniture(Room room, Furniture furniture, Vector2Int pos)
     {
         room.FurnitureList.Add((furniture, pos));
@@ -964,7 +1000,8 @@ public class RoomManager : MonoBehaviour
             occupiedFurniturePositions.Add(pos + tile);
         }
     }
-
+    
+    //Lägger till dörren och dess tiles
     void AddDoorSpace(Room room)
     {
         foreach (Vector2Int tile in room.GetDoorTiles(doorClearance))
@@ -1001,6 +1038,7 @@ public class RoomManager : MonoBehaviour
         return Vector2Int.zero;
     }
 
+    //Update ifall vi har rerollat lägenheten.
     private void FixedUpdate()
     {
         if (reroll)
@@ -1019,25 +1057,5 @@ public class RoomManager : MonoBehaviour
 
             Start();
         }
-    }
-    void Update()
-    {
-        //Måste placeras i FixedUpdate för att lösa spelarens respawn (där dess fysik-uppdateringar förstör annars)
-        //if (reroll)
-        //{
-        //    reroll = false;
-
-        //    foreach(GameObject room in roomObjects)
-        //        Destroy(room);
-        //    Destroy(thickWalls);
-        //    Destroy(exteriorWalls);
-            
-        //    if (debugger)
-        //        debugger.ClearTiles();
-
-        //    Awake();
-
-        //    Start();
-        //}
     }
 }

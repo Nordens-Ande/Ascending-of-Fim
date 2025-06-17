@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+//Furniture klassen innehåller all data och information för en möbel som används som regler/krav för att placera ut den i lägenheten
 public class Furniture : MonoBehaviour, ITileable
 {
     [Header("Furniture")]
@@ -9,35 +10,23 @@ public class Furniture : MonoBehaviour, ITileable
     public Vector2Int size;
     public bool drawDebug = false;
 
-    [Header("Directions")]
+    [Header("Directions")] //Riktningar som möbeln har, clear betyder att inget kan vara åt den riktningen, wall betyder att en vägg msåte vara närvarande åt riktningen
     public List<Vector2Int> clearDirections = new List<Vector2Int>();
     public List<Vector2Int> wallDirections = new List<Vector2Int>();
 
-    [Header("Variants and look alikes")]
+    [Header("Variants and look alikes")] //ID/objekt för att se till så att det inte kommer flera samma/liknande möbler (olika soffor, sänger exempelvis)
     public List<GameObject> variants = new List<GameObject>();
     public int lookAlikeID;
     
-    void Start()
-    {
-        
-    }
-
+    //Områden kring möbeln
     public BoundsInt GetBounds()
     {
         return new BoundsInt((int)transform.position.x, (int)transform.position.y, 0, size.x, size.y, 1);
     }
 
+    //Hämtar tilsen som möbeln tar upp (tempPos syftar på ifall du vill testa att placera en möbel nånstans för att se om den passar)
     public List<Vector2Int> GetOccupiedTiles()
     {
-        //List<Vector2Int> tiles = new List<Vector2Int>();
-        //for (int x = 0; x < size.x; x++)
-        //{
-        //    for (int y = 0; y < size.y; y++)
-        //    {
-        //        tiles.Add(new Vector2Int((int)transform.position.x + x, (int)transform.position.z + y));
-        //    }
-        //}
-        //return tiles;
         return GetOccupiedTiles(new Vector2Int((int)transform.position.x, (int)transform.position.z));
     }
     public List<Vector2Int> GetOccupiedTiles(Vector2Int tempPos)
@@ -67,6 +56,7 @@ public class Furniture : MonoBehaviour, ITileable
             DrawDirectionFromEdge(dir, Color.red);
     }
 
+    //Ritar kanter runt objekten
     void DrawDirectionFromEdge(Vector2 dir, Color color)
     {
         if (dir == Vector2.zero) return;
@@ -79,11 +69,5 @@ public class Furniture : MonoBehaviour, ITileable
         Gizmos.color = color;
         Gizmos.DrawLine(startPoint, endPoint);
         Gizmos.DrawSphere(endPoint, 0.05f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Denna klass finns enbart i plats för att underlätta debuggandet för alla rum, möbler, lägenheter mm.
 public class TileDebugger : MonoBehaviour
 {
     [SerializeField] bool draw = false;
@@ -21,6 +22,7 @@ public class TileDebugger : MonoBehaviour
     
     private Vector3 tileSize = new Vector3(1, 0.1f, 1); // Flat cube on the XZ plane
 
+    //Rensar tiles ifall lägenheten byggs om.
     public void ClearTiles()
     {
         roomTiles.Clear();
@@ -49,6 +51,7 @@ public class TileDebugger : MonoBehaviour
         }
     }
 
+    //Generel metod som ritar ut alla tiles med angivna färg.
     void DrawTileSet(HashSet<Vector2Int> tiles, Color color)
     {
         Gizmos.color = color;

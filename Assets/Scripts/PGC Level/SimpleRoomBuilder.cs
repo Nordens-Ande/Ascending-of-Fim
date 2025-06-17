@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Test klass som användes i början för att fixa systemet mellan Room och MeshBuilder - används inte längre och är irrelevant för spelet 
 public class SimpleRoomBuilder : MonoBehaviour
 {
     [SerializeField] int Width, Height;

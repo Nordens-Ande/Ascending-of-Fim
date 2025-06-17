@@ -1,4 +1,3 @@
-using BarthaSzabolcs.IsometricAiming;
 using UnityEngine;
 
 public class PlayerDeathController : MonoBehaviour

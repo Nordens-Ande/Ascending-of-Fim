@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-//using static UnityEditor.PlayerSettings;
-//using static UnityEditor.Searcher.SearcherWindow.Alignment;
-//using static UnityEngine.UI.Image;
 
 public interface ITileable
 {
@@ -11,11 +8,11 @@ public interface ITileable
     //public List<Vector2Int> GetOccupiedTiles(Vector2Int tempPos);
 }
 
+//Denna klass skapar alla meshes för lägenheten och är därför static så att det kan närsomhelt kallas för att konstukrera meshes
+//I denna klass så namnger vi alla objekt också för att underlätta navigationen av alla gameobjekts i scenen och vi försöker även parent/child objekt för att göra det kännas mer sorterat
 public static class MeshBuilder
 {
-    //D?rrarna skall kunna befinnas p? float v?rden, dess position skall vara mittpunkten av d?rren och deras storlek b?r kunnas f?r?ndras (inom float v?rden)
-    //Fixa ocks? s? att vi skapar endast en v?gg eller fler beroende p? antal d?rring?ngar (1 d?rr tv? v?ggar, 2 d?rrar 3 v?ggar osv)
-
+    //Skapar rummets mesh
     public static GameObject CreateRoomMesh(Room room, Material wallMat, Material floorMat)
     {
         //Skapar GameObject-et
@@ -37,6 +34,8 @@ public static class MeshBuilder
 
         return root;
     }
+
+    //Dekorerar, dvs lägger till alla möbler in i rummet
     public static void DecorateRoomMesh(Transform root, Room room)
     {
         foreach ((Furniture f, Vector2Int v) furniture in room.FurnitureList)
@@ -47,6 +46,7 @@ public static class MeshBuilder
         }
     }
 
+    //SKapar en vägg med en öppning (alltså en dörringång)
     private static void CreateWallsWithDoorways(Transform parent, Vector3 origin, BoundsInt roomBounds, Room room, Material wallMat)
     {
         Dictionary<Vector2, Vector3> directionOffsets = new()
@@ -127,6 +127,7 @@ public static class MeshBuilder
         }
     }
 
+    //Skapar ytterväggarna kring hela lägenheten
     public static void CreateExteriorWalls(Transform parent, HashSet<Vector2Int> apartmentArea, int wallHeight, int height, float wallThickness, Material wallMat)
     {
         Vector2Int[] dirs = new Vector2Int[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
@@ -170,6 +171,7 @@ public static class MeshBuilder
         }
     }
 
+    //konstruktion av en tjock vägg (eller en takbit som finns mellan väggar som gör det se ut som en tjock vägg)
     public static void CreateThickWallTile(Transform parent, Vector2Int pos, float height, Material mat)
     {
         GameObject thickWallTile = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -181,6 +183,7 @@ public static class MeshBuilder
         thickWallTile.layer = 3;
     }
 
+    //Konstruktion av en vägg
     private static void CreateWall(Transform parent, Vector3 pos, Vector3 scale, Material mat)
     {
         GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -191,6 +194,7 @@ public static class MeshBuilder
         wall.GetComponent<Renderer>().material = mat;
     }
 
+    //Skapandet av en furniture
     private static void CreateFurniture(Transform parent, Room room, Furniture prefab, Vector3 pos)
     {
         GameObject furnitureObject = GameObject.Instantiate(prefab.gameObject);

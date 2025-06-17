@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
+//Mycket av fysiken i denna klassen används inte. Det var ett tidigare försök på att få en mer komplex/advancerad fysik för spelaren. Man kan ange om "Float" (den mer advancerade) ska vara igång men det används inte i spelet. Därför struntar jag i att förklara det
 public class PlayerPhysics : MonoBehaviour
 {
     [Header("Drag values")]
@@ -37,7 +38,6 @@ public class PlayerPhysics : MonoBehaviour
     }
 
 
-
     private void FloatHandler()
     {
         RaycastHit ray;
@@ -72,6 +72,7 @@ public class PlayerPhysics : MonoBehaviour
         }
     }
 
+    //Kollar ifall spelaren är i luften eller inte och ändrar drag så att han faller snabbare.
     private void DragHandler()
     {
         RaycastHit ray;

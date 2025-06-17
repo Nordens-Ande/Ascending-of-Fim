@@ -1,5 +1,8 @@
 using UnityEngine;
 
+//Samma som PlayerAnimator fast den har mindre gå/spring animationer
+//Egentligen borde dessa vara samma/ärvats från samma grundklass då de använder snarlika metoder osv
+//För att se förklaringar på metoder se PlayerAnimator istället.
 public class EnemyAnimator : MonoBehaviour
 {
     [Header("Must have references")]
