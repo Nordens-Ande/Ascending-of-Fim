@@ -21,6 +21,7 @@ public class ExplodingBarrel : MonoBehaviour
         hudHandler = FindFirstObjectByType<HUDHandler>();
     }
 
+    // Check if object has been hit and if so, call Explode after a delay and play a sound.
     public void TakeDamage()
     {
         if (!isTriggered)
@@ -31,6 +32,8 @@ public class ExplodingBarrel : MonoBehaviour
         }
     }
 
+    // This method is called when you damage the object, after the delay timer has run out.
+    // The method will call for effects, applying damage and knockback and also triggering other barrels nearby.
     void Explode()
     {
         // explosion particle

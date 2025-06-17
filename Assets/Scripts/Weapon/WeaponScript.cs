@@ -145,8 +145,10 @@ public class WeaponScript : MonoBehaviour, IWeapon
         Destroy(gameObject);
     }
 
+    // This method spawns a visual trail from the weapon's origin to the end point, with the help of LineRenderer drawing the trail.
     public void SpawnBulletTrail(Vector3 endPoint) //spawn bullet trails
     {
+        // Check if prefab is assigned
         if (bulletTrailPrefab == null)// || bulletOrigin == null) 
             return;
 
@@ -157,6 +159,6 @@ public class WeaponScript : MonoBehaviour, IWeapon
         line.SetPosition(0, start);
         line.SetPosition(1, endPoint);
 
-        Destroy(lineObj, 0.05f); // lower number for "faster" effect
+        Destroy(lineObj, 0.05f); // lower number for "faster" line effect
     }
 }

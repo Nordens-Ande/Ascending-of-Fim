@@ -20,6 +20,7 @@ public class Grenade : MonoBehaviour
         hudHandler = FindFirstObjectByType<HUDHandler>();
         Invoke(nameof(Explode), explosionDelay);
     }
+
     public void TakeDamage()
     {
         if (!isTriggered)
@@ -29,6 +30,9 @@ public class Grenade : MonoBehaviour
             AudioSource.PlayClipAtPoint(exSound.explosionSound, transform.position, 5);
         }
     }
+
+    // This method is called when you press the Throw button, after the delay timer has run out.
+    // The method will call for effects, applying damage and knockback and also triggering other barrels nearby.
     void Explode()
     {
         // explosion visual
@@ -42,13 +46,17 @@ public class Grenade : MonoBehaviour
             Destroy(effect, 2f);
         }
 
+        // do damage and knockback to nearby objects
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+
+        // using hashset to track if player/enemy has already been damaged due to models having several hitboxes.
         HashSet<GameObject> damagedEnemies = new HashSet<GameObject>();
         HashSet<GameObject> damagedPlayers = new HashSet<GameObject>();
 
         Debug.Log("Grenade explosion at: " + transform.position + " with radius: " + explosionRadius);
         foreach (Collider nearby in colliders)
         {
+            // Damage enemies
             EnemyHealth enemy = nearby.GetComponentInParent<EnemyHealth>();
             if (enemy != null && !damagedEnemies.Contains(enemy.gameObject))
             {
@@ -57,6 +65,7 @@ public class Grenade : MonoBehaviour
                 Debug.Log("Grenade damaged enemy: " + nearby.name);
             }
 
+            // Damage player
             PlayerHealth player = nearby.GetComponentInParent<PlayerHealth>();
             if (player != null && !damagedPlayers.Contains(player.gameObject))
             {
@@ -66,6 +75,7 @@ public class Grenade : MonoBehaviour
                 Debug.Log("Grenade damaged player: " + nearby.name);
             }
 
+            // Apply knockback
             Rigidbody rb = nearby.GetComponentInParent<Rigidbody>();
             if (rb != null)
             {

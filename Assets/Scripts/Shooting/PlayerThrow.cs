@@ -10,7 +10,7 @@ public class PlayerThrow : MonoBehaviour
     //[SerializeField] private int maxGrenades = 3;
 
     [SerializeField] HUDHandler hudHandler; // Reference to HUDHandler to update grenade count
-    [SerializeField] SoundEffectsPlayer SEB;
+    [SerializeField] SoundEffectsPlayer SEB; 
 
     private float cooldownTimer = 0;
     private int grenadesLeft;
@@ -30,14 +30,17 @@ public class PlayerThrow : MonoBehaviour
         }
     }
 
+    // Run this method when the Throw command is called in agme
     private void OnThrow(InputValue value)
     {
+        // Check if cooldown has passed
         if (cooldownTimer > 0)
         {
             Debug.Log("Grenade cooldown not over. Time left: " +  cooldownTimer);
             return;
         }
 
+        // If the cooldown has passed and the player has grenades, call ThrowGrenade method, update the amount of grenades left and start the cooldown timer
         if (PlayerStats.grenades > 0)
         {
             ThrowGrenade();
@@ -53,6 +56,7 @@ public class PlayerThrow : MonoBehaviour
         }
     }
 
+    // Instantiate a grenade prefab and apply physics to throw it
     private void ThrowGrenade()
     {
         if (grenadePrefab == null || throwPoint == null) return;
