@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+//this script is for the numbers in the time ui element to br easily editable
 public class TimerUIScript : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timer;
