@@ -8,7 +8,8 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] SoundEffectsEnemy soundEffectsEnemy;
     [SerializeField]EnemyVoicelines enemyVoicelines;
 
-    enum EnemyState {searching = 1, movingToPlayerLastKnown = 2, chasing = 3, standingShooting = 4, runningShooting = 5 }
+    enum EnemyState {searching = 1, movingToPlayerLastKnown = 2, chasing = 3, standingShooting = 4, runningShooting = 5 } //movingToPlayerLastKnown means that the enemy has seen the player but lost
+                                                                                                                          //line of sight, and the enemy moves towards the position they last say the player at
     EnemyState previousEnemyState;
     [SerializeField] EnemyState enemyState;
     [SerializeField] float RotationSpeed;
@@ -43,13 +44,13 @@ public class EnemyAIController : MonoBehaviour
         forceUpdateBehaviour = true;
     }
 
-    float SetStoppingDistance()
+    float SetStoppingDistance() //set a random distance from the player the enemy will stop to create more variation in enemy movement/behaviour
     {
         float random = Random.Range(2.5f, 3);
         return random;
     }
 
-    void DecideEnemyState()
+    void DecideEnemyState() //called every update to check if enemy behaviour needs to be changed based on certain factors
     {
         float distanceToPlayer = CalculateDistanceToPlayer();
 
@@ -75,7 +76,8 @@ public class EnemyAIController : MonoBehaviour
         }
     }
 
-    void UpdateEnemyBehaviour()
+    void UpdateEnemyBehaviour() //if the method aboves changes the behaviour an enemy should have,
+                                //this method is called and ensures that the enemy behaves that way by changing turning on/off shooting etc
     {
         if(enemyState == EnemyState.standingShooting)
         {
@@ -128,7 +130,7 @@ public class EnemyAIController : MonoBehaviour
         }
     }
 
-    void ResetDestination()
+    void ResetDestination() //continuosly update the target positon for the NavMesh agent while following/chasing the player
     {
         if(!enemyMove.agent.isStopped && enemyState == EnemyState.chasing || enemyState == EnemyState.runningShooting)
         {
@@ -136,30 +138,30 @@ public class EnemyAIController : MonoBehaviour
         }
     }
 
-    void SetLastSpottedPos()
+    void SetLastSpottedPos() //checks if the enemy had line of sight and then lost it, updates enemy behaviour if true
     {
         if(lineOfSightLastUpdate && !lineOfSight)
         {
             playerLastKnownPosition = player.transform.position;
-            movingToPlayerLastKnownPos = true;
+            movingToPlayerLastKnownPos = true;//this line updates the enemy behaviour
         }
     }
 
-    void CheckIfEnemyReachedPlayerLastKnown()
+    void CheckIfEnemyReachedPlayerLastKnown() // checks if the enemy has reached the position they last saw the player, if so set the bool to false and enemy can behave differently again.
     {
         if (Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z),
-                             new Vector3(playerLastKnownPosition.x, 0, playerLastKnownPosition.z)) < 0.2f)
+                             new Vector3(playerLastKnownPosition.x, 0, playerLastKnownPosition.z)) < 0.2f)// need a bit of a buffer as the navmesh agent can stop a bit before or after the target position
         {
             movingToPlayerLastKnownPos = false;
         }
     }
     
-    bool CheckForLineOfSight()
+    bool CheckForLineOfSight() // enemy checks for line of sight to the player, this is a condition for how the enemy will behave and is checked once per update
     {
         Vector3 directionToPlayer = CalculateDirectionToPlayer();
         Ray ray = new Ray(transform.position, directionToPlayer);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))//layermask sorts out certain layers such as, other enemies, weapons and shields.
         {
             if (hit.transform.CompareTag("Player"))
             {
@@ -171,17 +173,17 @@ public class EnemyAIController : MonoBehaviour
         return false;
     }
 
-    Vector3 CalculateDirectionToPlayer() //maybe not correct (y-axis)
+    Vector3 CalculateDirectionToPlayer() //this method is used when checking line of sight to determine the direction of the raycast
     {
         return Vector3.Normalize(player.transform.position - transform.position);
     }
 
-    float CalculateDistanceToPlayer()
+    float CalculateDistanceToPlayer() // also used to determine enemy behaviour, called every update in the DecideEnemyState method.
     {
-        return Vector3.Distance(transform.position, player.transform.position);//maybe not correct (y-axis)
+        return Vector3.Distance(transform.position, player.transform.position);
     }
 
-    private float CalculateRotationToPlayer()
+    private float CalculateRotationToPlayer() //rotation to player, used when the enemy is running towards/shooting at the player
     {
         Vector3 directionToPlayer = player.transform.position - transform.position;
         float angle = Mathf.Atan2(directionToPlayer.x, directionToPlayer.z) * Mathf.Rad2Deg;
@@ -209,7 +211,7 @@ public class EnemyAIController : MonoBehaviour
         SetLastSpottedPos();
         CheckIfEnemyReachedPlayerLastKnown();
         DecideEnemyState();
-        if (lineOfSight && OrientationObject.rotation != Quaternion.Euler(0, angle, 0))
+        if (lineOfSight && OrientationObject.rotation != Quaternion.Euler(0, angle, 0)) // rotate the enmy in the direction its moving
             OrientationObject.rotation = Quaternion.Lerp(OrientationObject.rotation, Quaternion.Euler(0, angle, 0), Time.deltaTime * RotationSpeed);
         else if (moveVector.magnitude > 0f)
             OrientationObject.rotation = Quaternion.Lerp(OrientationObject.rotation, Quaternion.Euler(0, Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg, 0), Time.deltaTime * RotationSpeed);

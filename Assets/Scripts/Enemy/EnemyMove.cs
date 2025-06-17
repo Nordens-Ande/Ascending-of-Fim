@@ -6,8 +6,8 @@ public class EnemyMove : MonoBehaviour
 {
     public NavMeshAgent agent { get; private set; }
 
-    public bool wandering { get; set; }
-    bool movingToRandomPos;
+    public bool wandering { get; set; } //used to decide if the enemy should wander which is an enemy state when they walk randomly on the map
+    bool movingToRandomPos; // used to determine if the enemy has reached the position when wandering and a new position can be chosen after a timer
 
     float timer = 0;
     float waitTime = 1.5f;
@@ -25,7 +25,8 @@ public class EnemyMove : MonoBehaviour
         return agent.transform.position;
     }
 
-    public void SetDestination(Vector3 destination)
+    public void SetDestination(Vector3 destination) // this method along with StartMoving and StopMoving is called from the
+                                                    // EnemyAiController script to decide if the enemy should be moving or not and what position
     {
         agent.destination = destination;
     }
@@ -42,7 +43,7 @@ public class EnemyMove : MonoBehaviour
             agent.isStopped = true;
     }
 
-    void WanderController()
+    void WanderController() //check if a random position should be chosen based on if the enemy is already moving to a position
     {
         if(wandering)
         {
@@ -77,7 +78,7 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    Vector3 GetRandomPos(Vector3 enemyPos)
+    Vector3 GetRandomPos(Vector3 enemyPos) //choses a random position on the navmesh in a random direction and within a radius.
     {
         int maxDistance = 8;
         int minDistance = 2;

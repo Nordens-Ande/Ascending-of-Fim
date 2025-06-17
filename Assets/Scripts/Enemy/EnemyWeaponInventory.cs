@@ -67,7 +67,7 @@ public class EnemyWeaponInventory : MonoBehaviour
         enemyDead = d;
     }
 
-    void RollForShield()
+    void RollForShield() // decide if a enemy spawns with shield (15%)
     {
         int random = Random.Range(1, 101);
         if (random < 15)
@@ -76,7 +76,7 @@ public class EnemyWeaponInventory : MonoBehaviour
         }
     }
 
-    void CreateShield()
+    void CreateShield() // if enemy spawns with shield instantiate it here and also instantiate the pistol as that is the only weapon with the shield.
     {
         WeaponPosition = pistolPosShield;
         weapon = Instantiate(pistolPrefab, WeaponPosition.position, WeaponPosition.rotation, WeaponPosition);
@@ -113,7 +113,7 @@ public class EnemyWeaponInventory : MonoBehaviour
         }
     }
 
-    void CreateWeapon(GameObject prefab)
+    void CreateWeapon(GameObject prefab) //instantiate the weapon
     {
         string weaponName = prefab.GetComponent<WeaponScript>().GetWeaponData().weaponName.ToLower();
         if(weaponName == "pistol")
@@ -174,7 +174,7 @@ public class EnemyWeaponInventory : MonoBehaviour
         }
     }
 
-    public void UnEquip()
+    public void UnEquip() //unequip weapon or shield
     {
         if(hasShield)
         {
@@ -199,7 +199,7 @@ public class EnemyWeaponInventory : MonoBehaviour
         weaponData = null;
     }
 
-    void Update()
+    void Update() // same as in EquipWeapon script for the player, handle the position for weapon and shield aswell as check if shield is destroyed
     {
         if (IsEquiped && enemyDead == false)
         {

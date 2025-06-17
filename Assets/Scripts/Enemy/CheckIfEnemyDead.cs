@@ -49,7 +49,7 @@ public class CheckIfEnemyDead : MonoBehaviour
         hitboxObject.layer = LayerMask.NameToLayer("EnemyIgnore");
     }
 
-    IEnumerator DestroyGameObject()
+    IEnumerator DestroyGameObject() // destory they enemy object after 3 seconds
     {
         yield return new WaitForSeconds(3);
         Destroy(gameObject);

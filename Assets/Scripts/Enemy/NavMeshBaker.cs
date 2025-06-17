@@ -9,6 +9,7 @@ public class NavMeshBaker : MonoBehaviour
 {
     NavMeshSurface surface;
 
+    //build the navmesh when a level is generated
     public IEnumerator BakeNavMesh()
     {
         yield return null;

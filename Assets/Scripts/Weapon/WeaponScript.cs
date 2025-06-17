@@ -61,12 +61,12 @@ public class WeaponScript : MonoBehaviour, IWeapon
         initialized = true;
     }
 
-    public void DecreaseBullets(int amount)
+    public void DecreaseBullets(int amount) //used when the player or enemy shoots the weapon, reduces amount of bullet by 1
     {
         bulletsLeft -= amount;
     }
 
-    public void ReloadBullets()
+    public void ReloadBullets() //reloads the weapons bullets
     {
         bulletsLeft = WeaponData.ammoCapacity;
     }
@@ -90,7 +90,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
         }
     }
 
-    public void Equip()
+    public void Equip() // weapon has been equipped, change weapon behaviour.
     {
         if(destroyCoroutine != null)
         {
@@ -108,6 +108,7 @@ public class WeaponScript : MonoBehaviour, IWeapon
     }
 
     public void Unequip(bool enemyDropped) // enemyDropped = true if enemy is the one dropping weapon, a 80% chance that the weapon gets removed is then added
+                                           // change behaviour of the weapon, the weapon will now spin on the ground
     {
         if(enemyDropped)
         {
@@ -127,13 +128,13 @@ public class WeaponScript : MonoBehaviour, IWeapon
         destroyCoroutine = StartCoroutine(DestroyOnGround());
     }
 
-    IEnumerator DestroyOnGround()
+    IEnumerator DestroyOnGround() // destory a weapon 8 seconds after it was dropped
     {
         yield return new WaitForSeconds(8);
         Destroy(gameObject);
     }
 
-    public void SpawnBulletTrail(Vector3 endPoint)
+    public void SpawnBulletTrail(Vector3 endPoint) //spawn bullet trails
     {
         if (bulletTrailPrefab == null)// || bulletOrigin == null) 
             return;

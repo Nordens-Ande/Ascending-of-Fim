@@ -13,7 +13,7 @@ public class EnemySpawnPointManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
     }
 
-    public void GetSpawnPoints()
+    public void GetSpawnPoints() // find all generated spawnpoints and save them to a list
     {
         spawnPoints = new List<Vector3>();
         GameObject[] points = GameObject.FindGameObjectsWithTag("EnemySpawn");
@@ -24,7 +24,9 @@ public class EnemySpawnPointManager : MonoBehaviour
         Debug.Log(spawnPoints.Count + "spawnpoints found");
     }
 
-    public List<Vector3> GetViableSpawnPoints()
+    public List<Vector3> GetViableSpawnPoints() // returns all viable spawnpoints, a viable spawn point is a spawn point thats is atleast 8 distance from the player
+                                                // used when spawning enemies
+        
     {
         List<Vector3> viableSpawns = new List<Vector3>();
         foreach(Vector3 spawnPoint in spawnPoints)

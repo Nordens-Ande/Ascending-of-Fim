@@ -27,7 +27,7 @@ public class PlayerShoot : MonoBehaviour
         isReloading = false;
     }
 
-    void RetrieveWeaponData()
+    void RetrieveWeaponData() //get the weaponScript and weaponData from the equipped weapon.
     {
         weaponData = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>().GetWeaponData();
         weaponScript = equipWeapon.currentWeaponObject.GetComponent<WeaponScript>();
@@ -49,13 +49,13 @@ public class PlayerShoot : MonoBehaviour
         isShooting = false;
     }
 
-    IEnumerator ResetIsReadyToShoot()
+    IEnumerator ResetIsReadyToShoot() //this enumerator decides when the cooldown after firing is done, based on firerate
     {
         yield return new WaitForSeconds(CalculateFireRate());
         isReadyToShoot = true;
     }
 
-    float CalculateFireRate()
+    float CalculateFireRate()//firerate in weaponData is based on bullets per minute so convert that to seconds to be able to use in the enumerator above
     {
         float fireRate = 60/weaponData.fireRate;
         return fireRate;
@@ -63,7 +63,7 @@ public class PlayerShoot : MonoBehaviour
 
     void OnReload(InputValue input)
     {
-        if(weaponScript.bulletsLeft < weaponData.ammoCapacity && !isReloading)
+        if(weaponScript.bulletsLeft < weaponData.ammoCapacity && !isReloading) //make sure bullets left is not "full" for the weapon type, and that we are not already reloading
         {
             isReloading = true;
             SEP.ReloadSoundEffect();
@@ -72,7 +72,7 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    IEnumerator FinishReload()
+    IEnumerator FinishReload() //"finish" the reload after the reloadTime variable in the scriptableobject for the equipped weapon is finished,
     {
         yield return new WaitForSeconds(weaponData.reloadTime);
         weaponScript.ReloadBullets();
@@ -81,13 +81,13 @@ public class PlayerShoot : MonoBehaviour
         reloadMessageShown = false;
     }
 
-    void Shoot()
+    void Shoot() //shoot the weapon
     {
-        isReadyToShoot = false;
-        weaponScript.DecreaseBullets(1);
+        isReadyToShoot = false; 
+        weaponScript.DecreaseBullets(1); // decrease ammo
 
         List<RaycastHit> hits;
-        if (weaponData.weaponName.ToLower() == "shotgun")
+        if (weaponData.weaponName.ToLower() == "shotgun") // check if shotgun, shoot 8 rays instead
         {
             hits = shootScript.ShootRay(8);
             SEP.ShotgunShooting();
@@ -106,10 +106,10 @@ public class PlayerShoot : MonoBehaviour
         }
 
         CheckRay(hits);
-        StartCoroutine(ResetIsReadyToShoot());
+        StartCoroutine(ResetIsReadyToShoot());// restart the fire rate cooldown
     }
 
-    void CheckRay(List<RaycastHit> hits)
+    void CheckRay(List<RaycastHit> hits) // called from the Shoot method, in this method we check what was hit by the ray/rays in the Shoot method
     {
         foreach (RaycastHit hit in hits)
         {
@@ -119,16 +119,16 @@ public class PlayerShoot : MonoBehaviour
             else
                 endPoint = shootScript.transform.position + shootScript.transform.forward * 1000f;
 
-            weaponScript.SpawnBulletTrail(endPoint);
+            weaponScript.SpawnBulletTrail(endPoint); // create a bullet trail
 
             if (hit.collider == null) continue;
             if (hit.transform.CompareTag("Enemy"))
             {
-                hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage);
+                hit.transform.gameObject.GetComponent<EnemyHealth>().ApplyDamage(weaponData.damage); //if enemy hit apply damage
             }
             else if(hit.transform.CompareTag("Shield"))
             {
-                hit.transform.gameObject.GetComponent<ShieldScript>().DecreaseHealth(weaponData.damage);
+                hit.transform.gameObject.GetComponent<ShieldScript>().DecreaseHealth(weaponData.damage); 
             }
 
             //
@@ -153,7 +153,7 @@ public class PlayerShoot : MonoBehaviour
         {
             Shoot();
             
-            if (!weaponData.allowButtonHold)
+            if (!weaponData.allowButtonHold) // cannot hold mouse down and shoot continuosly with pistols and shotguns
             {
                 isShooting = false;
                 //SEP.getShooting();

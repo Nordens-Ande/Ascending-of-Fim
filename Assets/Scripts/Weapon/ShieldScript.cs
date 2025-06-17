@@ -32,7 +32,8 @@ public class ShieldScript : MonoBehaviour
         }
     }
 
-    public void SetOwner(GameObject owner)
+    public void SetOwner(GameObject owner) // used to give reference to the player or enemy carrying the shield,
+                                           // owner is used to ignore the shield when raycasting in the shooting mechanic
     {
         this.owner = owner;
     }

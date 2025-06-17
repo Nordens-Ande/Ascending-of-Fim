@@ -68,7 +68,7 @@ public class EquipWeapon : MonoBehaviour
         CheckForWeaponOnSpawn();
     }
 
-    public void CheckForWeaponOnSpawn()
+    public void CheckForWeaponOnSpawn() // called at the start of a level to transfer over weapons and shield from previous level.
     {
         bool spawnShield = false;
         bool spawnWeapon = false;
@@ -84,7 +84,7 @@ public class EquipWeapon : MonoBehaviour
         CreateSpawnWeapon(spawnShield, spawnWeapon);
     }
 
-    void CreateSpawnWeapon(bool shield, bool weapon)
+    void CreateSpawnWeapon(bool shield, bool weapon) // if the player had weapons/shield on previous level, instantiate them here
     {
         if (shield == true)
         {
@@ -164,7 +164,7 @@ public class EquipWeapon : MonoBehaviour
         UnEquip(true);
     }
 
-    private void Update()
+    private void Update() // lerp the shield and weapons to correct positions, also check if shield should get destroyed
     {
         if (hasShield)
         {
@@ -226,7 +226,7 @@ public class EquipWeapon : MonoBehaviour
         isShooting = false;
     }
 
-    private void RayCastHandler()
+    private void RayCastHandler() // build ray cast for the equip method
     {
         Ray topRay = new Ray(transform.position + rayOffset, orientationObject.forward);
         //Ray bottomRay = new Ray(transform.position + Vector3.up * 0.175f, orientationObject.forward);
@@ -238,12 +238,12 @@ public class EquipWeapon : MonoBehaviour
         //Physics.Raycast(bottomRay, out bottomRayHitInfo, rayLengt, weaponMask); //F�r att kalla ut Rayen
     }
 
-    void SetHandPos(WeaponScript weapon)
+    void SetHandPos(WeaponScript weapon) // get reference to where the player should position their hands from the weapon
     {
         IKLeftHandPos = weapon.LeftHand;
         IKRightHandPos = weapon.RightHand;
     }
-    void SetHandPos(WeaponScript weapon, ShieldScript shield) // with shield
+    void SetHandPos(WeaponScript weapon, ShieldScript shield) // get reference to where the player should position their hands from the weapon but also if a shield is equipped
     {
         if(weapon != null && shield != null)
         {
@@ -257,7 +257,7 @@ public class EquipWeapon : MonoBehaviour
         }
     }
 
-    private void Equip()
+    private void Equip() // equip a new weapon or shield, logic with what weapons can be picked up if you carry a shield aswell as if a shield can be picked up.
     {
         RayCastHandler();
 
@@ -315,7 +315,7 @@ public class EquipWeapon : MonoBehaviour
         }
     }
 
-    void EquipShield(GameObject gameObject)
+    void EquipShield(GameObject gameObject) //get reference to the shield object and change shield behaviour (from on ground rotating to equipped)
     {
         shield = gameObject;
         shieldScript = shield.GetComponent<ShieldScript>();
@@ -325,7 +325,7 @@ public class EquipWeapon : MonoBehaviour
         PlayerStats.hasShield = true;
     }
 
-    void SetWeaponPos()
+    void SetWeaponPos() // decide what weapon position to use based on what weapon equipped.
     {
         if(currentWeapon != null)
         {
@@ -363,7 +363,7 @@ public class EquipWeapon : MonoBehaviour
         }
     }
 
-    public void UnEquip(bool dropShield) 
+    public void UnEquip(bool dropShield) //unequip shield if a shield is equipped, if no shield then unequip the weapon
     {
         if(dropShield && hasShield)
         {

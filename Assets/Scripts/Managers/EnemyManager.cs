@@ -10,6 +10,7 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] EnemySpawnPointManager spawnPointManager;
 
+    //time thresholds for enemy spawning logic
     int amountToSpawnAtStart = 4;
 
     float timeBeforeFirstEnemySpawn = 9;
@@ -21,7 +22,7 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(EnemySpawner(timeBeforeFirstEnemySpawn));
     }
 
-    IEnumerator SpawnEnemies()
+    IEnumerator SpawnEnemies() //this enumerator spawns the set amount of enemies at the start of a level
     {
         yield return new WaitForSeconds(2);
         foreach (Vector3 spawnPos in GetRandomUniqueSpawnPoints(amountToSpawnAtStart))
@@ -30,14 +31,14 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    IEnumerator EnemySpawner(float timer)
+    IEnumerator EnemySpawner(float timer) // this enumerator spawns 1 enemy at a time interval based on the argument input
     {
         yield return new WaitForSeconds(timer);
         CreateEnemy(GetRandomSpawnPoint());
         StartCoroutine(EnemySpawner(timeBetweenEnemySpawns));
     }
 
-    void CreateEnemy(Vector3 spawnPos)
+    void CreateEnemy(Vector3 spawnPos) // method to check the validation of the spawnpoint and then instantiate the enemy gameobject
     {
         bool check = ValidateSpawnPos(spawnPos).Item1;
         Vector3 validatedSpawnPos = ValidateSpawnPos(spawnPos).Item2;
@@ -46,7 +47,8 @@ public class EnemyManager : MonoBehaviour
             Instantiate(enemyPrefab, validatedSpawnPos, Quaternion.identity);
     }
 
-    (bool, Vector3) ValidateSpawnPos(Vector3 spawnPos)
+    (bool, Vector3) ValidateSpawnPos(Vector3 spawnPos) //check if the spawnpoint is on the navmesh, added this method towards the end of the
+                                                       //project to fix a bug with enemies spawning outside of the map
     {
         NavMeshHit hit;
         if(NavMesh.SamplePosition(spawnPos, out hit, 1, NavMesh.AllAreas))
@@ -59,7 +61,8 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    List<Vector3> GetRandomUniqueSpawnPoints(int amount)
+    List<Vector3> GetRandomUniqueSpawnPoints(int amount) //returns multiple spawnpoints, ensuring each of those spawn points are unique so not multiple enemies
+                                                         //spawn at the same spawnpoint, this is used when spawning multiple enemies at the start of a level.
     {
         List<Vector3> viableSpawnPoints = spawnPointManager.GetViableSpawnPoints(); // removes any spawnpoints too close to player spawn
         List<Vector3> usedSpawnPoints = new List<Vector3>();
@@ -90,7 +93,7 @@ public class EnemyManager : MonoBehaviour
         return usedSpawnPoints;
     }
 
-    Vector3 GetRandomSpawnPoint()
+    Vector3 GetRandomSpawnPoint() // returns a single random spawnpoint used later in the level when only spawning 1 enemy at a time interval
     {
         List<Vector3> viableSpawnPoints = spawnPointManager.GetViableSpawnPoints();
         if(viableSpawnPoints.Count > 0)

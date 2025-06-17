@@ -45,7 +45,7 @@ public class EnemyShoot : MonoBehaviour
     void Shoot()
     {
         isReadyToFire = false;
-        weaponScript.DecreaseBullets(1); // maybe change if shotgun?
+        weaponScript.DecreaseBullets(1);
 
         List<RaycastHit> hits;
         if (weaponData.weaponName.ToLower() == "shotgun")
@@ -76,7 +76,7 @@ public class EnemyShoot : MonoBehaviour
         isReloading = false;
     }
 
-    IEnumerator ResetIsReadyToFire()
+    IEnumerator ResetIsReadyToFire() // reset ability to shoot after a cooldown based on firerate
     {
         yield return new WaitForSeconds(CalculateFireRate() * 2);
         isReadyToFire = true;
@@ -88,7 +88,7 @@ public class EnemyShoot : MonoBehaviour
         return fireRate;
     }
 
-    void CheckRay(List<RaycastHit> hits)
+    void CheckRay(List<RaycastHit> hits) // check what colliders/objects got hit by the rays and apply damage if possible, also spawn bullet trails
     {
         foreach(RaycastHit hit in hits)
         {

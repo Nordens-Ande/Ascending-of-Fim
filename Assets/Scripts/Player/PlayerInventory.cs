@@ -9,6 +9,9 @@ public interface IInventory
 
 public class PlayerInventory : MonoBehaviour, IInventory
 {
+
+    //this script is not used in the final project
+
     [SerializeField][Min(1)] int MaxPrimaries;
     [SerializeField][Min(1)] int MaxSecondaries;
     [SerializeField] GameObject StarterWeapon;
