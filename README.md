@@ -1,14 +1,8 @@
-Detta är grupp 5s inlämning av Ascending of Fim.
-Här kommer en lista på våra github namn och riktiga namn, som begärt.
+Detta är grupp 5s inlämning av Ascending of Fim:
 
-Nordens-Ande  -  Elliot Nord
-
-MiltonChlond  -  Milton Chlond
-
-Drezzz49      -  Samuel Saxgarn
-
-Tog56         -  Tobias Gardebäck
-
-Haaampus      -  Hampus Nilsson
-
-Sambal10      -  Samuel Baligh Jämthammar
+Nordens-Ande  -  Elliot N
+MiltonChlond  -  Milton C
+Drezzz49      -  Samuel S
+Tog56         -  Tobias G
+Haaampus      -  Hampus N
+Sambal10      -  Samuel B
